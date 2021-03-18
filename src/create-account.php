@@ -7,21 +7,19 @@
 </head>
 
 <body>
-    <div class="container">
-
-        <h1 class="my-5 text-center">Create your account</h1>
+    <div class="container-md mb-5">
+        <h2 class="my-5 text-center">WMIYS</h2>
 
         <div class="d-flex justify-content-center">
-
-            <div class="card">
+            <div class="card form-sm-wrapper">
                 <div class="card-body">
-                    <form id="form-create-account" class="form-sm">
+                    <form id="form-create-account">
                         <div class="form-row">
                             <!-- first name -->
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
                                     <label for="form-create-account-name-first">First Name</label>
-                                    <input type="text" class="form-control form-control-sm" id="form-create-account-name-first" required autofocus>
+                                    <input type="text" class="form-control form-control-sm" id="form-create-account-name-first" required>
                                 </div>
                             </div>
 
@@ -58,11 +56,7 @@
                     </form>
                 </div>
             </div>
-
-
         </div>
-
-
 
     </div>
 
