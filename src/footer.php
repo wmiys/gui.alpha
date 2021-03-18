@@ -14,6 +14,7 @@
 
 <!-- custom js files -->
 <script src="js/api-base-url.js"></script>
+<script src="js/classes/LocalStorage.js"></script>
 <script src="js/classes/Utilities.js"></script>
 <script src="js/classes/Common-Html.js"></script>
 <script src="js/classes/API-Wrapper.js"></script>

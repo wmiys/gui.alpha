@@ -11,6 +11,10 @@
     <div class="div">
 
         <h1 class="my-5 text-center">WMIYS</h1>
+
+
+        <ul class="info-list">
+        </ul>
     
     </div>
 

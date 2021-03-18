@@ -11,6 +11,8 @@ const e_btnSubmit         = $('#form-create-account-submit');
 $(document).ready(function() {
     addListeners();
     loadFlatpickr();
+
+    console.log(window.localStorage.length);
 });
 
 
@@ -55,6 +57,8 @@ function createAccountSuccess(result,status,xhr) {
     enableSubmitButton();
 
     Utilities.displayAlert('Success.');
+    LocalStorage.setUserID(result.id);
+    window.location.href = 'home.php';
 }
 
 function createAccountError(xhr, status, error) {

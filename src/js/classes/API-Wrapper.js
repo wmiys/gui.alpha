@@ -24,10 +24,6 @@ class ApiWrapper
             fnError = console.error;
         }
 
-        // $.post(ApiWrapper.URL_USERS, userInfoStruct, function(response) {
-        //     console.log('success');
-        // });
-
         $.ajax({
             // headers: {"X-USER-ID" :  m_User.userID},
             url: ApiWrapper.URL_USERS,
@@ -57,7 +53,18 @@ class ApiWrapper
         }
         
         return result;
-    }       
+    }
+
+    static requestGetUser(userID, fnSuccess, fnError) {
+        $.ajax({
+            // headers: {"X-USER-ID" :  m_User.userID},
+            url: ApiWrapper.URL_USERS + '/' + userID,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            // data: userInfoStruct,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
 }
 
 ApiWrapper.URL_BASE = API_BASE_URL;
