@@ -8,7 +8,6 @@ const e_inputPassword     = $('#form-create-account-password');
 const e_btnSubmit         = $('#form-create-account-submit');
 
 
-
 $(document).ready(function() {
     addListeners();
     loadFlatpickr();
@@ -16,12 +15,12 @@ $(document).ready(function() {
 
 
 function addListeners() {
-    $(e_btnSubmit).on('click', validateForm);
+    $(e_btnSubmit).on('click', createAccount);
     
     $(e_formCreateAccount).find('input').on('keypress', function(e) {
         if (e.keyCode == 13) {
             e.preventDefault();
-            validateForm();
+            createAccount();
         }
     });
 }
@@ -35,28 +34,47 @@ function loadFlatpickr() {
 }
 
 
-function validateForm() {
+function createAccount() {
     disableSubmitButton();
+
+    // ensure all the input fields are valid 
     if (!Utilities.validateForm(e_formCreateAccount)) {
         enableSubmitButton();
         return;
     }
 
-    
     let inputValues = getInputValues();
-    
-    enableSubmitButton();
+    ApiWrapper.requestPostUser(inputValues, createAccountSuccess, createAccountError);
 }
 
+function createAccountSuccess(result,status,xhr) {
+    console.log(result);
+    console.log(status);
+    console.log(xhr);
+
+    enableSubmitButton();
+
+    Utilities.displayAlert('Success.');
+}
+
+function createAccountError(xhr, status, error) {
+    console.log(result);
+    console.log(status);
+    console.log(error);
+
+    enableSubmitButton();
+    Utilities.displayAlert('Error.');
+}
+
+
 function disableSubmitButton() {
-    let html = `${CommonHtml.spinnerSmall}`;
-    $(e_btnSubmit).html(html).prop('disabled', true);
+    $(e_btnSubmit).html(CommonHtml.spinnerSmall);
+    $(e_btnSubmit).prop('disabled', true);
 }
 
 function enableSubmitButton() {
     $(e_btnSubmit).html('Create account').prop('disabled', false);
 }
-
 
 function getInputValues() {
     const values = {};
@@ -68,5 +86,7 @@ function getInputValues() {
 
     return values;
 }
+
+
 
 

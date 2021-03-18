@@ -1,6 +1,5 @@
 
-class Utilities {
-    
+class Utilities {    
     /************************************************
     displays an alert on the screen
     *************************************************/
@@ -19,7 +18,6 @@ class Utilities {
     *************************************************/
     static validateForm(formElement) {
         const isValid = $(formElement)[0].reportValidity();
-        
         return isValid;
     }
 }

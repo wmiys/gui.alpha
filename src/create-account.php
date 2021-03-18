@@ -48,7 +48,7 @@
                         <!-- password -->
                         <div class="form-group">
                             <label for="form-create-account-name-first">Password</label>
-                            <input type="password" class="form-control form-control-sm" id="form-create-account-password" required minlength="6">
+                            <input type="password" class="form-control form-control-sm" id="form-create-account-password" required minlength="1">
                         </div>
 
                         <!-- submit button -->
