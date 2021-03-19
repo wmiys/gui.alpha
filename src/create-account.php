@@ -7,6 +7,7 @@
 </head>
 
 <body>
+
     <div class="container-md mb-5">
         <h2 class="my-5 text-center">Create your account</h2>
 
