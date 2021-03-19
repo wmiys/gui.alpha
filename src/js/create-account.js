@@ -10,7 +10,7 @@ const e_btnSubmit         = $('#form-create-account-submit');
 
 $(document).ready(function() {
     addListeners();
-    loadFlatpickr();
+    // loadFlatpickr();
 });
 
 

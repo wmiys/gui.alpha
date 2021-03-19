@@ -8,7 +8,7 @@
 
 <body>
     <div class="container-md mb-5">
-        <h2 class="my-5 text-center">WMIYS</h2>
+        <h2 class="my-5 text-center">Create your account</h2>
 
         <div class="d-flex justify-content-center">
             <div class="card form-sm-wrapper">
@@ -53,6 +53,8 @@
 
                         <!-- submit button -->
                         <button type="button" class="btn btn-sm btn-block btn-primary" id="form-create-account-submit">Create account</button>
+
+                        <p class="text-center mt-2"><a href="login.php">Login</a></p>
                     </form>
                 </div>
             </div>
