@@ -1,9 +1,12 @@
 
+
+if (!LocalStorage.isUserIDSet()) {
+    window.location.href = 'login.php';
+}
+
+
 // main logic
-$(document).ready(function() {
-    
-    console.log(LocalStorage.getUserID());
-    
+$(document).ready(function() {    
     ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayUserData);    
 });
 

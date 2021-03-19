@@ -8,9 +8,10 @@
 
 <body>
     
-    <div class="div">
+    <div class="container">
 
-        <h1 class="my-5 text-center">WMIYS</h1>
+        <h1 class="mt-5 text-center">WMIYS - home page</h1>
+        <p class="text-center"><small>Suck my clam - Chis Yerkes</small></p>
 
 
         <ul class="info-list">

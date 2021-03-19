@@ -11,8 +11,6 @@ const e_btnSubmit         = $('#form-create-account-submit');
 $(document).ready(function() {
     addListeners();
     loadFlatpickr();
-
-    console.log(window.localStorage.length);
 });
 
 

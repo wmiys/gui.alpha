@@ -15,20 +15,51 @@ class ApiWrapper
             console.log('missing fields');
             return;
         }
-
+        
         if (fnSuccess == undefined) {
             fnSuccess = console.log;
         }
-
+        
         if (fnError == undefined) {
             fnError = console.error;
         }
-
+        
         $.ajax({
             // headers: {"X-USER-ID" :  m_User.userID},
             url: ApiWrapper.URL_USERS,
             type: ApiWrapper.REQUEST_TYPES.POST,
             data: userInfoStruct,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+    
+    /**********************************************************
+    Send a post Users request to the API
+    
+    Parms:
+    userInfoStruct - user object containing all the fields
+    **********************************************************/
+    static requestLogin(loginStruct, fnSuccess, fnError) {
+        // ensure the argument contains all the required fields
+        if (!ApiWrapper.objectContainsAllFields(loginStruct, ApiWrapper.REQ_FIELDS_LOGIN)) {
+            console.log('missing fields');
+            return;
+        }
+        
+        if (fnSuccess == undefined) {
+            fnSuccess = console.log;
+        }
+        
+        if (fnError == undefined) {
+            fnError = console.error;
+        }
+        
+        $.ajax({
+            // headers: {"X-USER-ID" :  m_User.userID},
+            url: ApiWrapper.URL_LOGIN,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            data: loginStruct,
             success: fnSuccess,
             error: fnError,
         });
@@ -54,7 +85,7 @@ class ApiWrapper
         
         return result;
     }
-
+    
     static requestGetUser(userID, fnSuccess, fnError) {
         $.ajax({
             // headers: {"X-USER-ID" :  m_User.userID},
@@ -69,6 +100,7 @@ class ApiWrapper
 
 ApiWrapper.URL_BASE = API_BASE_URL;
 ApiWrapper.URL_USERS = ApiWrapper.URL_BASE + '/users';
+ApiWrapper.URL_LOGIN = ApiWrapper.URL_BASE + '/login';
 
 
 ApiWrapper.REQUEST_TYPES = {
@@ -78,7 +110,7 @@ ApiWrapper.REQUEST_TYPES = {
     PUT   : 'PUT',
     PATCH : 'PATCH',
 };
-    
+
 // required fields for each api request 
 ApiWrapper.REQ_FIELDS_USER_POST = ['email', 'password', 'name_first', 'name_last', 'birth_date'];
-    
+ApiWrapper.REQ_FIELDS_LOGIN = ['email', 'password'];

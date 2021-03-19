@@ -26,7 +26,7 @@
                             <!-- last name -->
                             <div class="col-sm-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="form-create-account-name-first">Last Name</label>
+                                    <label for="form-create-account-name-last">Last Name</label>
                                     <input type="text" class="form-control form-control-sm" id="form-create-account-name-last" required>
                                 </div>
                             </div>
@@ -35,19 +35,19 @@
 
                         <!-- dob -->
                         <div class="form-group">
-                            <label for="form-create-account-name-first">Birth date</label>
-                            <input type="text" class="form-control form-control-sm" id="form-create-account-dob" required>
+                            <label for="form-create-account-dob">Birth date</label>
+                            <input type="date" class="form-control form-control-sm" id="form-create-account-dob" required>
                         </div>
 
                         <!-- email -->
                         <div class="form-group">
-                            <label for="form-create-account-name-first">Email</label>
+                            <label for="form-create-account-email">Email</label>
                             <input type="email" class="form-control form-control-sm" id="form-create-account-email" required>
                         </div>
 
                         <!-- password -->
                         <div class="form-group">
-                            <label for="form-create-account-name-first">Password</label>
+                            <label for="form-create-account-password">Password</label>
                             <input type="password" class="form-control form-control-sm" id="form-create-account-password" required minlength="1">
                         </div>
 
