@@ -1,5 +1,17 @@
+.card {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+}
+
 body {
-  background-color: lightgrey;
+  background-color: white;
+}
+
+.form-sm-wrapper {
+  width: 500px;
+}
+
+.form-control:read-only {
+  background-color: inherit;
 }
 
 /*# sourceMappingURL=style.css.map */
