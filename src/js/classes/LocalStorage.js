@@ -41,6 +41,54 @@ class LocalStorage {
 
         return result;
     }
+
+    /**********************************************************
+    Get the user's email from local storage
+    **********************************************************/
+    static getEmail() {
+        return window.localStorage.getItem(LocalStorage.KEY_EMAIL);
+    }
+
+    /**********************************************************
+    Get the user's password fromo local storage
+    **********************************************************/
+    static getPassword() {
+        return window.localStorage.getItem(LocalStorage.KEY_PASSWORD);
+    }
+
+    /**********************************************************
+    Set the email in local storage
+    
+    Parms:
+        newEmail - the email to be set
+    **********************************************************/
+    static setEmail(newEmail) {
+        if (newEmail == undefined || newEmail ==  null) {
+            console.error('Invalid email');
+            return;
+        }
+
+        window.localStorage.removeItem(LocalStorage.KEY_EMAIL);
+        window.localStorage.setItem(LocalStorage.KEY_EMAIL, newEmail);
+    }
+
+    /**********************************************************
+    Set the password in local storage
+    
+    Parms:
+        newPassword - the password to be set
+    **********************************************************/
+    static setPassword(newPassword) {
+        if (newPassword == undefined || newPassword ==  null) {
+            console.error('Invalid email');
+            return;
+        }
+
+        window.localStorage.removeItem(LocalStorage.KEY_PASSWORD);
+        window.localStorage.setItem(LocalStorage.KEY_PASSWORD, newPassword);
+    }
 }
 
-LocalStorage.KEY_USER_ID = 'userID';
+LocalStorage.KEY_USER_ID  = 'userID';
+LocalStorage.KEY_EMAIL    = 'email';
+LocalStorage.KEY_PASSWORD = 'password';

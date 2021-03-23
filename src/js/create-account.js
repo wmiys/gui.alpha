@@ -64,8 +64,12 @@ Actions to take when the user successfully created an account
 function createAccountSuccess(result,status,xhr) {
     enableSubmitButton();
 
-    Utilities.displayAlert('Success.');
+    const values = getInputValues();
+
     LocalStorage.setUserID(result.id);
+    LocalStorage.setEmail(result.email);
+    LocalStorage.setPassword(values.password);
+
     window.location.href = 'home.php';
 }
 

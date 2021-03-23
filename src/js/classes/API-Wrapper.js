@@ -65,7 +65,30 @@ class ApiWrapper
         });
     }
     
+    /**********************************************************
+    Send a GET request for a user from the API
     
+    Parms:
+        userID - the id of the user that wants to be requested
+        userEmail - user's email
+        userPassword - user's password
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetUser(userID, fnSuccess, fnError) {
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: ApiWrapper.URL_USERS + '/' + userID,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            // data: userInfoStruct,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
     /**********************************************************
     Checks if an object contains all the fields in a list
     
@@ -85,16 +108,17 @@ class ApiWrapper
         
         return result;
     }
-    
-    static requestGetUser(userID, fnSuccess, fnError) {
-        $.ajax({
-            // headers: {"X-USER-ID" :  m_User.userID},
-            url: ApiWrapper.URL_USERS + '/' + userID,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            // data: userInfoStruct,
-            success: fnSuccess,
-            error: fnError,
-        });
+
+    /**********************************************************
+    Create a basic HTTP auth token from the email and password
+    saved in LocalStorage
+
+    See: https://stackoverflow.com/questions/10226333/ajax-authentication-with-jquery
+    **********************************************************/
+    static getBasicAuthToken() {
+        const tok = LocalStorage.getEmail() + ':' + LocalStorage.getPassword();
+        const hash = btoa(tok);
+        return 'Basic ' + hash;
     }
 }
 
