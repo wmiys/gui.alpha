@@ -7,12 +7,11 @@ if (!LocalStorage.isUserIDSet()) {
 
 // main logic
 $(document).ready(function() {    
-    ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayUserData);    
+    ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayUserData, console.error);    
 });
 
 
-function displayUserData(response, status, xhr) {
-    
+function displayUserData(response, status, xhr) {    
     let html = `
     <li>First name: ${response.name_first}</li>
     <li>Last name:  ${response.name_last}</li>

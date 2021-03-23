@@ -7,7 +7,7 @@ class ApiWrapper
     Send a post Users request to the API
     
     Parms:
-    userInfoStruct - user object containing all the fields
+        userInfoStruct - user object containing all the fields
     **********************************************************/
     static requestPostUser(userInfoStruct, fnSuccess, fnError) {
         // ensure the argument contains all the required fields
@@ -38,7 +38,7 @@ class ApiWrapper
     Send a post Users request to the API
     
     Parms:
-    userInfoStruct - user object containing all the fields
+        userInfoStruct - user object containing all the fields
     **********************************************************/
     static requestLogin(loginStruct, fnSuccess, fnError) {
         // ensure the argument contains all the required fields
@@ -65,13 +65,36 @@ class ApiWrapper
         });
     }
     
+    /**********************************************************
+    Send a GET request for a user from the API
     
+    Parms:
+        userID - the id of the user that wants to be requested
+        userEmail - user's email
+        userPassword - user's password
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetUser(userID, fnSuccess, fnError) {
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: ApiWrapper.URL_USERS + '/' + userID,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            // data: userInfoStruct,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
     /**********************************************************
     Checks if an object contains all the fields in a list
     
     Parms:
-    a_object - the object that needs to be validated
-    a_requiredFields - list of fields the object needs
+        a_object - the object that needs to be validated
+        a_requiredFields - list of fields the object needs
     **********************************************************/
     static objectContainsAllFields(a_object, a_requiredFields) {
         let result = true;
@@ -85,16 +108,17 @@ class ApiWrapper
         
         return result;
     }
-    
-    static requestGetUser(userID, fnSuccess, fnError) {
-        $.ajax({
-            // headers: {"X-USER-ID" :  m_User.userID},
-            url: ApiWrapper.URL_USERS + '/' + userID,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            // data: userInfoStruct,
-            success: fnSuccess,
-            error: fnError,
-        });
+
+    /**********************************************************
+    Create a basic HTTP auth token from the email and password
+    saved in LocalStorage
+
+    See: https://stackoverflow.com/questions/10226333/ajax-authentication-with-jquery
+    **********************************************************/
+    static getBasicAuthToken() {
+        const tok = LocalStorage.getEmail() + ':' + LocalStorage.getPassword();
+        const hash = btoa(tok);
+        return 'Basic ' + hash;
     }
 }
 

@@ -5,19 +5,25 @@ const e_inputPassword     = $('#form-login-password');
 const e_btnSubmit         = $('#form-login-submit');
 
 
+/**********************************************************
+Main logic
+**********************************************************/
 $(document).ready(function() {
-
     addListeners();
 });
 
 
+/**********************************************************
+Add all the event listeners to the page
+**********************************************************/
 function addListeners() {
     $(e_btnSubmit).on('click', attemptLogin);
-    
     $(e_formLogin).find('.form-control').on('keypress', clearInvalidInputClass);
 }
 
-
+/**********************************************************
+Attempt to login 
+**********************************************************/
 function attemptLogin() {
     disableSubmitButton();
 
@@ -29,20 +35,26 @@ function attemptLogin() {
 
     let inputValues = getInputValues();
     ApiWrapper.requestLogin(inputValues, loginSuccess, loginError);
-    // enableSubmitButton();
-
 }
 
-
+/**********************************************************
+Disables the submit button. Waiting for API response
+**********************************************************/
 function disableSubmitButton() {
     $(e_btnSubmit).html(CommonHtml.spinnerSmall);
     $(e_btnSubmit).prop('disabled', true);
 }
 
+/**********************************************************
+Enables the submit button
+**********************************************************/
 function enableSubmitButton() {
     $(e_btnSubmit).html('Log in').prop('disabled', false);
 }
 
+/**********************************************************
+Returns the form input values
+**********************************************************/
 function getInputValues() {
     const values = {};
     values.email      = $(e_inputEmail).val();
@@ -51,22 +63,28 @@ function getInputValues() {
     return values;
 }
 
+/**********************************************************
+Actions to take when the user successfully logged in
+**********************************************************/
 function loginSuccess(result,status,xhr) {
-    console.log(result);
-    console.log(status);
-    console.log(xhr);
-
     enableSubmitButton();
 
-    Utilities.displayAlert('Success.');
+    const values = getInputValues();
+
     LocalStorage.setUserID(result.id);
+    LocalStorage.setEmail(result.email);
+    LocalStorage.setPassword(values.password);
+
     window.location.href = 'home.php';
 }
 
+/**********************************************************
+Actions to take when the user unsuccessfully tried to log in
+**********************************************************/
 function loginError(xhr, status, error) {
-    console.log(xhr);
-    console.log(status);
-    console.log(error);
+    console.error(xhr);
+    console.error(status);
+    console.error(error);
 
     enableSubmitButton();
     Utilities.displayAlert('Invalid login credentials.');
@@ -75,7 +93,9 @@ function loginError(xhr, status, error) {
     $(e_formLogin).find('.form-control').addClass('is-invalid');
 }
 
-
+/**********************************************************
+Clear the invalid input classes
+**********************************************************/
 function clearInvalidInputClass() {
     $(e_formLogin).find('.form-control').removeClass('is-invalid');
 }
