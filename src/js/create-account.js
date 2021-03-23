@@ -7,13 +7,18 @@ const e_inputEmail        = $('#form-create-account-email');
 const e_inputPassword     = $('#form-create-account-password');
 const e_btnSubmit         = $('#form-create-account-submit');
 
-
+/**********************************************************
+Main logic
+**********************************************************/
 $(document).ready(function() {
     addListeners();
     // loadFlatpickr();
 });
 
 
+/**********************************************************
+Add all the event listeners to the page
+**********************************************************/
 function addListeners() {
     $(e_btnSubmit).on('click', createAccount);
     
@@ -25,6 +30,10 @@ function addListeners() {
     });
 }
 
+
+/**********************************************************
+Initialize the flat pickr elements
+**********************************************************/
 function loadFlatpickr() {
     $(e_inputDob).flatpickr({
         altInput: true,
@@ -33,7 +42,9 @@ function loadFlatpickr() {
     });
 }
 
-
+/**********************************************************
+Create a new account actions
+**********************************************************/
 function createAccount() {
     disableSubmitButton();
 
@@ -47,11 +58,10 @@ function createAccount() {
     ApiWrapper.requestPostUser(inputValues, createAccountSuccess, createAccountError);
 }
 
+/**********************************************************
+Actions to take when the user successfully created an account
+**********************************************************/
 function createAccountSuccess(result,status,xhr) {
-    console.log(result);
-    console.log(status);
-    console.log(xhr);
-
     enableSubmitButton();
 
     Utilities.displayAlert('Success.');
@@ -59,6 +69,9 @@ function createAccountSuccess(result,status,xhr) {
     window.location.href = 'home.php';
 }
 
+/**********************************************************
+Actions to take when the user unsuccessfully created an account
+**********************************************************/
 function createAccountError(xhr, status, error) {
     console.log(result);
     console.log(status);
@@ -68,16 +81,26 @@ function createAccountError(xhr, status, error) {
     Utilities.displayAlert('Error.');
 }
 
-
+/**********************************************************
+Disables the submit button. Waiting for API response
+**********************************************************/
 function disableSubmitButton() {
     $(e_btnSubmit).html(CommonHtml.spinnerSmall);
     $(e_btnSubmit).prop('disabled', true);
 }
 
+
+/**********************************************************
+Enables the submit button
+**********************************************************/
 function enableSubmitButton() {
     $(e_btnSubmit).html('Create account').prop('disabled', false);
 }
 
+
+/**********************************************************
+Returns the form input values
+**********************************************************/
 function getInputValues() {
     const values = {};
     values.name_first = $(e_inputFirstName).val();

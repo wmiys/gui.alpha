@@ -7,7 +7,7 @@ class ApiWrapper
     Send a post Users request to the API
     
     Parms:
-    userInfoStruct - user object containing all the fields
+        userInfoStruct - user object containing all the fields
     **********************************************************/
     static requestPostUser(userInfoStruct, fnSuccess, fnError) {
         // ensure the argument contains all the required fields
@@ -38,7 +38,7 @@ class ApiWrapper
     Send a post Users request to the API
     
     Parms:
-    userInfoStruct - user object containing all the fields
+        userInfoStruct - user object containing all the fields
     **********************************************************/
     static requestLogin(loginStruct, fnSuccess, fnError) {
         // ensure the argument contains all the required fields
@@ -70,8 +70,8 @@ class ApiWrapper
     Checks if an object contains all the fields in a list
     
     Parms:
-    a_object - the object that needs to be validated
-    a_requiredFields - list of fields the object needs
+        a_object - the object that needs to be validated
+        a_requiredFields - list of fields the object needs
     **********************************************************/
     static objectContainsAllFields(a_object, a_requiredFields) {
         let result = true;

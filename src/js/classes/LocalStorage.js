@@ -2,6 +2,12 @@
 
 class LocalStorage {
 
+    /**********************************************************
+    Set the user id in local storage
+    
+    Parms:
+        newUserID - the userID to be set
+    **********************************************************/
     static setUserID(newUserID) {
         if (newUserID == undefined || newUserID ==  null) {
             console.error('Invalid userID');
@@ -12,10 +18,19 @@ class LocalStorage {
         window.localStorage.setItem(LocalStorage.KEY_USER_ID, newUserID);
     }
 
+    /**********************************************************
+    Get the user id in local storage
+    **********************************************************/
     static getUserID() {
         return window.localStorage.getItem(LocalStorage.KEY_USER_ID);
     }
 
+    /**********************************************************
+    Checks if the user id is set in local storage.
+
+    If yes: returns true
+    If no: returns false
+    **********************************************************/
     static isUserIDSet() {
         let result = false;
 
