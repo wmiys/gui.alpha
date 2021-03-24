@@ -9,3 +9,17 @@ body {
 .form-sm-wrapper {
     width: 500px;
 }
+
+.form-new-product-step-btns {
+    margin-top: 40px;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .form-new-product-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
