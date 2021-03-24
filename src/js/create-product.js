@@ -27,8 +27,10 @@ const eInputs = {
     priceHalf     : $('#form-new-product-input-price-half'),
 }
 
+const eTabs = $('.form-new-product-tabs');
 
 const cInputs = '.form-new-product-input';
+const cBtnStep = '.form-new-product-btn-step';
 
 /**********************************************************
 Main logic
@@ -49,6 +51,10 @@ function addEventListeners() {
 
     $(eInputs.categoryMinor).on('change', function() {
         updateSubCategory(this);
+    });
+
+    $(cBtnStep).on('click', function() {
+        stepToFormPage(this);
     });
 }
 
@@ -94,6 +100,18 @@ category element arguement.
 function addInitialOptionToCategorySelectElement(a_eCategory) {
     const html = '<option selected disabled class="d-none">Choose...</option>';
     $(a_eCategory).prepend(html).val('Choose...');
+}
+
+
+/**********************************************************
+Step to another form page.
+
+Go to the page number indicated by the argument's 
+data-page-location attribute.
+**********************************************************/
+function stepToFormPage(a_eBtnStep) {
+    const destinationPageNumber = $(a_eBtnStep).attr('data-page-location');
+    $(eTabs).find(`li:nth-child(${destinationPageNumber}) a`).tab('show');
 }
 
 

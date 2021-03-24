@@ -35,6 +35,9 @@
                     <a class="nav-link" data-toggle="tab" href="#form-new-product-page-price" role="tab">Price</a>
                 </li>
             </ul>
+
+            <hr>
+
             <div class="tab-content form-new-product-pages">
 
                 <!-- category -->
@@ -102,9 +105,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2" disabled>Previous</button>
-                        <button type="button" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="1" class="btn btn-secondary form-new-product-btn-step mr-2" disabled>Previous</button>
+                        <button type="button" data-page-location="2" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
 
                 </div>
@@ -118,9 +121,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="1" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
+                        <button type="button" data-page-location="3" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
                 </div>
 
@@ -129,9 +132,9 @@
 
                     <p class="mt-5">Placeholder for all the shit we are going to display to the lender about the renters.</p>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="2" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
+                        <button type="button" data-page-location="4" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
                 </div>
 
@@ -149,9 +152,9 @@
                     <hr class="mt-5">
                     <p>We can put tips and advice here for selecting good, quality photos.</p>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="3" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
+                        <button type="button" data-page-location="5" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
                 </div>
 
@@ -171,9 +174,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="4" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
+                        <button type="button" data-page-location="6" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
 
                 </div>
@@ -204,9 +207,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="d-flex">
-                        <button type="button" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-success form-new-product-btn-step">Submit</button>
+                    <div class="d-flex mt-5">
+                        <button type="button" data-page-location="5" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
+                        <button type="button" class="btn btn-success form-new-product-btn-submit">Submit</button>
                     </div>
 
                 </div>
