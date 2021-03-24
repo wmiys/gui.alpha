@@ -190,7 +190,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" required>
+                            <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Per hour</span>
+                            </div>
                         </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
@@ -202,7 +205,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            <input class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" required>
+                            <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text">Per hour</span>
+                            </div>
                         </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
@@ -214,15 +220,7 @@
 
                 </div>
             </div>
-
-
         </form>
-
-
-
-
-
-
     </div>
 
 

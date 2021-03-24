@@ -66,13 +66,15 @@ to the selected major category.
 function updateMinorCategory() {
     const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').attr('data-id');
 
+    alert(majorCategoryID);
+
     // hide all the minor and sub categories initially
     $(eInputs.categoryMinor).prop('disabled', false);
     $(eInputs.categorySub).prop('disabled', true);
-    $(eInputs.categorySub).find('option').addClass('d-none');
-    $(eInputs.categoryMinor).find('option').addClass('d-none');
-    addInitialOptionToCategorySelectElement($(eInputs.categoryMinor));
-    addInitialOptionToCategorySelectElement($(eInputs.categorySub));
+    $(eInputs.categorySub).find('option').hide();
+    $(eInputs.categoryMinor).find('option').hide();
+    // addInitialOptionToCategorySelectElement($(eInputs.categoryMinor));
+    // addInitialOptionToCategorySelectElement($(eInputs.categorySub));
 
     // show only the minor categories that belong to the major category
     $(eInputs.categoryMinor).find(`option[data-parent-category="${majorCategoryID}"]`).removeClass('d-none');
@@ -113,25 +115,6 @@ function stepToFormPage(a_eBtnStep) {
     const destinationPageNumber = $(a_eBtnStep).attr('data-page-location');
     $(eTabs).find(`li:nth-child(${destinationPageNumber}) a`).tab('show');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
