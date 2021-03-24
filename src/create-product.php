@@ -43,6 +43,7 @@
                     <div class="form-group mt-5">
                         <label for="form-new-product-input-category-major">Major category</label>
                         <select class="form-control form-new-product-input" id="form-new-product-input-category-major" required>
+                            <option selected disabled class="d-none">Choose...</option>
                             <option data-id="1">Water</option>
                             <option data-id="2">Land</option>
                         </select>
@@ -52,7 +53,8 @@
                     <!-- minor -->
                     <div class="form-group">
                         <label for="form-new-product-input-category-minor">Minor category</label>
-                        <select class="form-control form-new-product-input" id="form-new-product-input-category-minor" required>
+                        <select class="form-control form-new-product-input" id="form-new-product-input-category-minor" required disabled>
+                            <option selected disabled class="d-none">Choose...</option>
                             <option data-id="1" data-parent-category="1">Water Transportation</option>
                             <option data-id="2" data-parent-category="1">Snorkeling</option>
                             <option data-id="3" data-parent-category="2">Relaxation</option>
@@ -67,7 +69,8 @@
                     <!-- sub -->
                     <div class="form-group">
                         <label for="form-new-product-input-category-sub">Sub category</label>
-                        <select class="form-control form-new-product-input" id="form-new-product-input-category-sub" required>
+                        <select class="form-control form-new-product-input" id="form-new-product-input-category-sub" required disabled>
+                            <option selected disabled class="d-none">Choose...</option>
                             <option data-parent-category="1">Kayak</option>
                             <option data-parent-category="1">Paddleboards</option>
                             <option data-parent-category="1">Surfboards</option>
