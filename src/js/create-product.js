@@ -27,6 +27,10 @@ const eInputs = {
     priceHalf     : $('#form-new-product-input-price-half'),
 }
 
+const eButtons = {
+    submit: $('.form-new-product-btn-submit'),
+}
+
 const eTabs    = $('.form-new-product-tabs');
 const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
@@ -54,6 +58,10 @@ function addEventListeners() {
     
     $(cBtnStep).on('click', function() {
         stepToFormPage(this);
+    });
+
+    $(eButtons.submit).on('click', function() {
+        submitFormEvent();
     });
 }
 
@@ -151,6 +159,31 @@ function processLocationSearchApiResponse(apiResponse) {
     }
 
     return ({results: processedData});
+}
+
+
+/**********************************************************
+Actions to take to send the create prodcut request.
+**********************************************************/
+function submitFormEvent() {
+    const values = getInputValues();
+    console.log(values);
+}
+
+/**********************************************************
+Returns an object containing all the new prodcut form
+input values.
+**********************************************************/
+function getInputValues() {
+    const inputKeys = Object.keys(eInputs);
+    let inputValues = {};
+
+    for (let count = 0; count < inputKeys.length; count++) {
+        const key = inputKeys[count];
+        inputValues[key] = $(eInputs[key]).val();
+    }
+
+    return inputValues;
 }
 
 
