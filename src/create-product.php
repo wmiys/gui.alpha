@@ -17,10 +17,10 @@
 
             <ul class="nav nav-pills nav-fill form-new-product-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
+                    <a class="nav-link" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
+                    <a class="nav-link active" data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" data-toggle="tab" href="#form-new-product-page-renter-info" role="tab">Renter Info</a>
@@ -41,7 +41,7 @@
             <div class="tab-content form-new-product-pages">
 
                 <!-- category -->
-                <div class="tab-pane fade show active" id="form-new-product-page-category">
+                <div class="tab-pane fade" id="form-new-product-page-category">
                     <!-- major -->
                     <div class="form-group mt-5">
                         <label for="form-new-product-input-category-major">Major category</label>
@@ -112,12 +112,48 @@
 
                 </div>
 
+
+
                 <!-- location -->
-                <div class="tab-pane fade" id="form-new-product-page-location">
+                <div class="tab-pane fade show active" id="form-new-product-page-location">
                     <!-- location -->
                     <div class="form-group mt-5">
-                        <label for="form-new-product-input-location">Find your location</label>
-                        <input class="form-control form-new-product-input" id="form-new-product-input-location" placeholder="Enter city or state" type="text" required>
+                        <label for="form-new-product-input-location">Find your location</label><br>
+
+                        <select class="form-control form-new-product-input" id="form-new-product-input-location" required>
+                            <option selected disabled class="d-none">Choose...</option>
+                            <option data-parent-category="1">Kayak</option>
+                            <option data-parent-category="1">Paddleboards</option>
+                            <option data-parent-category="1">Surfboards</option>
+                            <option data-parent-category="1">Boogie boards</option>
+                            <option data-parent-category="2">Snorkel </option>
+                            <option data-parent-category="2">Fins</option>
+                            <option data-parent-category="2">Life vests</option>
+                            <option data-parent-category="3">Chairs</option>
+                            <option data-parent-category="3">Umbrellas</option>
+                            <option data-parent-category="3">Shade Canopies/Tents</option>
+                            <option data-parent-category="3">Hammocks </option>
+                            <option data-parent-category="3">Blowup Chairs</option>
+                            <option data-parent-category="3">Coolers</option>
+                            <option data-parent-category="4">Spike ball</option>
+                            <option data-parent-category="4">Volleyball</option>
+                            <option data-parent-category="4">Football</option>
+                            <option data-parent-category="4">Baggo</option>
+                            <option data-parent-category="5">Bluetooth Speakers</option>
+                            <option data-parent-category="5">Power bank with solar charger</option>
+                            <option data-parent-category="5">Gopro</option>
+                            <option data-parent-category="5">Beach Lock box</option>
+                            <option data-parent-category="5">Waterproof phone case</option>
+                            <option data-parent-category="5">SHARK DETERRENT ARMBAND</option>
+                            <option data-parent-category="5">Metal detector </option>
+                            <option data-parent-category="6">Tent </option>
+                            <option data-parent-category="6">Grill </option>
+                            <option data-parent-category="7">THAT BIG ASS PINK FLAMINGO!!!!!!!!!!</option>
+                        </select>
+
+
+
+
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
@@ -126,6 +162,12 @@
                         <button type="button" data-page-location="3" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
                 </div>
+
+
+
+
+
+
 
                 <!-- Renter Info -->
                 <div class="tab-pane fade" id="form-new-product-page-renter-info">

@@ -57,7 +57,7 @@ class ApiWrapper
         
         $.ajax({
             // headers: {"X-USER-ID" :  m_User.userID},
-            url: ApiWrapper.URL_LOGIN,
+            url: ApiWrapper.URLS.LOGIN,
             type: ApiWrapper.REQUEST_TYPES.GET,
             data: loginStruct,
             success: fnSuccess,
@@ -81,13 +81,17 @@ class ApiWrapper
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
             },
-            url: ApiWrapper.URL_USERS + '/' + userID,
+            url: ApiWrapper.URLS.USERS + '/' + userID,
             type: ApiWrapper.REQUEST_TYPES.GET,
             // data: userInfoStruct,
             success: fnSuccess,
             error: fnError,
         });
     }
+
+
+
+
 
     /**********************************************************
     Checks if an object contains all the fields in a list
@@ -122,10 +126,19 @@ class ApiWrapper
     }
 }
 
+/**********************************************************
+ApiWrapper static properties
+**********************************************************/
 ApiWrapper.URL_BASE = API_BASE_URL;
-ApiWrapper.URL_USERS = ApiWrapper.URL_BASE + '/users';
-ApiWrapper.URL_LOGIN = ApiWrapper.URL_BASE + '/login';
 
+ApiWrapper.URLS = {
+    USERS: ApiWrapper.URL_BASE + '/users',
+    LOGIN: ApiWrapper.URL_BASE + '/login',
+}
+
+ApiWrapper.URLS.SEARCH = {
+    LOCATIONS: ApiWrapper.URL_BASE + '/search/locations',
+}
 
 ApiWrapper.REQUEST_TYPES = {
     GET   : 'GET',
@@ -137,4 +150,4 @@ ApiWrapper.REQUEST_TYPES = {
 
 // required fields for each api request 
 ApiWrapper.REQ_FIELDS_USER_POST = ['email', 'password', 'name_first', 'name_last', 'birth_date'];
-ApiWrapper.REQ_FIELDS_LOGIN = ['email', 'password'];
+ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];
