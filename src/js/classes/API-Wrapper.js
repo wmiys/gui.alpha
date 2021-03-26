@@ -89,9 +89,74 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a GET request to retrieve major product categories
+    
+    Parms:
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetProductCategoriesMajor(fnSuccess, fnError) {
+        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major`;
 
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
 
+    /**********************************************************
+    Send a GET request to retrieve minor product categories
+    
+    Parms:
+        majorCategoryID - major category id
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetProductCategoriesMinor(majorCategoryID, fnSuccess, fnError) {
+        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor`;
 
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
+    Send a GET request to retrieve sub product categories
+    
+    Parms:
+        majorCategoryID - major category id
+        majorCategoryID - minor category id
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, fnSuccess, fnError) {
+        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor/${minorCategoryID}/sub`;
+
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
 
     /**********************************************************
     Checks if an object contains all the fields in a list
@@ -132,8 +197,9 @@ ApiWrapper static properties
 ApiWrapper.URL_BASE = API_BASE_URL;
 
 ApiWrapper.URLS = {
-    USERS: ApiWrapper.URL_BASE + '/users',
-    LOGIN: ApiWrapper.URL_BASE + '/login',
+    USERS             : ApiWrapper.URL_BASE + '/users',
+    LOGIN             : ApiWrapper.URL_BASE + '/login',
+    PRODUCT_CATEGORIES: ApiWrapper.URL_BASE + '/product-categories',
 }
 
 ApiWrapper.URLS.SEARCH = {
