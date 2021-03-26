@@ -17,10 +17,10 @@
 
             <ul class="nav nav-pills nav-fill form-new-product-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
+                    <a class="nav-link" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link" data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
+                    <a class="nav-link active" data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" data-toggle="tab" href="#form-new-product-page-renter-info" role="tab">Renter Info</a>
@@ -41,7 +41,7 @@
             <div class="tab-content form-new-product-pages">
 
                 <!-- category -->
-                <div class="tab-pane fade show active" id="form-new-product-page-category">
+                <div class="tab-pane fade" id="form-new-product-page-category">
                     <!-- major -->
                     <div class="form-group mt-5">
                         <label for="form-new-product-input-category-major">Major category</label>
@@ -109,15 +109,21 @@
                         <button type="button" data-page-location="1" class="btn btn-secondary form-new-product-btn-step mr-2" disabled>Previous</button>
                         <button type="button" data-page-location="2" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
-
                 </div>
 
                 <!-- location -->
-                <div class="tab-pane fade" id="form-new-product-page-location">
-                    <!-- location -->
+                <div class="tab-pane fade show active" id="form-new-product-page-location">
                     <div class="form-group mt-5">
                         <label for="form-new-product-input-location">Find your location</label>
-                        <input class="form-control form-new-product-input" id="form-new-product-input-location" placeholder="Enter city or state" type="text" required>
+
+                        <div class="input-group input-group-search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
+                            </div>
+                            <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search">
+                                <option>Search</option>
+                            </select>
+                        </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
@@ -129,7 +135,6 @@
 
                 <!-- Renter Info -->
                 <div class="tab-pane fade" id="form-new-product-page-renter-info">
-
                     <p class="mt-5">Placeholder for all the shit we are going to display to the lender about the renters.</p>
 
                     <div class="form-new-product-step-btns">
