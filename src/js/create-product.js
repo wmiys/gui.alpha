@@ -59,7 +59,7 @@ function addEventListeners() {
     $(cBtnStep).on('click', function() {
         stepToFormPage(this);
     });
-
+    
     $(eButtons.submit).on('click', function() {
         submitFormEvent();
     });
@@ -127,9 +127,12 @@ Loads the select2 library on the location input
 function loadSelect2() {
     $(eInputs.location).select2({
         minimumInputLength: 3,
+        theme: 'bootstrap4',
         ajax: {
-            delay: 100,
+            delay: 250,
             url: ApiWrapper.URLS.SEARCH.LOCATIONS,
+            placeholder: "Select a state",
+            allowClear: true,
             data: function (params) {
                 const urlParms = {      // set the request url ?parms
                     q: params.term,
@@ -157,7 +160,7 @@ function processLocationSearchApiResponse(apiResponse) {
         const text = `${location.city}, ${location.state_name}`;
         processedData.push({id: location.id, text: text});
     }
-
+    
     return ({results: processedData});
 }
 
@@ -177,12 +180,12 @@ input values.
 function getInputValues() {
     const inputKeys = Object.keys(eInputs);
     let inputValues = {};
-
+    
     for (let count = 0; count < inputKeys.length; count++) {
         const key = inputKeys[count];
         inputValues[key] = $(eInputs[key]).val();
     }
-
+    
     return inputValues;
 }
 

@@ -114,10 +114,16 @@
                 <!-- location -->
                 <div class="tab-pane fade show active" id="form-new-product-page-location">
                     <div class="form-group mt-5">
-                        <label for="form-new-product-input-location">Find your location</label><br>
-                        <select class="form-control form-new-product-input" id="form-new-product-input-location" required>
-                            <option selected disabled class="d-none">Choose...</option>
-                        </select>
+                        <label for="form-new-product-input-location">Find your location</label>
+
+                        <div class="input-group input-group-search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
+                            </div>
+                            <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search">
+                                <option>Search</option>
+                            </select>
+                        </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
