@@ -41,6 +41,8 @@ Main logic
 $(document).ready(function() {
     addEventListeners();
     loadSelect2();
+
+    ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
 });
 
 
@@ -49,11 +51,14 @@ Adds event listeners to the page elements
 **********************************************************/
 function addEventListeners() {
     $(eInputs.categoryMajor).on('change', function() {
-        updateMinorCategory(this);
+        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
+        ApiWrapper.requestGetProductCategoriesMinor(majorCategoryID, loadMinorCategoriesSuccess, console.error);
     });
     
     $(eInputs.categoryMinor).on('change', function() {
-        updateSubCategory(this);
+        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
+        const minorCategoryID = $(eInputs.categoryMinor).find('option:selected').val();
+        ApiWrapper.requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, loadSubCategoriesSuccess, console.error);
     });
     
     $(cBtnStep).on('click', function() {
@@ -63,50 +68,6 @@ function addEventListeners() {
     $(eButtons.submit).on('click', function() {
         submitFormEvent();
     });
-}
-
-
-/**********************************************************
-Update the minor categories to show the ones that belong 
-to the selected major category.
-**********************************************************/
-function updateMinorCategory() {
-    const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').attr('data-id');
-    
-    alert(majorCategoryID);
-    
-    // hide all the minor and sub categories initially
-    $(eInputs.categoryMinor).prop('disabled', false);
-    $(eInputs.categorySub).prop('disabled', true);
-    $(eInputs.categorySub).find('option').hide();
-    $(eInputs.categoryMinor).find('option').hide();
-    
-    // show only the minor categories that belong to the major category
-    $(eInputs.categoryMinor).find(`option[data-parent-category="${majorCategoryID}"]`).removeClass('d-none');
-}
-
-/**********************************************************
-Update the sub categories to show the ones that belong 
-to the selected minor category.
-**********************************************************/
-function updateSubCategory() {
-    const minorCategoryID = $(eInputs.categoryMinor).find('option:selected').attr('data-id');
-    
-    // hide all the minor categories initially
-    $(eInputs.categorySub).prop('disabled', false);
-    $(eInputs.categorySub).find('option').addClass('d-none');
-    
-    // show only the minor categories that belong to the major category
-    $(eInputs.categorySub).find(`option[data-parent-category="${minorCategoryID}"]`).removeClass('d-none');
-}
-
-/**********************************************************
-Prepends a hidden option that says "Choose..." to the 
-category element arguement.
-**********************************************************/
-function addInitialOptionToCategorySelectElement(a_eCategory) {
-    const html = '<option selected disabled class="d-none">Choose...</option>';
-    $(a_eCategory).prepend(html).val('Choose...');
 }
 
 
@@ -190,5 +151,53 @@ function getInputValues() {
 }
 
 
+/**********************************************************
+Load the major categories into the select element
+**********************************************************/
+function loadMajorCategoriesSuccess(result,status,xhr) {
+    let html = '';
+    for (majorCategory of result) {
+        html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
+    }
+
+    $(eInputs.categoryMajor).prop('disabled', false).html(html);
+}
 
 
+/**********************************************************
+Error fetching the major categories
+**********************************************************/
+function loadMajorCategoriesError(xhr, status, error) {
+    console.log(result);
+    console.log(status);
+    console.log(error);
+
+    enableSubmitButton();
+    Utilities.displayAlert('Error loading major categories');
+}
+
+
+/**********************************************************
+Update the minor categories to show the ones that belong 
+to the selected major category.
+**********************************************************/
+function loadMinorCategoriesSuccess(result,status,xhr) {
+    let html = '';
+    for (minorCategory of result) {
+        html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
+    }
+
+    $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
+}
+
+/**********************************************************
+Load the sub categories based on the minor category
+**********************************************************/
+function loadSubCategoriesSuccess(result, status, xhr) {
+    let html = '';
+    for (subCategory of result) {
+        html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
+    }
+
+    $(eInputs.categorySub).prop('disabled', false).html(html).val('');
+}
