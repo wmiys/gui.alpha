@@ -11,6 +11,8 @@
 <!-- jquery toast: https://kamranahmed.info/toast -->
 <script src="js/external/jquery.toast.min.js"></script>
 
+<!-- select2: https://select2.org/ -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- custom js files -->
 <script src="js/api-base-url.js"></script>
