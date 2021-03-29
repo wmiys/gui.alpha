@@ -11,8 +11,8 @@ const e_btnSubmit         = $('#form-create-account-submit');
 Main logic
 **********************************************************/
 $(document).ready(function() {
+    LocalStorage.clear();
     addListeners();
-    // loadFlatpickr();
 });
 
 

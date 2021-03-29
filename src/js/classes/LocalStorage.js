@@ -14,15 +14,34 @@ class LocalStorage {
             return;
         }
 
-        window.localStorage.removeItem(LocalStorage.KEY_USER_ID);
-        window.localStorage.setItem(LocalStorage.KEY_USER_ID, newUserID);
+        window.sessionStorage.removeItem(LocalStorage.KEY_USER_ID);
+        window.sessionStorage.setItem(LocalStorage.KEY_USER_ID, newUserID);
     }
 
     /**********************************************************
     Get the user id in local storage
     **********************************************************/
     static getUserID() {
-        return window.localStorage.getItem(LocalStorage.KEY_USER_ID);
+        return window.sessionStorage.getItem(LocalStorage.KEY_USER_ID);
+    }
+
+    /**********************************************************
+    Checks if the user id, email, and password are set
+    **********************************************************/
+    static areCredentialsSet() {
+        if (!LocalStorage.isUserIDSet()) {
+            return false;
+        }
+
+        if (!LocalStorage.isUserEmailSet()) {
+            return false;
+        }
+
+        if (!LocalStorage.isUserPasswordSet()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**********************************************************
@@ -43,17 +62,51 @@ class LocalStorage {
     }
 
     /**********************************************************
+    Checks if the user email is set in session storage.
+
+    If yes: returns true
+    If no: returns false
+    **********************************************************/
+    static isUserEmailSet() {
+        let result = false;
+
+        const email = LocalStorage.getEmail();
+        if (email != null && email != undefined) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    /**********************************************************
+    Checks if the user password is set in session storage.
+
+    If yes: returns true
+    If no: returns false
+    **********************************************************/
+    static isUserPasswordSet() {
+        let result = false;
+
+        const password = LocalStorage.getPassword();
+        if (password != null && password != undefined) {
+            result = true;
+        }
+
+        return result;
+    }
+
+    /**********************************************************
     Get the user's email from local storage
     **********************************************************/
     static getEmail() {
-        return window.localStorage.getItem(LocalStorage.KEY_EMAIL);
+        return window.sessionStorage.getItem(LocalStorage.KEY_EMAIL);
     }
 
     /**********************************************************
     Get the user's password fromo local storage
     **********************************************************/
     static getPassword() {
-        return window.localStorage.getItem(LocalStorage.KEY_PASSWORD);
+        return window.sessionStorage.getItem(LocalStorage.KEY_PASSWORD);
     }
 
     /**********************************************************
@@ -68,8 +121,8 @@ class LocalStorage {
             return;
         }
 
-        window.localStorage.removeItem(LocalStorage.KEY_EMAIL);
-        window.localStorage.setItem(LocalStorage.KEY_EMAIL, newEmail);
+        window.sessionStorage.removeItem(LocalStorage.KEY_EMAIL);
+        window.sessionStorage.setItem(LocalStorage.KEY_EMAIL, newEmail);
     }
 
     /**********************************************************
@@ -84,8 +137,26 @@ class LocalStorage {
             return;
         }
 
-        window.localStorage.removeItem(LocalStorage.KEY_PASSWORD);
-        window.localStorage.setItem(LocalStorage.KEY_PASSWORD, newPassword);
+        window.sessionStorage.removeItem(LocalStorage.KEY_PASSWORD);
+        window.sessionStorage.setItem(LocalStorage.KEY_PASSWORD, newPassword);
+    }
+
+
+    /**********************************************************
+    Checks to be sure the user is properly logged in.
+    If not, redirect them to the argument passed in.
+    **********************************************************/
+    static validateStatus(redirectLocation = 'login.php') {
+        if (!LocalStorage.areCredentialsSet()) {
+            window.location.href = redirectLocation;
+        }
+    }
+
+    /**********************************************************
+    Clear's the session storage.
+    **********************************************************/
+    static clear() {
+        window.sessionStorage.clear();
     }
 }
 

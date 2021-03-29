@@ -9,6 +9,7 @@ const e_btnSubmit         = $('#form-login-submit');
 Main logic
 **********************************************************/
 $(document).ready(function() {
+    LocalStorage.clear();
     addListeners();
 });
 
