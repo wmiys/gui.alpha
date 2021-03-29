@@ -158,6 +158,29 @@ class ApiWrapper
         });
     }
 
+
+    /**********************************************************
+    Send a POST request to create a new product
+    **********************************************************/
+    static requestPostProduct(data, fnSuccess, fnError) {
+        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
+        
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            data: data,
+            processData: false,
+            contentType: false,
+            type: ApiWrapper.REQUEST_TYPES.POST,
+            success: fnSuccess,
+            error: fnError,
+        });
+
+    }
+
     /**********************************************************
     Checks if an object contains all the fields in a list
     

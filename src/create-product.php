@@ -46,7 +46,6 @@
                     <div class="form-group mt-5">
                         <label for="form-new-product-input-category-major">Major category</label>
                         <select class="form-control form-new-product-input" id="form-new-product-input-category-major" required>
-                            <option selected disabled class="d-none">Choose...</option>
                         </select>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
@@ -55,7 +54,6 @@
                     <div class="form-group">
                         <label for="form-new-product-input-category-minor">Minor category</label>
                         <select class="form-control form-new-product-input" id="form-new-product-input-category-minor" required disabled>
-                            <option selected disabled class="d-none">Choose...</option>
                         </select>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
@@ -64,7 +62,6 @@
                     <div class="form-group">
                         <label for="form-new-product-input-category-sub">Sub category</label>
                         <select class="form-control form-new-product-input" id="form-new-product-input-category-sub" required disabled>
-                            <option selected disabled class="d-none">Choose...</option>
                         </select>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
@@ -85,7 +82,6 @@
                                 <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
                             </div>
                             <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search">
-                                <option>Search</option>
                             </select>
                         </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
@@ -113,7 +109,7 @@
                     <div class="form-group mt-5">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input form-new-product-input" id="form-new-product-input-photos">
-                            <label class="custom-file-label" for="form-new-product-input-photos">Choose up to 5 photos</label>
+                            <label class="custom-file-label" for="form-new-product-input-photos">Choose photo</label>
                         </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>

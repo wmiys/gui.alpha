@@ -15,8 +15,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- custom js files -->
-<script src="js/api-base-url.js"></script>
 <script src="js/classes/LocalStorage.js"></script>
+<script src="js/api-base-url.js"></script>
 <script src="js/classes/Utilities.js"></script>
 <script src="js/classes/Common-Html.js"></script>
 <script src="js/classes/API-Wrapper.js"></script>

@@ -127,31 +127,6 @@ function processLocationSearchApiResponse(apiResponse) {
 
 
 /**********************************************************
-Actions to take to send the create prodcut request.
-**********************************************************/
-function submitFormEvent() {
-    const values = getInputValues();
-    console.log(values);
-}
-
-/**********************************************************
-Returns an object containing all the new prodcut form
-input values.
-**********************************************************/
-function getInputValues() {
-    const inputKeys = Object.keys(eInputs);
-    let inputValues = {};
-    
-    for (let count = 0; count < inputKeys.length; count++) {
-        const key = inputKeys[count];
-        inputValues[key] = $(eInputs[key]).val();
-    }
-    
-    return inputValues;
-}
-
-
-/**********************************************************
 Load the major categories into the select element
 **********************************************************/
 function loadMajorCategoriesSuccess(result,status,xhr) {
@@ -200,4 +175,39 @@ function loadSubCategoriesSuccess(result, status, xhr) {
     }
 
     $(eInputs.categorySub).prop('disabled', false).html(html).val('');
+}
+
+/**********************************************************
+Actions to take to send the create prodcut request.
+**********************************************************/
+function submitFormEvent() {
+    const values = getInputValues();
+    let formData = new FormData();
+
+    formData.append("name", values.name);
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('product_categories_sub_id', values.categorySub);
+    formData.append('location_id', values.location);
+    formData.append('price_full', values.priceFull);
+    formData.append('price_half', values.priceHalf);
+    formData.append('image', $(eInputs.photos).prop('files')[0]);
+
+    ApiWrapper.requestPostProduct(formData, console.log, console.error);
+}
+
+/**********************************************************
+Returns an object containing all the new prodcut form
+input values.
+**********************************************************/
+function getInputValues() {
+    const inputKeys = Object.keys(eInputs);
+    let inputValues = {};
+    
+    for (let count = 0; count < inputKeys.length; count++) {
+        const key = inputKeys[count];
+        inputValues[key] = $(eInputs[key]).val();
+    }
+    
+    return inputValues;
 }
