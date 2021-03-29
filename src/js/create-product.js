@@ -1,3 +1,5 @@
+LocalStorage.validateStatus();
+
 /**********************************************************
 Module variables
 **********************************************************/
@@ -13,7 +15,6 @@ const ePages = {
     price      : $('#form-new-product-page-price'),
 }
 
-
 // form inputs
 const eInputs = {
     categoryMajor : $('#form-new-product-input-category-major'),
@@ -27,11 +28,15 @@ const eInputs = {
     priceHalf     : $('#form-new-product-input-price-half'),
 }
 
+// buttons
 const eButtons = {
     submit: $('.form-new-product-btn-submit'),
 }
 
+// form tabs
 const eTabs    = $('.form-new-product-tabs');
+
+// classes
 const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
 
@@ -41,7 +46,6 @@ Main logic
 $(document).ready(function() {
     addEventListeners();
     loadSelect2();
-
     ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
 });
 
@@ -134,7 +138,7 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
     for (majorCategory of result) {
         html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
     }
-
+    
     $(eInputs.categoryMajor).prop('disabled', false).html(html);
 }
 
@@ -146,7 +150,7 @@ function loadMajorCategoriesError(xhr, status, error) {
     console.log(result);
     console.log(status);
     console.log(error);
-
+    
     enableSubmitButton();
     Utilities.displayAlert('Error loading major categories');
 }
@@ -161,7 +165,7 @@ function loadMinorCategoriesSuccess(result,status,xhr) {
     for (minorCategory of result) {
         html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
     }
-
+    
     $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
 }
 
@@ -173,7 +177,7 @@ function loadSubCategoriesSuccess(result, status, xhr) {
     for (subCategory of result) {
         html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
     }
-
+    
     $(eInputs.categorySub).prop('disabled', false).html(html).val('');
 }
 
@@ -181,9 +185,18 @@ function loadSubCategoriesSuccess(result, status, xhr) {
 Actions to take to send the create prodcut request.
 **********************************************************/
 function submitFormEvent() {
+    
+    if (!validateForm()) {
+        alert('Invalid');
+        return;
+    } else {
+        alert('Valid');
+        return;
+    }
+    
     const values = getInputValues();
     let formData = new FormData();
-
+    
     formData.append("name", values.name);
     formData.append('name', values.name);
     formData.append('description', values.description);
@@ -192,8 +205,8 @@ function submitFormEvent() {
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
     formData.append('image', $(eInputs.photos).prop('files')[0]);
-
-    ApiWrapper.requestPostProduct(formData, console.log, console.error);
+    
+    // ApiWrapper.requestPostProduct(formData, console.log, console.error);
 }
 
 /**********************************************************
@@ -210,4 +223,160 @@ function getInputValues() {
     }
     
     return inputValues;
+}
+
+
+
+/**********************************************************
+Validate all the form inputs:
+
+    - Sub category needs a value
+    - location needs a value
+    - name needs a value
+    - full day price needs a value
+    - full day price needs to be > 0
+    - half day price needs a value
+    - half day price needs to be > 0
+
+Returns a bool:
+    true - all inputs are valid
+    false - an input is not valid
+**********************************************************/
+function validateForm() {
+
+    let areInputsValid = true;
+
+    if (!validateInputCategorySub()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputLocation()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputName()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputPriceFull()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputPriceHalf()) {
+        areInputsValid = false;
+    }
+    
+    return areInputsValid;
+}
+
+/**********************************************************
+Check if the sub category input has a value
+**********************************************************/
+function validateInputCategorySub() {
+    const value = $(eInputs.categorySub).val();
+    
+    if (isValueNullOrEmpty(value)) {
+        return false;
+    }
+    
+    return true;
+}
+
+/**********************************************************
+Check if the location input has a value
+**********************************************************/
+function validateInputLocation() {
+    const value = $(eInputs.location).val();
+    
+    if (isValueNullOrEmpty(value)) {
+        return false;
+    }
+    
+    return true;
+}
+
+/**********************************************************
+Check if the name input has a value
+**********************************************************/
+function validateInputName() {
+    const value = $(eInputs.name).val();
+    
+    if (isValueNullOrEmpty(value)) {
+        return false;
+    }
+    
+    return true;
+}
+
+/**********************************************************
+Check if the full day price input has a value
+**********************************************************/
+function validateInputPriceFull() {
+    const value = $(eInputs.priceFull).val();
+
+    let result = true;
+    
+    // has value
+    if (isValueNullOrEmpty(value)) {
+        result = false;
+    }
+    
+    // is valid double > 0
+    if (!isValueValidPrice(value)) {
+        result = false;
+    }
+    
+    return result;
+}
+
+/**********************************************************
+Check if the half day price input has a value
+**********************************************************/
+function validateInputPriceHalf() {
+    const value = $(eInputs.priceHalf).val();
+
+    let result = true;
+    
+    // has value
+    if (isValueNullOrEmpty(value)) {
+        result = false;
+    }
+    
+    // is valid double > 0
+    if (!isValueValidPrice(value)) {
+        result = false;
+    }
+    
+    return result;
+}
+
+/**********************************************************
+Check if the argument is a valid double and is > 0
+**********************************************************/
+function isValueValidPrice(value) {
+    const valueAsDouble = parseFloat(value);
+
+    let result = true;
+    
+    if (isNaN(valueAsDouble)) {         // is a valid float
+        result = false;
+    } else if (valueAsDouble <= 0) {    // is > 0
+        result = false;
+    }
+    
+    return result;
+}
+
+
+/**********************************************************
+Checks if the argument is either null or an empty string
+**********************************************************/
+function isValueNullOrEmpty(value) {
+    let result = false;
+    
+    if (value == "" || value == null) {
+        result = true;
+    }
+    
+    return result;
 }
