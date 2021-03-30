@@ -63,3 +63,17 @@ body {
     background-position: right calc(.375em + .1875rem) center;
     background-size: calc(.75em + .375rem) calc(.75em + .375rem);
 }
+
+
+
+
+.user-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.card-user-product {
+    width: 18rem;
+    margin: 10px;
+}
