@@ -276,6 +276,8 @@ function validateInputCategorySub() {
     const value = $(eInputs.categorySub).val();
     
     if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.categorySub), 'Required');
+        
         return false;
     }
     
@@ -289,6 +291,8 @@ function validateInputLocation() {
     const value = $(eInputs.location).val();
     
     if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.location), 'Required');
+        $(eInputs.location).closest('.input-group').addClass('is-invalid');
         return false;
     }
     
@@ -302,6 +306,7 @@ function validateInputName() {
     const value = $(eInputs.name).val();
     
     if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.name), 'Required');
         return false;
     }
     
@@ -318,11 +323,15 @@ function validateInputPriceFull() {
     
     // has value
     if (isValueNullOrEmpty(value)) {
-        result = false;
+        setInputToInvalid($(eInputs.priceFull), 'Required');
+        $(eInputs.priceFull).closest('.input-group').addClass('is-invalid');
+        return false;
     }
     
     // is valid double > 0
     if (!isValueValidPrice(value)) {
+        setInputToInvalid($(eInputs.priceFull), 'Must be greater than 0');
+        $(eInputs.priceFull).closest('.input-group').addClass('is-invalid');
         result = false;
     }
     
@@ -339,11 +348,15 @@ function validateInputPriceHalf() {
     
     // has value
     if (isValueNullOrEmpty(value)) {
-        result = false;
+        setInputToInvalid($(eInputs.priceHalf), 'Required');
+        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
+        return false;
     }
     
     // is valid double > 0
     if (!isValueValidPrice(value)) {
+        setInputToInvalid($(eInputs.priceHalf), 'Must be greater than 0');
+        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
         result = false;
     }
     
@@ -379,4 +392,13 @@ function isValueNullOrEmpty(value) {
     }
     
     return result;
+}
+
+
+/**********************************************************
+Sets the eInput to invalid and displays the text as the message.
+**********************************************************/
+function setInputToInvalid(eInput, text = 'Required') {
+    $(eInput).closest('.form-group').find('.invalid-feedback').text(text);
+    $(eInput).addClass('is-invalid');
 }

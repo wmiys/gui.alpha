@@ -74,15 +74,14 @@
 
                 <!-- location -->
                 <div class="tab-pane fade" id="form-new-product-page-location">
-                    <div class="form-group mt-5">
+                    <div class="form-group mt-5 is-invalid">
                         <label for="form-new-product-input-location">Find your location</label>
 
                         <div class="input-group input-group-search">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
                             </div>
-                            <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search">
-                            </select>
+                            <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search"></select>
                         </div>
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
