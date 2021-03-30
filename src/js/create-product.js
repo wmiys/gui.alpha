@@ -1,3 +1,5 @@
+LocalStorage.validateStatus();  // be sure user is loggen in
+
 /**********************************************************
 Module variables
 **********************************************************/
@@ -13,7 +15,6 @@ const ePages = {
     price      : $('#form-new-product-page-price'),
 }
 
-
 // form inputs
 const eInputs = {
     categoryMajor : $('#form-new-product-input-category-major'),
@@ -27,13 +28,18 @@ const eInputs = {
     priceHalf     : $('#form-new-product-input-price-half'),
 }
 
+// buttons
 const eButtons = {
     submit: $('.form-new-product-btn-submit'),
 }
 
+// form tabs
 const eTabs    = $('.form-new-product-tabs');
+
+// classes
 const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
+
 
 /**********************************************************
 Main logic
@@ -41,7 +47,6 @@ Main logic
 $(document).ready(function() {
     addEventListeners();
     loadSelect2();
-
     ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
 });
 
@@ -67,6 +72,11 @@ function addEventListeners() {
     
     $(eButtons.submit).on('click', function() {
         submitFormEvent();
+    });
+
+
+    $(cInputs).on('keydown change', function() {
+        removeInvalidClass(this);
     });
 }
 
@@ -127,12 +137,83 @@ function processLocationSearchApiResponse(apiResponse) {
 
 
 /**********************************************************
+Load the major categories into the select element
+**********************************************************/
+function loadMajorCategoriesSuccess(result,status,xhr) {
+    let html = '';
+    for (majorCategory of result) {
+        html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
+    }
+    
+    $(eInputs.categoryMajor).prop('disabled', false).html(html);
+}
+
+
+/**********************************************************
+Error fetching the major categories
+**********************************************************/
+function loadMajorCategoriesError(xhr, status, error) {
+    console.error(result);
+    console.error(status);
+    console.error(error);
+    
+    enableSubmitButton();
+    Utilities.displayAlert('Error loading major categories');
+}
+
+
+/**********************************************************
+Update the minor categories to show the ones that belong 
+to the selected major category.
+**********************************************************/
+function loadMinorCategoriesSuccess(result,status,xhr) {
+    let html = '';
+    for (minorCategory of result) {
+        html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
+    }
+    
+    $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
+}
+
+/**********************************************************
+Load the sub categories based on the minor category
+**********************************************************/
+function loadSubCategoriesSuccess(result, status, xhr) {
+    let html = '';
+    for (subCategory of result) {
+        html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
+    }
+    
+    $(eInputs.categorySub).prop('disabled', false).html(html).val('');
+}
+
+/**********************************************************
 Actions to take to send the create prodcut request.
 **********************************************************/
-function submitFormEvent() {
-    const values = getInputValues();
-    console.log(values);
+function submitFormEvent() {    
+    disableSubmitButton();
+    
+    if (!validateForm()) {
+        enableSubmitButton();
+        alert('Please complete the required inputs');
+        return;
+    }
+    
+    const values = getInputValues();    
+    let formData = new FormData();
+    
+    formData.append("name", values.name);
+    formData.append('name', values.name);
+    formData.append('description', values.description);
+    formData.append('product_categories_sub_id', values.categorySub);
+    formData.append('location_id', values.location);
+    formData.append('price_full', values.priceFull);
+    formData.append('price_half', values.priceHalf);
+    formData.append('image', $(eInputs.photos).prop('files')[0]);
+    
+    ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
+
 
 /**********************************************************
 Returns an object containing all the new prodcut form
@@ -151,53 +232,224 @@ function getInputValues() {
 }
 
 
-/**********************************************************
-Load the major categories into the select element
-**********************************************************/
-function loadMajorCategoriesSuccess(result,status,xhr) {
-    let html = '';
-    for (majorCategory of result) {
-        html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
-    }
 
-    $(eInputs.categoryMajor).prop('disabled', false).html(html);
+/**********************************************************
+Validate all the form inputs:
+
+    - Sub category needs a value
+    - location needs a value
+    - name needs a value
+    - full day price needs a value
+    - full day price needs to be > 0
+    - half day price needs a value
+    - half day price needs to be > 0
+
+Returns a bool:
+    true - all inputs are valid
+    false - an input is not valid
+**********************************************************/
+function validateForm() {
+
+    let areInputsValid = true;
+
+    if (!validateInputCategorySub()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputLocation()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputName()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputPriceFull()) {
+        areInputsValid = false;
+    }
+    
+    if (!validateInputPriceHalf()) {
+        areInputsValid = false;
+    }
+    
+    return areInputsValid;
+}
+
+/**********************************************************
+Check if the sub category input has a value
+**********************************************************/
+function validateInputCategorySub() {
+    const value = $(eInputs.categorySub).val();
+
+    let result = true;
+    
+    if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.categorySub), 'Required');    
+        result = false;
+    }
+    
+    return result;
+}
+
+/**********************************************************
+Check if the location input has a value
+**********************************************************/
+function validateInputLocation() {
+    const value = $(eInputs.location).val();
+    
+    if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.location), 'Required');
+        $(eInputs.location).closest('.input-group').addClass('is-invalid');
+        return false;
+    }
+    
+    return true;
+}
+
+/**********************************************************
+Check if the name input has a value
+**********************************************************/
+function validateInputName() {
+    const value = $(eInputs.name).val();
+    
+    if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.name), 'Required');
+        return false;
+    }
+    
+    return true;
+}
+
+/**********************************************************
+Check if the full day price input has a value
+**********************************************************/
+function validateInputPriceFull() {
+    const value = $(eInputs.priceFull).val();
+
+    let result = true;
+    
+    // has value
+    if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.priceFull), 'Required');
+        $(eInputs.priceFull).closest('.input-group').addClass('is-invalid');
+        return false;
+    }
+    
+    // is valid double > 0
+    if (!isValueValidPrice(value)) {
+        setInputToInvalid($(eInputs.priceFull), 'Must be greater than 0');
+        $(eInputs.priceFull).closest('.input-group').addClass('is-invalid');
+        result = false;
+    }
+    
+    return result;
+}
+
+/**********************************************************
+Check if the half day price input has a value
+**********************************************************/
+function validateInputPriceHalf() {
+    const value = $(eInputs.priceHalf).val();
+
+    let result = true;
+    
+    // has value
+    if (isValueNullOrEmpty(value)) {
+        setInputToInvalid($(eInputs.priceHalf), 'Required');
+        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
+        return false;
+    }
+    
+    // is valid double > 0
+    if (!isValueValidPrice(value)) {
+        setInputToInvalid($(eInputs.priceHalf), 'Must be greater than 0');
+        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
+        result = false;
+    }
+    
+    return result;
+}
+
+/**********************************************************
+Check if the argument is a valid double and is > 0
+**********************************************************/
+function isValueValidPrice(value) {
+    const valueAsDouble = parseFloat(value);
+
+    let result = true;
+    
+    if (isNaN(valueAsDouble)) {         // is a valid float
+        result = false;
+    } else if (valueAsDouble <= 0) {    // is > 0
+        result = false;
+    }
+    
+    return result;
 }
 
 
 /**********************************************************
-Error fetching the major categories
+Checks if the argument is either null or an empty string
 **********************************************************/
-function loadMajorCategoriesError(xhr, status, error) {
-    console.log(result);
-    console.log(status);
-    console.log(error);
+function isValueNullOrEmpty(value) {
+    let result = false;
+    
+    if (value == "" || value == null) {
+        result = true;
+    }
+    
+    return result;
+}
 
+
+/**********************************************************
+Sets the eInput to invalid and displays the text as the message.
+**********************************************************/
+function setInputToInvalid(eInput, text = 'Required') {
+    $(eInput).closest('.form-group').find('.invalid-feedback').text(text);
+    $(eInput).addClass('is-invalid');
+}
+
+/**********************************************************
+Remove the .is-invalid class from an element.
+**********************************************************/
+function removeInvalidClass(eInputElement) {
+    $(eInputElement).closest('.form-group').find('.is-invalid').removeClass('is-invalid');
+} 
+
+/**********************************************************
+Actions to take if the create product request was successful.
+**********************************************************/
+function submitFormEventSuccess(response, status, xhr) {
+    const productPageUrl = `product.php?product_id=${response.id}`;
+    window.location.href = productPageUrl;
     enableSubmitButton();
-    Utilities.displayAlert('Error loading major categories');
-}
-
-
-/**********************************************************
-Update the minor categories to show the ones that belong 
-to the selected major category.
-**********************************************************/
-function loadMinorCategoriesSuccess(result,status,xhr) {
-    let html = '';
-    for (minorCategory of result) {
-        html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
-    }
-
-    $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
 }
 
 /**********************************************************
-Load the sub categories based on the minor category
+Actions to take if the create product request was not successful.
 **********************************************************/
-function loadSubCategoriesSuccess(result, status, xhr) {
-    let html = '';
-    for (subCategory of result) {
-        html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
-    }
+function submitFormEventError(xhr, status, error) {
+    Utilities.displayAlert('There was an error. Please try again.');
 
-    $(eInputs.categorySub).prop('disabled', false).html(html).val('');
+    console.error('submitFormEventError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+    
+    enableSubmitButton();
+}
+
+/**********************************************************
+Disable the submit button and add a spinner.
+**********************************************************/
+function disableSubmitButton() {
+    $(eButtons.submit).prepend(CommonHtml.spinnerSmall + '&nbsp;&nbsp;').prop('disabled', true);
+}
+
+/**********************************************************
+Enable the submit button
+**********************************************************/
+function enableSubmitButton() {
+    $(eButtons.submit).html('Create product').prop('disabled', false);
 }

@@ -1,8 +1,6 @@
 
+LocalStorage.validateStatus();  // be sure the user is logged in
 
-if (!LocalStorage.isUserIDSet()) {
-    window.location.href = 'login.php';
-}
 
 
 // main logic
