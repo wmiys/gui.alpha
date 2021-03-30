@@ -1,6 +1,4 @@
-LocalStorage.validateStatus();
-
-
+LocalStorage.validateStatus();  // be sure user is loggen in
 
 /**********************************************************
 Module variables
@@ -193,8 +191,10 @@ function loadSubCategoriesSuccess(result, status, xhr) {
 Actions to take to send the create prodcut request.
 **********************************************************/
 function submitFormEvent() {    
+    disableSubmitButton();
     
     if (!validateForm()) {
+        enableSubmitButton();
         alert('Please complete the required inputs');
         return;
     }
@@ -213,28 +213,6 @@ function submitFormEvent() {
     
     ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
-
-
-/**********************************************************
-Actions to take if the create product request was successful.
-**********************************************************/
-function submitFormEventSuccess(response, status, xhr) {
-    const productPageUrl = `product.php?product_id=${response.id}`;
-    window.location.href = productPageUrl;
-}
-
-/**********************************************************
-Actions to take if the create product request was not successful.
-**********************************************************/
-function submitFormEventError(xhr, status, error) {
-    Utilities.displayAlert('There was an error. Please try again.');
-
-    console.error('submitFormEventError');
-    console.error(xhr);
-    console.error(status);
-    console.error(error);    
-}
-
 
 
 /**********************************************************
@@ -438,3 +416,40 @@ Remove the .is-invalid class from an element.
 function removeInvalidClass(eInputElement) {
     $(eInputElement).closest('.form-group').find('.is-invalid').removeClass('is-invalid');
 } 
+
+/**********************************************************
+Actions to take if the create product request was successful.
+**********************************************************/
+function submitFormEventSuccess(response, status, xhr) {
+    const productPageUrl = `product.php?product_id=${response.id}`;
+    window.location.href = productPageUrl;
+    enableSubmitButton();
+}
+
+/**********************************************************
+Actions to take if the create product request was not successful.
+**********************************************************/
+function submitFormEventError(xhr, status, error) {
+    Utilities.displayAlert('There was an error. Please try again.');
+
+    console.error('submitFormEventError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+    
+    enableSubmitButton();
+}
+
+/**********************************************************
+Disable the submit button and add a spinner.
+**********************************************************/
+function disableSubmitButton() {
+    $(eButtons.submit).prepend(CommonHtml.spinnerSmall + '&nbsp;&nbsp;').prop('disabled', true);
+}
+
+/**********************************************************
+Enable the submit button
+**********************************************************/
+function enableSubmitButton() {
+    $(eButtons.submit).html('Create product').prop('disabled', false);
+}

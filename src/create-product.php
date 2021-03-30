@@ -179,7 +179,7 @@
 
                     <div class="form-new-product-step-btns">
                         <button type="button" data-page-location="5" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-success form-new-product-btn-submit">Submit</button>
+                        <button type="button" class="btn btn-success form-new-product-btn-submit">Create product</button>
                     </div>
 
                 </div>
