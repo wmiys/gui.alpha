@@ -1,5 +1,7 @@
 LocalStorage.validateStatus();
 
+
+
 /**********************************************************
 Module variables
 **********************************************************/
@@ -40,6 +42,7 @@ const eTabs    = $('.form-new-product-tabs');
 const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
 
+
 /**********************************************************
 Main logic
 **********************************************************/
@@ -71,6 +74,11 @@ function addEventListeners() {
     
     $(eButtons.submit).on('click', function() {
         submitFormEvent();
+    });
+
+
+    $(cInputs).on('keydown change', function() {
+        removeInvalidClass(this);
     });
 }
 
@@ -147,9 +155,9 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
 Error fetching the major categories
 **********************************************************/
 function loadMajorCategoriesError(xhr, status, error) {
-    console.log(result);
-    console.log(status);
-    console.log(error);
+    console.error(result);
+    console.error(status);
+    console.error(error);
     
     enableSubmitButton();
     Utilities.displayAlert('Error loading major categories');
@@ -184,17 +192,14 @@ function loadSubCategoriesSuccess(result, status, xhr) {
 /**********************************************************
 Actions to take to send the create prodcut request.
 **********************************************************/
-function submitFormEvent() {
+function submitFormEvent() {    
     
     if (!validateForm()) {
-        alert('Invalid');
-        return;
-    } else {
-        alert('Valid');
+        alert('Please complete the required inputs');
         return;
     }
     
-    const values = getInputValues();
+    const values = getInputValues();    
     let formData = new FormData();
     
     formData.append("name", values.name);
@@ -274,14 +279,15 @@ Check if the sub category input has a value
 **********************************************************/
 function validateInputCategorySub() {
     const value = $(eInputs.categorySub).val();
+
+    let result = true;
     
     if (isValueNullOrEmpty(value)) {
-        setInputToInvalid($(eInputs.categorySub), 'Required');
-        
-        return false;
+        setInputToInvalid($(eInputs.categorySub), 'Required');    
+        result = false;
     }
     
-    return true;
+    return result;
 }
 
 /**********************************************************
@@ -402,3 +408,10 @@ function setInputToInvalid(eInput, text = 'Required') {
     $(eInput).closest('.form-group').find('.invalid-feedback').text(text);
     $(eInput).addClass('is-invalid');
 }
+
+/**********************************************************
+Remove the .is-invalid class from an element.
+**********************************************************/
+function removeInvalidClass(eInputElement) {
+    $(eInputElement).closest('.form-group').find('.is-invalid').removeClass('is-invalid');
+} 
