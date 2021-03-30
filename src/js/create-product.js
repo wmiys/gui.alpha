@@ -211,8 +211,31 @@ function submitFormEvent() {
     formData.append('price_half', values.priceHalf);
     formData.append('image', $(eInputs.photos).prop('files')[0]);
     
-    // ApiWrapper.requestPostProduct(formData, console.log, console.error);
+    ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
+
+
+/**********************************************************
+Actions to take if the create product request was successful.
+**********************************************************/
+function submitFormEventSuccess(response, status, xhr) {
+    const productPageUrl = `product.php?product_id=${response.id}`;
+    window.location.href = productPageUrl;
+}
+
+/**********************************************************
+Actions to take if the create product request was not successful.
+**********************************************************/
+function submitFormEventError(xhr, status, error) {
+    Utilities.displayAlert('There was an error. Please try again.');
+
+    console.error('submitFormEventError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error);    
+}
+
+
 
 /**********************************************************
 Returns an object containing all the new prodcut form
