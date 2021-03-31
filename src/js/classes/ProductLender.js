@@ -39,18 +39,22 @@ class ProductLender {
     Generates the html for the product
     **********************************************************/
     getHtml = () => {
-
         const productPageUrl = this.getProductPageUrl();
-
         const formattedPriceFull = Utilities.toCurrencyFormat(this.price_full);
         const formattedPriceHalf = Utilities.toCurrencyFormat(this.price_half);
         const displayLocation = `${this.location_city}, ${this.location_state_id}`;
+
+
+        let imgSrc = "img/placeholder.jpg";
+        if (this.image != null) {
+            imgSrc = `http://10.0.0.82/files/api.wmiys/src/product-images/${this.image}`;
+        }
 
         let html = `
         <div class="card card-lender-product-listing mb-5" data-product-id="${this.id}">
             <div class="row no-gutters">
                 <div class="col-md-4 col-sm-12">
-                    <a href="${productPageUrl}"><img src="img/placeholder.jpg" class="card-img" alt="..."></a>
+                    <a href="${productPageUrl}"><img src="${imgSrc}" class="card-img" alt="..."></a>
                 </div>
                 <div class="col-md-8 col-sm-12">
                     <div class="card-body p-4 h-100">

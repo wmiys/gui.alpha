@@ -31,6 +31,9 @@ function displayInitialProductSkeletons(numSkeletons = 5) {
 Displays the user's products
 **********************************************************/
 function getUserProductsSuccess(response, status, xhr) {
+
+    console.log(response);
+
     let html = '';
     for (product of response) {
         const productLender = new ProductLender(product);
