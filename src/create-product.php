@@ -67,7 +67,7 @@
                     </div>
 
                     <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="1" class="btn btn-secondary form-new-product-btn-step mr-2" disabled>Previous</button>
+                        <button type="button" data-page-location="1" class="btn btn-light form-new-product-btn-step mr-2" disabled>Previous</button>
                         <button type="button" data-page-location="2" class="btn btn-primary form-new-product-btn-step">Next</button>
                     </div>
                 </div>
