@@ -9,7 +9,8 @@ $(document).ready(function() {
 });
 
 
-function displayUserData(response, status, xhr) {    
+function displayUserData(response, status, xhr) {  
+      
     let html = `
     <li>First name: ${response.name_first}</li>
     <li>Last name:  ${response.name_last}</li>

@@ -63,3 +63,35 @@ body {
     background-position: right calc(.375em + .1875rem) center;
     background-size: calc(.75em + .375rem) calc(.75em + .375rem);
 }
+
+
+.no-focus-outline:focus {
+    box-shadow: none;
+}
+
+
+.card-lender-product-listing {
+    .card-img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .dropdown i {
+        font-size: 24px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
+
+.rating-star {
+    color: grey;
+}
+
+.rating-star-filled {
+    color: gold;
+}

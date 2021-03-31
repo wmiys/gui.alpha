@@ -20,3 +20,5 @@
 <script src="js/classes/Utilities.js"></script>
 <script src="js/classes/Common-Html.js"></script>
 <script src="js/classes/API-Wrapper.js"></script>
+
+<script src="js/classes/UserProduct.js"></script>

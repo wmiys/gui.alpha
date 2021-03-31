@@ -20,4 +20,13 @@ class Utilities {
         const isValid = $(formElement)[0].reportValidity();
         return isValid;
     }
+
+    /************************************************
+    Transform a float to a currency with commas
+    *************************************************/
+    static toCurrencyFormat(numberToFormat) {
+        let result = '$' + numberToFormat.toLocaleString();
+
+        return result;
+    }
 }

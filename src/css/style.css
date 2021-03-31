@@ -55,4 +55,29 @@ body {
   background-size: calc(.75em + .375rem) calc(.75em + .375rem);
 }
 
+.no-focus-outline:focus {
+  box-shadow: none;
+}
+
+.card-lender-product-listing .card-img {
+  height: 100%;
+  object-fit: cover;
+}
+.card-lender-product-listing .dropdown i {
+  font-size: 24px;
+}
+.card-lender-product-listing .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.rating-star {
+  color: grey;
+}
+
+.rating-star-filled {
+  color: gold;
+}
+
 /*# sourceMappingURL=style.css.map */
