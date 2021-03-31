@@ -178,8 +178,27 @@ class ApiWrapper
             success: fnSuccess,
             error: fnError,
         });
-
     }
+
+    /**********************************************************
+    Send a GET request to fetch all of a user's products
+    **********************************************************/
+    static requestGetUserProducts(fnSuccess = console.log, fnError=console.error) {
+        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
+        
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+
 
     /**********************************************************
     Checks if an object contains all the fields in a list

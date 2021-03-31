@@ -7,6 +7,9 @@
 
 <!-- <link rel="stylesheet" href="css/external/directory.css" /> -->
 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!-- boxicons -->
 <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet' />
 
@@ -20,6 +23,12 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- select2 bootstrap4 theme: https://github.com/ttskch/select2-bootstrap4-theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
+
+
+<!-- skeletons: https://skeleton-elements.dev/ -->
+<link rel="stylesheet" href="css/external/skeleton-elements.css">
+
+
 
 <!-- personal css -->
 <link rel="stylesheet" type="text/css" href="css/style.css" />

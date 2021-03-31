@@ -20,4 +20,10 @@ class Utilities {
         const isValid = $(formElement)[0].reportValidity();
         return isValid;
     }
+
+    static toCurrencyFormat(numberToFormat) {
+        let result = '$' + numberToFormat.toLocaleString();
+
+        return result;
+    }
 }

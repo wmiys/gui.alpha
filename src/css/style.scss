@@ -65,15 +65,33 @@ body {
 }
 
 
-
-
-.user-products {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+.no-focus-outline:focus {
+    box-shadow: none;
 }
 
-.card-user-product {
-    width: 18rem;
-    margin: 10px;
+
+.card-lender-product-listing {
+    .card-img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .dropdown i {
+        font-size: 24px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
+
+.rating-star {
+    color: grey;
+}
+
+.rating-star-filled {
+    color: gold;
 }
