@@ -1,4 +1,27 @@
+body {
+  font-family: "Karla", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: "Rubik", sans-serif;
+}
+
 .card {
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.my-shadow {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.18);
 }
 
@@ -12,6 +35,18 @@ body {
 
 .form-new-product-step-btns {
   margin-top: 40px;
+}
+
+.btn-text-primary {
+  color: #f62dae;
+}
+
+.btn-text-secondary {
+  color: #7189ff;
+}
+
+.btn-text-light {
+  color: darkgrey;
 }
 
 @media screen and (max-width: 768px) {

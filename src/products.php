@@ -17,7 +17,7 @@
             </div>
 
             <div class="col-md-4">
-                <a href="create-product.php" role="button" class="btn btn-sm btn-outline-primary float-right">Create new product</a>
+                <a href="create-product.php" role="button" class="btn btn-primary float-right">Create new product</a>
             </div>
         </div>
 

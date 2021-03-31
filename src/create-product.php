@@ -66,9 +66,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="1" class="btn btn-light form-new-product-btn-step mr-2" disabled>Previous</button>
-                        <button type="button" data-page-location="2" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="1" class="btn btn-text-light form-new-product-btn-step mr-2" disabled><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" data-page-location="2" class="btn btn-text-primary form-new-product-btn-step">Next <i class='bx bx-right-arrow-alt'></i></button>
                     </div>
                 </div>
 
@@ -86,9 +86,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="1" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" data-page-location="3" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="1" class="btn btn-text-light form-new-product-btn-step mr-2"><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" data-page-location="3" class="btn btn-text-primary form-new-product-btn-step">Next <i class='bx bx-right-arrow-alt'></i></button>
                     </div>
                 </div>
 
@@ -96,9 +96,9 @@
                 <div class="tab-pane fade" id="form-new-product-page-renter-info">
                     <p class="mt-5">Placeholder for all the shit we are going to display to the lender about the renters.</p>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="2" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" data-page-location="4" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="2" class="btn btn-text-light form-new-product-btn-step mr-2"><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" data-page-location="4" class="btn btn-text-primary form-new-product-btn-step">Next <i class='bx bx-right-arrow-alt'></i></button>
                     </div>
                 </div>
 
@@ -116,9 +116,9 @@
                     <hr class="mt-5">
                     <p>We can put tips and advice here for selecting good, quality photos.</p>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="3" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" data-page-location="5" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="3" class="btn btn-text-light form-new-product-btn-step mr-2"><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" data-page-location="5" class="btn btn-text-primary form-new-product-btn-step">Next <i class='bx bx-right-arrow-alt'></i></button>
                     </div>
                 </div>
 
@@ -138,9 +138,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="4" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" data-page-location="6" class="btn btn-primary form-new-product-btn-step">Next</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="4" class="btn btn-text-light form-new-product-btn-step mr-2"><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" data-page-location="6" class="btn btn-text-primary form-new-product-btn-step">Next <i class='bx bx-right-arrow-alt'></i></button>
                     </div>
 
                 </div>
@@ -177,9 +177,9 @@
                         <div class="invalid-feedback">Invalid feedback text</div>
                     </div>
 
-                    <div class="form-new-product-step-btns">
-                        <button type="button" data-page-location="5" class="btn btn-secondary form-new-product-btn-step mr-2">Previous</button>
-                        <button type="button" class="btn btn-success form-new-product-btn-submit">Create product</button>
+                    <div class="form-new-product-step-btns d-flex justify-content-center">
+                        <button type="button" data-page-location="5" class="btn btn-text-light form-new-product-btn-step mr-2"><i class='bx bx-arrow-back'></i> Previous</button>
+                        <button type="button" class="btn btn-primary form-new-product-btn-submit">Create product</button>
                     </div>
 
                 </div>

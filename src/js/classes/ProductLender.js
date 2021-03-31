@@ -86,15 +86,15 @@ class ProductLender {
                         <div class="row">
                             <div class="col-sm-12 col-md-4">
                                 <div><small class="text-muted font-weight-light">Full Day</small></div>
-                                <div class="h5 text-primary">${formattedPriceFull}</div>
+                                <div class="h5 text-secondary">${formattedPriceFull}</div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div><small class="text-muted font-weight-light">Half Day</small></div>
-                                <div class="h5 text-primary">${formattedPriceHalf}</div>
+                                <div class="h5 text-secondary">${formattedPriceHalf}</div>
                             </div>
                             <div class="col-sm-12 col-md-4">
                                 <div><small class="text-muted font-weight-light">Category</small></div>
-                                <div class="h5 text-primary">${this.product_categories_sub_name}</div>
+                                <div class="h5 text-secondary">${this.product_categories_sub_name}</div>
                             </div>
                         </div>
                     </div>

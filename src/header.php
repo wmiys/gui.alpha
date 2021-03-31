@@ -7,6 +7,12 @@
 <link rel="stylesheet" type="text/css" href="css/external/bootstrap-custom/bootstrap-custom.css" />
 
 
+<!-- custom font body -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Karla&family=Rubik:wght@500&display=swap" rel="stylesheet">
+
+
+
 <!-- boxicons -->
 <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet' />
 
