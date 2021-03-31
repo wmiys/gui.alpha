@@ -5,9 +5,6 @@
 <!-- bootstrap -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous" />
 
-<!-- <link rel="stylesheet" href="css/external/directory.css" /> -->
-
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- boxicons -->
@@ -24,11 +21,8 @@
 <!-- select2 bootstrap4 theme: https://github.com/ttskch/select2-bootstrap4-theme -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 
-
 <!-- skeletons: https://skeleton-elements.dev/ -->
 <link rel="stylesheet" href="css/external/skeleton-elements.css">
-
-
 
 <!-- personal css -->
 <link rel="stylesheet" type="text/css" href="css/style.css" />

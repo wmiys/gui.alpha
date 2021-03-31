@@ -1,13 +1,21 @@
 
+/**********************************************************
+Module variables
+**********************************************************/
 const eListings = $('#lender-product-listings');
 
-
+/**********************************************************
+Main logic
+**********************************************************/
 $(document).ready(function() {
     displayInitialProductSkeletons(3);
     ApiWrapper.requestGetUserProducts(getUserProductsSuccess, console.error);
 });
 
 
+/**********************************************************
+Displays a specified number of product card skeletons
+**********************************************************/
 function displayInitialProductSkeletons(numSkeletons = 5) {
     let html = '';
 
@@ -19,6 +27,9 @@ function displayInitialProductSkeletons(numSkeletons = 5) {
 }
 
 
+/**********************************************************
+Displays the user's products
+**********************************************************/
 function getUserProductsSuccess(response, status, xhr) {
     let html = '';
     for (product of response) {
@@ -27,8 +38,6 @@ function getUserProductsSuccess(response, status, xhr) {
     }
 
     $(eListings).html(html);
-
-
 }
 
 

@@ -21,6 +21,7 @@
             </div>
         </div>
 
+        <!-- where all the products will be displayed -->
         <div id="lender-product-listings"></div>
 
 

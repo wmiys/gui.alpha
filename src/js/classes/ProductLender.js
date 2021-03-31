@@ -1,9 +1,10 @@
 
 
-
-
 class ProductLender {
     
+    /**********************************************************
+    Constructor
+    **********************************************************/
     constructor(a_apiResponse) {
         this.created_on                  = null;
         this.description                 = null;
@@ -34,6 +35,9 @@ class ProductLender {
         
     }
 
+    /**********************************************************
+    Generates the html for the product
+    **********************************************************/
     getHtml = () => {
 
         const productPageUrl = this.getProductPageUrl();
@@ -98,12 +102,9 @@ class ProductLender {
     }
 
 
-    getProductPageUrl = () => {
-        return `product.php?product_id=${this.id}`;
-    }
-    
-    
-
+    /**********************************************************
+    Generates a skeleton card html element
+    **********************************************************/
     static getHtmlSkeleton() {
         let html = `
         <div class="card card-lender-product-listing mb-5">
@@ -144,6 +145,13 @@ class ProductLender {
         </div>`;
 
         return html;
+    }
+
+    /**********************************************************
+    Generates the url to the product page
+    **********************************************************/
+    getProductPageUrl = () => {
+        return `product.php?product_id=${this.id}`;
     }
     
 }
