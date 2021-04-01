@@ -47,6 +47,10 @@ body {
     margin-top: 40px;
 }
 
+.form-new-product .progress {
+    height: 10px;
+}
+
 
 .btn-text-primary {
     color: $primary;
@@ -144,23 +148,12 @@ body {
 
 #coming-soon {
     background-image: url('../img/coming-soon-bg-img.jpg');
-    // filter: blur(5px);
     backdrop-filter: grayscale(1);
-        /* Full-screen */
-        height: 100%;
-    /* Center the background image */
+    height: 100%;
     background-position: center;
-    /* Scale and zoom in the image */
     background-size: cover;
-    /* Add position: relative to enable absolutely positioned elements inside the image (place text) */
     position: relative;
-    /* Add a white text color to all elements inside the .bgimg container */
     color: white;
-    /* Add a font */
-    // font-family: "Courier New", Courier, monospace;
-    /* Set the font-size to 25 pixels */
-    // font-size: 25px;
-
 
     .middle {
         position: absolute;
@@ -170,4 +163,11 @@ body {
         text-align: center;
         // filter: blur(0px);
     }
+}
+
+.subtitle {
+    margin-bottom: 0;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 700;
 }

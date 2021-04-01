@@ -36,6 +36,8 @@ const eButtons = {
 // form tabs
 const eTabs    = $('.form-new-product-tabs');
 
+const eProgressBar = $('.progress .progress-bar');
+
 // classes
 const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
@@ -90,6 +92,11 @@ data-page-location attribute.
 function stepToFormPage(a_eBtnStep) {
     const destinationPageNumber = $(a_eBtnStep).attr('data-page-location');
     $(eTabs).find(`li:nth-child(${destinationPageNumber}) a`).tab('show');
+
+    // set the progress bar width - target page number / total number of pages (6)
+    const numTabs = $(eTabs).find('.nav-link').length;
+    const newProgressWidth = (destinationPageNumber / numTabs) * 100;
+    $(eProgressBar).width(`${newProgressWidth}%`);
 }
 
 /**********************************************************
@@ -451,5 +458,5 @@ function disableSubmitButton() {
 Enable the submit button
 **********************************************************/
 function enableSubmitButton() {
-    $(eButtons.submit).html('Create product').prop('disabled', false);
+    $(eButtons.submit).html('Finish').prop('disabled', false);
 }
