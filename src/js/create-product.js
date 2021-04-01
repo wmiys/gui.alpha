@@ -223,10 +223,8 @@ function submitFormEvent() {
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
     formData.append('image', $(eInputs.photos).prop('files')[0]);
-
     
-    
-    // ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
+    ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
 
 
@@ -438,7 +436,7 @@ Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
     const productPageUrl = `product.php?product_id=${response.id}`;
-    window.location.href = productPageUrl;
+    window.location.href = 'products.php';
     enableSubmitButton();
 }
 
