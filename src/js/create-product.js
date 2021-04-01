@@ -153,6 +153,7 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
     }
     
     $(eInputs.categoryMajor).prop('disabled', false).html(html);
+    $(eInputs.categoryMajor).selectpicker('refresh');
 }
 
 
@@ -180,6 +181,7 @@ function loadMinorCategoriesSuccess(result,status,xhr) {
     }
     
     $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
+    $(eInputs.categoryMinor).selectpicker('refresh');
 }
 
 /**********************************************************
@@ -192,6 +194,7 @@ function loadSubCategoriesSuccess(result, status, xhr) {
     }
     
     $(eInputs.categorySub).prop('disabled', false).html(html).val('');
+    $(eInputs.categorySub).selectpicker('refresh');
 }
 
 /**********************************************************
@@ -199,6 +202,9 @@ Actions to take to send the create prodcut request.
 **********************************************************/
 function submitFormEvent() {    
     disableSubmitButton();
+
+    const values = getInputValues(); 
+    console.log(values);
     
     if (!validateForm()) {
         enableSubmitButton();
@@ -206,7 +212,7 @@ function submitFormEvent() {
         return;
     }
     
-    const values = getInputValues();    
+       
     let formData = new FormData();
     
     formData.append("name", values.name);
@@ -217,8 +223,10 @@ function submitFormEvent() {
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
     formData.append('image', $(eInputs.photos).prop('files')[0]);
+
     
-    ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
+    
+    // ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
 
 
@@ -290,8 +298,9 @@ function validateInputCategorySub() {
 
     let result = true;
     
-    if (isValueNullOrEmpty(value)) {
-        setInputToInvalid($(eInputs.categorySub), 'Required');    
+    if (isValueNullOrEmpty(value)) {        
+        $(eInputs.categorySub).closest('.form-group').find('.invalid-feedback').text('Required');
+        $(eInputs.categorySub).closest('.bootstrap-select').addClass('is-invalid');
         result = false;
     }
     
