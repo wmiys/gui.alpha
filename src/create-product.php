@@ -62,7 +62,7 @@
                             <!-- major -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-major">Major</label>
-                                <select class="form-control form-new-product-input" id="form-new-product-input-category-major" required>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-major" required>
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
@@ -70,7 +70,7 @@
                             <!-- minor -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-minor">Minor</label>
-                                <select class="form-control form-new-product-input" id="form-new-product-input-category-minor" required disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-minor" required disabled>
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
@@ -78,7 +78,7 @@
                             <!-- sub -->
                             <div class="form-group mb-3">
                                 <label for="form-new-product-input-category-sub">Sub</label>
-                                <select class="form-control form-new-product-input" id="form-new-product-input-category-sub" required disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-sub" required disabled>
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
