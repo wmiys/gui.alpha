@@ -23,12 +23,15 @@ class ApiWrapper
         }
         
         $.ajax({
-            // headers: {"X-USER-ID" :  m_User.userID},
-            url: ApiWrapper.URL_USERS,
+            url: ApiWrapper.URLS.USERS,
             type: ApiWrapper.REQUEST_TYPES.POST,
             data: userInfoStruct,
-            success: fnSuccess,
-            error: fnError,
+            success: function(result,status,xhr) {
+                fnSuccess(result, status, xhr);
+            },
+            error: function() {
+                fnError(xhr, status, error);
+            },
         });
     }
     
@@ -54,7 +57,6 @@ class ApiWrapper
         }
         
         $.ajax({
-            // headers: {"X-USER-ID" :  m_User.userID},
             url: ApiWrapper.URLS.LOGIN,
             type: ApiWrapper.REQUEST_TYPES.GET,
             data: loginStruct,
@@ -75,13 +77,11 @@ class ApiWrapper
     **********************************************************/
     static requestGetUser(userID, fnSuccess, fnError) {
         $.ajax({
-            // username: userEmail,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
             },
             url: ApiWrapper.URLS.USERS + '/' + userID,
             type: ApiWrapper.REQUEST_TYPES.GET,
-            // data: userInfoStruct,
             success: fnSuccess,
             error: fnError,
         });
@@ -121,7 +121,6 @@ class ApiWrapper
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor`;
 
         $.ajax({
-            // username: userEmail,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
             },
@@ -185,7 +184,6 @@ class ApiWrapper
         const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
         
         $.ajax({
-            // username: userEmail,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
             },
