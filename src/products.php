@@ -9,16 +9,10 @@
 <body>
     <?php include('navbar.php'); ?>
     <div class="container">
-        
 
-        <div class="row align-items-center mt-5 mb-3">
-            <div class="col-md-8">
-                <h2>Your products</h2>
-            </div>
-
-            <div class="col-md-4">
-                <a href="create-product.php" role="button" class="btn btn-primary float-right">Create new product</a>
-            </div>
+        <div class="toolbar mt-5 mb-3">
+            <h2>Your products</h2>
+            <a href="create-product.php" role="button" class="btn btn-primary">Create new product</a>
         </div>
 
         <!-- where all the products will be displayed -->

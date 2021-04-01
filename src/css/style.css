@@ -143,4 +143,19 @@ body {
   font-weight: 700;
 }
 
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
