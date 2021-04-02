@@ -38,7 +38,7 @@ class ProductLender {
     /**********************************************************
     Generates the html for the product
     **********************************************************/
-    getHtml = () => {
+    getHtml() {
         const productPageUrl = this.getProductPageUrl();
         const formattedPriceFull = Utilities.toCurrencyFormat(this.price_full);
         const formattedPriceHalf = Utilities.toCurrencyFormat(this.price_half);
@@ -154,7 +154,7 @@ class ProductLender {
     /**********************************************************
     Generates the url to the product page
     **********************************************************/
-    getProductPageUrl = () => {
+    getProductPageUrl() {
         return `product.php?product_id=${this.id}`;
     }
     
