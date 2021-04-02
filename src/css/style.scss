@@ -3,10 +3,8 @@ $secondary: #7189ff;
 $light: #f4f4f8;
 
 
-$custom-font-normal: 'Karla',
-sans-serif;
-$custom-font-header: 'Rubik',
-sans-serif;
+$custom-font-normal: 'Karla', sans-serif;
+$custom-font-header: 'Rubik', sans-serif;
 
 body {
     font-family: $custom-font-normal;
@@ -187,4 +185,11 @@ body {
         justify-content: flex-start;
         align-items: flex-start;
     }
+}
+
+.img-profile-pic {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
 }

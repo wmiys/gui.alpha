@@ -17,8 +17,12 @@
 <!-- bootstrap select -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
 
+<!-- luxon: https://moment.github.io/luxon/index.htm -->
+<script src="https://cdn.jsdelivr.net/npm/luxon@1.25.0/build/global/luxon.min.js"></script>
+
 
 <!-- custom js files -->
+<script src="js/classes/GlobalConstants.js"></script>
 <script src="js/classes/LocalStorage.js"></script>
 <script src="js/api-base-url.js"></script>
 <script src="js/classes/Utilities.js"></script>
