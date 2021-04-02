@@ -16,9 +16,7 @@
         </div>
 
         <!-- where all the products will be displayed -->
-        <div id="lender-product-listings"></div>
-
-
+        <div id="lender-product-listings" class="mt-4"></div>
     </div>
 
 

@@ -8,6 +8,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" id="nav-item-home" href="home.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" id="nav-item-test" href="products.php">Your products</a></li>
+                    <li class="nav-item"><a class="nav-link" id="nav-item-test" href="account-settings.php">Settings</a></li>
                     <li class="nav-item"><a class="nav-link" id="nav-item-new-event" href="login.php">Logout</a></li>
                 </ul>
 

@@ -11,12 +11,23 @@
     <div class="container">
 
 
-        <h1 class="mt-5 text-center">WMIYS - home page</h1>
-        <p class="text-center"><small>Suck my clam - Chis Yerkes</small></p>
+        <h1 class="mt-5 text-center">What's mine is yours</h1>
 
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class='bx bx-search'></i></span>
+                        </div>
+                        <input type="text" class="form-control form-control-lg" placeholder="What are you searching for?">
+                    </div>
 
-        <ul class="info-list">
-        </ul>
+                    <button type="button" class="btn btn-lg btn-primary ml-3">Search</button>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
