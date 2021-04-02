@@ -54,7 +54,7 @@ class ProductLender {
         <div class="card card-lender-product-listing mb-5" data-product-id="${this.id}">
             <div class="row no-gutters">
                 <div class="col-md-4 col-sm-12">
-                    <a href="${productPageUrl}"><img src="${imgSrc}" class="card-img" alt="..."></a>
+                    <a href="${productPageUrl}" class="d-flex flex-column h-100 justify-content-center"><img src="${imgSrc}" class="img-fluid mx-auto d-block" height="200px" alt="..."></a>
                 </div>
                 <div class="col-md-8 col-sm-12">
                     <div class="card-body p-4 h-100">
