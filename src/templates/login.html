@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php include('header.php'); ?>
+    {% include 'header.html'  %}
     <title>Log in | WMIYS</title>
 </head>
 
@@ -30,8 +30,8 @@
                         <!-- submit button -->
                         <button type="button" class="btn btn-sm btn-block btn-primary" id="form-login-submit">Log in</button>
 
-                        <p class="text-center mt-2"><a href="create-account.php">Create an account</a></p>
-                        
+                        <p class="text-center mt-2"><a href="/create-account">Create an account</a></p>
+
                     </form>
                 </div>
             </div>
@@ -39,9 +39,8 @@
 
     </div>
 
-
-    <?php include('footer.php'); ?>
-    <script src="js/login.js"></script>
+    {% include 'footer.html' %}
+    <script src="static/js/login.js"></script>
 </body>
 
 </html>

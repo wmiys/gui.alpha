@@ -1,5 +1,5 @@
 // Page elements
-const e_formLogin = $('#form-login');
+const e_formLogin         = $('#form-login');
 const e_inputEmail        = $('#form-login-email');
 const e_inputPassword     = $('#form-login-password');
 const e_btnSubmit         = $('#form-login-submit');
@@ -76,7 +76,7 @@ function loginSuccess(result,status,xhr) {
     LocalStorage.setEmail(result.email);
     LocalStorage.setPassword(values.password);
 
-    window.location.href = 'home.php';
+    window.location.href = '/';
 }
 
 /**********************************************************
