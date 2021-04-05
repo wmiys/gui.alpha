@@ -436,8 +436,8 @@ function removeInvalidClass(eInputElement) {
 Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
-    const productPageUrl = `product.php?product_id=${response.id}`;
-    window.location.href = 'products.php';
+    // const productPageUrl = `product.php?product_id=${response.id}`;
+    window.location.href = '/products';
     enableSubmitButton();
 }
 

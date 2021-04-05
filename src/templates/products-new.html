@@ -2,16 +2,14 @@
 <html lang="en">
 
 <head>
-    <?php include('header.php'); ?>
+    {% include 'header.html' %}
     <title>Create a new product</title>
 </head>
 
 <body>
-    <?php include('navbar.php'); ?>
+    {% include 'navbar.html' %}
 
     <div class="container pb-3">
-
-        <!-- <h1 class="text-center mt-5">New Product</h1> -->
 
         <form class="form-new-product mt-5">
 
@@ -332,8 +330,8 @@
     </div>
 
 
-    <?php include('footer.php'); ?>
-    <script src="js/create-product.js"></script>
+    {% include 'footer.html' %}
+    <script src="/static/js/create-product.js"></script>
 
 </body>
 

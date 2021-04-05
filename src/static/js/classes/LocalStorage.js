@@ -146,7 +146,7 @@ class LocalStorage {
     Checks to be sure the user is properly logged in.
     If not, redirect them to the argument passed in.
     **********************************************************/
-    static validateStatus(redirectLocation = 'login.php') {
+    static validateStatus(redirectLocation = '/login') {
         if (!LocalStorage.areCredentialsSet()) {
             window.location.href = redirectLocation;
         }
