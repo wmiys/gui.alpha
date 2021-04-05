@@ -17,10 +17,10 @@
 
             <ul class="nav nav-pills nav-fill form-new-product-tabs d-none" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link active" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
+                    <a class="nav-link" data-toggle="tab" href="#form-new-product-page-category" role="tab">Category</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <a class="nav-link " data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
+                    <a class="nav-link active " data-toggle="tab" href="#form-new-product-page-location" role="tab">Location</a>
                 </li>
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" data-toggle="tab" href="#form-new-product-page-renter-info" role="tab">Renter Info</a>
@@ -44,7 +44,7 @@
 
             <div class="tab-content form-new-product-pages">
                 <!-- category -->
-                <div class="tab-pane show active" id="form-new-product-page-category">
+                <div class="tab-pane" id="form-new-product-page-category">
                     <!-- panel heading -->
                     <div class="d-flex flex-column flex-md-row justify-content-md-between">
                         <h2>Categories</h2>
@@ -93,17 +93,18 @@
                 </div>
 
                 <!-- location -->
-                <div class="tab-pane" id="form-new-product-page-location">
+                <div class="tab-pane show active" id="form-new-product-page-location">
                     <div class="d-flex flex-column flex-md-row justify-content-md-between">
                         <h2>Location</h2>
                         <h2 class="text-muted">Step 2</h2>
                     </div>
                     <hr>
 
+                    <!-- city and state -->
                     <div class="row mt-5">
                         <div class="col-lg-4">
-                            <h4>Pick up location</h4>
-                            <p class="text-muted text-sm">Where should renters pick up your product?</p>
+                            <h4>Location</h4>
+                            <p class="text-muted text-sm">Where are you storing your product?</p>
                         </div>
 
                         <div class="col-lg-8">
@@ -118,6 +119,23 @@
 
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small>The exact address won’t be shared until the guest’s reservation is confirmed.</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+
+                    <!-- dropoff distance -->
+                    <div class="row mt-5">
+                        <div class="col-lg-4">
+                            <h4>Dropoff distance</h4>
+                            <p class="text-muted text-sm">How many miles will you drive to dropoff your product?</p>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <label for="form-new-product-input-dropoff-distance">Number of miles</label>
+                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal" required>
+                                <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
                     </div>
