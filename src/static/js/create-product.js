@@ -1,4 +1,4 @@
-LocalStorage.validateStatus();  // be sure user is loggen in
+// LocalStorage.validateStatus();  // be sure user is loggen in
 
 /**********************************************************
 Module variables
