@@ -16,7 +16,64 @@
         </div>
 
         <!-- where all the products will be displayed -->
-        <div id="lender-product-listings" class="mt-4"></div>
+        <div id="lender-product-listings" class="mt-4">
+            
+            {% for product in products %}
+                <div class="card card-lender-product-listing mb-5" data-product-id="{{ product.id }}">
+                    <div class="row no-gutters">
+                        <div class="col-md-4 col-sm-12">
+                            <a href="/products/{{ product.id }}" class="d-flex flex-column h-100 justify-content-center"><img src="http://10.0.0.82/files/api.wmiys/src/product-images/{{ product.image }}" class="img-fluid mx-auto d-block" height="200px" alt="..."></a>
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="card-body p-4 h-100">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h4 class="card-lender-product-detail">{{ product.name }}</h4>
+                
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm no-focus-outline" type="button" data-toggle="dropdown">
+                                            <i class='bx bx-dots-horizontal-rounded'></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#">Details</a>
+                                            <a class="dropdown-item" href="#">View Listing</a>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <p class="card-text text-muted">{{ product.location_city }}, {{ product.location_state_id }}</p>
+                
+                                <div class="product-rating mb-2">
+                                    <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                    <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                    <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                    <i class='bx bxs-star-half rating-star rating-star-filled'></i>
+                                    <i class='bx bxs-star rating-star'></i>
+                                    <span class="badge badge-pill badge-dark ml-2">3.6</span>
+                                </div>
+                
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-4">
+                                        <div><small class="text-muted font-weight-light">Full Day</small></div>
+                                        <div class="h5 text-secondary">${{ product.price_full }}</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4">
+                                        <div><small class="text-muted font-weight-light">Half Day</small></div>
+                                        <div class="h5 text-secondary">${{ product.price_full }}</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4">
+                                        <div><small class="text-muted font-weight-light">Category</small></div>
+                                        <div class="h5 text-secondary">{{ product.product_categories_sub_name }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+
+        </div>
     </div>
 
 

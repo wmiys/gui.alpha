@@ -78,7 +78,13 @@ def createAccount():
 @app.route('/products')
 @login_required
 def products():
-    return flask.render_template('products.html')
+    apiResponse = apiWrapper.getUserProducts()
+
+    if apiResponse.status_code != 200:
+        pass    # error
+
+
+    return flask.render_template('products.html', products=apiResponse.json())
 
 @app.route('/products/new')
 @login_required

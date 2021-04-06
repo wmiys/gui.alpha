@@ -15,6 +15,13 @@ class ApiWrapper:
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    
+    def getUserProducts(self):
+        url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+
 
     @staticmethod
     def login(email, password):
@@ -36,6 +43,7 @@ class ApiWrapper:
     def generateApiUrl(suffix=''):
         url = "{}{}".format(ApiWrapper.URL_BASE, suffix)
         return url
+    
     
     
 
