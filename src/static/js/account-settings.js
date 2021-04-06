@@ -1,7 +1,3 @@
-// be sure the client is logged in
-LocalStorage.validateStatus();
-
-
 /************************************************
 This object represents the General Information form.
 It includes all of its inputs and buttons.
