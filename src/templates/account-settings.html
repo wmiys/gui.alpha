@@ -1,3 +1,10 @@
+
+{#
+    Input parms:
+        - userInfo
+#}
+
+
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +24,7 @@
                     <div class="card-body">
                         <div class="profile-info d-flex flex-column align-items-center">
                             <!-- profile pic -->
-                            <img src="img/placeholder.jpg" class="img-fluid img-profile-pic mb-3" alt="Profile picture">
+                            <img src="static/img/placeholder.jpg" class="img-fluid img-profile-pic mb-3" alt="Profile picture">
 
                             <!-- user name -->
                             <p class="h5">
@@ -51,7 +58,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="form-account-settings-basic-name-first">First name</label>
-                                        <input type="text" class="form-control form-account-settings-basic-input" disabled id="form-account-settings-basic-name-first" required>
+                                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-first" required value="{{ userInfo.name_first }}">
                                     </div>
                                 </div>
 
@@ -59,7 +66,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="form-account-settings-basic-name-last">Last name</label>
-                                        <input type="text" class="form-control form-account-settings-basic-input" disabled id="form-account-settings-basic-name-last" required>
+                                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-last" required value="{{ userInfo.name_last }}">
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +76,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="form-account-settings-basic-email">Email</label>
-                                        <input type="email" class="form-control form-account-settings-basic-input" disabled id="form-account-settings-basic-email" required>
+                                        <input type="email" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-email" required value="{{ userInfo.email }}">
                                     </div>
                                 </div>
 
@@ -77,12 +84,12 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label for="form-account-settings-basic-dob">Birthday</label>
-                                        <input type="date" class="form-control form-account-settings-basic-input" disabled id="form-account-settings-basic-dob" required>
+                                        <input type="date" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-dob" required value="{{ userInfo.birth_date }}">
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-primary form-account-settings-basic-btn px-4" disabled id="form-account-settings-basic-submit">Save changes</button>
+                            <button type="button" class="btn btn-primary form-account-settings-basic-btn px-4" id="form-account-settings-basic-submit">Save changes</button>
 
                         </form>
                     </div>

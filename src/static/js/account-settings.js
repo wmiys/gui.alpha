@@ -44,35 +44,7 @@ const eSideNav = {
 Main logic
 *************************************************/
 $(document).ready(function() {
-    ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayBasicFormData, console.error);
+    // ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayBasicFormData, console.error);
 
 });
 
-
-/************************************************
-Load the user's basic information into the form inputs
-*************************************************/
-function displayBasicFormData(basicUserInfo={name_first, name_last, email, dob}) {
-
-    // set the profile name
-    $(eSideNav.profileSection.nameFirst).text(basicUserInfo.name_first);
-    $(eSideNav.profileSection.nameLast).text(basicUserInfo.name_last);
-
-
-    // set the input values
-    $(eFormBasic.inputs.nameFirst).val(basicUserInfo.name_first);
-    $(eFormBasic.inputs.nameLast).val(basicUserInfo.name_last);
-    $(eFormBasic.inputs.email).val(basicUserInfo.email);
-
-    /**
-     * The date value passed in is in a MySQL timestamp format, 
-     * so we need to convert it to one that html understands
-     */
-    const dateValue = DateTime.fromRFC2822(basicUserInfo.birth_date).toISODate();
-    $(eFormBasic.inputs.dob).val(dateValue);
-
-
-    // now the user can modify their info
-    $(eFormBasic.inputClassIdentifier).prop('disabled', false);
-    $(eFormBasic.buttons.submit).prop('disabled', false);
-}

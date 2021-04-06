@@ -4,10 +4,16 @@ import requests
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
 
-
-    def __init__(self, email=None, password=None):
+    def __init__(self, userID=None, email=None, password=None):
+        self.userID = userID
         self.email = email
         self.password = password
+
+    
+    def getUser(self):
+        url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
 
 
     @staticmethod

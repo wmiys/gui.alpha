@@ -9,6 +9,7 @@ from flask_cors import CORS
 from markupsafe import escape
 import os
 from ApiWrapper import ApiWrapper
+from Utilities import Utilities
 from functools import wraps, update_wrapper
 
 app = Flask(__name__)
@@ -34,6 +35,7 @@ def login_required(f):
 
         # set the wrapper authentication members
         global apiWrapper
+        apiWrapper.userID = session.get('userID')
         apiWrapper.email = session.get('email')
         apiWrapper.password = session.get('password')
 
@@ -93,7 +95,8 @@ def productPage(product_id):
 @app.route('/account-settings')
 @login_required
 def accountSettings():
-    return flask.render_template('account-settings.html')
+    response = apiWrapper.getUser()
+    return flask.render_template('account-settings.html', userInfo=response.json())
 
 
 
