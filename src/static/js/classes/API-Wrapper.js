@@ -23,7 +23,8 @@ class ApiWrapper
         }
         
         $.ajax({
-            url: ApiWrapper.URLS.USERS,
+            // url: ApiWrapper.URLS.USERS,
+            url: '/api/create-account',
             type: ApiWrapper.REQUEST_TYPES.POST,
             data: userInfoStruct,
             success: function(result,status,xhr) {

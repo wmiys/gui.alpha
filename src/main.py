@@ -16,6 +16,10 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 CORS(app)
 
 
+apiWrapper = ApiWrapper()
+
+
+
 #************************************************************************************
 #
 #                                   Decorators
@@ -27,6 +31,11 @@ def login_required(f):
         # if user is not logged in, redirect to login page
         if not session:
             return redirect(url_for('login'))
+
+        # set the wrapper authentication members
+        global apiWrapper
+        apiWrapper.email = session.get('email')
+        apiWrapper.password = session.get('password')
 
         return f(*args, **kwargs)
 
@@ -113,6 +122,25 @@ def apiLogin():
     return ('', 200)
 
 
+@app.route('/api/create-account', methods=['POST'])
+def apiCreateAccount():
+    user_email      = request.form.get('email')
+    user_password   = request.form.get('password')
+    user_name_first = request.form.get('name_first')
+    user_name_last  = request.form.get('name_last')
+    user_birth_date = request.form.get('birth_date')
+
+    result = ApiWrapper.createAccount(email=user_email, password=user_password, name_first=user_name_first, name_last=user_name_last, birth_date=user_birth_date)
+
+    if result.status_code != 200:
+        flask.abort(result.status_code)
+
+    # set the session variables
+    flask.session['email'] = user_email
+    flask.session['password'] = user_password
+
+    return ('', 200)
+    
 
 #************************************************************************************
 #
