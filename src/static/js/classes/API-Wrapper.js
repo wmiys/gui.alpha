@@ -57,7 +57,7 @@ class ApiWrapper
         }
         
         $.ajax({
-            url: ApiWrapper.URLS.LOGIN,
+            url: '/api/login',
             type: ApiWrapper.REQUEST_TYPES.GET,
             data: loginStruct,
             success: fnSuccess,
