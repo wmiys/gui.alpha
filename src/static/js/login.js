@@ -35,6 +35,7 @@ function attemptLogin() {
     }
 
     let inputValues = getInputValues();
+    // ApiWrapper.requestLogin(inputValues, loginSuccess, loginError);
     ApiWrapper.requestLogin(inputValues, loginSuccess, loginError);
 }
 
@@ -69,6 +70,9 @@ Actions to take when the user successfully logged in
 **********************************************************/
 function loginSuccess(result,status,xhr) {
     enableSubmitButton();
+
+    // console.log(result);
+    // return;
 
     const values = getInputValues();
 

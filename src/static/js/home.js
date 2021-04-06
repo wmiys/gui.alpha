@@ -1,5 +1,5 @@
 
-LocalStorage.validateStatus();  // be sure the user is logged in
+// LocalStorage.validateStatus();  // be sure the user is logged in
 
 
 

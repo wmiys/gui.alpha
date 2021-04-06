@@ -63,23 +63,17 @@ Actions to take when the user successfully created an account
 **********************************************************/
 function createAccountSuccess(result,status,xhr) {
     enableSubmitButton();
-
-    LocalStorage.setUserID(result.id);
-    LocalStorage.setEmail(result.email);
-    LocalStorage.setPassword($(e_inputPassword).val());
-
-    window.location.href = 'home.php';
+    window.location.href = '/';
 }
 
 /**********************************************************
 Actions to take when the user unsuccessfully created an account
 **********************************************************/
 function createAccountError(xhr, status, error) {
+    enableSubmitButton();
     console.log(result);
     console.log(status);
     console.log(error);
-
-    enableSubmitButton();
     Utilities.displayAlert('Error.');
 }
 
