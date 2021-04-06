@@ -116,6 +116,9 @@ def apiLogin():
         flask.abort(result.status_code)
 
     # set the session variables
+    responseData = result.json()
+    
+    flask.session['userID'] = responseData['id']
     flask.session['email'] = userEmail
     flask.session['password'] = userPassword
 
@@ -136,6 +139,8 @@ def apiCreateAccount():
         flask.abort(result.status_code)
 
     # set the session variables
+    responseData = result.json()
+    flask.session['userID'] = responseData['id']
     flask.session['email'] = user_email
     flask.session['password'] = user_password
 
