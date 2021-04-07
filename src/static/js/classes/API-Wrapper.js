@@ -161,13 +161,9 @@ class ApiWrapper
     Send a POST request to create a new product
     **********************************************************/
     static requestPostProduct(data, fnSuccess, fnError) {
-        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
+        const url = `/api/products`;
         
         $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
             url: url,
             data: data,
             processData: false,

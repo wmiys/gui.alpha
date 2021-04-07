@@ -205,13 +205,8 @@ function submitFormEvent() {
     disableSubmitButton();
 
     const values = getInputValues(); 
-    
-    if (!validateForm()) {
-        enableSubmitButton();
-        alert('Please complete the required inputs');
-        return;
-    }
-    
+
+    console.log(values);
        
     let formData = new FormData();
     
@@ -224,6 +219,7 @@ function submitFormEvent() {
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
     formData.append('image', $(eInputs.photos).prop('files')[0]);
+
     
     ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
@@ -436,7 +432,6 @@ function removeInvalidClass(eInputElement) {
 Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
-    // const productPageUrl = `product.php?product_id=${response.id}`;
     window.location.href = '/products';
     enableSubmitButton();
 }

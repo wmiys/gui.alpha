@@ -1,27 +1,46 @@
 import requests
+from Utilities import Utilities
+import json
 
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
 
+    #------------------------------------------------------
+    # Constructor
+    #------------------------------------------------------
     def __init__(self, userID=None, email=None, password=None):
         self.userID = userID
         self.email = email
         self.password = password
 
-    
+    #------------------------------------------------------
+    # Get the client's information
+    #------------------------------------------------------
     def getUser(self):
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
-    
+    #------------------------------------------------------
+    # Get a user's products
+    #------------------------------------------------------
     def getUserProducts(self):
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    #------------------------------------------------------
+    # Create a new product
+    #------------------------------------------------------
+    def postUserProduct(self, newProduct, imageFile):
+        url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
+        response = requests.post(url, auth=(self.email, self.password), files=imageFile, data=newProduct)
+        return response
+        
 
-
+    #------------------------------------------------------
+    # Log a client in
+    #------------------------------------------------------
     @staticmethod
     def login(email, password):
         url = ApiWrapper.generateApiUrl('/login')
@@ -29,7 +48,9 @@ class ApiWrapper:
 
         return r
     
-
+    #------------------------------------------------------
+    # Create a new client account
+    #------------------------------------------------------
     @staticmethod
     def createAccount(email, password, name_first, name_last, birth_date):
         url = ApiWrapper.generateApiUrl('/users')
@@ -37,7 +58,9 @@ class ApiWrapper:
         response = requests.post(url, data=parms)
         return response
 
-    
+    #------------------------------------------------------
+    # Generate an API url
+    #------------------------------------------------------
     @staticmethod
     def generateApiUrl(suffix=''):
         url = "{}{}".format(ApiWrapper.URL_BASE, suffix)
