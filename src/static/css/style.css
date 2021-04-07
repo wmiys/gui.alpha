@@ -98,14 +98,13 @@ body {
   box-shadow: none;
 }
 
-.card-lender-product-listing .card-img {
-  height: 100%;
-  object-fit: cover;
+.card-user-product .container-img-pics {
+  background-size: cover;
 }
-.card-lender-product-listing .dropdown i {
+.card-user-product .dropdown i {
   font-size: 24px;
 }
-.card-lender-product-listing .card-body {
+.card-user-product .card-body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;

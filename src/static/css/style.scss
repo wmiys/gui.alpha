@@ -3,8 +3,10 @@ $secondary: #7189ff;
 $light: #f4f4f8;
 
 
-$custom-font-normal: 'Karla', sans-serif;
-$custom-font-header: 'Rubik', sans-serif;
+$custom-font-normal: 'Karla',
+sans-serif;
+$custom-font-header: 'Rubik',
+sans-serif;
 
 body {
     font-family: $custom-font-normal;
@@ -117,10 +119,9 @@ body {
 }
 
 
-.card-lender-product-listing {
-    .card-img {
-        height: 100%;
-        object-fit: cover;
+.card-user-product {
+    .container-img-pics {
+        background-size: cover;
     }
 
     .dropdown i {

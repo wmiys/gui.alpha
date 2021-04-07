@@ -1,6 +1,5 @@
 import requests
 
-
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
 

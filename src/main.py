@@ -11,6 +11,7 @@ import os
 from ApiWrapper import ApiWrapper
 from Utilities import Utilities
 from functools import wraps, update_wrapper
+from Constants import Constants
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -83,8 +84,15 @@ def products():
     if apiResponse.status_code != 200:
         pass    # error
 
+    products = apiResponse.json()
 
-    return flask.render_template('products.html', products=apiResponse.json())
+    for product in products:
+        if product['image'] != None:
+            product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+        else:
+            product['image'] = '/static/img/placeholder.jpg'
+
+    return flask.render_template('products.html', products=products)
 
 @app.route('/products/new')
 @login_required
