@@ -1,6 +1,5 @@
 import requests
 
-
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
 
@@ -14,6 +13,13 @@ class ApiWrapper:
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
+
+    
+    def getUserProducts(self):
+        url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
 
 
     @staticmethod
@@ -36,6 +42,7 @@ class ApiWrapper:
     def generateApiUrl(suffix=''):
         url = "{}{}".format(ApiWrapper.URL_BASE, suffix)
         return url
+    
     
     
 

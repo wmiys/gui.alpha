@@ -8,8 +8,8 @@ const eListings = $('#lender-product-listings');
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    displayInitialProductSkeletons(3);
-    ApiWrapper.requestGetUserProducts(getUserProductsSuccess, console.error);
+    // displayInitialProductSkeletons(3);
+    // ApiWrapper.requestGetUserProducts(getUserProductsSuccess, console.error);
 });
 
 
