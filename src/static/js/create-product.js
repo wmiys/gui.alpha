@@ -44,14 +44,38 @@ const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
 
 
+let filePond = null;
+
 /**********************************************************
 Main logic
 **********************************************************/
 $(document).ready(function() {
     addEventListeners();
     loadSelect2();
+    loadFileSelectorPlugin();
     ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
 });
+
+
+/**********************************************************
+Load the file selector plugin
+**********************************************************/
+function loadFileSelectorPlugin() {
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginImageValidateSize);
+
+
+    const inputElement = document.querySelector(`#${$(eInputs.photos).attr('id')}`);
+    
+    filePond = FilePond.create(inputElement, {
+        allowImagePreview: true,
+        allowFileTypeValidation: true,
+        acceptedFileTypes: ['image/*'],
+        imageValidateSizeMinWidth: 800,
+        imageValidateSizeMinHeight: 1200,
+    });
+}
 
 
 /**********************************************************
@@ -205,8 +229,6 @@ function submitFormEvent() {
     disableSubmitButton();
 
     const values = getInputValues(); 
-
-    console.log(values);
        
     let formData = new FormData();
     
@@ -218,9 +240,8 @@ function submitFormEvent() {
     formData.append('dropoff_distance', values.dropoffDistance);
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
-    formData.append('image', $(eInputs.photos).prop('files')[0]);
+    formData.append('image', filePond.getFile().file);
 
-    
     ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
 
@@ -237,6 +258,8 @@ function getInputValues() {
         const key = inputKeys[count];
         inputValues[key] = $(eInputs[key]).val();
     }
+
+    console.log(inputValues);
     
     return inputValues;
 }
