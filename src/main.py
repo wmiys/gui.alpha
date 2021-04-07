@@ -76,9 +76,9 @@ def createAccount():
     return flask.render_template('create-account.html')
 
 
-@app.route('/products')
+@app.route('/products', methods=['GET'])
 @login_required
-def products():
+def productsGet():
     apiResponse = apiWrapper.getUserProducts()
 
     if apiResponse.status_code != 200:
@@ -91,6 +91,8 @@ def products():
             product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
         else:
             product['image'] = '/static/img/placeholder.jpg'
+        
+        
 
     return flask.render_template('products.html', products=products)
 

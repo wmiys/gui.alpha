@@ -95,11 +95,23 @@ Input parms:
                                 <div class="row">
                                     <div class="col-sm-12 col-md-4">
                                         <div><small class="text-muted font-weight-light">Full Day</small></div>
-                                        <div class="h5 text-secondary">${{ "{0:.2f}".format(product.price_full) }}</div>
+                                        <div class="h5 text-secondary">
+                                            {% if product.price_full %}
+                                                ${{ "{0:.2f}".format(product.price_full) }}
+                                            {% else %}
+                                            &mdash;
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <div class="col-sm-12 col-md-4">
                                         <div><small class="text-muted font-weight-light">Half Day</small></div>
-                                        <div class="h5 text-secondary">${{ "{0:.2f}".format(product.price_half) }}</div>
+                                        <div class="h5 text-secondary">
+                                            {% if product.price_half %}
+                                            ${{ "{0:.2f}".format(product.price_half) }}
+                                            {% else %}
+                                            &mdash;
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     <div class="col-sm-12 col-md-4">
                                         <div><small class="text-muted font-weight-light">Category</small></div>
