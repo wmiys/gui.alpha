@@ -19,6 +19,14 @@ Add all the event listeners to the page
 **********************************************************/
 function addListeners() {
     $(e_btnSubmit).on('click', attemptLogin);
+
+    $('.form-control').on('keypress', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            attemptLogin();
+        }
+    });
+
     $(e_formLogin).find('.form-control').on('keypress', clearInvalidInputClass);
 }
 
