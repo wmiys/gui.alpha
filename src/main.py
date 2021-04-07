@@ -12,6 +12,7 @@ from ApiWrapper import ApiWrapper
 from Utilities import Utilities
 from functools import wraps, update_wrapper
 from Constants import Constants
+import json
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -76,9 +77,9 @@ def createAccount():
     return flask.render_template('create-account.html')
 
 
-@app.route('/products')
+@app.route('/products', methods=['GET'])
 @login_required
-def products():
+def productsGet():
     apiResponse = apiWrapper.getUserProducts()
 
     if apiResponse.status_code != 200:
@@ -86,6 +87,7 @@ def products():
 
     products = apiResponse.json()
 
+    # format the product images
     for product in products:
         if product['image'] != None:
             product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
@@ -93,6 +95,7 @@ def products():
             product['image'] = '/static/img/placeholder.jpg'
 
     return flask.render_template('products.html', products=products)
+
 
 @app.route('/products/new')
 @login_required
@@ -162,7 +165,17 @@ def apiCreateAccount():
     flask.session['password'] = user_password
 
     return ('', 200)
+
+
+@app.route('/api/products', methods=['POST'])
+@login_required
+def apiProductsPost():    
+    apiResponse = apiWrapper.postUserProduct(request.form, request.files)
+
+    if apiResponse.status_code != 200:
+        flask.abort(apiResponse.status_code)
     
+    return ('', 200)
 
 #************************************************************************************
 #
