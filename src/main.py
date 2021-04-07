@@ -56,7 +56,7 @@ def login_required(f):
 @app.route('/')
 @login_required
 def home():
-    return flask.render_template('home.html', email=flask.session.get('email'), password=flask.session.get('password'))
+    return flask.render_template('pages/home.html', email=flask.session.get('email'), password=flask.session.get('password'))
 
 
 @app.route('/login')
@@ -65,7 +65,7 @@ def login():
     flask.session.pop('email', None)
     flask.session.pop('password', None)
 
-    return flask.render_template('login.html')
+    return flask.render_template('pages/login.html')
 
 
 @app.route('/create-account')
@@ -74,7 +74,7 @@ def createAccount():
     session.pop('email', None)
     session.pop('password', None)
 
-    return flask.render_template('create-account.html')
+    return flask.render_template('pages/create-account.html')
 
 
 @app.route('/products', methods=['GET'])
@@ -94,26 +94,26 @@ def productsGet():
         else:
             product['image'] = '/static/img/placeholder.jpg'
 
-    return flask.render_template('products.html', products=products)
+    return flask.render_template('pages/products/products.html', products=products)
 
 
 @app.route('/products/new')
 @login_required
 def productsNew():
-    return flask.render_template('products-new.html')
+    return flask.render_template('pages/products/products-new.html')
 
 
 @app.route('/products/<int:product_id>')
 @login_required
 def productPage(product_id):
-    return flask.render_template('product-page.html')
+    return flask.render_template('pages/products/product-page.html')
 
 
 @app.route('/account-settings')
 @login_required
 def accountSettings():
     response = apiWrapper.getUser()
-    return flask.render_template('account-settings.html', userInfo=response.json())
+    return flask.render_template('pages/account-settings/account-settings.html', userInfo=response.json())
 
 
 
