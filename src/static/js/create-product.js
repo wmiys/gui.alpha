@@ -132,7 +132,7 @@ function loadSelect2() {
         minimumInputLength: 3,
         theme: 'bootstrap4',
         ajax: {
-            delay: 250,
+            delay: 150,
             url: ApiWrapper.URLS.SEARCH.LOCATIONS,
             placeholder: "Select a state",
             allowClear: true,
@@ -240,7 +240,14 @@ function submitFormEvent() {
     formData.append('dropoff_distance', values.dropoffDistance);
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
-    formData.append('image', filePond.getFile().file);
+
+    let imageFile = filePond.getFile();
+
+    if (imageFile != null) {
+        formData.append('image', filePond.getFile().file);
+    }
+
+    
 
     ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
