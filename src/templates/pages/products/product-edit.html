@@ -1,3 +1,40 @@
+{#
+***************************************************************************************************
+
+* Template: product-edit.html
+* URL: /products/:product_id
+* Purpose: Edit a product's properties
+
+***************************************************************************************************
+
+Input parms:
+- product:
+    - id
+    - name
+    - description
+    - product_categories_sub_id
+    - product_categories_sub_name
+    - product_categories_minor_id
+    - product_categories_minor_name
+    - product_categories_major_id
+    - product_categories_major_name
+    - location_id
+    - location_city
+    - location_state_id
+    - location_state_name
+    - dropoff_distance
+    - price_full
+    - price_half
+    - image
+    - created_on
+    - user_id
+    - user_email
+    - user_name_first
+    - user_name_last
+
+***************************************************************************************************
+#}
+
 <!doctype html>
 <html lang="en">
 
@@ -29,7 +66,10 @@
                             <!-- major -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-major">Major</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-major" required>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-major"  disabled>
+                                    {% if product.product_categories_major_id %}
+                                    <option value="{{ product.product_categories_major_id }}" selected>{{ product.product_categories_major_name }}</option>
+                                    {% endif %}
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
@@ -37,7 +77,10 @@
                             <!-- minor -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-minor">Minor</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-minor" required disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-minor"  disabled>
+                                    {% if product.product_categories_minor_id %}
+                                    <option value="{{ product.product_categories_minor_id }}" selected>{{ product.product_categories_minor_name }}</option>
+                                    {% endif %}
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
@@ -45,10 +88,16 @@
                             <!-- sub -->
                             <div class="form-group mb-3">
                                 <label for="form-new-product-input-category-sub">Sub</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-sub" required disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-sub"  disabled>
+                                    {% if product.product_categories_sub_id %}
+                                    <option value="{{ product.product_categories_sub_id }}" selected>{{ product.product_categories_sub_name }}</option>
+                                    {% endif %}
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
+                            
+                            <!-- reset the category dropdowns -->
+                            <button type="button" class="btn btn-sm btn-outline-danger float-right" id="form-new-product-btn-category-reset">Reset</button>
 
                         </div>
                     </div>
@@ -78,7 +127,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
                                     </div>
-                                    <select class="form-control form-new-product-input" id="form-new-product-input-location" required placeholder="Search"></select>
+                                    <select class="form-control form-new-product-input" id="form-new-product-input-location"  placeholder="Search">
+                                        {% if product.location_id %}
+                                        <option value="{{ product.location_id }}" selected>{{ product.location_city }}, {{ product.location_state_name }}</option>
+                                        {{ product.description }}
+                                        {% endif %}
+                                    </select>
                                 </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small>The exact address won’t be shared until the guest’s reservation is confirmed.</small></p>
@@ -96,7 +150,8 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-dropoff-distance">Number of miles</label>
-                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal" required>
+                                
+                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal"  value="{{ product.dropoff_distance }}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -124,12 +179,10 @@
                             <!-- minimum age requirement -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-minimum-age">Minimum age</label>
-                                <select class="form-control form-new-product-input selectpicker" id="form-new-product-input-minimum-age" required>
+                                <select class="form-control form-new-product-input selectpicker" id="form-new-product-input-minimum-age" >
                                     <option value="">None</option>
                                     {% for x in range(21, 1, -1) %}
-                                    {% if x != 18 %}
-                                    <option value="{{ x }}">{{ x }}</option>
-                                    {% else %}
+                                    {% if product.minimum_age == x %}
                                     <option value="{{ x }}" selected>{{ x }}</option>
                                     {% endif %}
                                     {% endfor %}
@@ -158,8 +211,12 @@
                             <h4>Cover photo</h4>
                             <p class="text-muted text-sm">Your main product photo.</p>
                         </div>
-                        <div class="col-lg-8">
-                            <div class="form-group">
+                        <div class="col-lg-8">    
+                            {% if product.image %}
+                            <div id="existing-product-image"><img src="{{ product.image }}" alt="..." class="img-thumbnail" height="300px"></div>
+                            <button type="button" class="btn btn-sm btn-text-secondary mt-3" id="form-new-product-btn-image-change">Use a different photo</button>
+                            {% endif %}
+                            <div class="form-group form-group-image{% if product.image %} d-none{% endif %}">
                                 <input type="file" class="form-new-product-input" id="form-new-product-input-photos">                      
                             </div>
                         </div>
@@ -188,8 +245,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <label for="form-new-product-input-name">What is the name of your product?</label>
-                                <input class="form-control form-new-product-input" id="form-new-product-input-name" type="text" required>
+                                <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal"  value="{% if product.name %}{{ product.name }}{% endif %}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small>Make it short, descriptive, and exciting.</small></p>
                             </div>
@@ -207,7 +263,11 @@
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-description">Describe your product to renters</label>
-                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7" required></textarea>
+                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7" >
+                                    {% if product.description %}
+                                    {{ product.description }}
+                                    {% endif %}
+                                </textarea>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -237,7 +297,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal" required>
+                                    
+                                    {% if product.price_full %}
+                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal"  value="{{ '{0:.2f}'.format(product.price_full) }}">
+                                    {% else %}
+                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal" >
+                                    {% endif %}
                                 </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small></small></p>
@@ -261,7 +326,12 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" required>
+                                    
+                                    {% if product.price_half %}
+                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text"  value="{{ '{0:.2f}'.format(product.price_half) }}">
+                                    {% else %}
+                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" >
+                                    {% endif %}
                                 </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
