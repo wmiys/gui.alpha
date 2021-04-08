@@ -273,9 +273,12 @@
             </div>
 
             <!-- form step buttons and navbar -->
-            <div class="form-new-product-step-btns d-flex justify-content-between">
+            <div class="form-new-product-step-btns d-flex justify-content-between align-items-center">
                 <!-- previous button -->
-                <button type="button" data-page-location="1" class="btn btn-text-light form-new-product-btn-step mr-2" id="form-new-product-btn-step-prev"><i class='bx bx-arrow-back'></i> Previous</button>
+                <button type="button" data-page-location="1" class="btn btn-text-light form-new-product-btn-step d-flex" id="form-new-product-btn-step-prev">
+                    <div class="icon"><i class='bx bx-arrow-back'></i></div>
+                    <div class="label">Previous</div>
+                </button>
                 
                 <!-- navbar -->
                 <ul class="nav nav-pills form-new-product-tabs" role="tablist">
@@ -300,10 +303,13 @@
                 </ul>
 
                 <!-- next page button -->
-                <button type="button" data-page-location="2" class="btn btn-text-primary form-new-product-btn-step" id="form-new-product-btn-step-next">Next <i class='bx bx-right-arrow-alt'></i></button>
+                <button type="button" data-page-location="2" class="btn btn-text-primary form-new-product-btn-step" id="form-new-product-btn-step-next">
+                    <div class="label">Next</div>
+                    <div class="icon"><i class='bx bx-right-arrow-alt'></i></div>
+                </button>
 
                 <!-- submit button -->
-                <button type="button" class="btn btn-primary form-new-product-btn-submit d-none">Finish</button>
+                <button type="button" class="btn btn-primary form-new-product-btn-submit d-none">Save</button>
             </div>
         </form>
 

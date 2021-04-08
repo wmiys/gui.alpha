@@ -197,4 +197,18 @@ textarea {
   border-radius: 50%;
 }
 
+.form-new-product-btn-step {
+  display: flex;
+  align-items: flex-start;
+}
+.form-new-product-btn-step > * {
+  margin: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .form-new-product-btn-step .label {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */

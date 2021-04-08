@@ -480,7 +480,7 @@ function disableSubmitButton() {
 Enable the submit button
 **********************************************************/
 function enableSubmitButton() {
-    $(eButtons.submit).html('Finish').prop('disabled', false);
+    $(eButtons.submit).html('Save').prop('disabled', false);
 }
 
 
