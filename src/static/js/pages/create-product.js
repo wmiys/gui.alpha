@@ -17,16 +17,17 @@ const ePages = {
 
 // form inputs
 const eInputs = {
-    categoryMajor : $('#form-new-product-input-category-major'),
-    categoryMinor : $('#form-new-product-input-category-minor'),
-    categorySub   : $('#form-new-product-input-category-sub'),
-    location      : $('#form-new-product-input-location'),
-    dropoffDistance: $('#form-new-product-input-dropoff-distance'),
-    photos        : $('#form-new-product-input-photos'),
-    name          : $('#form-new-product-input-name'),
-    description   : $('#form-new-product-input-description'),
-    priceFull     : $('#form-new-product-input-price-full'),
-    priceHalf     : $('#form-new-product-input-price-half'),
+    categoryMajor   : $('#form-new-product-input-category-major'),
+    categoryMinor   : $('#form-new-product-input-category-minor'),
+    categorySub     : $('#form-new-product-input-category-sub'),
+    location        : $('#form-new-product-input-location'),
+    dropoffDistance : $('#form-new-product-input-dropoff-distance'),
+    photos          : $('#form-new-product-input-photos'),
+    name            : $('#form-new-product-input-name'),
+    description     : $('#form-new-product-input-description'),
+    priceFull       : $('#form-new-product-input-price-full'),
+    priceHalf       : $('#form-new-product-input-price-half'),
+    minimumAge      : $('#form-new-product-input-minimum-age'),
 }
 
 // buttons
@@ -240,14 +241,13 @@ function submitFormEvent() {
     formData.append('dropoff_distance', values.dropoffDistance);
     formData.append('price_full', values.priceFull);
     formData.append('price_half', values.priceHalf);
+    formData.append('minimum_age', values.minimumAge);
 
     let imageFile = filePond.getFile();
 
     if (imageFile != null) {
         formData.append('image', filePond.getFile().file);
     }
-
-    
 
     ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 }
@@ -265,8 +265,6 @@ function getInputValues() {
         const key = inputKeys[count];
         inputValues[key] = $(eInputs[key]).val();
     }
-
-    console.log(inputValues);
     
     return inputValues;
 }
