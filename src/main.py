@@ -100,12 +100,21 @@ def productsGet():
 @app.route('/products/new')
 @login_required
 def productsNew():
-    return flask.render_template('pages/products/products-new.html')
+    # create an empty product
+    apiResponse = apiWrapper.postUserProduct(None, None)
 
+    if apiResponse.status_code != 200:
+        pass    # error
+
+    # get the id from the response
+    emptyProduct = apiResponse.json()
+
+    # load the edit product page
+    return redirect(url_for('productPageEdit', product_id=emptyProduct['id']))
 
 @app.route('/products/<int:product_id>')
 @login_required
-def productPage(product_id):
+def productPageEdit(product_id):
     apiResponse = apiWrapper.getUserProduct(product_id)
 
     if apiResponse.status_code != 200:
