@@ -106,7 +106,21 @@ def productsNew():
 @app.route('/products/<int:product_id>')
 @login_required
 def productPage(product_id):
-    return flask.render_template('pages/products/product-page.html')
+    apiResponse = apiWrapper.getUserProduct(product_id)
+
+    if apiResponse.status_code != 200:
+        pass    # error
+
+    product = apiResponse.json()
+
+    # return jsonify(product)
+
+    # if product['image'] != None:
+    #     product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+    # else:
+    #     product['image'] = '/static/img/placeholder.jpg'
+
+    return flask.render_template('pages/products/product-edit.html', product=product)
 
 
 @app.route('/account-settings')

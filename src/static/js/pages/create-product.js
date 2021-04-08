@@ -33,10 +33,12 @@ const eInputs = {
 // buttons
 const eButtons = {
     submit: $('.form-new-product-btn-submit'),
+    resetCategories: $('#form-new-product-btn-category-reset'),
     formSteps: {
         prev: $('#form-new-product-btn-step-prev'),
         next: $('#form-new-product-btn-step-next'),
-    }
+    },
+    
 }
 
 // form tabs
@@ -58,9 +60,8 @@ $(document).ready(function() {
     addEventListeners();
     loadSelect2();
     loadFileSelectorPlugin();
-    ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
+    checkIfCategoriesAreSet();
 });
-
 
 /**********************************************************
 Load the file selector plugin
@@ -114,7 +115,14 @@ function addEventListeners() {
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         setNewStepButtonLocations(e.target);
     });
+
+    $(eButtons.resetCategories).on('click', function() {
+        resetProductCategories();
+    });
 }
+
+
+
 
 /**********************************************************
 Loads the select2 library on the location input
@@ -159,6 +167,18 @@ function processLocationSearchApiResponse(apiResponse) {
     return ({results: processedData});
 }
 
+
+/**********************************************************
+Load the major category options if the category fields
+are not set.
+**********************************************************/
+function checkIfCategoriesAreSet() {
+    const subVal = $(eInputs.categorySub).val();
+
+    if (subVal.length == 0) {
+        ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
+    }
+}
 
 /**********************************************************
 Load the major categories into the select element
@@ -522,4 +542,18 @@ function stepToFormPage(a_eBtnStep) {
     const numTabs = $(eTabs).find('.nav-link').length;
     const newProgressWidth = (destinationPageNumber / numTabs) * 100;
     $(eProgressBar).width(`${newProgressWidth}%`);
+}
+
+
+/**********************************************************
+Clear the categories dropdowns and refresh
+**********************************************************/
+function resetProductCategories() {
+    $(eInputs.categoryMajor).find('option').remove();
+    $(eInputs.categoryMinor).find('option').remove();
+    $(eInputs.categorySub).find('option').remove();
+
+    ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
+
+    $('.selectpicker').selectpicker('refresh');
 }
