@@ -117,6 +117,7 @@ function addEventListeners() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         setNewStepButtonLocations(e.target);
+        submitFormEvent();
     });
 
     $(eButtons.resetCategories).on('click', function() {
@@ -129,6 +130,7 @@ function addEventListeners() {
     });
 
 }
+
 
 /**********************************************************
 Loads the select2 library on the location input
