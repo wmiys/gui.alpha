@@ -175,6 +175,23 @@ class ApiWrapper
     }
 
     /**********************************************************
+    Send a PUT request to create a new product
+    **********************************************************/
+    static requestPutProduct(productID, data, fnSuccess, fnError) {
+        const url = `/api/products/${productID}`;
+        
+        $.ajax({
+            url: url,
+            data: data,
+            processData: false,
+            contentType: false,
+            type: ApiWrapper.REQUEST_TYPES.PUT,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
     Send a GET request to fetch all of a user's products
     **********************************************************/
     static requestGetUserProducts(fnSuccess = console.log, fnError=console.error) {

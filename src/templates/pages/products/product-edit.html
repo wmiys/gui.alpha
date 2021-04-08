@@ -184,6 +184,8 @@ Input parms:
                                     {% for x in range(21, 1, -1) %}
                                     {% if product.minimum_age == x %}
                                     <option value="{{ x }}" selected>{{ x }}</option>
+                                    {% else %}
+                                    <option value="{{ x }}">{{ x }}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
@@ -245,7 +247,7 @@ Input parms:
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal"  value="{% if product.name %}{{ product.name }}{% endif %}">
+                                <input class="form-control form-new-product-input" id="form-new-product-input-name" type="text" value="{% if product.name %}{{ product.name }}{% endif %}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small>Make it short, descriptive, and exciting.</small></p>
                             </div>

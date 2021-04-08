@@ -54,6 +54,8 @@ const cBtnStep = '.form-new-product-btn-step';
 
 let filePond = null;
 
+const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
+
 /**********************************************************
 Main logic
 **********************************************************/
@@ -115,6 +117,7 @@ function addEventListeners() {
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         setNewStepButtonLocations(e.target);
+        submitFormEvent();
     });
 
     $(eButtons.resetCategories).on('click', function() {
@@ -127,6 +130,7 @@ function addEventListeners() {
     });
 
 }
+
 
 /**********************************************************
 Loads the select2 library on the location input
@@ -245,11 +249,12 @@ function submitFormEvent() {
     disableSubmitButton();
 
     const values = getInputValues(); 
+
+    console.log(values);
        
     let formData = new FormData();
     
     formData.append("name", values.name);
-    formData.append('name', values.name);
     formData.append('description', values.description);
     formData.append('product_categories_sub_id', values.categorySub);
     formData.append('location_id', values.location);
@@ -264,7 +269,10 @@ function submitFormEvent() {
         formData.append('image', filePond.getFile().file);
     }
 
-    ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
+
+    // ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
+
+    ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
 }
 
 
@@ -475,7 +483,9 @@ function removeInvalidClass(eInputElement) {
 Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
-    window.location.href = '/products';
+    
+    console.log(response);
+    // window.location.href = '/products';
     enableSubmitButton();
 }
 
