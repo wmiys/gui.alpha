@@ -1,15 +1,5 @@
-$primary: #f62dae;
-$secondary: #7189ff;
-$light: #f4f4f8;
-
-
-$custom-font-normal: 'Karla',
-sans-serif;
-$custom-font-header: 'Rubik',
-sans-serif;
-
 body {
-    font-family: $custom-font-normal;
+    font-family: "Karla", sans-serif;
 }
 
 h1,
@@ -24,7 +14,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-    font-family: $custom-font-header;
+    font-family: "Rubik", sans-serif;
 }
 
 .card {
@@ -51,38 +41,36 @@ body {
     height: 10px;
 }
 
-
 .btn-text-primary {
-    color: $primary;
+    color: #f62dae;
 }
 
 .btn-text-secondary {
-    color: $secondary;
+    color: #7189ff;
 }
 
 .btn-text-light {
     color: darkgrey;
 }
 
-input[type="color"],
-input[type="date"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="email"],
-input[type="month"],
-input[type="number"],
-input[type="password"],
-input[type="search"],
-input[type="tel"],
-input[type="text"],
-input[type="time"],
-input[type="url"],
-input[type="week"],
+input[type=color],
+input[type=date],
+input[type=datetime],
+input[type=datetime-local],
+input[type=email],
+input[type=month],
+input[type=number],
+input[type=password],
+input[type=search],
+input[type=tel],
+input[type=text],
+input[type=time],
+input[type=url],
+input[type=week],
 select:focus,
 textarea {
     font-size: 16px;
 }
-
 
 @media screen and (max-width: 768px) {
     .form-new-product-tabs {
@@ -94,33 +82,33 @@ textarea {
 
 .input-group-search {
     border: 1px solid #ced4da;
+}
 
-    .form-control,
-    .input-group-text {
-        border: none;
-    }
+.input-group-search .form-control,
+.input-group-search .input-group-text {
+    border: none;
+}
 
-    .input-group-text {
-        background-color: inherit;
-    }
+.input-group-search .input-group-text {
+    background-color: inherit;
+}
 
-    .form-control:focus {
-        box-shadow: none;
-    }
+.input-group-search .form-control:focus {
+    box-shadow: none;
+}
 
-    .select2-container--bootstrap4.select2-container--focus .select2-selection {
-        border-color: none;
-        -webkit-box-shadow: none;
-        box-shadow: none;
-    }
+.input-group-search .select2-container--bootstrap4.select2-container--focus .select2-selection {
+    border-color: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 
-    .select2-container--bootstrap4 .select2-selection {
-        border: none;
-    }
+.input-group-search .select2-container--bootstrap4 .select2-selection {
+    border: none;
+}
 
-    .select2-selection__arrow {
-        display: none;
-    }
+.input-group-search .select2-selection__arrow {
+    display: none;
 }
 
 .input-group-search.is-invalid {
@@ -132,26 +120,22 @@ textarea {
     background-size: calc(.75em + .375rem) calc(.75em + .375rem);
 }
 
-
 .no-focus-outline:focus {
     box-shadow: none;
 }
 
+.card-user-product .container-img-pics {
+    background-size: cover;
+}
 
-.card-user-product {
-    .container-img-pics {
-        background-size: cover;
-    }
+.card-user-product .dropdown i {
+    font-size: 24px;
+}
 
-    .dropdown i {
-        font-size: 24px;
-    }
-
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
+.card-user-product .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 @media screen and (max-width: 768px) {
@@ -161,8 +145,6 @@ textarea {
     }
 }
 
-
-
 .rating-star {
     color: grey;
 }
@@ -171,24 +153,22 @@ textarea {
     color: gold;
 }
 
-
 #coming-soon {
-    background-image: url('../img/coming-soon-bg-img.jpg');
+    background-image: url("../img/coming-soon-bg-img.jpg");
     backdrop-filter: grayscale(1);
     height: 100%;
     background-position: center;
     background-size: cover;
     position: relative;
     color: white;
+}
 
-    .middle {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        // filter: blur(0px);
-    }
+#coming-soon .middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
 }
 
 .subtitle {
@@ -198,13 +178,11 @@ textarea {
     font-weight: 700;
 }
 
-
 .toolbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
 }
 
 @media screen and (max-width: 768px) {
@@ -215,9 +193,28 @@ textarea {
     }
 }
 
+
 .img-profile-pic {
     width: 200px;
     height: 200px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.form-new-product-btn-step {
+
+    display: flex;
+    align-items: flex-start;
+
+    &>* {
+        margin: 5px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .form-new-product-btn-step  {
+        .label {
+            display: none;
+        }
+    }
 }
