@@ -44,6 +44,17 @@ class ApiWrapper:
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.post(url, auth=(self.email, self.password), files=imageFile, data=newProduct)
         return response
+    
+    #------------------------------------------------------
+    # Update a product
+    #------------------------------------------------------
+    def putUserProduct(self, product_id, updatedProduct, imageFile):
+        url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.put(url, auth=(self.email, self.password), files=imageFile, data=updatedProduct)
+
+        return response
+    
+
         
 
     #------------------------------------------------------

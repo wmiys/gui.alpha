@@ -183,8 +183,18 @@ def apiCreateAccount():
 
 @app.route('/api/products', methods=['POST'])
 @login_required
-def apiProductsPost():    
+def apiProductsPost():
     apiResponse = apiWrapper.postUserProduct(request.form, request.files)
+
+    if apiResponse.status_code != 200:
+        flask.abort(apiResponse.status_code)
+    
+    return ('', 200)
+
+@app.route('/api/products/<int:product_id>', methods=['PUT'])
+@login_required
+def apiProductPut(product_id):
+    apiResponse = apiWrapper.putUserProduct(product_id, request.form, request.files)
 
     if apiResponse.status_code != 200:
         flask.abort(apiResponse.status_code)
