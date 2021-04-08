@@ -184,6 +184,8 @@ Input parms:
                                     {% for x in range(21, 1, -1) %}
                                     {% if product.minimum_age == x %}
                                     <option value="{{ x }}" selected>{{ x }}</option>
+                                    {% else %}
+                                    <option value="{{ x }}">{{ x }}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
