@@ -33,6 +33,10 @@ const eInputs = {
 // buttons
 const eButtons = {
     submit: $('.form-new-product-btn-submit'),
+    formSteps: {
+        prev: $('#form-new-product-btn-step-prev'),
+        next: $('#form-new-product-btn-step-next'),
+    }
 }
 
 // form tabs
@@ -106,23 +110,10 @@ function addEventListeners() {
     $(cInputs).on('keydown change', function() {
         removeInvalidClass(this);
     });
-}
 
-
-/**********************************************************
-Step to another form page.
-
-Go to the page number indicated by the argument's 
-data-page-location attribute.
-**********************************************************/
-function stepToFormPage(a_eBtnStep) {
-    const destinationPageNumber = $(a_eBtnStep).attr('data-page-location');
-    $(eTabs).find(`li:nth-child(${destinationPageNumber}) a`).tab('show');
-
-    // set the progress bar width - target page number / total number of pages (6)
-    const numTabs = $(eTabs).find('.nav-link').length;
-    const newProgressWidth = (destinationPageNumber / numTabs) * 100;
-    $(eProgressBar).width(`${newProgressWidth}%`);
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        setNewStepButtonLocations(e.target);
+    });
 }
 
 /**********************************************************
@@ -490,4 +481,45 @@ Enable the submit button
 **********************************************************/
 function enableSubmitButton() {
     $(eButtons.submit).html('Finish').prop('disabled', false);
+}
+
+
+/**********************************************************
+Set the next/prev form step button location values.
+
+Parms:
+    eActiveFormTab - the newly shown tab
+**********************************************************/
+function setNewStepButtonLocations(eActiveFormTab) {
+    const prevLocation = $(eActiveFormTab).attr('data-step-prev');
+    const nextLocation = $(eActiveFormTab).attr('data-step-next');
+
+    $(eButtons.formSteps.prev).attr('data-page-location', prevLocation);
+
+    // show/hide the submit button if it's the final page
+    if (nextLocation != 'submit') {
+        $(eButtons.formSteps.next).attr('data-page-location', nextLocation);
+        $(eButtons.formSteps.next).removeClass('d-none');
+        $(eButtons.submit).addClass('d-none');
+    } else {
+        $(eButtons.formSteps.next).addClass('d-none');
+        $(eButtons.submit).removeClass('d-none');
+    }
+}
+
+
+/**********************************************************
+Step to another form page.
+
+Go to the page number indicated by the argument's 
+data-page-location attribute.
+**********************************************************/
+function stepToFormPage(a_eBtnStep) {
+    const destinationPageNumber = $(a_eBtnStep).attr('data-page-location');
+    $(eTabs).find(`li:nth-child(${destinationPageNumber}) a`).tab('show');
+
+    // set the progress bar width - target page number / total number of pages (6)
+    const numTabs = $(eTabs).find('.nav-link').length;
+    const newProgressWidth = (destinationPageNumber / numTabs) * 100;
+    $(eProgressBar).width(`${newProgressWidth}%`);
 }

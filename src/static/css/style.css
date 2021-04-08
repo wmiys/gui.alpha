@@ -82,24 +82,30 @@ textarea {
 .input-group-search {
   border: 1px solid #ced4da;
 }
+
 .input-group-search .form-control,
 .input-group-search .input-group-text {
   border: none;
 }
+
 .input-group-search .input-group-text {
   background-color: inherit;
 }
+
 .input-group-search .form-control:focus {
   box-shadow: none;
 }
+
 .input-group-search .select2-container--bootstrap4.select2-container--focus .select2-selection {
   border-color: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
 .input-group-search .select2-container--bootstrap4 .select2-selection {
   border: none;
 }
+
 .input-group-search .select2-selection__arrow {
   display: none;
 }
@@ -120,9 +126,11 @@ textarea {
 .card-user-product .container-img-pics {
   background-size: cover;
 }
+
 .card-user-product .dropdown i {
   font-size: 24px;
 }
+
 .card-user-product .card-body {
   display: flex;
   flex-direction: column;
@@ -152,6 +160,7 @@ textarea {
   position: relative;
   color: white;
 }
+
 #coming-soon .middle {
   position: absolute;
   top: 50%;
