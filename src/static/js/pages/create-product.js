@@ -34,6 +34,7 @@ const eInputs = {
 const eButtons = {
     submit: $('.form-new-product-btn-submit'),
     resetCategories: $('#form-new-product-btn-category-reset'),
+    removeImage: $('#form-new-product-btn-image-change'),
     formSteps: {
         prev: $('#form-new-product-btn-step-prev'),
         next: $('#form-new-product-btn-step-next'),
@@ -119,10 +120,13 @@ function addEventListeners() {
     $(eButtons.resetCategories).on('click', function() {
         resetProductCategories();
     });
+
+
+    $(eButtons.removeImage).on('click', function() {
+        removeImage();
+    });
+
 }
-
-
-
 
 /**********************************************************
 Loads the select2 library on the location input
@@ -557,3 +561,19 @@ function resetProductCategories() {
 
     $('.selectpicker').selectpicker('refresh');
 }
+
+/**********************************************************
+Remove the existing image display
+Show the image file input
+**********************************************************/
+function removeImage() {
+    // hide the existing image elements
+    $('#existing-product-image').addClass('d-none');
+    $(eButtons.removeImage).addClass('d-none');
+
+    // show the file input
+    $('.form-group-image').removeClass('d-none');
+}
+
+
+

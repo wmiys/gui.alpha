@@ -115,8 +115,8 @@ def productPage(product_id):
 
     # return jsonify(product)
 
-    # if product['image'] != None:
-    #     product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+    if product['image'] != None:
+        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
     # else:
     #     product['image'] = '/static/img/placeholder.jpg'
 

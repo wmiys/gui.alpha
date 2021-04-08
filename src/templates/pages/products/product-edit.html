@@ -212,15 +212,13 @@ Input parms:
                             <p class="text-muted text-sm">Your main product photo.</p>
                         </div>
                         <div class="col-lg-8">    
-                            
                             {% if product.image %}
-                            <div><img src="{{ product.image }}" alt="..." class="img-thumbnail" height="300px"></div>
-                            <button type="button" class="btn btn-sm btn-text-secondary mt-3">Remove</button>
-                            {% else %}
-                            <div class="form-group img-container{% if product.image %} has-image{% endif %}">
-                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos" value="{{ product.image }}">                      
-                            </div>
+                            <div id="existing-product-image"><img src="{{ product.image }}" alt="..." class="img-thumbnail" height="300px"></div>
+                            <button type="button" class="btn btn-sm btn-text-secondary mt-3" id="form-new-product-btn-image-change">Use a different photo</button>
                             {% endif %}
+                            <div class="form-group form-group-image{% if product.image %} d-none{% endif %}">
+                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos">                      
+                            </div>
                         </div>
                     </div>
 
