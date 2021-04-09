@@ -42,18 +42,32 @@ class ApiWrapper:
     #------------------------------------------------------
     def postUserProduct(self, newProduct, imageFile):
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
-        response = requests.post(url, auth=(self.email, self.password), files=imageFile, data=newProduct)
+
+        if imageFile:
+            productImage = {'image': (imageFile.filename, imageFile)}   # setup the photo to send to the api
+        else:
+            productImage = None
+
+        response = requests.post(url, auth=(self.email, self.password), files=productImage, data=newProduct)
         return response
     
+
     #------------------------------------------------------
     # Update a product
     #------------------------------------------------------
     def putUserProduct(self, product_id, updatedProduct, imageFile):
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.put(url, auth=(self.email, self.password), files=imageFile, data=updatedProduct)
+
+        if imageFile:
+            productImage = {'image': (imageFile.filename, imageFile)}       # setup the photo to send to the api
+        else:
+            productImage = None
+
+        response = requests.put(url, auth=(self.email, self.password), files=productImage, data=updatedProduct)
 
         return response
-    
+
+
     #------------------------------------------------------
     # Log a client in
     #------------------------------------------------------
