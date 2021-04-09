@@ -60,10 +60,11 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    addEventListeners();
+    
     loadSelect2();
     loadFileSelectorPlugin();
     checkIfCategoriesAreSet();
+    addEventListeners();
 });
 
 /**********************************************************
@@ -74,7 +75,6 @@ function loadFileSelectorPlugin() {
     FilePond.registerPlugin(FilePondPluginImagePreview);
     FilePond.registerPlugin(FilePondPluginImageValidateSize);
 
-
     const inputElement = document.querySelector(`#${$(eInputs.photos).attr('id')}`);
     
     filePond = FilePond.create(inputElement, {
@@ -84,6 +84,15 @@ function loadFileSelectorPlugin() {
         imageValidateSizeMinWidth: 800,
         imageValidateSizeMinHeight: 1200,
     });
+
+    // fire event when a file is uploaded
+    // const pond = document.querySelector('.filepond--root');
+    // if (pond == null) {
+    //     return;
+    // }
+    // pond.addEventListener('FilePond:addfile', e => {
+    //     submitFormEvent();
+    // });
 }
 
 
@@ -110,6 +119,13 @@ function addEventListeners() {
         submitFormEvent();
     });
 
+    $(cInputs).on('change', function() {
+        const inputID = $(this).attr('id');
+
+        if (inputID != null) {
+            submitFormEvent();
+        }   
+    });
 
     $(cInputs).on('keydown change', function() {
         removeInvalidClass(this);
@@ -127,8 +143,7 @@ function addEventListeners() {
 
     $(eButtons.removeImage).on('click', function() {
         removeImage();
-    });
-
+    });  
 }
 
 
@@ -268,9 +283,6 @@ function submitFormEvent() {
     if (imageFile != null) {
         formData.append('image', filePond.getFile().file);
     }
-
-
-    // ApiWrapper.requestPostProduct(formData, submitFormEventSuccess, submitFormEventError);
 
     ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
 }
