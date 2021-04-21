@@ -81,8 +81,8 @@ function loadFileSelectorPlugin() {
         allowImagePreview: true,
         allowFileTypeValidation: true,
         acceptedFileTypes: ['image/*'],
-        imageValidateSizeMinWidth: 800,
-        imageValidateSizeMinHeight: 1200,
+        imageValidateSizeMinWidth: 1200,
+        imageValidateSizeMinHeight: 800,
     });
 
     // fire event when a file is uploaded
