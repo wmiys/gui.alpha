@@ -132,6 +132,14 @@ def productPageEdit(product_id):
     return flask.render_template('pages/products/product-edit.html', product=product)
 
 
+@app.route('/products/<int:product_id>/availability')
+@login_required
+def productPageAvailability(product_id):
+
+    return flask.render_template('pages/products/product-availability.html')
+
+
+
 @app.route('/account-settings')
 @login_required
 def accountSettings():
