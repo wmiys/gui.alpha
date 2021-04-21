@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Availability</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+    <div class="container">
+        <h1 class="my-5 text-center">Product Availability</h1>
+
+
+        <div class="d-flex align-items-center justify-content-between">
+            <h5>Current records</h5>
+            <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#product-availability-new-container">New</button>
+        </div>
+
+        <!-- create new record form -->
+        <div id="product-availability-new-container" class="mt-3 mb-5 collapse">
+            <div class="card">
+                <div class="card-body">
+                    <form id="product-availability-new-form">
+                        <div class="form-row">
+                            <!-- starts on -->
+                            <div class="form-group col-md-3">
+                                <label for="product-availability-new-input-starts-on">Starts</label>
+                                <input type="date" class="form-control product-availability-new-input" id="product-availability-new-input-starts-on">
+                            </div>
+            
+                            <!-- ends on -->
+                            <div class="form-group col-md-3">
+                                <label for="product-availability-new-input-ends-on">Ends</label>
+                                <input type="date" class="form-control product-availability-new-input" id="product-availability-new-input-ends-on">
+                            </div>
+            
+                            <!-- note -->
+                            <div class="form-group col-md-6">
+                                <label for="product-availability-new-input-note">Note</label>
+                                <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-note">
+                            </div>
+                        </div>
+        
+                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">Create</button>
+                        <button type="button" id="product-availability-new-btn-cancel" class="btn btn-sm btn-outline-danger product-availability-new-btn" data-toggle="collapse" data-target="#product-availability-new-container">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <table class="table mt-3" id="product-availability-table">
+            <thead>
+                <tr>
+                    <th class="product-availability-th">Starts</th>
+                    <th class="product-availability-th">Ends</th>
+                    <th class="product-availability-th">Note</th>
+                    <th class="product-availability-th">Created</th>
+                    <th class="product-availability-th">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="product-availability-row">
+                    <td class="product-availability-cell">04/20/2021</td>
+                    <td class="product-availability-cell">04/24/2021</td>
+                    <td class="product-availability-cell">Jkalsdk kl;a jklasd ajklsdfjaskldfj jaskdlfjasjdksjf ajsdkfasldjfa</td>
+                    <td class="product-availability-cell">03/08/1996</td>
+                    <td class="product-availability-cell">
+                        <div class="d-flex">
+                            <a href="#" class="mr-3">Edit</a>
+                            <a href="#">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/pages/product-availability.js"></script>
+
+
+</body>
+
+</html>
