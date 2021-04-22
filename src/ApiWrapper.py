@@ -28,13 +28,27 @@ class ApiWrapper:
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
-    
 
     def getUserProduct(self, product_id):
         """Get a user's products
         """
 
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+
+    def getProductAvailabilities(self, product_id):
+        """Get the product availabilities for a single product
+
+        Args:
+            product_id (int): the product's id
+
+        Returns:
+            list: a list of all the product's availabilities
+        """
+
+        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
         response = requests.get(url, auth=(self.email, self.password))
         return response
 

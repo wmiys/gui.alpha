@@ -210,5 +210,13 @@ textarea {
     display: none;
   }
 }
+#product-availability-table {
+  table-layout: fixed;
+}
+#product-availability-table .product-availability-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /*# sourceMappingURL=style.css.map */

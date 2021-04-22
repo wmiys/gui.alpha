@@ -218,3 +218,17 @@ textarea {
         }
     }
 }
+
+
+#product-availability-table {
+    table-layout: fixed;
+
+    .product-availability-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+
+

@@ -135,8 +135,13 @@ def productPageEdit(product_id):
 @app.route('/products/<int:product_id>/availability')
 @login_required
 def productPageAvailability(product_id):
+    apiResponse = apiWrapper.getProductAvailabilities(product_id)
 
-    return flask.render_template('pages/products/product-availability.html')
+    if apiResponse.status_code != 200:
+        pass    # error
+
+    availabilities = apiResponse.json()
+    return flask.render_template('pages/products/product-availability.html', availabilities=availabilities)
 
 
 
