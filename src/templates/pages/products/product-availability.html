@@ -2,19 +2,19 @@
 ***************************************************************************************************
 
 * Template: product-availability.html
-* URL:      /products/:product_id/availability
-* Purpose:  Display all of the avaiabilities of a product
+* URL: /products/:product_id/availability
+* Purpose: Display all of the avaiabilities of a product
 
 ***************************************************************************************************
 
 Input parms:
-    - availabilities: list of the product's availabilities with fields:
-        - id
-        - product_id
-        - starts_on
-        - ends_on
-        - note
-        - created_on
+- availabilities: list of the product's availabilities with fields:
+- id
+- product_id
+- starts_on
+- ends_on
+- note
+- created_on
 
 ***************************************************************************************************
 #}
@@ -49,20 +49,20 @@ Input parms:
                                 <label for="product-availability-new-input-starts-on">Starts</label>
                                 <input type="date" class="form-control product-availability-new-input" id="product-availability-new-input-starts-on">
                             </div>
-            
+
                             <!-- ends on -->
                             <div class="form-group col-md-3">
                                 <label for="product-availability-new-input-ends-on">Ends</label>
                                 <input type="date" class="form-control product-availability-new-input" id="product-availability-new-input-ends-on">
                             </div>
-            
+
                             <!-- note -->
                             <div class="form-group col-md-6">
                                 <label for="product-availability-new-input-note">Note</label>
                                 <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-note">
                             </div>
                         </div>
-        
+
                         <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">Create</button>
                         <button type="button" id="product-availability-new-btn-cancel" class="btn btn-sm btn-outline-danger product-availability-new-btn" data-toggle="collapse" data-target="#product-availability-new-container">Cancel</button>
                     </form>
@@ -80,25 +80,70 @@ Input parms:
                         <th class="product-availability-th" colspan="2">Created</th>
                     </tr>
                 </thead>
-    
+
                 <tbody>
                     {% for avaiability in availabilities %}
-                        <tr class="product-availability-row">
-                            <td class="product-availability-cell" colspan="1">{{ avaiability.starts_on }}</td>
-                            <td class="product-availability-cell" colspan="1">{{ avaiability.ends_on }}</td>
-                            <td class="product-availability-cell" colspan="5">{{ avaiability.note }}</td>
-                            <td class="product-availability-cell" colspan="2">{{ avaiability.created_on }}</td>
-                        </tr>
+                    <tr class="product-availability-row">
+                        <td class="product-availability-cell" colspan="1">{{ avaiability.starts_on }}</td>
+                        <td class="product-availability-cell" colspan="1">{{ avaiability.ends_on }}</td>
+                        <td class="product-availability-cell" colspan="5">{{ avaiability.note }}</td>
+                        <td class="product-availability-cell" colspan="2">{{ avaiability.created_on }}</td>
+                    </tr>
                     {% endfor %}
                 </tbody>
-    
+
             </table>
         </div>
 
-
-
+        <p class="text-muted"><small>Click a row to view details</small></p>
 
     </div>
+
+
+    <!-- edit product availability record modal -->
+    <div class="modal fade" id="product-availability-edit-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit availability</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- edit the availability -->
+                    <form id="product-availability-edit-form">
+                        <!-- starts on -->
+                        <div class="form-group">
+                            <label for="product-availability-edit-input-starts-on">Starts</label>
+                            <input type="date" class="form-control product-availability-edit-input" id="product-availability-edit-input-starts-on">
+                        </div>
+
+                        <!-- ends on -->
+                        <div class="form-group">
+                            <label for="product-availability-edit-input-ends-on">Ends</label>
+                            <input type="date" class="form-control product-availability-edit-input" id="product-availability-edit-input-ends-on">
+                        </div>
+
+                        <!-- note -->
+                        <div class="form-group">
+                            <label for="product-availability-edit-input-note">Note</label>
+                            <input type="text" class="form-control product-availability-edit-input" id="product-availability-edit-input-note">
+                        </div>
+                    </form>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="product-availability-new-btn-save" class="btn btn-outline-danger product-availability-edit-btn">Delete</button>
+                    <button type="button" id="product-availability-new-btn-delete" class="btn btn-primary product-availability-edit-btn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 
     {% include 'includes/footer.html' %}

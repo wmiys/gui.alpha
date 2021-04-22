@@ -1,26 +1,26 @@
 
 
 /************************************************
-New product availability form element
+edit product availability form element
 *************************************************/
 const eFormAvailabilityNew = {
-    form     : '#product-availability-new-form',
-    container: '#product-availability-new-container',
+    form     : '#product-availability-edit-form',
+    container: '#product-availability-edit-container',
 
     inputs: {
-        startsOn: '#product-availability-new-input-starts-on',
-        endsOn  : '#product-availability-new-input-ends-on',
-        note    : '#product-availability-new-input-note',
+        startsOn: '#product-availability-edit-input-starts-on',
+        endsOn  : '#product-availability-edit-input-ends-on',
+        note    : '#product-availability-edit-input-note',
     },
 
     buttons: {
-        create: '#product-availability-new-btn-create',
-        cancel: '#product-availability-new-btn-cancel',
+        create: '#product-availability-edit-btn-create',
+        cancel: '#product-availability-edit-btn-cancel',
     },
 
     classNames: {
-        inputs : '.product-availability-new-input',
-        buttons: '.product-availability-new-btn',
+        inputs : '.product-availability-edit-input',
+        buttons: '.product-availability-edit-btn',
     },
 
     getValues: function() {
@@ -41,13 +41,56 @@ const eTableAvailability = {
     },
 }
 
+const eModalEdit = '#product-availability-edit-modal';  // edit modal
+
+/************************************************
+Edit product availability record form
+*************************************************/
+const eFormAvailabilityEdit = {
+    form     : '#product-availability-edit-form',
+
+    inputs: {
+        startsOn: '#product-availability-edit-input-starts-on',
+        endsOn  : '#product-availability-edit-input-ends-on',
+        note    : '#product-availability-edit-input-note',
+    },
+
+    buttons: {
+        save: '#product-availability-edit-btn-save',
+        delete: '#product-availability-edit-btn-delete',
+    },
+
+    classNames: {
+        inputs : '.product-availability-edit-input',
+        buttons: '.product-availability-edit-btn',
+    },
+
+    getValues: function() {
+        return getFormValues(eFormAvailabilityEdit.inputs);
+    }
+}
+
+
 
 /************************************************
 Main logic
 *************************************************/
 $(document).ready(function() {
-    console.log('availability');
+    addEventListeners();
 });
+
+
+/************************************************
+Registers all the event listeners
+*************************************************/
+function addEventListeners() {
+
+    // open the edit modal
+    $(eTableAvailability.classNames.row).on('click', function() {
+        openEditModal(this);
+    });
+}
+
 
 
 /************************************************
@@ -64,4 +107,14 @@ function getFormValues(a_formInputElementObject) {
     }
 
     return values;
+}
+
+/************************************************
+Open the edit product availability modal
+
+Parms:
+    a_eTableRow: the table row clicked/selected that the user wishes to view
+*************************************************/
+function openEditModal(a_eTableRow) {
+    $(eModalEdit).modal('show');
 }
