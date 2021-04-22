@@ -210,17 +210,20 @@ textarea {
     display: none;
   }
 }
-#product-availability-table {
-  table-layout: fixed;
-}
 #product-availability-table .product-availability-row:hover {
   background: rgba(0, 0, 0, 0.05);
   cursor: pointer;
 }
-#product-availability-table .product-availability-cell {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+#product-availability-table .product-availability-th i {
+  color: red;
+  display: none;
+}
+#product-availability-table .product-availability-th.sorted i {
+  display: block;
+}
+
+.point-on-hover:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */

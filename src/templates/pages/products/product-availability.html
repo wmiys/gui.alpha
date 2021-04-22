@@ -74,20 +74,40 @@ Input parms:
             <table class="table mt-3" id="product-availability-table">
                 <thead>
                     <tr>
-                        <th class="product-availability-th" colspan="1">Starts</th>
-                        <th class="product-availability-th" colspan="1">Ends</th>
-                        <th class="product-availability-th" colspan="5">Note</th>
-                        <th class="product-availability-th" colspan="2">Created</th>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Starts</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Ends</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Note</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th sorted sorted-asc">
+                            <div class="d-flex point-on-hover">
+                                <span>Created</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {% for avaiability in availabilities %}
                     <tr class="product-availability-row">
-                        <td class="product-availability-cell" colspan="1">{{ avaiability.starts_on }}</td>
-                        <td class="product-availability-cell" colspan="1">{{ avaiability.ends_on }}</td>
-                        <td class="product-availability-cell" colspan="5">{{ avaiability.note }}</td>
-                        <td class="product-availability-cell" colspan="2">{{ avaiability.created_on }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ avaiability.starts_on }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ avaiability.ends_on }}</td>
+                        <td class="product-availability-cell note">{{ avaiability.note }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ avaiability.created_on }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
