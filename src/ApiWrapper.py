@@ -13,34 +13,36 @@ class ApiWrapper:
         self.email = email
         self.password = password
 
-    #------------------------------------------------------
-    # Get the client's information
-    #------------------------------------------------------
+
     def getUser(self):
+        """Get the client's information
+        """
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
-    #------------------------------------------------------
-    # Get a user's products
-    #------------------------------------------------------
     def getUserProducts(self):
+        """Get a user's products
+        """
+
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
     
-    #------------------------------------------------------
-    # Get a user's products
-    #------------------------------------------------------
+
     def getUserProduct(self, product_id):
+        """Get a user's products
+        """
+
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
-    #------------------------------------------------------
-    # Create a new product
-    #------------------------------------------------------
+
     def postUserProduct(self, newProduct, imageFile):
+        """Create a new product
+        """
+
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
 
         if imageFile:
@@ -52,10 +54,10 @@ class ApiWrapper:
         return response
     
 
-    #------------------------------------------------------
-    # Update a product
-    #------------------------------------------------------
     def putUserProduct(self, product_id, updatedProduct, imageFile):
+        """Update a product
+        """
+
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
 
         if imageFile:
@@ -68,31 +70,33 @@ class ApiWrapper:
         return response
 
 
-    #------------------------------------------------------
-    # Log a client in
-    #------------------------------------------------------
     @staticmethod
     def login(email, password):
+        """Log a client in
+        """
+
         url = ApiWrapper.generateApiUrl('/login')
         r = requests.get(url, params=dict(email=email, password=password))
 
         return r
     
-    #------------------------------------------------------
-    # Create a new client account
-    #------------------------------------------------------
+
     @staticmethod
     def createAccount(email, password, name_first, name_last, birth_date):
+        """Create a new client account
+        """
+
         url = ApiWrapper.generateApiUrl('/users')
         parms = dict(email=email, password=password, name_first=name_first, name_last=name_last, birth_date=birth_date)
         response = requests.post(url, data=parms)
         return response
 
-    #------------------------------------------------------
-    # Generate an API url
-    #------------------------------------------------------
+
     @staticmethod
     def generateApiUrl(suffix=''):
+        """Generate an API url
+        """
+
         url = "{}{}".format(ApiWrapper.URL_BASE, suffix)
         return url
     
