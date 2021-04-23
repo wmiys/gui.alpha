@@ -1,3 +1,6 @@
+$color-primary: #f62dae;
+$color-secondary: #7189ff;
+
 body {
     font-family: "Karla", sans-serif;
 }
@@ -42,11 +45,11 @@ body {
 }
 
 .btn-text-primary {
-    color: #f62dae;
+    color: $color-primary;
 }
 
 .btn-text-secondary {
-    color: #7189ff;
+    color: $color-secondary;
 }
 
 .btn-text-light {
@@ -202,7 +205,6 @@ textarea {
 }
 
 .form-new-product-btn-step {
-
     display: flex;
     align-items: flex-start;
 
@@ -221,14 +223,23 @@ textarea {
 
 
 #product-availability-table {
-    table-layout: fixed;
+    .product-availability-row:hover {
+        background:rgba(0,0,0,0.05);
+        cursor: pointer;
+    }
 
-    .product-availability-cell {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    .product-availability-th {
+        i {
+            color: red;
+            display: none;
+        }
+    }
+
+    .product-availability-th.sorted {
+        i { display: block; }
     }
 }
 
-
-
+.point-on-hover:hover {
+    cursor: pointer;
+}

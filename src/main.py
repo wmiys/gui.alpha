@@ -223,6 +223,34 @@ def apiProductPut(product_id):
     
     return ('', 200)
 
+#------------------------------------------------------
+# Retrieve a single product availability record
+#------------------------------------------------------
+@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET'])
+@login_required
+def apiProductAvailability(product_id, product_availability_id):
+    apiResponse = apiWrapper.getProductAvailability(product_id, product_availability_id)
+
+    if apiResponse.status_code != 200:          # error
+        flask.abort(apiResponse.status_code)
+    
+    return (jsonify(apiResponse.json()), 200)
+
+
+#------------------------------------------------------
+# Update a single product availability record
+#------------------------------------------------------
+@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['PUT'])
+@login_required
+def apiProductAvailabilityUpdate(product_id, product_availability_id):
+    apiResponse = apiWrapper.putProductAvailability(product_id, product_availability_id, request.form)
+
+    if apiResponse.status_code != 200:
+        flask.abort(apiResponse.status_code)
+    
+    return ('', 200)
+
+
 #************************************************************************************
 #
 #                                   Main function
