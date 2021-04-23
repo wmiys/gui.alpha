@@ -8,7 +8,7 @@ const eFormAvailabilityNew = {
     container: '#product-availability-new-container',
 
     inputs: {
-        // datesRange: 
+        datesRange: '#product-availability-new-input-dates',
         note    : '#product-availability-new-input-note',
     },
 
@@ -89,13 +89,6 @@ const eFormAvailabilityEdit = {
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 
-let flatpickEditStartsOn = null;
-let flatpickEditEndsOn = null;
-let flatpickNewStartsOn = null;
-let flatpickNewEndsOn = null;
-
-
-let testRange = null;
 
 let dateRangeEdit = null;
 
@@ -200,8 +193,7 @@ Parms:
 *************************************************/
 function setEditModalFormValues(oProductAvailability) {
     $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
-    flatpickEditStartsOn.setDate(oProductAvailability.starts_on, true);
-    flatpickEditEndsOn.setDate(oProductAvailability.ends_on, true);
+    dateRangeEdit.setDate([oProductAvailability.starts_on, oProductAvailability.ends_on], true);
 }
 
 /************************************************
