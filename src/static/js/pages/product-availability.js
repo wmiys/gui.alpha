@@ -91,6 +91,11 @@ const eFormAvailabilityEdit = {
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 
+let flatpickEditStartsOn = null;
+let flatpickEditEndsOn = null;
+
+let flatpickNewStartsOn = null;
+let flatpickNewEndsOn = null;
 
 
 /************************************************
@@ -98,6 +103,8 @@ Main logic
 *************************************************/
 $(document).ready(function() {
     addEventListeners();
+    // loadFlatpickr();
+    initFlatpickrs();
 });
 
 
@@ -105,7 +112,6 @@ $(document).ready(function() {
 Registers all the event listeners
 *************************************************/
 function addEventListeners() {
-
     // open the edit modal
     $(eTableAvailability.classNames.row).on('click', function() {
         openEditModal(this);
@@ -113,6 +119,38 @@ function addEventListeners() {
 }
 
 
+
+/**********************************************************
+Initialize the flat pickr inputs
+**********************************************************/
+function initFlatpickrs() {
+
+    flatpickNewStartsOn = $(eFormAvailabilityNew.inputs.startsOn).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+    });
+
+    flatpickNewEndsOn = $(eFormAvailabilityNew.inputs.endsOn).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        minDate: "today",
+    });
+
+    flatpickEditStartsOn = $(eFormAvailabilityEdit.inputs.startsOn).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+    });
+
+    flatpickEditEndsOn = $(eFormAvailabilityEdit.inputs.endsOn).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+    });
+}
 
 /************************************************
 Returns an object containing a form's input values.
@@ -173,10 +211,13 @@ Parms:
         - note
 *************************************************/
 function setEditModalFormValues(oProductAvailability) {
-    $(eFormAvailabilityEdit.inputs.startsOn).val(oProductAvailability.starts_on);
-    $(eFormAvailabilityEdit.inputs.endsOn).val(oProductAvailability.ends_on);
     $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
+    flatpickEditStartsOn.setDate(oProductAvailability.starts_on, true);
+    flatpickEditEndsOn.setDate(oProductAvailability.ends_on, true);
 }
+
+
+
 
 
 
