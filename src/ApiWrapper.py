@@ -103,6 +103,21 @@ class ApiWrapper:
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    
+    def putProductAvailability(self, product_id, product_availability_id, updatedProductAvailability):
+        """Update a single product availability record
+
+        Args:
+            product_id (int): the product id
+            product_availability_id (int): id of the desired product availability
+            updatedProductAvailability (dict): a dict containing the request body data
+        """
+
+
+        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+        response = requests.put(url, auth=(self.email, self.password), data=updatedProductAvailability)
+        return response
+
 
 
 

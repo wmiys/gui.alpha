@@ -93,7 +93,6 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 
 let flatpickEditStartsOn = null;
 let flatpickEditEndsOn = null;
-
 let flatpickNewStartsOn = null;
 let flatpickNewEndsOn = null;
 
@@ -103,7 +102,6 @@ Main logic
 *************************************************/
 $(document).ready(function() {
     addEventListeners();
-    // loadFlatpickr();
     initFlatpickrs();
 });
 
@@ -116,15 +114,16 @@ function addEventListeners() {
     $(eTableAvailability.classNames.row).on('click', function() {
         openEditModal(this);
     });
+
+    $(eFormAvailabilityEdit.buttons.save).on('click', function() {
+        updateProductAvailability();
+    });
 }
-
-
 
 /**********************************************************
 Initialize the flat pickr inputs
 **********************************************************/
 function initFlatpickrs() {
-
     flatpickNewStartsOn = $(eFormAvailabilityNew.inputs.startsOn).flatpickr({
         altInput: true,
         altFormat: "F j, Y",
@@ -162,7 +161,7 @@ function getFormValues(a_formInputElementObject) {
     const values = {};
 
     for (inputKey of Object.keys(a_formInputElementObject)) {
-        values[inputKey] = a_formInputElementObject[inputKey];
+        values[inputKey] = $(a_formInputElementObject[inputKey]).val();
     }
 
     return values;
@@ -216,9 +215,38 @@ function setEditModalFormValues(oProductAvailability) {
     flatpickEditEndsOn.setDate(oProductAvailability.ends_on, true);
 }
 
+/************************************************
+Update the product availability. Send request.
+*************************************************/
+function updateProductAvailability() {    
+    let requestBody = {
+        starts_on: $(eFormAvailabilityEdit.inputs.startsOn).val(),
+        ends_on: $(eFormAvailabilityEdit.inputs.endsOn).val(),
+        note: $(eFormAvailabilityEdit.inputs.note).val(),
+    }
+    
+    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
+    ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, requestBody, updateProductAvailabilitySuccess, updateProductAvailabilityError);
+}
 
+/**********************************************************
+Successful product availability request callback.
+Refreshes the page.
+**********************************************************/
+function updateProductAvailabilitySuccess(response, status, xhr) {
+    window.location.href = window.location.href;
+}
 
+/**********************************************************
+Unsuccessful product availability request callback
+**********************************************************/
+function updateProductAvailabilityError(xhr, status, error) {
+    Utilities.displayAlert('API error.');
 
-
+    console.error('updateProductAvailabilityError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+}
 
 
