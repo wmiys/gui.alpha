@@ -93,6 +93,10 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 let dateRangeEdit = null;
 let dateRangeNew = null;
 
+// if a flatpickr element has this class - it is not disabled
+// if a flatpickr element does not have this class - it is disabled
+const disableFlatpickrClass = 'flatpick-enabled';
+
 /************************************************
 Main logic
 *************************************************/
@@ -145,7 +149,7 @@ function initFlatpickrs() {
         dateFormat: "Y-m-d",
         mode: "range",
         minDate: "today",
-        defaultDate: "today",
+        defaultDate: ["today", "today"],
     });
 }
 
@@ -307,6 +311,8 @@ Update a new product availability.
 Send request to the api
 *************************************************/
 function createProductAvailability() {
+    disableFormNew();
+
     const dates = getFlatPickrRangeDates(dateRangeNew);
 
     let requestBody = {
@@ -323,17 +329,40 @@ Callback for a successful product availability POST request to the API
 *************************************************/
 function createProductAvailabilitySuccess(response, status, xhr) {
     window.location.href = window.location.href;
+    // enableFormNew();
 }
 
 /************************************************
 Callback for an unsuccessful product availability POST request to the API
 *************************************************/
 function createProductAvailabilityError(xhr, status, error) {
+    enableFormNew();
+    
     Utilities.displayAlert('API error. Check log');
     console.error('submitFormEventError');
     console.error(xhr);
     console.error(status);
     console.error(error); 
 }
+
+
+/************************************************
+Disable the new form elements
+*************************************************/
+function disableFormNew() {
+    $(eFormAvailabilityNew.buttons.create).find('.spinner-border').removeClass('d-none');   // show the spinner in the button
+    $(eFormAvailabilityNew.classNames.buttons).prop('disabled', true);                      // disable the buttons
+    $(eFormAvailabilityNew.classNames.inputs).prop('disabled', true);                       // disabled the inputs
+}
+
+/************************************************
+Enable the new form elements
+*************************************************/
+function enableFormNew() {
+    $(eFormAvailabilityNew.buttons.create).find('.spinner-border').addClass('d-none');   // show the spinner in the button
+    $(eFormAvailabilityNew.classNames.buttons).prop('disabled', false);                      // disable the buttons
+    $(eFormAvailabilityNew.classNames.inputs).prop('disabled', false);                       // disabled the inputs
+}
+
 
 

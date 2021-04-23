@@ -1994,7 +1994,7 @@ pre code {
   color: #6c757d;
   opacity: 1;
 }
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled {
   background-color: #e9ecef;
   opacity: 1;
 }

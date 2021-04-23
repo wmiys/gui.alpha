@@ -47,7 +47,7 @@ Input parms:
                             <!-- start and end date range -->
                             <div class="form-group">
                                 <label for="product-availability-new-input-dates">Dates</label>
-                                <input type="text" class="form-control product-availability-new-input flatpick" id="product-availability-new-input-dates">
+                                <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-dates">
                             </div>
 
                             <!-- note -->
@@ -58,7 +58,10 @@ Input parms:
                         <!-- </div> -->
                         
                         <!-- action buttons -->
-                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">Create</button>
+                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Create</span>
+                        </button>
                         <button type="button" id="product-availability-new-btn-cancel" class="btn btn-sm btn-outline-danger product-availability-new-btn" data-toggle="collapse" data-target="#product-availability-new-container">Cancel</button>
                     </form>
                 </div>

@@ -226,9 +226,4 @@ textarea {
   cursor: pointer;
 }
 
-.flatpick[readonly],
-.flatpick:disabled {
-  background-color: inherit;
-}
-
 /*# sourceMappingURL=style.css.map */

@@ -243,9 +243,3 @@ textarea {
 .point-on-hover:hover {
     cursor: pointer;
 }
-
-
-.flatpick[readonly],
-.flatpick:disabled {
-    background-color: inherit;
-}
