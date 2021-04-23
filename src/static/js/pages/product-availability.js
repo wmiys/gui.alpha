@@ -58,7 +58,17 @@ const eModalEdit = {
     open: function(newID) {
         eModalEdit.setActiveProductAvailabilityID(newID);
         $(eModalEdit.modal).modal('show');
-    }
+    },
+
+    toggleLoadingDisplay: function(a_showLoading = true) {
+        let formHeight = $(eModalEdit.modal).find('.modal-body').height();
+
+        if (a_showLoading) {
+            $(eModalEdit.modal).addClass('loading').find('.loading-spinner').height(formHeight);
+        } else {
+            $(eModalEdit.modal).removeClass('loading').find('.loading-spinner').height(formHeight);
+        }
+    },
 }
 
 /************************************************
@@ -114,6 +124,10 @@ function addEventListeners() {
         openEditModal(this);
     });
 
+    $(eModalEdit.modal).on('shown.bs.modal', function (e) {
+        eModalEdit.toggleLoadingDisplay(true);
+    });
+
     // the edit product availability form SUBMIT button was clicked
     $(eFormAvailabilityEdit.buttons.save).on('click', function() {
         updateProductAvailability();
@@ -128,6 +142,8 @@ function addEventListeners() {
     $(eFormAvailabilityNew.buttons.create).on('click', function() {
         createProductAvailability();
     });
+
+
 
 }
 
@@ -176,6 +192,7 @@ Parms:
     a_eTableRow: the table row clicked/selected that the user wishes to view
 *************************************************/
 function openEditModal(a_eTableRow) {
+    // eModalEdit.toggleLoadingDisplay(true);
     const newProductAvailabilityID = $(a_eTableRow).attr(eModalEdit.productAvailabilityID);
     ApiWrapper.requestGetProductAvailability(mProductID, newProductAvailabilityID, openEditModalSuccess, openEditModalError);
     eModalEdit.open(newProductAvailabilityID);
@@ -186,6 +203,7 @@ Callback for a successful product availability GET request to the API
 *************************************************/
 function openEditModalSuccess(response, status, xhr) {
     setEditModalFormValues(response);
+    eModalEdit.toggleLoadingDisplay(false);
 }
 
 /************************************************
@@ -386,4 +404,7 @@ function enableFormEdit(eSpinnerButton) {
     $(eFormAvailabilityEdit.classNames.buttons).prop('disabled', false);                      // disable the buttons
     $(eFormAvailabilityEdit.classNames.inputs).prop('disabled', false);                       // disabled the inputs
 }
+
+
+
 

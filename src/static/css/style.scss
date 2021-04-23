@@ -243,3 +243,17 @@ textarea {
 .point-on-hover:hover {
     cursor: pointer;
 }
+
+
+#product-availability-edit-modal {
+    #product-availability-edit-form { display: block; }
+    .modal-footer { display: flex; }
+    .loading-spinner { display: none; }
+}    
+
+#product-availability-edit-modal.loading {
+    #product-availability-edit-form { display: none; }
+    .modal-footer { display: none; }
+    .loading-spinner { display: block; }
+    
+}

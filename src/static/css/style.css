@@ -226,4 +226,24 @@ textarea {
   cursor: pointer;
 }
 
+#product-availability-edit-modal #product-availability-edit-form {
+  display: block;
+}
+#product-availability-edit-modal .modal-footer {
+  display: flex;
+}
+#product-availability-edit-modal .loading-spinner {
+  display: none;
+}
+
+#product-availability-edit-modal.loading #product-availability-edit-form {
+  display: none;
+}
+#product-availability-edit-modal.loading .modal-footer {
+  display: none;
+}
+#product-availability-edit-modal.loading .loading-spinner {
+  display: block;
+}
+
 /*# sourceMappingURL=style.css.map */
