@@ -119,6 +119,19 @@ class ApiWrapper:
         return response
 
 
+    def deleteProductAvailability(self, product_id, product_availability_id):
+        """Delete a single product availability record
+
+        Args:
+            product_id (int): the product id
+            product_availability_id (int): id of the requested product availability
+        """
+
+        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+        response = requests.delete(url, auth=(self.email, self.password))
+        return response
+
+
 
 
 

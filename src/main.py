@@ -250,6 +250,15 @@ def apiProductAvailabilityUpdate(product_id, product_availability_id):
     
     return ('', 200)
 
+#------------------------------------------------------
+# delete a single product availability record
+#------------------------------------------------------
+@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['DELETE'])
+@login_required
+def apiProductAvailabilityDelete(product_id, product_availability_id):
+    apiResponse = apiWrapper.deleteProductAvailability(product_id, product_availability_id)
+    return ('', apiResponse.status_code)
+
 
 #************************************************************************************
 #
