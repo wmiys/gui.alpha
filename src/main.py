@@ -223,41 +223,35 @@ def apiProductPut(product_id):
     
     return ('', 200)
 
+
+
 #------------------------------------------------------
-# Retrieve a single product availability record
+# Handle any requests related a single product availability:
+#  - GET:    Retrieve a single product availability record
+#  - PUT:    Update a single product availability record
+#  - DELETE: Delete a single product availability record
 #------------------------------------------------------
-@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET'])
+@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET', 'PUT','DELETE'])
 @login_required
-def apiProductAvailability(product_id, product_availability_id):
-    apiResponse = apiWrapper.getProductAvailability(product_id, product_availability_id)
+def apiProductAvailabilityModify(product_id, product_availability_id):
+    if request.method == 'GET':
+        apiResponse = apiWrapper.getProductAvailability(product_id, product_availability_id)
 
-    if apiResponse.status_code != 200:          # error
-        flask.abort(apiResponse.status_code)
-    
-    return (jsonify(apiResponse.json()), 200)
+        if apiResponse.status_code != 200:          # error
+            flask.abort(apiResponse.status_code)
 
+        return (jsonify(apiResponse.json()), 200)
 
-#------------------------------------------------------
-# Update a single product availability record
-#------------------------------------------------------
-@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['PUT'])
-@login_required
-def apiProductAvailabilityUpdate(product_id, product_availability_id):
-    apiResponse = apiWrapper.putProductAvailability(product_id, product_availability_id, request.form)
+    apiResponse = None
 
-    if apiResponse.status_code != 200:
-        flask.abort(apiResponse.status_code)
-    
-    return ('', 200)
+    if request.method == 'PUT':
+        apiResponse = apiWrapper.putProductAvailability(product_id, product_availability_id, request.form)
+    elif request.method == 'DELETE':
+        apiResponse = apiWrapper.deleteProductAvailability(product_id, product_availability_id)
 
-#------------------------------------------------------
-# delete a single product availability record
-#------------------------------------------------------
-@app.route('/api/products/<int:product_id>/availability/<int:product_availability_id>', methods=['DELETE'])
-@login_required
-def apiProductAvailabilityDelete(product_id, product_availability_id):
-    apiResponse = apiWrapper.deleteProductAvailability(product_id, product_availability_id)
     return ('', apiResponse.status_code)
+
+
 
 
 #************************************************************************************
