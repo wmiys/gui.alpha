@@ -177,9 +177,7 @@ Parms:
 *************************************************/
 function openEditModal(a_eTableRow) {
     const newProductAvailabilityID = $(a_eTableRow).attr(eModalEdit.productAvailabilityID);
-
     ApiWrapper.requestGetProductAvailability(mProductID, newProductAvailabilityID, openEditModalSuccess, openEditModalError);
-
     eModalEdit.open(newProductAvailabilityID);
 }
 
@@ -220,6 +218,7 @@ function setEditModalFormValues(oProductAvailability) {
 Update the product availability. Send request.
 *************************************************/
 function updateProductAvailability() {    
+    disableFormEdit(eFormAvailabilityEdit.buttons.save);
     const dates = getFlatPickrRangeDates(dateRangeEdit);
 
     let requestBody = {
@@ -264,6 +263,8 @@ function updateProductAvailabilitySuccess(response, status, xhr) {
 Unsuccessful product availability PUT request callback
 **********************************************************/
 function updateProductAvailabilityError(xhr, status, error) {
+    enableFormEdit();
+
     Utilities.displayAlert('API error.');
 
     console.error('updateProductAvailabilityError');
@@ -281,6 +282,8 @@ function deleteProductAvailability() {
         return;
     }
 
+    disableFormEdit(eFormAvailabilityEdit.buttons.delete);
+
     const availabilityID = eModalEdit.getActiveProductAvailabilityID();
     ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, updateProductAvailabilitySuccess, updateProductAvailabilityError);
 }
@@ -297,6 +300,8 @@ function deleteProductAvailabilitySuccess(response, status, xhr) {
 Unsuccessful product availability DELETE request callback
 **********************************************************/
 function deleteProductAvailabilityError(xhr, status, error) {
+    enableFormEdit(eFormAvailabilityEdit.buttons.delete);
+    
     Utilities.displayAlert('API error.');
 
     console.error('updateProductAvailabilityError');
@@ -364,5 +369,21 @@ function enableFormNew() {
     $(eFormAvailabilityNew.classNames.inputs).prop('disabled', false);                       // disabled the inputs
 }
 
+/************************************************
+Disable the edit form elements
+*************************************************/
+function disableFormEdit(eSpinnerButton) {
+    $(eSpinnerButton).find('.spinner-border').removeClass('d-none');   // show the spinner in the button
+    $(eFormAvailabilityEdit.classNames.buttons).prop('disabled', true);                      // disable the buttons
+    $(eFormAvailabilityEdit.classNames.inputs).prop('disabled', true);                       // disabled the inputs
+}
 
+/************************************************
+Enable the edit form elements
+*************************************************/
+function enableFormEdit(eSpinnerButton) {
+    $(eSpinnerButton).find('.spinner-border').addClass('d-none');   // show the spinner in the button
+    $(eFormAvailabilityEdit.classNames.buttons).prop('disabled', false);                      // disable the buttons
+    $(eFormAvailabilityEdit.classNames.inputs).prop('disabled', false);                       // disabled the inputs
+}
 

@@ -147,8 +147,14 @@ Input parms:
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">Delete</button>
-                    <button type="button" id="product-availability-edit-btn-save" class="btn btn-primary product-availability-edit-btn">Save changes</button>
+                    <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">
+                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                        <span>Delete</span>
+                    </button>
+                    <button type="button" id="product-availability-edit-btn-save" class="btn btn-success product-availability-edit-btn">
+                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                        <span>Save</span>
+                    </button>
                 </div>
             </div>
         </div>
