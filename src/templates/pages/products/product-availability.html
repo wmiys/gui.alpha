@@ -102,12 +102,12 @@ Input parms:
                 </thead>
 
                 <tbody>
-                    {% for avaiability in availabilities %}
-                    <tr class="product-availability-row">
-                        <td class="product-availability-cell text-nowrap">{{ avaiability.starts_on }}</td>
-                        <td class="product-availability-cell text-nowrap">{{ avaiability.ends_on }}</td>
-                        <td class="product-availability-cell note">{{ avaiability.note }}</td>
-                        <td class="product-availability-cell text-nowrap">{{ avaiability.created_on }}</td>
+                    {% for availability in availabilities %}
+                    <tr class="product-availability-row" data-product-availability-id="{{ availability.id }}">
+                        <td class="product-availability-cell text-nowrap">{{ availability.starts_on }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ availability.ends_on }}</td>
+                        <td class="product-availability-cell note">{{ availability.note }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ availability.created_on }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

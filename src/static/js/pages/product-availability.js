@@ -41,7 +41,26 @@ const eTableAvailability = {
     },
 }
 
-const eModalEdit = '#product-availability-edit-modal';  // edit modal
+/************************************************
+Edit modal
+*************************************************/
+const eModalEdit = {
+    modal: '#product-availability-edit-modal',
+    productAvailabilityID: 'data-product-availability-id',
+
+    getActiveProductAvailabilityID: function() {
+        return $(eModalEdit.modal).attr(eModalEdit.productAvailabilityID);
+    },
+
+    setActiveProductAvailabilityID: function(newID) {
+        $(eModalEdit.modal).attr(eModalEdit.productAvailabilityID, newID);
+    },
+
+    open: function(newID) {
+        eModalEdit.setActiveProductAvailabilityID(newID);
+        $(eModalEdit.modal).modal('show');
+    }
+}
 
 /************************************************
 Edit product availability record form
@@ -69,6 +88,8 @@ const eFormAvailabilityEdit = {
         return getFormValues(eFormAvailabilityEdit.inputs);
     }
 }
+
+const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 
 
 
@@ -116,5 +137,47 @@ Parms:
     a_eTableRow: the table row clicked/selected that the user wishes to view
 *************************************************/
 function openEditModal(a_eTableRow) {
-    $(eModalEdit).modal('show');
+    const newProductAvailabilityID = $(a_eTableRow).attr(eModalEdit.productAvailabilityID);
+
+    ApiWrapper.requestGetProductAvailability(mProductID, newProductAvailabilityID, openEditModalSuccess, openEditModalError);
+
+    eModalEdit.open(newProductAvailabilityID);
 }
+
+/************************************************
+Callback for a successful product availability GET request to the API
+*************************************************/
+function openEditModalSuccess(response, status, xhr) {
+    setEditModalFormValues(response);
+}
+
+/************************************************
+Callback for an unsuccessful product availability GET request to the API
+*************************************************/
+function openEditModalError(xhr, status, error) {
+    Utilities.displayAlert('API error. Check log');
+    console.error('submitFormEventError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+}
+
+
+/************************************************
+Sets the edit modal form inputs
+
+Parms:
+     oProductAvailability: an object containing the fields:
+        - starts_on
+        - ends_on
+        - note
+*************************************************/
+function setEditModalFormValues(oProductAvailability) {
+    $(eFormAvailabilityEdit.inputs.startsOn).val(oProductAvailability.starts_on);
+    $(eFormAvailabilityEdit.inputs.endsOn).val(oProductAvailability.ends_on);
+    $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
+}
+
+
+
+

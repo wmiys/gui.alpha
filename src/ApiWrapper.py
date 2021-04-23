@@ -13,7 +13,9 @@ class ApiWrapper:
         self.email = email
         self.password = password
 
-
+    #************************************************************************************
+    #                                  USER
+    #************************************************************************************
     def getUser(self):
         """Get the client's information
         """
@@ -21,6 +23,9 @@ class ApiWrapper:
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    #************************************************************************************
+    #                             USER PRODUCTS
+    #************************************************************************************
     def getUserProducts(self):
         """Get a user's products
         """
@@ -36,22 +41,6 @@ class ApiWrapper:
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
         response = requests.get(url, auth=(self.email, self.password))
         return response
-
-
-    def getProductAvailabilities(self, product_id):
-        """Get the product availabilities for a single product
-
-        Args:
-            product_id (int): the product's id
-
-        Returns:
-            list: a list of all the product's availabilities
-        """
-
-        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.get(url, auth=(self.email, self.password))
-        return response
-
 
     def postUserProduct(self, newProduct, imageFile):
         """Create a new product
@@ -82,6 +71,40 @@ class ApiWrapper:
         response = requests.put(url, auth=(self.email, self.password), files=productImage, data=updatedProduct)
 
         return response
+
+    
+
+    #************************************************************************************
+    #                             PRODUCT AVAILABILITY
+    #************************************************************************************
+    def getProductAvailabilities(self, product_id):
+        """Get the product availabilities for a single product
+
+        Args:
+            product_id (int): the product's id
+
+        Returns:
+            list: a list of all the product's availabilities
+        """
+
+        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+    
+    def getProductAvailability(self, product_id, product_availability_id):
+        """Request a single product availability record
+
+        Args:
+            product_id (int): the product id
+            product_availability_id (int): id of the desired product availability
+        """
+
+        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+
+
 
 
     @staticmethod

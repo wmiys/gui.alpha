@@ -208,6 +208,20 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a GET request to fetch a single product availability record.
+    **********************************************************/
+    static requestGetProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
+        
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************
