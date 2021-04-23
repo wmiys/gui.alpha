@@ -4,23 +4,22 @@
 edit product availability form element
 *************************************************/
 const eFormAvailabilityNew = {
-    form     : '#product-availability-edit-form',
-    container: '#product-availability-edit-container',
+    form     : '#product-availability-new-form',
+    container: '#product-availability-new-container',
 
     inputs: {
-        startsOn: '#product-availability-edit-input-starts-on',
-        endsOn  : '#product-availability-edit-input-ends-on',
-        note    : '#product-availability-edit-input-note',
+        datesRange: '#product-availability-new-input-dates',
+        note    : '#product-availability-new-input-note',
     },
 
     buttons: {
-        create: '#product-availability-edit-btn-create',
-        cancel: '#product-availability-edit-btn-cancel',
+        create: '#product-availability-new-btn-create',
+        cancel: '#product-availability-new-btn-cancel',
     },
 
     classNames: {
-        inputs : '.product-availability-edit-input',
-        buttons: '.product-availability-edit-btn',
+        inputs : '.product-availability-new-input',
+        buttons: '.product-availability-new-btn',
     },
 
     getValues: function() {
@@ -69,8 +68,7 @@ const eFormAvailabilityEdit = {
     form     : '#product-availability-edit-form',
 
     inputs: {
-        startsOn: '#product-availability-edit-input-starts-on',
-        endsOn  : '#product-availability-edit-input-ends-on',
+        datesRange: '#product-availability-edit-input-dates',
         note    : '#product-availability-edit-input-note',
     },
 
@@ -91,11 +89,9 @@ const eFormAvailabilityEdit = {
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 
-let flatpickEditStartsOn = null;
-let flatpickEditEndsOn = null;
-let flatpickNewStartsOn = null;
-let flatpickNewEndsOn = null;
 
+let dateRangeEdit = null;
+let dateRangeNew = null;
 
 /************************************************
 Main logic
@@ -104,7 +100,6 @@ $(document).ready(function() {
     addEventListeners();
     initFlatpickrs();
 });
-
 
 /************************************************
 Registers all the event listeners
@@ -124,36 +119,33 @@ function addEventListeners() {
     $(eFormAvailabilityEdit.buttons.delete).on('click', function() {
         deleteProductAvailability();
     });
+
+    // create a new product availability
+    $(eFormAvailabilityNew.buttons.create).on('click', function() {
+        createProductAvailability();
+    });
+
 }
+
 
 /**********************************************************
 Initialize the flat pickr inputs
 **********************************************************/
 function initFlatpickrs() {
-    flatpickNewStartsOn = $(eFormAvailabilityNew.inputs.startsOn).flatpickr({
+    dateRangeEdit = $(eFormAvailabilityEdit.inputs.datesRange).flatpickr({
         altInput: true,
         altFormat: "F j, Y",
         dateFormat: "Y-m-d",
+        mode: "range",
+    });
+
+    dateRangeNew = $(eFormAvailabilityNew.inputs.datesRange).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        mode: "range",
         minDate: "today",
-    });
-
-    flatpickNewEndsOn = $(eFormAvailabilityNew.inputs.endsOn).flatpickr({
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-        minDate: "today",
-    });
-
-    flatpickEditStartsOn = $(eFormAvailabilityEdit.inputs.startsOn).flatpickr({
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-    });
-
-    flatpickEditEndsOn = $(eFormAvailabilityEdit.inputs.endsOn).flatpickr({
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
+        defaultDate: "today",
     });
 }
 
@@ -217,23 +209,44 @@ Parms:
 *************************************************/
 function setEditModalFormValues(oProductAvailability) {
     $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
-    flatpickEditStartsOn.setDate(oProductAvailability.starts_on, true);
-    flatpickEditEndsOn.setDate(oProductAvailability.ends_on, true);
+    dateRangeEdit.setDate([oProductAvailability.starts_on, oProductAvailability.ends_on], true);
 }
 
 /************************************************
 Update the product availability. Send request.
 *************************************************/
 function updateProductAvailability() {    
+    const dates = getFlatPickrRangeDates(dateRangeEdit);
+
     let requestBody = {
-        starts_on: $(eFormAvailabilityEdit.inputs.startsOn).val(),
-        ends_on: $(eFormAvailabilityEdit.inputs.endsOn).val(),
+        starts_on: dates.startsOn,
+        ends_on: dates.endsOn,
         note: $(eFormAvailabilityEdit.inputs.note).val(),
     }
     
     const availabilityID = eModalEdit.getActiveProductAvailabilityID();
     ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, requestBody, updateProductAvailabilitySuccess, updateProductAvailabilityError);
 }
+
+/************************************************
+Returns the starts on and ends on values in a flatpickr date range.
+*************************************************/
+function getFlatPickrRangeDates(a_flatPickrInstance) {   
+    if (a_flatPickrInstance.selectedDates.length == 0) {
+        return null;
+    }
+
+    let out1 = DateTime.fromJSDate(a_flatPickrInstance.selectedDates[0]); // starts on
+    let out2 = DateTime.fromJSDate(a_flatPickrInstance.selectedDates[1]); // ends on
+
+    const result = {
+        startsOn: out1.toISODate(),
+        endsOn: out2.toISODate(),
+    }
+
+    return result;
+}
+
 
 /**********************************************************
 Successful product availability PUT request callback.
@@ -283,6 +296,41 @@ function deleteProductAvailabilityError(xhr, status, error) {
     Utilities.displayAlert('API error.');
 
     console.error('updateProductAvailabilityError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+}
+
+
+/************************************************
+Update a new product availability. 
+Send request to the api
+*************************************************/
+function createProductAvailability() {
+    const dates = getFlatPickrRangeDates(dateRangeNew);
+
+    let requestBody = {
+        starts_on: dates.startsOn,
+        ends_on: dates.endsOn,
+        note: $(eFormAvailabilityNew.inputs.note).val(),
+    }
+    
+    ApiWrapper.requestPostProductAvailability(mProductID, requestBody, createProductAvailabilitySuccess, createProductAvailabilityError);
+}
+
+/************************************************
+Callback for a successful product availability POST request to the API
+*************************************************/
+function createProductAvailabilitySuccess(response, status, xhr) {
+    window.location.href = window.location.href;
+}
+
+/************************************************
+Callback for an unsuccessful product availability POST request to the API
+*************************************************/
+function createProductAvailabilityError(xhr, status, error) {
+    Utilities.displayAlert('API error. Check log');
+    console.error('submitFormEventError');
     console.error(xhr);
     console.error(status);
     console.error(error); 

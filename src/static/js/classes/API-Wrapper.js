@@ -251,6 +251,21 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a POST product availability request
+    **********************************************************/
+    static requestPostProductAvailability(productID, productAvailabilityData, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/availability`;
+        
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.POST,
+            data: productAvailabilityData,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************

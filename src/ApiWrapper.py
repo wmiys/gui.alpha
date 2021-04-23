@@ -131,9 +131,17 @@ class ApiWrapper:
         response = requests.delete(url, auth=(self.email, self.password))
         return response
 
+    def insertProductAvailability(self, product_id, newProductAvailabilityFormData):
+        """Create a new single product availability record
 
+        Args:
+            product_id (int): the product id
+            newProductAvailabilityFormData (object): the request form data
+        """
 
-
+        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData)
+        return response
 
     @staticmethod
     def login(email, password):
