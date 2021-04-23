@@ -115,8 +115,14 @@ function addEventListeners() {
         openEditModal(this);
     });
 
+    // the edit product availability form SUBMIT button was clicked
     $(eFormAvailabilityEdit.buttons.save).on('click', function() {
         updateProductAvailability();
+    });
+
+    // the edit product availability form DELETE button was clicked
+    $(eFormAvailabilityEdit.buttons.delete).on('click', function() {
+        deleteProductAvailability();
     });
 }
 
@@ -230,7 +236,7 @@ function updateProductAvailability() {
 }
 
 /**********************************************************
-Successful product availability request callback.
+Successful product availability PUT request callback.
 Refreshes the page.
 **********************************************************/
 function updateProductAvailabilitySuccess(response, status, xhr) {
@@ -238,9 +244,42 @@ function updateProductAvailabilitySuccess(response, status, xhr) {
 }
 
 /**********************************************************
-Unsuccessful product availability request callback
+Unsuccessful product availability PUT request callback
 **********************************************************/
 function updateProductAvailabilityError(xhr, status, error) {
+    Utilities.displayAlert('API error.');
+
+    console.error('updateProductAvailabilityError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+}
+
+/**********************************************************
+Delete a product availabiulity record.
+**********************************************************/
+function deleteProductAvailability() {
+    // this can't be undone
+    if (!confirm('Are you sure you want to delete this? It can\'t be undone.')) {
+        return;
+    }
+
+    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
+    ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, updateProductAvailabilitySuccess, updateProductAvailabilityError);
+}
+
+/**********************************************************
+Successful product availability DELETE request callback.
+Refreshes the page.
+**********************************************************/
+function deleteProductAvailabilitySuccess(response, status, xhr) {
+    window.location.href = window.location.href;
+}
+
+/**********************************************************
+Unsuccessful product availability DELETE request callback
+**********************************************************/
+function deleteProductAvailabilityError(xhr, status, error) {
     Utilities.displayAlert('API error.');
 
     console.error('updateProductAvailabilityError');

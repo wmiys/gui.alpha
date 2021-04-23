@@ -237,6 +237,20 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a DELETE product availability request
+    **********************************************************/
+    static requestDeleteProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
+        
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.DELETE,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************
