@@ -120,7 +120,13 @@ function addEventListeners() {
         deleteProductAvailability();
     });
 
+    // create a new product availability
+    $(eFormAvailabilityNew.buttons.create).on('click', function() {
+        createProductAvailability();
+    });
+
 }
+
 
 /**********************************************************
 Initialize the flat pickr inputs
@@ -139,6 +145,7 @@ function initFlatpickrs() {
         dateFormat: "Y-m-d",
         mode: "range",
         minDate: "today",
+        defaultDate: "today",
     });
 }
 
@@ -289,6 +296,41 @@ function deleteProductAvailabilityError(xhr, status, error) {
     Utilities.displayAlert('API error.');
 
     console.error('updateProductAvailabilityError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
+}
+
+
+/************************************************
+Update a new product availability. 
+Send request to the api
+*************************************************/
+function createProductAvailability() {
+    const dates = getFlatPickrRangeDates(dateRangeNew);
+
+    let requestBody = {
+        starts_on: dates.startsOn,
+        ends_on: dates.endsOn,
+        note: $(eFormAvailabilityNew.inputs.note).val(),
+    }
+    
+    ApiWrapper.requestPostProductAvailability(mProductID, requestBody, createProductAvailabilitySuccess, createProductAvailabilityError);
+}
+
+/************************************************
+Callback for a successful product availability POST request to the API
+*************************************************/
+function createProductAvailabilitySuccess(response, status, xhr) {
+    window.location.href = window.location.href;
+}
+
+/************************************************
+Callback for an unsuccessful product availability POST request to the API
+*************************************************/
+function createProductAvailabilityError(xhr, status, error) {
+    Utilities.displayAlert('API error. Check log');
+    console.error('submitFormEventError');
     console.error(xhr);
     console.error(status);
     console.error(error); 

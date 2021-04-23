@@ -252,6 +252,20 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
     return ('', apiResponse.status_code)
 
 
+#------------------------------------------------------
+# Create a new product
+#------------------------------------------------------
+@app.route('/api/products/<int:product_id>/availability', methods=['POST'])
+@login_required
+def apiProductAvailability(product_id):
+    
+    apiResponse = apiWrapper.insertProductAvailability(product_id, request.form)
+
+    if apiResponse.status_code != 200:          # error
+        flask.abort(apiResponse.status_code)
+
+    return (jsonify(apiResponse.json()), 200)
+
 
 
 #************************************************************************************
