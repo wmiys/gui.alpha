@@ -91,6 +91,7 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 
 
 let dateRangeEdit = null;
+let dateRangeNew = null;
 
 /************************************************
 Main logic
@@ -130,6 +131,14 @@ function initFlatpickrs() {
         altFormat: "F j, Y",
         dateFormat: "Y-m-d",
         mode: "range",
+    });
+
+    dateRangeNew = $(eFormAvailabilityNew.inputs.datesRange).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        mode: "range",
+        minDate: "today",
     });
 }
 
