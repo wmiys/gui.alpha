@@ -29,9 +29,17 @@ Input parms:
 
 <body>
     {% include 'includes/navbar.html' %}
+
+    <!-- section to display alerts -->
+    <div class="alert alert-dismissible" role="alert" id="alert-page-top" hidden>
+        <span class="message"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <div class="container">
         <h1 class="my-5 text-center">Product Availability</h1>
-
 
         <div class="d-flex align-items-center justify-content-between">
             <h5>Current records</h5>
@@ -144,6 +152,7 @@ Input parms:
                         </div>
                     </form>
 
+                    <!-- spinner loading section -->
                     <div class="loading-spinner">
                         <div class="d-flex flex-column justify-content-center h-100">
                             <div class="d-flex justify-content-center">
@@ -153,8 +162,6 @@ Input parms:
                             </div>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div class="modal-footer">
@@ -170,9 +177,6 @@ Input parms:
             </div>
         </div>
     </div>
-
-
-
 
 
     {% include 'includes/footer.html' %}

@@ -108,12 +108,58 @@ let dateRangeNew = null;
 const disableFlatpickrClass = 'flatpick-enabled';
 
 /************************************************
+Possible page alerts to set before reloading the page.
+*************************************************/
+const PageAlerts = {
+    key: 'product-availability-alert',
+
+    values: {
+        successfulPost: 1,
+        successfulPut: 2,
+        successfulDelete: 3,
+    }
+}
+
+const eAlertPageTop = {
+    alert: '#alert-page-top',
+
+    displayMessage: function(message, alertType = 'success') {
+        const elementClass = `alert alert-${alertType} alert-dismissible`;
+        $(eAlertPageTop.alert).removeClass().addClass(elementClass).prop('hidden', false).find('.message').text(message);
+
+    },
+}
+
+/************************************************
 Main logic
 *************************************************/
 $(document).ready(function() {
+    checkForAlerts();
     addEventListeners();
     initFlatpickrs();
 });
+
+/************************************************
+Check for and display any alerts set by the page before it was reloaded.
+*************************************************/
+function checkForAlerts() {
+    let alertValue = window.sessionStorage.getItem(PageAlerts.key);
+    window.sessionStorage.removeItem(PageAlerts.key);
+
+    if (alertValue == null) {   // no alerts set from previous page
+        return;
+    }
+
+    if (alertValue == PageAlerts.values.successfulPost) {
+        eAlertPageTop.displayMessage("Item created.");
+    } else if (alertValue == PageAlerts.values.successfulDelete) {
+        eAlertPageTop.displayMessage("Item deleted.");
+    } else if (alertValue == PageAlerts.values.successfulPut)  {
+        eAlertPageTop.displayMessage("Item updated.");
+    } else {
+        eAlertPageTop.displayMessage("Success.");
+    }
+}
 
 /************************************************
 Registers all the event listeners
@@ -142,9 +188,6 @@ function addEventListeners() {
     $(eFormAvailabilityNew.buttons.create).on('click', function() {
         createProductAvailability();
     });
-
-
-
 }
 
 
@@ -274,6 +317,7 @@ Successful product availability PUT request callback.
 Refreshes the page.
 **********************************************************/
 function updateProductAvailabilitySuccess(response, status, xhr) {
+    window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulPut);
     window.location.href = window.location.href;
 }
 
@@ -303,7 +347,7 @@ function deleteProductAvailability() {
     disableFormEdit(eFormAvailabilityEdit.buttons.delete);
 
     const availabilityID = eModalEdit.getActiveProductAvailabilityID();
-    ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, updateProductAvailabilitySuccess, updateProductAvailabilityError);
+    ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, deleteProductAvailabilitySuccess, deleteProductAvailabilityError);
 }
 
 /**********************************************************
@@ -311,6 +355,7 @@ Successful product availability DELETE request callback.
 Refreshes the page.
 **********************************************************/
 function deleteProductAvailabilitySuccess(response, status, xhr) {
+    window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulDelete);
     window.location.href = window.location.href;
 }
 
@@ -351,6 +396,7 @@ function createProductAvailability() {
 Callback for a successful product availability POST request to the API
 *************************************************/
 function createProductAvailabilitySuccess(response, status, xhr) {
+    window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulPost);
     window.location.href = window.location.href;
     // enableFormNew();
 }
