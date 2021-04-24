@@ -29,9 +29,17 @@ Input parms:
 
 <body>
     {% include 'includes/navbar.html' %}
+
+    <!-- section to display alerts -->
+    <div class="alert alert-dismissible" role="alert" id="alert-page-top" hidden>
+        <span class="message"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <div class="container">
         <h1 class="my-5 text-center">Product Availability</h1>
-
 
         <div class="d-flex align-items-center justify-content-between">
             <h5>Current records</h5>
@@ -44,21 +52,24 @@ Input parms:
                 <div class="card-body">
                     <form id="product-availability-new-form">
                         <!-- <div class="form-row"> -->
-                            <!-- start and end date range -->
-                            <div class="form-group">
-                                <label for="product-availability-new-input-dates">Dates</label>
-                                <input type="text" class="form-control product-availability-new-input flatpick" id="product-availability-new-input-dates">
-                            </div>
+                        <!-- start and end date range -->
+                        <div class="form-group">
+                            <label for="product-availability-new-input-dates">Dates</label>
+                            <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-dates">
+                        </div>
 
-                            <!-- note -->
-                            <div class="form-group">
-                                <label for="product-availability-new-input-note">Note</label>
-                                <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-note">
-                            </div>
+                        <!-- note -->
+                        <div class="form-group">
+                            <label for="product-availability-new-input-note">Note</label>
+                            <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-note">
+                        </div>
                         <!-- </div> -->
-                        
+
                         <!-- action buttons -->
-                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">Create</button>
+                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Create</span>
+                        </button>
                         <button type="button" id="product-availability-new-btn-cancel" class="btn btn-sm btn-outline-danger product-availability-new-btn" data-toggle="collapse" data-target="#product-availability-new-container">Cancel</button>
                     </form>
                 </div>
@@ -116,7 +127,7 @@ Input parms:
 
 
     <!-- edit product availability record modal -->
-    <div class="modal fade" id="product-availability-edit-modal" tabindex="-1">
+    <div class="modal" id="product-availability-edit-modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -140,19 +151,32 @@ Input parms:
                             <input type="text" class="form-control product-availability-edit-input" id="product-availability-edit-input-note">
                         </div>
                     </form>
-                    
+
+                    <!-- spinner loading section -->
+                    <div class="loading-spinner">
+                        <div class="d-flex flex-column justify-content-center h-100">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">Delete</button>
-                    <button type="button" id="product-availability-edit-btn-save" class="btn btn-primary product-availability-edit-btn">Save changes</button>
+                    <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">
+                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                        <span>Delete</span>
+                    </button>
+                    <button type="button" id="product-availability-edit-btn-save" class="btn btn-success product-availability-edit-btn">
+                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                        <span>Save</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 
 
     {% include 'includes/footer.html' %}
