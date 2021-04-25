@@ -122,13 +122,10 @@ def productPageEdit(product_id):
 
     product = apiResponse.json()
 
-    if product['image'] != None:
+    if product['image']:
         product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
-    # else:
-    #     product['image'] = '/static/img/placeholder.jpg'
 
-    # return flask.render_template('pages/products/product-edit.html', product=product)
-    return flask.render_template('pages/products/product-page.html', product=product)
+    return flask.render_template('pages/products/overview.html', product=product)
 
 
 
@@ -142,10 +139,42 @@ def productPageAvailability(product_id):
 
     availabilities = apiResponse.json()
 
-    productResponse = apiWrapper.getUserProduct(product_id)
+    productResponse = apiWrapper.getUserProduct(product_id).json()
 
-    return flask.render_template('pages/products/product-availability.html', product=productResponse.json(), availabilities=availabilities)
+    if productResponse['image']:
+        productResponse['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, productResponse['image'])
 
+    return flask.render_template('pages/products/availability.html', product=productResponse, availabilities=availabilities)
+    
+@app.route('/products/<int:product_id>/insights')
+@login_required
+def productPageInsights(product_id):
+    apiResponse = apiWrapper.getUserProduct(product_id)
+
+    if apiResponse.status_code != 200:
+        pass    # error
+
+    product = apiResponse.json()
+
+    if product['image']:
+        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+
+    return flask.render_template('pages/products/insights.html', product=product)
+
+@app.route('/products/<int:product_id>/settings')
+@login_required
+def productPageSettings(product_id):
+    apiResponse = apiWrapper.getUserProduct(product_id)
+
+    if apiResponse.status_code != 200:
+        pass    # error
+
+    product = apiResponse.json()
+
+    if product['image']:
+        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+
+    return flask.render_template('pages/products/settings.html', product=product)
 
 
 @app.route('/account-settings')

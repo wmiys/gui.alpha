@@ -9,28 +9,28 @@
 
 Input parms:
 - product:
-    - id
-    - name
-    - description
-    - product_categories_sub_id
-    - product_categories_sub_name
-    - product_categories_minor_id
-    - product_categories_minor_name
-    - product_categories_major_id
-    - product_categories_major_name
-    - location_id
-    - location_city
-    - location_state_id
-    - location_state_name
-    - dropoff_distance
-    - price_full
-    - price_half
-    - image
-    - created_on
-    - user_id
-    - user_email
-    - user_name_first
-    - user_name_last
+- id
+- name
+- description
+- product_categories_sub_id
+- product_categories_sub_name
+- product_categories_minor_id
+- product_categories_minor_name
+- product_categories_major_id
+- product_categories_major_name
+- location_id
+- location_city
+- location_state_id
+- location_state_name
+- dropoff_distance
+- price_full
+- price_half
+- image
+- created_on
+- user_id
+- user_email
+- user_name_first
+- user_name_last
 
 ***************************************************************************************************
 #}
@@ -40,16 +40,18 @@ Input parms:
 
 <head>
     {% include 'includes/header.html' %}
-    <title>Create a new product</title>
+    <title>{{ product.name }}</title>
 </head>
 
 <body>
     {% include 'includes/navbar.html' %}
+    {% include 'pages/products/product-navbar.html' %}
+
     <div class="container pb-3">
         <form class="form-new-product mt-5">
             <div class="tab-content form-new-product-pages">
                 <p class="subtitle text-primary mb-3">EDIT YOUR PRODUCT</p>
-                
+
                 <!-- category -->
                 <div class="tab-pane show active" id="form-new-product-page-category" data-step-prev="1" data-step-next="2">
                     <div class="d-flex flex-column flex-md-row justify-content-md-between">
@@ -66,7 +68,7 @@ Input parms:
                             <!-- major -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-major">Major</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-major"  disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-major" disabled>
                                     {% if product.product_categories_major_id %}
                                     <option value="{{ product.product_categories_major_id }}" selected>{{ product.product_categories_major_name }}</option>
                                     {% endif %}
@@ -77,7 +79,7 @@ Input parms:
                             <!-- minor -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-category-minor">Minor</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-minor"  disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-minor" disabled>
                                     {% if product.product_categories_minor_id %}
                                     <option value="{{ product.product_categories_minor_id }}" selected>{{ product.product_categories_minor_name }}</option>
                                     {% endif %}
@@ -88,14 +90,14 @@ Input parms:
                             <!-- sub -->
                             <div class="form-group mb-3">
                                 <label for="form-new-product-input-category-sub">Sub</label>
-                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-sub"  disabled>
+                                <select class="form-control form-new-product-input selectpicker" title="Choose..." id="form-new-product-input-category-sub" disabled>
                                     {% if product.product_categories_sub_id %}
                                     <option value="{{ product.product_categories_sub_id }}" selected>{{ product.product_categories_sub_name }}</option>
                                     {% endif %}
                                 </select>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
-                            
+
                             <!-- reset the category dropdowns -->
                             <button type="button" class="btn btn-sm btn-outline-danger float-right" id="form-new-product-btn-category-reset">Reset</button>
 
@@ -103,8 +105,8 @@ Input parms:
                     </div>
                     <hr>
                 </div>
-               
-               
+
+
                 <!-- location -->
                 <div class="tab-pane" id="form-new-product-page-location" data-step-prev="1" data-step-next="3">
                     <div class="d-flex flex-column flex-md-row justify-content-md-between">
@@ -112,8 +114,7 @@ Input parms:
                         <h2 class="text-muted">Step 2</h2>
                     </div>
                     <hr>
-                    
-                    
+
                     <!-- city and state -->
                     <div class="row mt-5">
                         <div class="col-lg-4">
@@ -127,7 +128,7 @@ Input parms:
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon1"><i class='bx bx-search'></i></span>
                                     </div>
-                                    <select class="form-control form-new-product-input" id="form-new-product-input-location"  placeholder="Search">
+                                    <select class="form-control form-new-product-input" id="form-new-product-input-location" placeholder="Search">
                                         {% if product.location_id %}
                                         <option value="{{ product.location_id }}" selected>{{ product.location_city }}, {{ product.location_state_name }}</option>
                                         {{ product.description }}
@@ -140,7 +141,7 @@ Input parms:
                         </div>
                     </div>
                     <hr>
-                    
+
                     <!-- dropoff distance -->
                     <div class="row mt-5">
                         <div class="col-lg-4">
@@ -150,8 +151,8 @@ Input parms:
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-dropoff-distance">Number of miles</label>
-                                
-                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal"  value="{{ product.dropoff_distance }}">
+
+                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal" value="{{ product.dropoff_distance }}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -159,8 +160,8 @@ Input parms:
 
                     <hr>
                 </div>
-                
-                
+
+
                 <!-- Renter Info -->
                 <div class="tab-pane" id="form-new-product-page-renter-info" data-step-prev="2" data-step-next="4">
                     <div class="d-flex flex-column flex-md-row justify-content-md-between">
@@ -175,11 +176,11 @@ Input parms:
                             <p class="text-muted text-sm">Keep in mind that someone booking your experience might book spots for other guests. If there are strict requirements around age, skill level, or certifications, include them here.</p>
                         </div>
                         <div class="col-lg-8">
-                            
+
                             <!-- minimum age requirement -->
                             <div class="form-group mb-4">
                                 <label for="form-new-product-input-minimum-age">Minimum age</label>
-                                <select class="form-control form-new-product-input selectpicker" id="form-new-product-input-minimum-age" >
+                                <select class="form-control form-new-product-input selectpicker" id="form-new-product-input-minimum-age">
                                     <option value="">None</option>
                                     {% for x in range(21, 1, -1) %}
                                     {% if product.minimum_age == x %}
@@ -213,13 +214,13 @@ Input parms:
                             <h4>Cover photo</h4>
                             <p class="text-muted text-sm">Your main product photo.</p>
                         </div>
-                        <div class="col-lg-8">    
+                        <div class="col-lg-8">
                             {% if product.image %}
                             <div id="existing-product-image"><img src="{{ product.image }}" alt="..." class="img-thumbnail" height="300px"></div>
                             <button type="button" class="btn btn-sm btn-text-secondary mt-3" id="form-new-product-btn-image-change">Use a different photo</button>
                             {% endif %}
                             <div class="form-group form-group-image{% if product.image %} d-none{% endif %}">
-                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos">                      
+                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos">
                             </div>
                         </div>
                     </div>
@@ -265,11 +266,11 @@ Input parms:
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-description">Describe your product to renters</label>
-                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7" >
-                                    {% if product.description %}
-                                    {{ product.description }}
-                                    {% endif %}
-                                </textarea>
+                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7">
+                                        {% if product.description %}
+                                        {{ product.description }}
+                                        {% endif %}
+                                    </textarea>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -299,11 +300,11 @@ Input parms:
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    
+
                                     {% if product.price_full %}
-                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal"  value="{{ '{0:.2f}'.format(product.price_full) }}">
+                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal" value="{{ '{0:.2f}'.format(product.price_full) }}">
                                     {% else %}
-                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal" >
+                                    <input class="form-control form-new-product-input" id="form-new-product-input-price-full" type="text" inputmode="decimal">
                                     {% endif %}
                                 </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
@@ -328,11 +329,11 @@ Input parms:
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">$</span>
                                     </div>
-                                    
+
                                     {% if product.price_half %}
-                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text"  value="{{ '{0:.2f}'.format(product.price_half) }}">
+                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" value="{{ '{0:.2f}'.format(product.price_half) }}">
                                     {% else %}
-                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text" >
+                                    <input inputmode="decimal" class="form-control form-new-product-input" id="form-new-product-input-price-half" type="text">
                                     {% endif %}
                                 </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
@@ -340,7 +341,7 @@ Input parms:
                         </div>
                     </div>
                     <hr>
-    
+
                 </div>
             </div>
 
@@ -351,7 +352,7 @@ Input parms:
                     <div class="icon"><i class='bx bx-arrow-back'></i></div>
                     <div class="label">Previous</div>
                 </button>
-                
+
                 <!-- navbar -->
                 <ul class="nav nav-pills form-new-product-tabs" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -386,8 +387,11 @@ Input parms:
         </form>
 
     </div>
+
+
+
     {% include 'includes/footer.html' %}
-    <script src="/static/js/pages/create-product.js"></script>
+    <script src="/static/js/pages/products/overview.js"></script>
 </body>
 
 </html>

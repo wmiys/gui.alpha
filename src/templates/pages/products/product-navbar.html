@@ -1,0 +1,17 @@
+<div class="user-product-menu">
+    <div class="container">
+        <nav aria-label="breadcrumb" class="pt-3">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/products">Your products</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+            </ol>
+          </nav>
+
+        <div class="nav nav-pills-user-product" role="tablist">
+            <a class="nav-link text-reset" id="product-edit-navbar-tab-edit"         href="/products/{{ product.id }}" role="tab">Overview</a>
+            <a class="nav-link text-reset" id="product-edit-navbar-tab-availability" href="/products/{{ product.id }}/availability" role="tab">Availability</a>
+            <a class="nav-link text-reset" id="product-edit-navbar-tab-insights"     href="/products/{{ product.id }}/insights" role="tab">Insights</a>
+            <a class="nav-link text-reset" id="product-edit-navbar-tab-settings"     href="/products/{{ product.id }}/settings" role="tab">Settings</a>
+        </div>
+    </div>
+</div>
