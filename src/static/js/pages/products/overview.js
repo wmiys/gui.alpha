@@ -60,7 +60,7 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    
+    $('#product-edit-navbar-tab-edit').addClass('active');
     loadSelect2();
     loadFileSelectorPlugin();
     checkIfCategoriesAreSet();

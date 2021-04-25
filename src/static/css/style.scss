@@ -257,3 +257,23 @@ textarea {
     .loading-spinner { display: block; }
     
 }
+
+.user-product-menu {
+    background-color: rgb(250, 251, 252);
+    box-shadow: inset 0 -1px 0 rgb(234, 236, 239);
+
+    .breadcrumb {
+        background-color: inherit;
+        font-size: 1.2rem;
+    }
+
+    .nav-pills-user-product .nav-link {
+        margin-right: 10px;
+    }
+
+    .nav-pills-user-product .nav-link.active {
+        font-weight: bold;
+        border-bottom: 2px solid $color-primary;
+    }
+}
+

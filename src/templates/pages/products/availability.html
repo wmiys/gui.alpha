@@ -1,20 +1,45 @@
 {#
 ***************************************************************************************************
 
-* Template: product-availability.html
+* Template: availability.html
 * URL: /products/:product_id/availability
-* Purpose: Display all of the avaiabilities of a product
+* Purpose: Edit a product's availability records
 
 ***************************************************************************************************
 
 Input parms:
-- availabilities: list of the product's availabilities with fields:
-- id
-- product_id
-- starts_on
-- ends_on
-- note
-- created_on
+    - product:
+        - id
+        - name
+        - description
+        - product_categories_sub_id
+        - product_categories_sub_name
+        - product_categories_minor_id
+        - product_categories_minor_name
+        - product_categories_major_id
+        - product_categories_major_name
+        - location_id
+        - location_city
+        - location_state_id
+        - location_state_name
+        - dropoff_distance
+        - price_full
+        - price_half
+        - image
+        - created_on
+        - user_id
+        - user_email
+        - user_name_first
+        - user_name_last
+
+    - availabilities:
+        - a list of Product_Availability records with the fields:
+             - id
+             - product_id
+             - starts_on
+             - ends_on
+             - note
+             - created_on
 
 ***************************************************************************************************
 #}
@@ -24,7 +49,7 @@ Input parms:
 
 <head>
     {% include 'includes/header.html' %}
-    <title>Availability</title>
+    <title>Product availability</title>
 </head>
 
 <body>
@@ -38,11 +63,11 @@ Input parms:
         </button>
     </div>
 
-    <div class="container">
-        <h1 class="my-5 text-center">Product Availability</h1>
+    {% include 'pages/products/product-navbar.html' %}
 
-        <div class="d-flex align-items-center justify-content-between">
-            <h5>Current records</h5>
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mt-5">
+            <p class="subtitle text-primary mb-3">CURRENT AVAILIABILITY</p>
             <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#product-availability-new-container">New</button>
         </div>
 
@@ -51,7 +76,6 @@ Input parms:
             <div class="card">
                 <div class="card-body">
                     <form id="product-availability-new-form">
-                        <!-- <div class="form-row"> -->
                         <!-- start and end date range -->
                         <div class="form-group">
                             <label for="product-availability-new-input-dates">Dates</label>
@@ -76,8 +100,9 @@ Input parms:
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table mt-3" id="product-availability-table">
+
+        <div class="table-responsive mt-3">
+            <table class="table" id="product-availability-table">
                 <thead>
                     <tr>
                         <th class="product-availability-th">
@@ -121,58 +146,59 @@ Input parms:
             </table>
         </div>
 
-        <p class="text-muted"><small>Click a row to view details</small></p>
+        <p class="text-muted"><small>Click a row to edit</small></p>
 
-    </div>
+        <!-- edit product availability record modal -->
+        <div class="modal" id="product-availability-edit-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit availability</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-    <!-- edit product availability record modal -->
-    <div class="modal" id="product-availability-edit-modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit availability</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- edit the availability -->
-                    <form id="product-availability-edit-form">
-                        <!-- start and end date range -->
-                        <div class="form-group">
-                            <label for="product-availability-edit-input-dates">Dates</label>
-                            <input type="text" class="form-control product-availability-edit-input flatpick" id="product-availability-edit-input-dates">
-                        </div>
+                    <div class="modal-body">
+                        <!-- edit the availability -->
+                        <form id="product-availability-edit-form">
 
-                        <!-- note -->
-                        <div class="form-group">
-                            <label for="product-availability-edit-input-note">Note</label>
-                            <input type="text" class="form-control product-availability-edit-input" id="product-availability-edit-input-note">
-                        </div>
-                    </form>
+                            <!-- start and end date range -->
+                            <div class="form-group">
+                                <label for="product-availability-edit-input-dates">Dates</label>
+                                <input type="text" class="form-control product-availability-edit-input flatpick" id="product-availability-edit-input-dates">
+                            </div>
 
-                    <!-- spinner loading section -->
-                    <div class="loading-spinner">
-                        <div class="d-flex flex-column justify-content-center h-100">
-                            <div class="d-flex justify-content-center">
-                                <div class="spinner-border" role="status">
-                                    <span class="sr-only">Loading...</span>
+                            <!-- note -->
+                            <div class="form-group">
+                                <label for="product-availability-edit-input-note">Note</label>
+                                <input type="text" class="form-control product-availability-edit-input" id="product-availability-edit-input-note">
+                            </div>
+                        </form>
+
+                        <!-- spinner loading section -->
+                        <div class="loading-spinner">
+                            <div class="d-flex flex-column justify-content-center h-100">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">
-                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
-                        <span>Delete</span>
-                    </button>
-                    <button type="button" id="product-availability-edit-btn-save" class="btn btn-success product-availability-edit-btn">
-                        <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
-                        <span>Save</span>
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Delete</span>
+                        </button>
+                        <button type="button" id="product-availability-edit-btn-save" class="btn btn-success product-availability-edit-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Save</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -180,9 +206,7 @@ Input parms:
 
 
     {% include 'includes/footer.html' %}
-    <script src="/static/js/pages/product-availability.js"></script>
-
-
+    <script src="/static/js/pages/products/availability.js"></script>
 </body>
 
 </html>

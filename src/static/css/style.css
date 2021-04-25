@@ -246,4 +246,20 @@ textarea {
   display: block;
 }
 
+.user-product-menu {
+  background-color: #fafbfc;
+  box-shadow: inset 0 -1px 0 #eaecef;
+}
+.user-product-menu .breadcrumb {
+  background-color: inherit;
+  font-size: 1.2rem;
+}
+.user-product-menu .nav-pills-user-product .nav-link {
+  margin-right: 10px;
+}
+.user-product-menu .nav-pills-user-product .nav-link.active {
+  font-weight: bold;
+  border-bottom: 2px solid #f62dae;
+}
+
 /*# sourceMappingURL=style.css.map */
