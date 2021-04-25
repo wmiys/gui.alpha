@@ -134,6 +134,7 @@ const eAlertPageTop = {
 Main logic
 *************************************************/
 $(document).ready(function() {
+    $('#product-edit-navbar-tab-availability').addClass('active');
     checkForAlerts();
     addEventListeners();
     initFlatpickrs();

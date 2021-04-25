@@ -122,26 +122,29 @@ def productPageEdit(product_id):
 
     product = apiResponse.json()
 
-    # return jsonify(product)
-
     if product['image'] != None:
         product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
     # else:
     #     product['image'] = '/static/img/placeholder.jpg'
 
-    return flask.render_template('pages/products/product-edit.html', product=product)
+    # return flask.render_template('pages/products/product-edit.html', product=product)
+    return flask.render_template('pages/products/product-page.html', product=product)
+
 
 
 @app.route('/products/<int:product_id>/availability')
 @login_required
 def productPageAvailability(product_id):
     apiResponse = apiWrapper.getProductAvailabilities(product_id)
-
+    
     if apiResponse.status_code != 200:
         pass    # error
 
     availabilities = apiResponse.json()
-    return flask.render_template('pages/products/product-availability.html', availabilities=availabilities)
+
+    productResponse = apiWrapper.getUserProduct(product_id)
+
+    return flask.render_template('pages/products/product-availability.html', product=productResponse.json(), availabilities=availabilities)
 
 
 

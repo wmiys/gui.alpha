@@ -2,19 +2,35 @@
 <html lang="en">
 
 <head>
-    {% include 'header.html' %}
+    {% include 'includes/header.html' %}
     <title>Hello, world!</title>
 </head>
 
 <body>
-    {% include 'navbar.html' %}
+    {% include 'includes/navbar.html' %}
+    
     <div class="container">
-        <h1 class="my-5 text-center">Individual Product Page</h1>
+        <div class="row mt-5">
+            <!-- sidenav -->
+            {% include 'pages/products/product-edit-navbar.html' %}
+            
+            <!-- content -->
+            <div class="col-sm-12 col-lg-8">
+
+                <h1>Individual Product Page</h1>
+                
+
+            </div>
+        </div>
+
+
+
+        
     </div>
 
 
-    {% include 'footer.html' %}
-
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/pages/product-page.js"></script>
 </body>
 
 </html>
