@@ -267,6 +267,11 @@ textarea {
         font-size: 1.2rem;
     }
 
+    .nav-pills-user-product {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
     .nav-pills-user-product .nav-link {
         margin-right: 10px;
     }
@@ -277,3 +282,13 @@ textarea {
     }
 }
 
+
+
+// @media screen and (max-width: 768px) {
+//     .user-product-menu {    
+//         .nav-pills-user-product {
+//             margin-right: 10px;
+//         }
+
+//     }
+// }

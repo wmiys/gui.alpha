@@ -254,6 +254,10 @@ textarea {
   background-color: inherit;
   font-size: 1.2rem;
 }
+.user-product-menu .nav-pills-user-product {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
 .user-product-menu .nav-pills-user-product .nav-link {
   margin-right: 10px;
 }
