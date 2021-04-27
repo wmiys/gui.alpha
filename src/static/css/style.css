@@ -218,6 +218,9 @@ textarea {
   color: red;
   display: none;
 }
+#product-availability-table .product-availability-cell.note {
+  min-width: 272px;
+}
 #product-availability-table .product-availability-th.sorted i {
   display: block;
 }
