@@ -218,6 +218,9 @@ textarea {
   color: red;
   display: none;
 }
+#product-availability-table .product-availability-cell.note {
+  min-width: 272px;
+}
 #product-availability-table .product-availability-th.sorted i {
   display: block;
 }
@@ -253,6 +256,10 @@ textarea {
 .user-product-menu .breadcrumb {
   background-color: inherit;
   font-size: 1.2rem;
+}
+.user-product-menu .nav-pills-user-product {
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 .user-product-menu .nav-pills-user-product .nav-link {
   margin-right: 10px;
