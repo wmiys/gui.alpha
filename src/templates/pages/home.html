@@ -12,20 +12,37 @@
 
         <h1 class="mt-5 text-center">What's mine is yours</h1>
 
-        <div class="card mt-5">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class='bx bx-search'></i></span>
-                        </div>
-                        <input type="text" class="form-control form-control-lg" placeholder="What are you searching for?">
-                    </div>
 
-                    <button type="button" class="btn btn-lg btn-primary ml-3">Search</button>
+        <form id="product-search-form">
+
+            <!-- location -->
+            <div class="form-group">
+                <label for="product-search-form-input-location">City and state</label>
+                <select class="form-control product-search-form-input" id="product-search-form-input-location" placeholder="Search"></select>
+                <div class="invalid-feedback">Invalid feedback text</div>
+            </div>
+
+            <!-- date range -->
+            <div class="form-group">
+                <label for="product-search-form-input-dates">Dates</label>
+                <input type="text" class="form-control product-search-form-input" id="product-search-form-input-dates">
+            </div>
+
+            <!-- product category sub -->
+            <div class="dropdown" id="product-search-form-input-category" data-product-category-sub-id="-1">
+                <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
+                <div class="dropdown-menu">
+                    <button class="dropdown-item" type="button">Action</button>
+                    <button class="dropdown-item" type="button">Another action</button>
+                    <button class="dropdown-item" type="button">Something else here</button>
                 </div>
             </div>
-        </div>
+
+
+        </form>
+
+
+
 
 
     </div>
