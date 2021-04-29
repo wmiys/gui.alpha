@@ -29,15 +29,49 @@
             </div>
 
             <!-- product category sub -->
-            <div class="dropdown" id="product-search-form-input-category" data-product-category-sub-id="65">
+            <div class="dropdown dropdown-custom-submenu" id="product-search-form-input-category" data-product-category-sub-id="65">
                 <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
                 <div class="dropdown-menu">
-                    <button class="dropdown-item" type="button">Action</button>
-                    <button class="dropdown-item" type="button">Another action</button>
-                    <button class="dropdown-item" type="button">Something else here</button>
+                    <div class="dropdown-submenu">
+                        <button class="dropdown-item" data-toggle="dropdown">Major Category 1</button>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-submenu">
+                                <button class="dropdown-item" data-toggle="dropdown">Minor category 1</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" type="button">Sub category 1</button>
+                                    <button class="dropdown-item" type="button">Sub category 2</button>
+                                </div>
+                            </div>
+                            <div class="dropdown-submenu">
+                                <button class="dropdown-item" data-toggle="dropdown">Minor category 2</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" type="button">Sub category 1</button>
+                                    <button class="dropdown-item" type="button">Sub category 2</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown-submenu">
+                        <button class="dropdown-item" data-toggle="dropdown">Major Category 2</button>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-submenu">
+                                <button class="dropdown-item" data-toggle="dropdown">Minor category 3</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" type="button">Sub category 1</button>
+                                    <button class="dropdown-item" type="button">Sub category 2</button>
+                                </div>
+                            </div>
+                            <div class="dropdown-submenu">
+                                <button class="dropdown-item" data-toggle="dropdown">Minor category 4</button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" type="button">Sub category 1</button>
+                                    <button class="dropdown-item" type="button">Sub category 2</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
 
         </form>
 
@@ -45,12 +79,11 @@
 
 
 
-
-
     </div>
 
 
     {% include 'includes/footer.html' %}
+    <script src="static/js/classes/Dropdown.js"></script>
     <script src="static/js/pages/home.js"></script>
 
 </body>

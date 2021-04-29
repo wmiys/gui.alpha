@@ -63,10 +63,16 @@ const eFormProductSearch = {
 
 
 
+
 /**********************************************************
 Main logic
 **********************************************************/
 $(document).ready(function() {
+
+    const jsd = new Dropdown();
+    jsd.init();
+    // jsd.initSubmenu(jsd.$dropdownSubmenu);
+    
     loadPlugins();
 });
 
