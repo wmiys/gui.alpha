@@ -1,37 +1,62 @@
 
 
 const eFormProductSearch = {
-
     form: '#product-search-form',
 
     inputs: {
         location: '#product-search-form-input-location',
         dates: '#product-search-form-input-dates',
-        category: '#product-search-form-input-catgory',
+        category: '#product-search-form-input-category',
     },
 
-    dropdownDataAttr = 'data-product-category-sub-id',
+    dropdownDataAttr:'data-product-category-sub-id',
 
     classes: {
         input: '.product-search-form-input',
     },
 
-
+    dateRangesFlatpick: null,
 
     getInputValues: function() {
         let values = {};
+        
         values.location_id = $(eFormProductSearch.inputs.location).val();
-        values.dates = $(eFormProductSearch.inputs.location).val();
-        values.product_categories_sub_id = $(eFormProductSearch.inputs.location).val();
+
+        const dates = eFormProductSearch.getFlatPickrRangeDates();
+        values.starts_on = dates.startsOn;
+        values.ends_on = dates.endsOn;
+        
+        
+        values.product_categories_sub_id = eFormProductSearch.getProductCategorySubId();
 
         return values;
     },
 
 
     getProductCategorySubId: function() {
-        const result = $(eFormProductSearch.category).attr(eFormProductSearch.dropdownDataAttr);
+        const result = $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr);
         return result;
     },
+
+    /************************************************
+    Returns the starts on and ends on values in a flatpickr date range.
+    *************************************************/
+    getFlatPickrRangeDates: function() {
+        if (eFormProductSearch.dateRangesFlatpick.selectedDates.length == 0) {
+            return null;
+        }
+
+        let out1 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[0]); // starts on
+        let out2 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[1]); // ends on
+
+        const result = {
+            startsOn: out1.toISODate(),
+            endsOn: out2.toISODate(),
+        }
+
+        return result;
+    }
+
 }
 
 
@@ -42,17 +67,24 @@ const eFormProductSearch = {
 Main logic
 **********************************************************/
 $(document).ready(function() {
-
-    loadSelect2();
+    loadPlugins();
 });
 
+
+/**********************************************************
+Loads all of the js plugins
+**********************************************************/
+function loadPlugins() {
+    loadSelect2();
+    initFlatpickrs();
+}
 
 
 /**********************************************************
 Loads the select2 library on the location input
 **********************************************************/
 function loadSelect2() {
-    $(eInputs.location).select2({
+    $(eFormProductSearch.inputs.location).select2({
         minimumInputLength: 3,
         theme: 'bootstrap4',
         ajax: {
@@ -91,7 +123,44 @@ function processLocationSearchApiResponse(apiResponse) {
 }
 
 
+/**********************************************************
+Initialize the flat pickr inputs
+**********************************************************/
+function initFlatpickrs() {
+    eFormProductSearch.dateRangesFlatpick = $(eFormProductSearch.inputs.dates).flatpickr({
+        altInput: true,
+        altFormat: "F j, Y",
+        dateFormat: "Y-m-d",
+        mode: "range",
+        minDate: "today",
+    });
+}
 
+
+
+function getFlatPickrRangeDates() {   
+    if (eFormProductSearch.dateRangesFlatpick.selectedDates.length == 0) {
+        return null;
+    }
+
+    let out1 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[0]); // starts on
+    let out2 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[1]); // ends on
+
+    const result = {
+        startsOn: out1.toISODate(),
+        endsOn: out2.toISODate(),
+    }
+
+    return result;
+}
+
+
+
+function getTheValues() {
+
+    let result = eFormProductSearch.getInputValues();
+    console.log(result);
+}
 
 
 
