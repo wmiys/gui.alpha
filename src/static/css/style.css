@@ -390,5 +390,14 @@ textarea {
     margin-bottom: 0px;
   }
 }
+.card-home-search-hero .card-img-overlay {
+  background-color: rgba(0, 0, 0, 0.55);
+}
+.card-home-search-hero img {
+  background-color: rgba(0, 0, 0, 0.55);
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+}
 
 /*# sourceMappingURL=style.css.map */
