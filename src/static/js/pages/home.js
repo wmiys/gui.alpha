@@ -10,9 +10,11 @@ const eFormProductSearch = {
     },
 
     dropdownDataAttr:'data-product-category-sub-id',
+    subCategoryDataAttr: 'data-category-sub-id',
 
     classes: {
         input: '.product-search-form-input',
+        // productCategorySubDropdownItem: '.'
     },
 
     dateRangesFlatpick: null,
@@ -20,8 +22,10 @@ const eFormProductSearch = {
     getInputValues: function() {
         let values = {};
         
+        // location
         values.location_id = $(eFormProductSearch.inputs.location).val();
 
+        // date range
         const dates = eFormProductSearch.getFlatPickrRangeDates();
         values.starts_on = dates.startsOn;
         values.ends_on = dates.endsOn;
@@ -32,11 +36,6 @@ const eFormProductSearch = {
         return values;
     },
 
-
-    getProductCategorySubId: function() {
-        const result = $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr);
-        return result;
-    },
 
     /************************************************
     Returns the starts on and ends on values in a flatpickr date range.
@@ -55,13 +54,13 @@ const eFormProductSearch = {
         }
 
         return result;
-    }
+    },
 
+    getProductCategorySubId: function() {
+        const result = $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr);
+        return result;
+    },
 }
-
-
-
-
 
 
 /**********************************************************
@@ -69,8 +68,7 @@ Main logic
 **********************************************************/
 $(document).ready(function() {
     loadPlugins();
-
-    loadCategories();
+    setEventListeners();
 });
 
 
@@ -80,6 +78,34 @@ Loads all of the js plugins
 function loadPlugins() {
     loadSelect2();
     initFlatpickrs();
+    loadCategories();
+}
+
+/**********************************************************
+Registers all of the event handlers
+**********************************************************/
+function setEventListeners() {
+    // product search category input change
+    $(eFormProductSearch.inputs.category).on('click', '.dropdown-item', function() {
+        handleProductSearchCategoryChange(this);
+    });
+}
+
+/**********************************************************
+Handler for when the product search category input is changed.
+**********************************************************/
+function handleProductSearchCategoryChange(eDropdownItem) {
+    // set it to active in the dropdown menu
+    $(eFormProductSearch.inputs.category).find('.dropdown-item').removeClass('active');
+    $(eDropdownItem).addClass('active');
+
+    // set the dropdown data attribute to the id of the sub category selected
+    const subCategoryID = $(eDropdownItem).attr(eFormProductSearch.subCategoryDataAttr);
+    $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr, subCategoryID);
+
+    // show the name
+    const subCategoryName = $(eDropdownItem).text();
+    $(eFormProductSearch.inputs.category).find('button[data-toggle="dropdown"]').text(subCategoryName);
 }
 
 
