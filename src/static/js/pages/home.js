@@ -32,7 +32,7 @@ const eFormProductSearch = {
         values.location_id = $(eFormProductSearch.inputs.location).val();
 
         // date range
-        const dates = eFormProductSearch.getFlatPickrRangeDates();
+        const dates = eFormProductSearch.dateRangesFlatpick.getDateValues();
         values.starts_on = dates.startsOn;
         values.ends_on = dates.endsOn;
         
@@ -40,26 +40,6 @@ const eFormProductSearch = {
         values.product_categories_sub_id = eFormProductSearch.getProductCategorySubId();
 
         return values;
-    },
-
-
-    /************************************************
-    Returns the starts on and ends on values in a flatpickr date range.
-    *************************************************/
-    getFlatPickrRangeDates: function() {
-        if (eFormProductSearch.dateRangesFlatpick.selectedDates.length == 0) {
-            return null;
-        }
-
-        let out1 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[0]); // starts on
-        let out2 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[1]); // ends on
-
-        const result = {
-            startsOn: out1.toISODate(),
-            endsOn: out2.toISODate(),
-        }
-
-        return result;
     },
 
     getProductCategorySubId: function() {
@@ -83,7 +63,7 @@ Loads all of the js plugins
 **********************************************************/
 function loadPlugins() {
     loadSelect2();
-    initFlatpickrs();
+    eFormProductSearch.dateRangesFlatpick = new FlatpickrRange(eFormProductSearch.inputs.dates, true);
     loadCategories();
 }
 
@@ -108,7 +88,6 @@ function loadSelect2() {
         ajax: {
             delay: 50,
             url: ApiWrapper.URLS.SEARCH.LOCATIONS,
-            
             allowClear: true,
             data: function (params) {
                 const urlParms = {      // set the request url ?parms
@@ -121,7 +100,6 @@ function loadSelect2() {
                 return processedResults;
             }
         },
-        
     });
 }
 
@@ -138,44 +116,6 @@ function processLocationSearchApiResponse(apiResponse) {
     }
     
     return ({results: processedData});
-}
-
-
-/**********************************************************
-Initialize the flat pickr inputs
-**********************************************************/
-function initFlatpickrs() {
-    eFormProductSearch.dateRangesFlatpick = $(eFormProductSearch.inputs.dates).flatpickr({
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-        mode: "range",
-        minDate: "today",
-    });
-}
-
-
-/**********************************************************
-Returns the product search date range input values.
-
-Return value is an object containing the fields:
-    - startsOn
-    - endsOn
-**********************************************************/
-function getFlatPickrRangeDates() {   
-    if (eFormProductSearch.dateRangesFlatpick.selectedDates.length == 0) {
-        return null;
-    }
-
-    let out1 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[0]); // starts on
-    let out2 = DateTime.fromJSDate(eFormProductSearch.dateRangesFlatpick.selectedDates[1]); // ends on
-
-    const result = {
-        startsOn: out1.toISODate(),
-        endsOn: out2.toISODate(),
-    }
-
-    return result;
 }
 
 
@@ -249,19 +189,15 @@ function genertateMinorCategoryMap(categoriesTableList) {
         minors[cat.minor_id].subs.push(sub);
     }
 
-    console.log(minors);
-
     return minors;
 }
 
 /**********************************************************
 Sorts the list of product categories by Minor, Sub category.
+
+This doesn't really do anything right now...
 **********************************************************/
 function sortCategories(unsortedCategories) {
-
-    console.log(unsortedCategories);
-
-
     // // sort by sub category first
     // const sortedCategories = unsortedCategories.sort(function(a, b) {
     //     const subA = a.name.toUpperCase();
@@ -289,7 +225,6 @@ function generateCategorieshDropdownHtml(minorCategoriesMap) {
         const minorName = minorCategoriesMap[minorID].name;
 
         html += `<div class="header-section">`;
-
         html += `<h6 class="dropdown-header">${minorName}</h6>`;
         
         // generate the html of the sub categories
@@ -300,11 +235,6 @@ function generateCategorieshDropdownHtml(minorCategoriesMap) {
         html += `<div class="dropdown-divider"></div>`;
         html += `</div">`;
     }
-
-    let sortedRows = $(html).find('.header-section');
-
-    // sort them here
-
 
     return html;
 }
