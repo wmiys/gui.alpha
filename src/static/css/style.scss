@@ -327,9 +327,7 @@ textarea {
         transform: translateX(0) translateY(-3px) scale(1);
     }
     
-    .dropdown-submenu > .list-group-item {
-        border-width: 0 0 1px;
-    }
+    .dropdown-submenu > .list-group-item { border-width: 0 0 1px; }
     
       
     @media (max-width: 991.98px) {
@@ -339,39 +337,15 @@ textarea {
             top: 0;
         }
 
-        .dropdown-submenu .dropdown-item {
-            padding-left: 3rem;
-        }
+        .dropdown-submenu .dropdown-item { padding-left: 3rem; }
     }
 }
 
 #product-search-form-input-category .dropdown-menu {
     max-height: 400px;
     overflow-y: auto;
+    .dropdown-header { color: $color-secondary; }
 }
-
-// @media screen and (min-width: 768px) {
-//     #product-search-form-input-category .dropdown-menu {
-//         width: 1000px;
-        
-
-
-//         .dropdown-menu-wrapper {
-//             height: 1000px;
-//             width: 100%;
-//             overflow-y: hidden;
-//             display: flex;
-//             flex-direction: column;
-//             flex-wrap: wrap;
-//         }
-
-//         .dropdown-menu-item {
-//             width: 200px;
-//         }
-
-
-//     }
-// }
 
 
 
@@ -398,12 +372,11 @@ textarea {
     border-radius: .25rem;
 }
 
-.select2-selection__arrow {
-    display: none;
-}
+.select2-selection__arrow { display: none; }
 
 .search-bar {
     border: 1px solid lightgrey;
+    background: #fff;
     border-radius: 20px;
     .form-group { border-bottom: 1px solid #ddd; }
     .form-row > * { margin-bottom: 15px; }
@@ -441,21 +414,30 @@ textarea {
 
 
 .card-home-search-hero {
-   
-
-    .card-img-overlay {
-        background-color: hsla(0, 0%, 0%, .55);
-    }
-
-    
+    height: 500px;
+    .card-img-overlay { background-color: hsla(0, 0%, 0%, .55); }
 
     img {
         background-color: hsla(0, 0%, 0%, .55);
-        width: 100%;
-        max-height: 500px;
         object-fit: cover;
+        height: 100%;
     }
 
+    .title {
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .sub-title {
+        font-size: .8rem;
+        text-align: center;
+    }
 }
 
+@media screen and (min-width: 768px) {
+    .card-home-search-hero {
+        .title { font-size: 60px; }
+        .sub-title { font-size: initial; }
+    }
+}
 
