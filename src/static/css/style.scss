@@ -345,12 +345,35 @@ textarea {
     }
 }
 
-#product-search-form-input-category {
-    .dropdown-menu {
-        max-height: 400px;
-        overflow-y: auto;
-    }
+#product-search-form-input-category .dropdown-menu {
+    max-height: 400px;
+    overflow-y: auto;
 }
+
+// @media screen and (min-width: 768px) {
+//     #product-search-form-input-category .dropdown-menu {
+//         width: 1000px;
+        
+
+
+//         .dropdown-menu-wrapper {
+//             height: 1000px;
+//             width: 100%;
+//             overflow-y: hidden;
+//             display: flex;
+//             flex-direction: column;
+//             flex-wrap: wrap;
+//         }
+
+//         .dropdown-menu-item {
+//             width: 200px;
+//         }
+
+
+//     }
+// }
+
+
 
 #product-search-form-input-category button[data-toggle=dropdown],
 #product-search-form-button-search  {

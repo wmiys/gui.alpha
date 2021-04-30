@@ -217,34 +217,11 @@ function loadCategoriesError(xhr, status, error) {
 Callback for a successful fetch of the product categories (loadCategories)
 **********************************************************/
 function loadCategoriesSuccess(result,status,xhr) {
-    const categories = sortCategories(result);
-    let minors = genertateMinorCategoryMap(categories);
+    const categories = genertateMinorCategoryMap(result);
+    let minors = sortCategories(categories);
     let html = generateCategorieshDropdownHtml(minors);
 
     $(eFormProductSearch.inputs.category).find('.dropdown-menu').html(html);
-}
-
-/**********************************************************
-Sorts the list of product categories by Minor, Sub category.
-**********************************************************/
-function sortCategories(unsortedCategories) {
-    // sort by sub category first
-    const sortedCategories = unsortedCategories.sort(function(a, b) {
-        const subA = a.sub_name.toUpperCase();
-        const subB = b.sub_name.toUpperCase();
-
-        return (subA < subB) ? -1 : 1;
-    });
-
-    // then sort by minor
-    sortedCategories.sort(function(a, b) {
-        const minorA = a.minor_name.toUpperCase();
-        const minorB = b.minor_name.toUpperCase();
-
-        return (minorA < minorB) ? -1 : 1;
-    });
-
-    return sortedCategories;
 }
 
 /**********************************************************
@@ -272,8 +249,34 @@ function genertateMinorCategoryMap(categoriesTableList) {
         minors[cat.minor_id].subs.push(sub);
     }
 
+    console.log(minors);
+
     return minors;
 }
+
+/**********************************************************
+Sorts the list of product categories by Minor, Sub category.
+**********************************************************/
+function sortCategories(unsortedCategories) {
+
+    console.log(unsortedCategories);
+
+
+    // // sort by sub category first
+    // const sortedCategories = unsortedCategories.sort(function(a, b) {
+    //     const subA = a.name.toUpperCase();
+    //     const subB = b.name.toUpperCase();
+
+    //     return (subA < subB) ? -1 : 1;
+    // });
+
+
+    //     console.log(sortCategories);
+
+    return unsortedCategories;
+}
+
+
 
 /**********************************************************
 Generates the dropdown menu html for the #product-search-form-input-category.
@@ -285,6 +288,8 @@ function generateCategorieshDropdownHtml(minorCategoriesMap) {
     for (const minorID of Object.keys(minorCategoriesMap)) {
         const minorName = minorCategoriesMap[minorID].name;
 
+        html += `<div class="header-section">`;
+
         html += `<h6 class="dropdown-header">${minorName}</h6>`;
         
         // generate the html of the sub categories
@@ -293,7 +298,13 @@ function generateCategorieshDropdownHtml(minorCategoriesMap) {
         }
 
         html += `<div class="dropdown-divider"></div>`;
+        html += `</div">`;
     }
+
+    let sortedRows = $(html).find('.header-section');
+
+    // sort them here
+
 
     return html;
 }
