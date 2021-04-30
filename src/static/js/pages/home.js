@@ -19,6 +19,12 @@ const eFormProductSearch = {
 
     dateRangesFlatpick: null,
 
+    buttons: {
+        search: '#product-search-form-button-search',
+    },
+
+    dropdownText: '#product-search-form-input-category-text',
+
     getInputValues: function() {
         let values = {};
         
@@ -92,34 +98,17 @@ function setEventListeners() {
 }
 
 /**********************************************************
-Handler for when the product search category input is changed.
-**********************************************************/
-function handleProductSearchCategoryChange(eDropdownItem) {
-    // set it to active in the dropdown menu
-    $(eFormProductSearch.inputs.category).find('.dropdown-item').removeClass('active');
-    $(eDropdownItem).addClass('active');
-
-    // set the dropdown data attribute to the id of the sub category selected
-    const subCategoryID = $(eDropdownItem).attr(eFormProductSearch.subCategoryDataAttr);
-    $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr, subCategoryID);
-
-    // show the name
-    const subCategoryName = $(eDropdownItem).text();
-    $(eFormProductSearch.inputs.category).find('button[data-toggle="dropdown"]').text(subCategoryName);
-}
-
-
-/**********************************************************
 Loads the select2 library on the location input
 **********************************************************/
 function loadSelect2() {
     $(eFormProductSearch.inputs.location).select2({
         minimumInputLength: 3,
         theme: 'bootstrap4',
+        placeholder: "Location",
         ajax: {
-            delay: 150,
+            delay: 50,
             url: ApiWrapper.URLS.SEARCH.LOCATIONS,
-            placeholder: "Select a state",
+            
             allowClear: true,
             data: function (params) {
                 const urlParms = {      // set the request url ?parms
@@ -189,6 +178,23 @@ function getFlatPickrRangeDates() {
     return result;
 }
 
+
+/**********************************************************
+Handler for when the product search category input is changed.
+**********************************************************/
+function handleProductSearchCategoryChange(eDropdownItem) {
+    // set it to active in the dropdown menu
+    $(eFormProductSearch.inputs.category).find('.dropdown-item').removeClass('active');
+    $(eDropdownItem).addClass('active');
+
+    // set the dropdown data attribute to the id of the sub category selected
+    const subCategoryID = $(eDropdownItem).attr(eFormProductSearch.subCategoryDataAttr);
+    $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr, subCategoryID);
+
+    // show the name
+    const subCategoryName = $(eDropdownItem).text();
+    $(eFormProductSearch.dropdownText).text(subCategoryName);
+}
 
 /**********************************************************
 Fetch the product category data from the API.
