@@ -1,7 +1,4 @@
 
-
-
-
 class FlatpickrRange
 {
     /**********************************************************
@@ -56,10 +53,6 @@ class FlatpickrRange
     
         return dateValues;
     }
-
-
-
-
 }
 
 
