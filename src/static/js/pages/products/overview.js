@@ -221,7 +221,7 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
 Error fetching the major categories
 **********************************************************/
 function loadMajorCategoriesError(xhr, status, error) {
-    console.error(result);
+    console.error(xhr);
     console.error(status);
     console.error(error);
     

@@ -89,6 +89,28 @@ class ApiWrapper
     }
 
     /**********************************************************
+    Send a GET request to retrieve all of the product categories
+    
+    Parms:
+        fnSuccess - successful request callback
+        fnError - unsuccessful request callback
+    **********************************************************/
+    static requestGetProductCategories(fnSuccess=console.log, fnError=console.error) {
+        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}`;
+
+        $.ajax({
+            // username: userEmail,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
+            },
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
     Send a GET request to retrieve major product categories
     
     Parms:

@@ -8,30 +8,66 @@
 
 <body>
     {% include 'includes/navbar.html' %}
-    <div class="container">
 
-        <h1 class="mt-5 text-center">What's mine is yours</h1>
+    <div class="card-home-wrapper">
+        <div class="card bg-dark text-white card-home-search-hero rounded-0">
+            <img src="https://d19m59y37dris4.cloudfront.net/directory/1-6-1/img/photo/photo-1501621965065-c6e1cf6b53e2.jpg" class="card-img" alt="...">
+            <div class="card-img-overlay">
+                <div class="container h-100 d-flex flex-column justify-content-center">
 
-        <div class="card mt-5">
-            <div class="card-body">
-                <div class="d-flex align-items-center">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class='bx bx-search'></i></span>
+                    <div>
+                        <h1 class="title">Vacation just got a whole lot better</h1>
+                        <h4 class="sub-title mb-3">Find your perfect rental today</h4>
+
+                        <div class="search-bar mt-2 p-3 p-lg-1 pl-lg-4">
+                            <form id="product-search-form">
+                                <div class="form-row align-items-center">
+                                    <!-- location -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <select class="form-control product-search-form-input border-0 shadow-0" id="product-search-form-input-location" placeholder="Search">
+                                                <option></option>
+                                            </select>
+                                            <div class="invalid-feedback">Invalid feedback text</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- date range -->
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control product-search-form-input border-0 shadow-none" id="product-search-form-input-dates" placeholder="Dates">
+                                        </div>
+                                    </div>
+
+                                    <!-- product category sub -->
+                                    <div class="col-md-2">
+                                        <div class="form-group form-group-no-divider">
+                                            <div class="dropdown" id="product-search-form-input-category" data-product-category-sub-id="-1">
+                                                <button class="btn btn-outline-light text-dark border-0 shadow-none" type="button" data-toggle="dropdown">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div id="product-search-form-input-category-text">Categories</div>
+                                                        <div><i class='bx bxs-chevron-down'></i></div>
+                                                    </div>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div><button type="button" class="btn btn-primary rounded-pill" id="product-search-form-button-search">Search</button></div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <input type="text" class="form-control form-control-lg" placeholder="What are you searching for?">
                     </div>
-
-                    <button type="button" class="btn btn-lg btn-primary ml-3">Search</button>
                 </div>
             </div>
         </div>
-
-
     </div>
 
-
     {% include 'includes/footer.html' %}
+    <script src="static/js/classes/Dropdown.js"></script>
     <script src="static/js/pages/home.js"></script>
 
 </body>
