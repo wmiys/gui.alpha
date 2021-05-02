@@ -62,7 +62,7 @@ $(document).ready(function() {
 Loads all of the js plugins
 **********************************************************/
 function loadPlugins() {
-    loadSelect2();
+    LocationsSelect.init(eFormProductSearch.inputs.location, 'Location', 3);
     eFormProductSearch.dateRangesFlatpick = new FlatpickrRange(eFormProductSearch.inputs.dates, true);
     loadCategories();
 }
@@ -76,48 +76,6 @@ function setEventListeners() {
         handleProductSearchCategoryChange(this);
     });
 }
-
-/**********************************************************
-Loads the select2 library on the location input
-**********************************************************/
-function loadSelect2() {
-    $(eFormProductSearch.inputs.location).select2({
-        minimumInputLength: 3,
-        theme: 'bootstrap4',
-        placeholder: "Location",
-        ajax: {
-            delay: 50,
-            url: ApiWrapper.URLS.SEARCH.LOCATIONS,
-            allowClear: true,
-            data: function (params) {
-                const urlParms = {      // set the request url ?parms
-                    q: params.term,
-                }                
-                return urlParms;
-            },
-            processResults: function (data) {
-                const processedResults = processLocationSearchApiResponse(data);
-                return processedResults;
-            }
-        },
-    });
-}
-
-/**********************************************************
-Process the api response data for the location search request.
-It is transformed into the recognized format for select2.
-**********************************************************/
-function processLocationSearchApiResponse(apiResponse) {
-    let processedData = [];
-    for (let count = 0; count < apiResponse.length; count++) {
-        const location = apiResponse[count];
-        const text = `${location.city}, ${location.state_name}`;
-        processedData.push({id: location.id, text: text});
-    }
-    
-    return ({results: processedData});
-}
-
 
 /**********************************************************
 Handler for when the product search category input is changed.
