@@ -39,6 +39,13 @@ const eSideNav = {
     }
 }
 
+/************************************************
+Represents the alert display section.
+*************************************************/
+const eAlertDisplay = {
+    alert: '.alert-top',
+    close: '.btn-close-alert',
+}
 
 /************************************************
 Main logic
@@ -46,8 +53,6 @@ Main logic
 $(document).ready(function() {
     addEventListeners();
 });
-
-
 
 /************************************************
 Registers all of the page event listeners.
@@ -58,10 +63,19 @@ function addEventListeners() {
         updateUserInfo();
     });
 
+    // hide the alert display
+    $(eAlertDisplay.close).on('click', function() {
+        $(this).closest('.alert').prop('hidden', true);
+    });
+
 }
 
-
+/************************************************
+Sends an update request to the api
+*************************************************/
 function updateUserInfo() {
+    disableSaveButton();
+
     const values = eFormBasic.getValues();
 
     const formattedData = {
@@ -71,20 +85,50 @@ function updateUserInfo() {
         birth_date: values.dob,
     }
 
-
     ApiWrapper.requestPutUser(formattedData, updateUserInfoSuccess, updateUserInfoError);
-
 }
 
+/************************************************
+Callback for a successful api request to update the user info
+*************************************************/
 function updateUserInfoSuccess(result,status,xhr) {
-    console.log(result);
+    enableSaveButton();
+    displayAlert('Updated successfully.', 'success');
 }
 
+
+/************************************************
+Callback for an unsuccessful api request to update the user info
+*************************************************/
 function updateUserInfoError(xhr, status, error) {
+    enableSaveButton();
     console.error('updateUserInfoError');
     console.error(xhr);
     console.error(status);
     console.error(error);
 }
 
+/************************************************
+Disabled the save changes button
+*************************************************/
+function disableSaveButton() {
+    const initWidth = $(eFormBasic.buttons.submit).width();
+    $(eFormBasic.buttons.submit).prop('disabled', true).width(initWidth);
+}
 
+/************************************************
+Enables the save changes button
+*************************************************/
+function enableSaveButton() {
+    const initWidth = $(eFormBasic.buttons.submit).width();
+    $(eFormBasic.buttons.submit).width(initWidth).prop('disabled', false);
+}
+
+/************************************************
+Displays an alert on the screen
+*************************************************/
+function displayAlert(message='Success', alertType='success') {
+    const alertClass = `alert-${alertType}`;
+    $(eAlertDisplay.alert).prop('hidden', false).addClass(alertClass).find('.message').html(message);
+    
+}

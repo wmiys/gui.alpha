@@ -422,5 +422,24 @@ textarea {
     font-size: initial;
   }
 }
+.btn-spinner .btn-spinner-text {
+  white-space: nowrap;
+  display: inline;
+}
+.btn-spinner .btn-spinner-spinner {
+  display: none;
+}
+.btn-spinner:disabled .btn-spinner-spinner {
+  display: inline-block;
+}
+.btn-spinner:disabled .btn-spinner-text {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .btn-stretch-sm {
+    width: 100%;
+  }
+}
 
 /*# sourceMappingURL=style.css.map */
