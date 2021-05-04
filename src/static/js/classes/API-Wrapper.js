@@ -89,6 +89,34 @@ class ApiWrapper
     }
 
     /**********************************************************
+    Send a PUT request for a user from the API. 
+    Updates the user's info.
+    
+    Parms:
+        userID: the user's id
+        oUser: an object containing the user's info. Optional fields are:
+            - email
+            - password
+            - name_first
+            - name_last
+            - birth_date
+        fnSuccess: successful request callback
+        fnError: unsuccessful request callback
+    **********************************************************/
+    static requestPutUser(oUser, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/users`;
+        
+        $.ajax({
+            url: url,
+            data: oUser,
+            type: ApiWrapper.REQUEST_TYPES.PUT,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+
+    /**********************************************************
     Send a GET request to retrieve all of the product categories
     
     Parms:
