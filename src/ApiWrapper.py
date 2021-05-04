@@ -143,6 +143,14 @@ class ApiWrapper:
         response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData)
         return response
 
+    
+    def updateUser(self, user_data):
+        url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
+        response = requests.put(url, auth=(self.email, self.password), data=user_data)
+        return response
+
+
+
     @staticmethod
     def login(email, password):
         """Log a client in

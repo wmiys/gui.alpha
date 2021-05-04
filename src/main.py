@@ -299,6 +299,19 @@ def apiProductAvailability(product_id):
     return (jsonify(apiResponse.json()), 200)
 
 
+#------------------------------------------------------
+# Update a user's info
+#------------------------------------------------------
+@app.route('/api/users', methods=['PUT'])
+@login_required
+def apiUserUpdate():
+    apiResponse = apiWrapper.updateUser(request.form)
+
+    if apiResponse.status_code != 200:          # error
+        flask.abort(apiResponse.status_code)
+
+    return (jsonify(apiResponse.json()), 200)
+
 
 #************************************************************************************
 #

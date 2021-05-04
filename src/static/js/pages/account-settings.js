@@ -6,14 +6,14 @@ const eFormBasic = {
     form: $('.form-account-settings-basic'),
 
     inputs: {
-        nameFirst: $('#form-account-settings-basic-name-first'),
-        nameLast : $('#form-account-settings-basic-name-last'),
-        email    : $('#form-account-settings-basic-email'),
-        dob : $('#form-account-settings-basic-dob'),
+        nameFirst: '#form-account-settings-basic-name-first',
+        nameLast : '#form-account-settings-basic-name-last',
+        email    : '#form-account-settings-basic-email',
+        dob :      '#form-account-settings-basic-dob',
     },
 
     buttons: {
-        submit: $('#form-account-settings-basic-submit'),
+        submit: '#form-account-settings-basic-submit',
     },
 
     inputClassIdentifier: '.form-account-settings-basic-input',
@@ -22,7 +22,7 @@ const eFormBasic = {
         const values = {};
 
         for (inputKey of Object.keys(eFormBasic.inputs)) {
-            values[inputKey] = eFormBasic.inputs[inputKey];
+            values[inputKey] = $(eFormBasic.inputs[inputKey]).val();
         }
 
         return values;
@@ -44,7 +44,47 @@ const eSideNav = {
 Main logic
 *************************************************/
 $(document).ready(function() {
-    // ApiWrapper.requestGetUser(LocalStorage.getUserID(), displayBasicFormData, console.error);
-
+    addEventListeners();
 });
+
+
+
+/************************************************
+Registers all of the page event listeners.
+*************************************************/
+function addEventListeners() {
+
+    $(eFormBasic.buttons.submit).on('click', function() {
+        updateUserInfo();
+    });
+
+}
+
+
+function updateUserInfo() {
+    const values = eFormBasic.getValues();
+
+    const formattedData = {
+        email: values.email,
+        name_first: values.nameFirst,
+        name_last: values.nameLast,
+        birth_date: values.dob,
+    }
+
+
+    ApiWrapper.requestPutUser(formattedData, updateUserInfoSuccess, updateUserInfoError);
+
+}
+
+function updateUserInfoSuccess(result,status,xhr) {
+    console.log(result);
+}
+
+function updateUserInfoError(xhr, status, error) {
+    console.error('updateUserInfoError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error);
+}
+
 
