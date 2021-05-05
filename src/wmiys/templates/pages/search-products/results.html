@@ -1,3 +1,29 @@
+{#
+***************************************************************************************************
+
+* Template: results.html
+* URL: /search/products
+* Purpose: View the product search results
+
+***************************************************************************************************
+
+Input parms:
+    - productCategories:
+        - (list) major
+            - id
+            - name
+        - (list) minor
+            - id
+            - name
+            - parent_id
+        - (list) sub
+            - id
+            - name
+            - parent_id
+
+***************************************************************************************************
+#}
+
 <!doctype html>
 <html lang="en">
 
@@ -10,8 +36,24 @@
     {% include 'includes/navbar.html' %}
 
     <div class="container">
-
         <h1 class="my-5 text-center">Search results</h1>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <!-- sidenav -->
+            <div class="col-sm-12 col-lg-4">
+                {% include 'pages/search-products/sidenav.html' %}
+            </div>
+
+
+            <div class="col-sm-12 col-lg-8">
+                products search results
+            </div>
+
+
+        </div>
+
 
     </div>
 

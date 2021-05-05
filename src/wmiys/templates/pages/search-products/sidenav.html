@@ -1,0 +1,42 @@
+{#
+***************************************************************************************************
+Input parms:
+    - productCategories:
+        - (list) major
+            - id
+            - name
+        - (list) minor
+            - id
+            - name
+            - parent_id
+        - (list) sub
+            - id
+            - name
+            - parent_id
+
+***************************************************************************************************
+#}
+
+<ul>
+    {% for categoryMajor in productCategories.major %}
+        <li><a href="#">{{ categoryMajor.name }}</a></li>
+        <ul>
+            {% for categoryMinor in productCategories.minor %}
+                {% if categoryMinor.parent_id == categoryMajor.id %}
+                <li><a href="#">{{ categoryMinor.name }}</a></li>
+                
+                <ul>
+                    {% for categorySub in productCategories.sub %}
+                        {% if categorySub.parent_id == categoryMinor.id %}
+                        <li><a href="#">{{ categorySub.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</ul>
+
+
