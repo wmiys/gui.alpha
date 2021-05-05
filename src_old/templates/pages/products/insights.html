@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Product insights</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+    <!-- section to display alerts -->
+    <div class="alert alert-dismissible" role="alert" id="alert-page-top" hidden>
+        <span class="message"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    {% include 'pages/products/product-navbar.html' %}
+
+    <div class="container mt-5">
+
+        <p class="subtitle text-primary mb-3">INSIGHTS</p>
+
+    </div>
+
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/pages/products/insights.js"></script>
+</body>
+
+</html>

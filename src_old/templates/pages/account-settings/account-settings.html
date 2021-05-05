@@ -1,0 +1,126 @@
+
+{#
+    Input parms:
+        - userInfo
+#}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Account settings</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+        <!-- section to display alerts -->
+        <div class="alert alert-dismissible alert-top" role="alert" hidden>
+            <span class="message">Account updated</span>
+            <button type="button" class="close btn-close-alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+    <div class="container mt-5">
+
+        <div class="row">
+            <!-- sidenav -->
+            <div class="col-sm-12 col-lg-4">
+                <div class="card card-account-settings-sidenav mb-3">
+                    <div class="card-body">
+                        <div class="profile-info d-flex flex-column align-items-center">
+                            <!-- profile pic -->
+                            <img src="static/img/placeholder.jpg" class="img-fluid img-profile-pic mb-3" alt="Profile picture">
+
+                            <!-- user name -->
+                            <p class="h5">
+                                <span class="profile-info-name-first"></span>
+                                <span class="profile-info-name-last"></span>
+                            </p>
+                        </div>
+
+                        <div class="menu mt-4">
+                            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab">Personal info</a>
+                                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab">Login & security</a>
+                                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab">Messages</a>
+                                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab">Payments & payouts</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- content -->
+            <div class="col-sm-12 col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-4">General information</h5>
+                        <form class="form-account-settings-basic">
+                            <div class="form-row">
+                                <!-- first name -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-account-settings-basic-name-first">First name</label>
+                                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-first" required value="{{ userInfo.name_first }}">
+                                    </div>
+                                </div>
+
+                                <!-- last name -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-account-settings-basic-name-last">Last name</label>
+                                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-last" required value="{{ userInfo.name_last }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <!-- email -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-account-settings-basic-email">Email</label>
+                                        <input type="email" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-email" required value="{{ userInfo.email }}">
+                                    </div>
+                                </div>
+
+                                <!-- dob -->
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-account-settings-basic-dob">Birthday</label>
+                                        <input type="date" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-dob" required value="{{ userInfo.birth_date }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- save button -->
+                            <div class="form-row">
+                                <button type="button" class="btn btn-primary form-account-settings-basic-btn px-4 btn-spinner btn-stretch-sm" id="form-account-settings-basic-submit">
+                                    <div class="btn-spinner-text">Save changes</div>
+                                    <div class="spinner-border spinner-border-sm btn-spinner-spinner" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/pages/account-settings.js"></script>
+
+
+</body>
+
+</html>
