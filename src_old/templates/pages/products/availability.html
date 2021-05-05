@@ -1,0 +1,213 @@
+{#
+***************************************************************************************************
+
+* Template: availability.html
+* URL: /products/:product_id/availability
+* Purpose: Edit a product's availability records
+
+***************************************************************************************************
+
+Input parms:
+    - product:
+        - id
+        - name
+        - description
+        - product_categories_sub_id
+        - product_categories_sub_name
+        - product_categories_minor_id
+        - product_categories_minor_name
+        - product_categories_major_id
+        - product_categories_major_name
+        - location_id
+        - location_city
+        - location_state_id
+        - location_state_name
+        - dropoff_distance
+        - price_full
+        - price_half
+        - image
+        - created_on
+        - user_id
+        - user_email
+        - user_name_first
+        - user_name_last
+
+    - availabilities:
+        - a list of Product_Availability records with the fields:
+             - id
+             - product_id
+             - starts_on
+             - ends_on
+             - note
+             - created_on
+
+***************************************************************************************************
+#}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Product availability</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+    <!-- section to display alerts -->
+    <div class="alert alert-dismissible" role="alert" id="alert-page-top" hidden>
+        <span class="message"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    {% include 'pages/products/product-navbar.html' %}
+
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mt-5">
+            <p class="subtitle text-primary mb-3">CURRENT AVAILIABILITY</p>
+            <button type="button" class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#product-availability-new-container">New</button>
+        </div>
+
+        <!-- create new record form -->
+        <div id="product-availability-new-container" class="mt-3 mb-5 collapse">
+            <div class="card">
+                <div class="card-body">
+                    <form id="product-availability-new-form">
+                        <!-- start and end date range -->
+                        <div class="form-group">
+                            <label for="product-availability-new-input-dates">Dates</label>
+                            <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-dates">
+                        </div>
+
+                        <!-- note -->
+                        <div class="form-group">
+                            <label for="product-availability-new-input-note">Note</label>
+                            <input type="text" class="form-control product-availability-new-input" id="product-availability-new-input-note">
+                        </div>
+                        <!-- </div> -->
+
+                        <!-- action buttons -->
+                        <button type="button" id="product-availability-new-btn-create" class="btn btn-sm btn-success product-availability-new-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Create</span>
+                        </button>
+                        <button type="button" id="product-availability-new-btn-cancel" class="btn btn-sm btn-outline-danger product-availability-new-btn" data-toggle="collapse" data-target="#product-availability-new-container">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="table-responsive mt-3">
+            <table class="table" id="product-availability-table">
+                <thead>
+                    <tr>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Starts</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Ends</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th">
+                            <div class="d-flex point-on-hover">
+                                <span>Note</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                        <th class="product-availability-th sorted sorted-asc">
+                            <div class="d-flex point-on-hover">
+                                <span>Created</span>
+                                <span><i class='bx bxs-up-arrow ml-2'></i></span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for availability in availabilities %}
+                    <tr class="product-availability-row" data-product-availability-id="{{ availability.id }}">
+                        <td class="product-availability-cell text-nowrap">{{ availability.starts_on }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ availability.ends_on }}</td>
+                        <td class="product-availability-cell note">{{ availability.note }}</td>
+                        <td class="product-availability-cell text-nowrap">{{ availability.created_on }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+        <p class="text-muted"><small>Click a row to edit</small></p>
+
+        <!-- edit product availability record modal -->
+        <div class="modal" id="product-availability-edit-modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit availability</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- edit the availability -->
+                        <form id="product-availability-edit-form">
+
+                            <!-- start and end date range -->
+                            <div class="form-group">
+                                <label for="product-availability-edit-input-dates">Dates</label>
+                                <input type="text" class="form-control product-availability-edit-input flatpick" id="product-availability-edit-input-dates">
+                            </div>
+
+                            <!-- note -->
+                            <div class="form-group">
+                                <label for="product-availability-edit-input-note">Note</label>
+                                <input type="text" class="form-control product-availability-edit-input" id="product-availability-edit-input-note">
+                            </div>
+                        </form>
+
+                        <!-- spinner loading section -->
+                        <div class="loading-spinner">
+                            <div class="d-flex flex-column justify-content-center h-100">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" id="product-availability-edit-btn-delete" class="btn btn-outline-danger product-availability-edit-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Delete</span>
+                        </button>
+                        <button type="button" id="product-availability-edit-btn-save" class="btn btn-success product-availability-edit-btn">
+                            <span class="spinner-border spinner-border-sm mr-2 d-none" role="status"><span class="sr-only">Loading...</span></span>
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'includes/footer.html' %}
+    <script src="/static/js/classes/FlatpickrRange.js"></script>
+    <script src="/static/js/pages/products/availability.js"></script>
+</body>
+
+</html>
