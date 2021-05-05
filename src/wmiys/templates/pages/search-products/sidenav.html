@@ -17,26 +17,44 @@ Input parms:
 ***************************************************************************************************
 #}
 
-<ul>
-    {% for categoryMajor in productCategories.major %}
-        <li><a href="#">{{ categoryMajor.name }}</a></li>
-        <ul>
-            {% for categoryMinor in productCategories.minor %}
-                {% if categoryMinor.parent_id == categoryMajor.id %}
-                <li><a href="#">{{ categoryMinor.name }}</a></li>
-                
-                <ul>
-                    {% for categorySub in productCategories.sub %}
-                        {% if categorySub.parent_id == categoryMinor.id %}
-                        <li><a href="#">{{ categorySub.name }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
 
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% endfor %}
-</ul>
+<div class="card card-body sidenav">
+
+    <h6 class="text-muted">Filters</h6>
+
+    <div class="sidenav-filter-categories">
+        <button class="btn btn-sm btn-outline-secondary w-100 my-2" data-toggle="collapse" data-target=".sidenav-filter-categories-list">Categories</button>
+
+        <div class="sidenav-filter-categories-list collapse">
+            <ul class="sidenav-filter-categories-list-major">
+                {% for categoryMajor in productCategories.major %}
+                    <li class="sidenav-filter-categories-list-item-major"><a href="#">{{ categoryMajor.name }}</a></li>
+                    <ul class="sidenav-filter-categories-list-minor">
+                        {% for categoryMinor in productCategories.minor %}
+                            {% if categoryMinor.parent_id == categoryMajor.id %}
+                            <li class="sidenav-filter-categories-list-item-minor"><a href="#">{{ categoryMinor.name }}</a></li>
+                            
+                            <ul class="sidenav-filter-categories-list-sub">
+                                {% for categorySub in productCategories.sub %}
+                                    {% if categorySub.parent_id == categoryMinor.id %}
+                                    <li class="sidenav-filter-categories-list-item-sub" data-id="{{ categorySub.id }}"><a href="#">{{ categorySub.name }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+            
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
 
 

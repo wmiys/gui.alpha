@@ -4,8 +4,6 @@
 
 class UrlParser
 {
-
-
     static getPathValue(index) {
         const urlPath = window.location.pathname;
         const pathValues = urlPath.split("/");
@@ -19,5 +17,16 @@ class UrlParser
         return null;
     }
 
+    /**********************************************************
+    Returns the value of a URL query parm
 
+        example.com?name=shit
+    
+    getQueryParm('name') would return 'shit'
+    **********************************************************/
+    static getQueryParm(a_strParmName) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const value = urlParams.get(a_strParmName);
+        return value;
+    }
 }

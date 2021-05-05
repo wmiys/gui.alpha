@@ -12,9 +12,11 @@ from wmiys.common.ApiWrapper import ApiWrapper
 
 bpSearchProducts = Blueprint('search_products', __name__)
 
-@bpSearchProducts.route('')
+@bpSearchProducts.route('', defaults={'path': ''})
+@bpSearchProducts.route('/<path:path>')
 @Security.login_required
-def pSearchResults():
+def pSearchResults(path):
     categories = ApiWrapper.getProductCategories(True)
 
     return flask.render_template('pages/search-products/results.html', productCategories=categories.json())
+
