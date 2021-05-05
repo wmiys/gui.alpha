@@ -75,7 +75,20 @@ function setEventListeners() {
     $(eFormProductSearch.inputs.category).on('click', '.dropdown-item', function() {
         handleProductSearchCategoryChange(this);
     });
+
+    $(eFormProductSearch.buttons.search).on('click', function() {
+        gotoSearchProductsPage();
+    });
 }
+
+
+/**********************************************************
+Creates the search page url and then loads the page
+**********************************************************/
+function gotoSearchProductsPage() {
+    window.location.href = '/search/products';
+}
+
 
 /**********************************************************
 Handler for when the product search category input is changed.

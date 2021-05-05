@@ -172,6 +172,23 @@ class ApiWrapper:
         response = requests.post(url, data=parms)
         return response
 
+    @staticmethod
+    def getProductCategories(a_bReturnAsSeperate: bool=False):
+        """Return all of the product categories from the api
+
+        Args:
+            a_bReturnAsSeperate (bool, optional): Return as the seperate format?. Defaults to False.
+
+        Returns:
+            api response: all of the product categories: either as a table or as 3 seperate lists (major, minor, sub)
+        """
+        url = ApiWrapper.generateApiUrl('/product-categories')
+
+        if a_bReturnAsSeperate:
+            url += '?seperate=true'
+
+        response = requests.get(url)
+        return response
 
     @staticmethod
     def generateApiUrl(suffix=''):
