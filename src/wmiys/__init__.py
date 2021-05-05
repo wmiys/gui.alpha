@@ -4,6 +4,7 @@ from wmiys.home.controllers import bpHome
 from wmiys.api.controllers import bpApi
 from wmiys.products.controllers import bpProducts
 from wmiys.account_settings.controllers import bpAccountSettings
+from wmiys.search_products.controllers import bpSearchProducts
 
 
 def initApp(flaskApp):
@@ -28,6 +29,7 @@ def registerBlueprints(flaskApp):
     flaskApp.register_blueprint(bpApi, url_prefix='/api')
     flaskApp.register_blueprint(bpProducts, url_prefix='/products')
     flaskApp.register_blueprint(bpAccountSettings, url_prefix='/account-settings')
+    flaskApp.register_blueprint(bpSearchProducts, url_prefix='/search/products')
 
 
 app = Flask(__name__)
