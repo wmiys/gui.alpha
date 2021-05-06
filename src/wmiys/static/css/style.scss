@@ -483,11 +483,13 @@ textarea {
             outline: none;
         }
 
-        i { transform: scale(1.6); }
+        i { 
+            transform: scale(1.6); 
+            transition: transform .3s;
+        }
     }
 
     &.child-list-visible .sidenav-filter-categories-list-btn-collapse i {
-        transition: transform .3s;
         transform: rotate(-180deg) scale(1.6);   
     }
 }

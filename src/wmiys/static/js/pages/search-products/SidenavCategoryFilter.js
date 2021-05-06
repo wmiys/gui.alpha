@@ -30,12 +30,10 @@ class SidenavFilterCategories
         let listItem = $(a_eBtnClicked).closest(this.classes.listItem);     // the list item containing the button that was clicked
         let listItemID = $(listItem).attr(this.dataAttrs.id);               // it's id
 
-        let jqString = `${this.classes.list}[${this.dataAttrs.parentID}="${listItemID}"]`;
+        let jqString = `> ${this.classes.list}[${this.dataAttrs.parentID}="${listItemID}"]`;
 
         // toggle the sub list within the current listItem list whose parent id is the one of the listItem
-        $(listItem).closest(this.classes.list).find(jqString).collapse('toggle');
-
-        $(listItem).toggleClass('child-list-visible');
+        $(listItem).toggleClass('child-list-visible').closest(this.classes.list).find(jqString).collapse('toggle');
     }
 
 }
