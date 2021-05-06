@@ -463,3 +463,14 @@ textarea {
     }
 }
 
+
+.sidenav-filter-categories-list {
+    padding-inline-start: 20px;
+}
+
+.sidenav-filter-categories-list-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+

@@ -27,9 +27,13 @@ class SidenavFilterCategories
     Toggle a collapseable list
     **********************************************************/
     collapseSidenavFilterCategoryList = (a_eBtnClicked) => {
-        let listItemID = $(a_eBtnClicked).closest(this.classes.listItem).attr(this.dataAttrs.id);
+        let listItem = $(a_eBtnClicked).closest(this.classes.listItem);     // the list item containing the button that was clicked
+        let listItemID = $(listItem).attr(this.dataAttrs.id);               // it's id
+
         let jqString = `${this.classes.list}[${this.dataAttrs.parentID}="${listItemID}"]`;
-        $(jqString).collapse('toggle');
+
+        // toggle the sub list within the current listItem list whose parent id is the one of the listItem
+        $(listItem).closest(this.classes.list).find(jqString).collapse('toggle');
     }
 
 }
