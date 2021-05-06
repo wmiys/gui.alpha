@@ -20,6 +20,10 @@ Input parms:
             - id
             - name
             - parent_id
+    - urlParms:
+        - location_id
+        - starts_on
+        - ends_on
 
 ***************************************************************************************************
 #}
@@ -36,11 +40,7 @@ Input parms:
     {% include 'includes/navbar.html' %}
 
     <div class="container">
-        <h1 class="my-5 text-center">Search results</h1>
-    </div>
-
-    <div class="container">
-        <div class="row">
+        <div class="row mt-5">
             <!-- sidenav -->
             <div class="col-sm-12 col-lg-4">
                 {% include 'pages/search-products/sidenav.html' %}
@@ -48,7 +48,7 @@ Input parms:
 
 
             <div class="col-sm-12 col-lg-8">
-                products search results
+                <h1>Search results</h1>
             </div>
 
 
@@ -57,9 +57,10 @@ Input parms:
 
     </div>
 
-
+    <div class="mb-5"></div>
 
     {% include 'includes/footer.html' %}
+    <script src="/static/js/pages/search-products/SidenavCategoryFilter.js"></script>
     <script src="/static/js/pages/search-products/results.js"></script>
 
 </body>

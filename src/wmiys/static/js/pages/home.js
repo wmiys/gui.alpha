@@ -1,5 +1,7 @@
 
-
+/**********************************************************
+Product search form
+**********************************************************/
 const eFormProductSearch = {
     form: '#product-search-form',
 
@@ -44,7 +46,7 @@ const eFormProductSearch = {
 
     getProductCategorySubId: function() {
         const result = $(eFormProductSearch.inputs.category).attr(eFormProductSearch.dropdownDataAttr);
-        return result;
+        return parseInt(result);
     },
 }
 
@@ -80,15 +82,6 @@ function setEventListeners() {
         gotoSearchProductsPage();
     });
 }
-
-
-/**********************************************************
-Creates the search page url and then loads the page
-**********************************************************/
-function gotoSearchProductsPage() {
-    window.location.href = '/search/products';
-}
-
 
 /**********************************************************
 Handler for when the product search category input is changed.
@@ -218,16 +211,31 @@ function getSubCategoryDropdownHtml(id, name) {
     return html;
 }
 
-function getTheValues() {
 
-    let result = eFormProductSearch.getInputValues();
-    console.log(result);
+/**********************************************************
+Creates the search page url and then loads the page
+**********************************************************/
+function gotoSearchProductsPage() {
+    const searchInputValues = eFormProductSearch.getInputValues();
+
+    if (searchInputValues.ends_on == null) {
+        return;
+    } else if (searchInputValues.starts_on == null) {
+        return;
+    } else if (searchInputValues.location_id == "" || searchInputValues.location_id == null) {
+        return;
+    }
+
+    let urlQueryParms = `location_id=${searchInputValues.location_id}&starts_on=${searchInputValues.starts_on}&ends_on=${searchInputValues.ends_on}`;
+
+    let newUrl = `/search/products`;
+    if (searchInputValues.product_categories_sub_id > 0) {
+        // append the sub product category if they selected one
+        newUrl += `/categories/minor/${searchInputValues.product_categories_sub_id}`;
+    }
+
+    window.location.href = `${newUrl}?${urlQueryParms}`;
 }
-
-
-
-
-
 
 
 

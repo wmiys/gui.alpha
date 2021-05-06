@@ -463,3 +463,35 @@ textarea {
     }
 }
 
+
+.sidenav-filter-categories-list {
+    padding-inline-start: 20px;
+}
+
+.sidenav-filter-categories-list-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+
+.sidenav-filter-categories-list-item {
+    .sidenav-filter-categories-list-btn-collapse {
+        &:focus,
+        &:focus-visible {
+            box-shadow: none;
+            outline: none;
+        }
+
+        i { 
+            transform: scale(1.6); 
+            transition: transform .3s;
+        }
+    }
+
+    &.child-list-visible .sidenav-filter-categories-list-btn-collapse i {
+        transform: rotate(-180deg) scale(1.6);   
+    }
+}
+
+

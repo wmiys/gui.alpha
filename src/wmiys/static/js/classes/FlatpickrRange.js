@@ -39,7 +39,12 @@ class FlatpickrRange
         const selectedDates = this.flatpickrInstance.selectedDates;
 
         if (selectedDates.length == 0) {
-            return null;    // no dates are set
+            const nullReturn = {
+                startsOn: null,
+                endsOn: null,
+            }
+            
+            return nullReturn;    // no dates are set
         }
         
         // transform the js dates into ISO format: YYYY-MM-DD

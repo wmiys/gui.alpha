@@ -1,6 +1,18 @@
 
 
+const m_SidenavFilterCategories = new SidenavFilterCategories();
 
+
+/**********************************************************
+Main logic
+**********************************************************/
 $(document).ready(function() {
-    console.log('search results');
+    // addListeners();
 });
+
+
+
+
+
+
+
