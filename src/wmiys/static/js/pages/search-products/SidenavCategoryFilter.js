@@ -34,6 +34,8 @@ class SidenavFilterCategories
 
         // toggle the sub list within the current listItem list whose parent id is the one of the listItem
         $(listItem).closest(this.classes.list).find(jqString).collapse('toggle');
+
+        $(listItem).toggleClass('child-list-visible');
     }
 
 }

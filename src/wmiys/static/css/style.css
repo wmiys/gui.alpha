@@ -451,4 +451,16 @@ textarea {
   justify-content: space-between;
 }
 
+.sidenav-filter-categories-list-item .sidenav-filter-categories-list-btn-collapse:focus, .sidenav-filter-categories-list-item .sidenav-filter-categories-list-btn-collapse:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+.sidenav-filter-categories-list-item .sidenav-filter-categories-list-btn-collapse i {
+  transform: scale(1.6);
+}
+.sidenav-filter-categories-list-item.child-list-visible .sidenav-filter-categories-list-btn-collapse i {
+  transition: transform 0.3s;
+  transform: rotate(-180deg) scale(1.6);
+}
+
 /*# sourceMappingURL=style.css.map */

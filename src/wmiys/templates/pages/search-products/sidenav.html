@@ -34,7 +34,7 @@ Input parms:
             <ul class="sidenav-filter-categories-list">
                 {% for categoryMajor in productCategories.major %}
 
-                    <li class="sidenav-filter-categories-list-item" data-id="{{ categoryMajor.id }}">
+                    <li class="sidenav-filter-categories-list-item child-list-visible" data-id="{{ categoryMajor.id }}">
                         <a href="/search/products/categories/major/{{ categoryMajor.id }}?location_id={{ urlParms.location_id }}&starts_on={{ urlParms.starts_on }}&ends_on={{ urlParms.ends_on }}">{{ categoryMajor.name }}</a>
                         <button type="button" class="btn btn-sm sidenav-filter-categories-list-btn-collapse"><i class='bx bx-chevron-up'></i></button>
                     </li>
@@ -49,7 +49,7 @@ Input parms:
                                     <button type="button" class="btn btn-sm sidenav-filter-categories-list-btn-collapse"><i class='bx bx-chevron-up'></i></button>
                                 </li>
                             
-                                <ul class="sidenav-filter-categories-list collapse show" data-parent-id="{{ categoryMinor.id }}">
+                                <ul class="sidenav-filter-categories-list collapse" data-parent-id="{{ categoryMinor.id }}">
                                     {% for categorySub in productCategories.sub %}
                                     
                                         
