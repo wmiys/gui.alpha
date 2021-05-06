@@ -49,6 +49,70 @@ Input parms:
 
             <div class="col-sm-12 col-lg-8">
                 <h1>Search results</h1>
+
+                <!-- where all the products will be displayed -->
+                <div id="lender-product-listings" class="mt-4">
+
+                    {% for product in products %}
+                    <div class="card card-user-product mb-5" data-product-id="{{ product.id }}">
+                        <div class="row no-gutters">
+
+                            <div class="container-imgs col-md-4 col-sm-12 ">
+                                <!-- <a href="/products/{{ product.id }}" class="h-100 w-100"> -->
+                                <a href="#" class="h-100 w-100"></a>
+                                <div class="container-img-pics w-100 h-100" style="background-image: url('{{ product.image }}');"></div>
+                                </a>
+                            </div>
+                            <div class="col-md-8 col-sm-12">
+                                <div class="card-body p-4 h-100">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4 class="card-lender-product-detail">{{ product.name }}</h4>
+                                    </div>
+
+                                    <!-- <p class="card-text text-muted">{{ product.location_city }}, {{ product.location_state_id }}</p> -->
+
+                                    <div class="product-rating mb-2">
+                                        <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                        <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                        <i class='bx bxs-star rating-star rating-star-filled'></i>
+                                        <i class='bx bxs-star-half rating-star rating-star-filled'></i>
+                                        <i class='bx bxs-star rating-star'></i>
+                                        <span class="badge badge-pill badge-dark ml-2">3.6</span>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-4">
+                                            <div><small class="text-muted font-weight-light">Full Day</small></div>
+                                            <div class="h5 text-secondary">
+                                                {% if product.price_full %}
+                                                ${{ "{0:.2f}".format(product.price_full) }}
+                                                {% else %}
+                                                &mdash;
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
+                                            <div><small class="text-muted font-weight-light">Half Day</small></div>
+                                            <div class="h5 text-secondary">
+                                                {% if product.price_half %}
+                                                ${{ "{0:.2f}".format(product.price_half) }}
+                                                {% else %}
+                                                &mdash;
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-4">
+                                            <div><small class="text-muted font-weight-light">Category</small></div>
+                                            <div class="h5 text-secondary text-truncate">{{ product.product_categories_sub_name }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
             </div>
 
 
