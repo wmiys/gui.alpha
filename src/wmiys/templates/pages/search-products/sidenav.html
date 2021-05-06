@@ -13,6 +13,10 @@ Input parms:
             - id
             - name
             - parent_id
+    - urlParms:
+        - location_id
+        - starts_on
+        - ends_on
 
 ***************************************************************************************************
 #}
@@ -25,28 +29,44 @@ Input parms:
     <div class="sidenav-filter-categories">
         <button class="btn btn-sm btn-outline-secondary w-100 my-2" data-toggle="collapse" data-target=".sidenav-filter-categories-list">Categories</button>
 
-        <div class="sidenav-filter-categories-list collapse">
-            <ul class="sidenav-filter-categories-list-major">
-                {% for categoryMajor in productCategories.major %}
-                    <li class="sidenav-filter-categories-list-item-major"><a href="#">{{ categoryMajor.name }}</a></li>
-                    <ul class="sidenav-filter-categories-list-minor">
-                        {% for categoryMinor in productCategories.minor %}
-                            {% if categoryMinor.parent_id == categoryMajor.id %}
-                            <li class="sidenav-filter-categories-list-item-minor"><a href="#">{{ categoryMinor.name }}</a></li>
-                            
-                            <ul class="sidenav-filter-categories-list-sub">
-                                {% for categorySub in productCategories.sub %}
-                                    {% if categorySub.parent_id == categoryMinor.id %}
-                                    <li class="sidenav-filter-categories-list-item-sub" data-id="{{ categorySub.id }}"><a href="#">{{ categorySub.name }}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+        <div class="sidenav-filter-categories-lists collapse show">
             
+            {% for categoryMajor in productCategories.major %}
+                <ul class="sidenav-filter-categories-list" data-category-type="major" data-id="{{ categoryMajor.id }}">
+
+                    <li class="sidenav-filter-categories-list-item" data-id="{{ categoryMajor.id }}">
+                        <a href="/search/products/categories/major/{{ categoryMajor.id }}?location_id={{ urlParms.location_id }}&starts_on={{ urlParms.starts_on }}&ends_on={{ urlParms.ends_on }}">{{ categoryMajor.name }}</a>
+                        <button type="button" class="btn btn-sm sidenav-filter-categories-list-btn-collapse"><i class='bx bx-chevron-up'></i></button>
+                    </li>
+
+                    {% for categoryMinor in productCategories.minor %}
+                        <ul class="sidenav-filter-categories-list collapse show" data-parent-id="{{ categoryMajor.id }}" data-category-type="minor" data-id="{{ categoryMinor.id }}">
+                            
+                            {% if categoryMinor.parent_id == categoryMajor.id %}
+                                <li class="sidenav-filter-categories-list-item" data-id="{{ categoryMinor.id }}">
+                                    <a href="/search/products/categories/minor/{{ categoryMinor.id }}?location_id={{ urlParms.location_id }}&starts_on={{ urlParms.starts_on }}&ends_on={{ urlParms.ends_on }}">{{ categoryMinor.name }}</a>
+                                    <button type="button" class="btn btn-sm sidenav-filter-categories-list-btn-collapse"><i class='bx bx-chevron-up'></i></button>
+                                </li>
+                            
+                                {% for categorySub in productCategories.sub %}
+                                    <ul class="sidenav-filter-categories-list collapse show" data-parent-id="{{ categoryMinor.id }}" data-category-type="sub">
+                                        
+                                        {% if categorySub.parent_id == categoryMinor.id %}
+                                            <li class="sidenav-filter-categories-list-item" data-id="{{ categorySub.id }}">
+                                                <a href="/search/products/categories/sub/{{ categorySub.id }}?location_id={{ urlParms.location_id }}&starts_on={{ urlParms.starts_on }}&ends_on={{ urlParms.ends_on }}">{{ categorySub.name }}</a>
+                                            </li>
+                                        {% endif %}
+
+                                    </ul>
+                                {% endfor %}
+                            
                             {% endif %}
-                        {% endfor %}
-                    </ul>
-                {% endfor %}
-            </ul>
+                        </ul>
+                    {% endfor %}
+                    
+                </ul>
+            {% endfor %}
+            
         </div>
 
 

@@ -18,5 +18,7 @@ bpSearchProducts = Blueprint('search_products', __name__)
 def pSearchResults(path):
     categories = ApiWrapper.getProductCategories(True)
 
-    return flask.render_template('pages/search-products/results.html', productCategories=categories.json())
+    print(request.args.to_dict())
+
+    return flask.render_template('pages/search-products/results.html', productCategories=categories.json(), urlParms=request.args.to_dict())
 

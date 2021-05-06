@@ -1,6 +1,17 @@
 
 
+const m_SidenavFilterCategories = new SidenavFilterCategories();
+
+
+
 
 $(document).ready(function() {
-    console.log('search results');
+    // addListeners();
 });
+
+
+
+
+
+
+
