@@ -149,6 +149,37 @@ class ApiWrapper:
         response = requests.put(url, auth=(self.email, self.password), data=user_data)
         return response
 
+    #************************************************************************************
+    #                             PRODUCT SEARCH
+    #************************************************************************************
+    def searchProductsAll(self, location_id, starts_on, ends_on):
+        url = "{}/search/products".format(ApiWrapper.URL_BASE)
+
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        return response
+
+    def searchProductsCategoryMajor(self, location_id, starts_on, ends_on, product_category_major_id):
+        url = "{}/search/products/categories/major/{}".format(ApiWrapper.URL_BASE, product_category_major_id)
+
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        return response
+
+    def searchProductsCategoryMinor(self, location_id, starts_on, ends_on, product_category_minor_id):
+        url = "{}/search/products/categories/minor/{}".format(ApiWrapper.URL_BASE, product_category_minor_id)
+
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        return response
+
+    def searchProductsCategorySub(self, location_id, starts_on, ends_on, product_category_sub_id):
+        url = "{}/search/products/categories/sub/{}".format(ApiWrapper.URL_BASE, product_category_sub_id)
+
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        return response
+
 
 
     @staticmethod
