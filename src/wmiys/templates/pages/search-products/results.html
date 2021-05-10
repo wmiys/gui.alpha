@@ -48,7 +48,14 @@ Input parms:
 
 
             <div class="col-sm-12 col-lg-8">
-                <h1>Search results</h1>
+
+                <div class="d-lg-flex justify-content-between mt-4 mt-lg-0">
+                    <h3 class="mb-3 mb-lg-0">Results <span class="badge badge-pill badge-secondary">{{ products|count }}</span></h3>
+                
+                    <select class="selectpicker" title="Sort">
+                        <option value="hey">Hey</option>
+                    </select>
+                </div>
 
                 <!-- where all the products will be displayed -->
                 <div id="lender-product-listings" class="mt-4">
