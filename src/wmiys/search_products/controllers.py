@@ -79,7 +79,7 @@ def pSearchResultsMajor(product_categories_major_id):
 @Security.login_required
 @load_request_parms
 def pSearchResultsMinor(product_categories_minor_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id)
+    productsResponse = apiWrapper.searchProductsCategoryMinor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id)
     return baseReturn(productsResponse)
 
 
@@ -87,5 +87,5 @@ def pSearchResultsMinor(product_categories_minor_id):
 @Security.login_required
 @load_request_parms
 def pSearchResultsSub(product_categories_sub_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id)
+    productsResponse = apiWrapper.searchProductsCategorySub(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id)
     return baseReturn(productsResponse)
