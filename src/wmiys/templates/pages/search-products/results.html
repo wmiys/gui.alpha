@@ -51,10 +51,7 @@ Input parms:
 
                 <div class="d-lg-flex justify-content-between mt-4 mt-lg-0">
                     <h3 class="mb-3 mb-lg-0">Results <span class="badge badge-pill badge-secondary">{{ products|count }}</span></h3>
-                
-                    <select class="selectpicker" title="Sort">
-                        <option value="hey">Hey</option>
-                    </select>
+                    <select class="selectpickr-search-product" title="Sort by"></select>
                 </div>
 
                 <!-- where all the products will be displayed -->
@@ -132,6 +129,7 @@ Input parms:
 
     {% include 'includes/footer.html' %}
     <script src="/static/js/pages/search-products/SidenavCategoryFilter.js"></script>
+    <script src="/static/js/pages/search-products/SortingElement.js"></script>
     <script src="/static/js/pages/search-products/results.js"></script>
 
 </body>
