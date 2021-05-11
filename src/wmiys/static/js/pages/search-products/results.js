@@ -12,8 +12,6 @@ $(document).ready(function() {
 
     m_SortingElement.displayOptions();
 
-    console.log(SortingElement.Options);
-
 });
 
 

@@ -31,7 +31,10 @@ class SortingElement
 
     displayOptions = () => {
         const optionsHtml = this.getOptionsHtml();
-        $(SortingElement.selectors.container).html(optionsHtml).selectpicker('refresh');
+        $(SortingElement.selectors.container).html(optionsHtml);
+
+        this.setOptionFromUrl();
+
         $(SortingElement.selectors.container).selectpicker('render');
     }
 
@@ -55,6 +58,27 @@ class SortingElement
         const urlQueryParmValue = SortingElement.Options[val].urlSortQuery;
         UrlParser.setQueryParm('sort', urlQueryParmValue, true);
     }
+
+    setOptionFromUrl = () => {
+        const urlValue = UrlParser.getQueryParm('sort');
+
+        if (urlValue == null) {
+            return;
+        }
+
+        for (const option of Object.values(SortingElement.Options)) {
+            if (option.urlSortQuery != urlValue) {
+                continue;
+            }
+            const index = option.id;
+            const optionElements = SortingElement.getOptions();
+            $(optionElements[index]).attr('selected','selected');
+        }
+    }
+
+    static getOptions = () => {
+        return $(SortingElement.selectors.container).find('option');
+    }
 }
 
 
@@ -63,12 +87,11 @@ SortingElement.selectors = {
 }
 
 SortingElement.Options = {
-    // 0: new SortingType(0, "Relevance", "relevance", null),
-    1: new SortingType(1, "Name", "name:asc", null),
-    2: new SortingType(2, "Price full day", "price_full:desc", "high to low"),
-    3: new SortingType(3, "Price full day", "price_full:asc", "low to high"),
-    4: new SortingType(4, "Price half day", "price_half:desc", "high to low"),
-    5: new SortingType(5, "Price half day", "price_half:asc", "low to high"),
+    0: new SortingType(0, "Name", "name:asc", null),
+    1: new SortingType(1, "Price full day", "price_full:desc", "high to low"),
+    2: new SortingType(2, "Price full day", "price_full:asc", "low to high"),
+    3: new SortingType(3, "Price half day", "price_half:desc", "high to low"),
+    4: new SortingType(4, "Price half day", "price_half:asc", "low to high"),
 };
 
 
