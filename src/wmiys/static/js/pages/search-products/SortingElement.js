@@ -63,12 +63,12 @@ SortingElement.selectors = {
 }
 
 SortingElement.Options = {
-    0: new SortingType(0, "Relevance", "relevance", null),
-    1: new SortingType(1, "Top Rated", "top-rated", null),
-    2: new SortingType(2, "Price full day", "price-full-high", "high to low"),
-    3: new SortingType(3, "Price full day", "price-full-low", "low to high"),
-    4: new SortingType(4, "Price half day", "price-half-high", "high to low"),
-    5: new SortingType(5, "Price half day", "price-half-low", "low to high"),
+    // 0: new SortingType(0, "Relevance", "relevance", null),
+    1: new SortingType(1, "Name", "name:asc", null),
+    2: new SortingType(2, "Price full day", "price_full:desc", "high to low"),
+    3: new SortingType(3, "Price full day", "price_full:asc", "low to high"),
+    4: new SortingType(4, "Price half day", "price_half:desc", "high to low"),
+    5: new SortingType(5, "Price half day", "price_half:asc", "low to high"),
 };
 
 
