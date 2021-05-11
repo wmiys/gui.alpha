@@ -16,15 +16,16 @@ from collections import namedtuple
 bpSearchProducts = Blueprint('search_products', __name__)
 
 
-QueryParms = namedtuple('QueryParms', 'location_id starts_on ends_on')
+QueryParms = namedtuple('QueryParms', 'location_id starts_on ends_on sort')
 queryParms = None
 
 def load_request_parms(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        location_id = request.args.get('location_id')
-        starts_on   = request.args.get('starts_on')
-        ends_on     = request.args.get('ends_on')
+        location_id = request.args.get('location_id') or None
+        starts_on   = request.args.get('starts_on') or None
+        ends_on     = request.args.get('ends_on') or None
+        sort        = request.args.get('sort') or None
 
         # make sure all of the required request parms are present
         if None in [location_id, starts_on, ends_on]:
@@ -32,7 +33,7 @@ def load_request_parms(f):
 
         # set query parms
         global queryParms
-        queryParms = QueryParms(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        queryParms = QueryParms(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort)
 
         return f(*args, **kwargs)
 
@@ -61,25 +62,29 @@ def baseReturn(productsApiResponse):
     return flask.render_template('pages/search-products/results.html', products=productsData, productCategories=categories.json(), urlParms=request.args.to_dict())
 
 
+
+#---------------------------------------------------------------
+# Routes
+#---------------------------------------------------------------
 @bpSearchProducts.route('')
 @Security.login_required
 @load_request_parms
 def pSearchResultsAll():
-    productsResponse = apiWrapper.searchProductsAll(queryParms.location_id, queryParms.starts_on, queryParms.ends_on)
+    productsResponse = apiWrapper.searchProductsAll(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, queryParms.sort)
     return baseReturn(productsResponse)
 
 @bpSearchProducts.route('/categories/major/<int:product_categories_major_id>')
 @Security.login_required
 @load_request_parms
 def pSearchResultsMajor(product_categories_major_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_major_id)
+    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_major_id, queryParms.sort)
     return baseReturn(productsResponse)
 
 @bpSearchProducts.route('/categories/minor/<int:product_categories_minor_id>')
 @Security.login_required
 @load_request_parms
 def pSearchResultsMinor(product_categories_minor_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id)
+    productsResponse = apiWrapper.searchProductsCategoryMinor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id, queryParms.sort)
     return baseReturn(productsResponse)
 
 
@@ -87,5 +92,5 @@ def pSearchResultsMinor(product_categories_minor_id):
 @Security.login_required
 @load_request_parms
 def pSearchResultsSub(product_categories_sub_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id)
+    productsResponse = apiWrapper.searchProductsCategorySub(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id, queryParms.sort)
     return baseReturn(productsResponse)
