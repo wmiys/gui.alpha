@@ -1,7 +1,10 @@
 
 
 class UrlParser
-{
+{   
+    /**********************************************************
+    Get the path value of the current url/
+    **********************************************************/
     static getPathValue(index) {
         const urlPath = window.location.pathname;
         const pathValues = urlPath.split("/");
@@ -28,6 +31,10 @@ class UrlParser
         return value;
     }
 
+    /**********************************************************
+    Set's the query paramters of the url.
+    Then refreses the page.
+    **********************************************************/
     static setQueryParm(a_strKey, a_strValue, a_bRefresh=true) {
         const urlParams = UrlParser.getSearchParms();
         urlParams.set(a_strKey, a_strValue);
@@ -40,6 +47,9 @@ class UrlParser
 
     }
 
+    /**********************************************************
+    Returns the current URLSearchParams
+    **********************************************************/
     static getSearchParms() {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams;
