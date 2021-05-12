@@ -58,7 +58,14 @@ def baseReturn(productsApiResponse):
         pass
 
     categories = ApiWrapper.getProductCategories(True)
-    productsData = generateImageData(productsApiResponse.json())
+
+    # split the response into the results and pagination sections
+    responseData = productsApiResponse.json()
+    pagination = responseData['pagination']
+    productsData =  responseData['results']
+    
+    productsData = generateImageData(productsData)
+    
     return flask.render_template('pages/search-products/results.html', products=productsData, productCategories=categories.json(), urlParms=request.args.to_dict())
 
 
