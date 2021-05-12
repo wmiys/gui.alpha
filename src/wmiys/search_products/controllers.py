@@ -6,6 +6,7 @@ Description:    Handles the routing for the product search results page
 
 import flask
 from flask import Blueprint, jsonify, request, redirect, url_for
+from werkzeug.datastructures import ImmutableMultiDict
 import wmiys.common.Security as Security
 from wmiys.common.Security import apiWrapper
 from wmiys.common.ApiWrapper import ApiWrapper
@@ -14,7 +15,6 @@ from functools import wraps, update_wrapper
 from collections import namedtuple
 
 bpSearchProducts = Blueprint('search_products', __name__)
-
 
 QueryParms = namedtuple('QueryParms', 'location_id starts_on ends_on sort')
 queryParms = None
@@ -56,7 +56,7 @@ def generateImageData(rawProductJson):
 def baseReturn(productsApiResponse):
     if productsApiResponse.status_code != 200:
         pass
-
+        
     categories = ApiWrapper.getProductCategories(True)
 
     # split the response into the results and pagination sections
