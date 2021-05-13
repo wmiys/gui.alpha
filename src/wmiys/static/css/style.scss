@@ -495,3 +495,7 @@ textarea {
 }
 
 
+.sidenav-filter-categories-list-item.active a {
+    color: $color-primary !important;
+    font-weight: bold;
+}

@@ -6,3 +6,10 @@ class Utilities:
         print("\n" * numSpaces)
         print(record)
         print("\n" * numSpaces)
+    
+    @staticmethod
+    def intTryParse(value):
+        try:
+            return int(value), True
+        except ValueError:
+            return value, False

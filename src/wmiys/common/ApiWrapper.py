@@ -152,41 +152,36 @@ class ApiWrapper:
     #************************************************************************************
     #                             PRODUCT SEARCH
     #************************************************************************************
-    def searchProductsAll(self, location_id, starts_on, ends_on, sort):
+    
+    def searchProductsAll(self, location_id, starts_on, ends_on, sort, per_page, page):
         url = "{}/search/products".format(ApiWrapper.URL_BASE)
-
-        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort)
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
 
-    def searchProductsCategoryMajor(self, location_id, starts_on, ends_on, product_category_major_id, sort):
+    def searchProductsCategoryMajor(self, location_id, starts_on, ends_on, product_category_major_id, sort, per_page, page):
         url = "{}/search/products/categories/major/{}".format(ApiWrapper.URL_BASE, product_category_major_id)
-
-        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort)
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
 
-    def searchProductsCategoryMinor(self, location_id, starts_on, ends_on, product_category_minor_id, sort):
+    def searchProductsCategoryMinor(self, location_id, starts_on, ends_on, product_category_minor_id, sort, per_page, page):
         url = "{}/search/products/categories/minor/{}".format(ApiWrapper.URL_BASE, product_category_minor_id)
-
-        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort)
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
 
-    def searchProductsCategorySub(self, location_id, starts_on, ends_on, product_category_sub_id, sort):
+    def searchProductsCategorySub(self, location_id, starts_on, ends_on, product_category_sub_id, sort, per_page, page):
         url = "{}/search/products/categories/sub/{}".format(ApiWrapper.URL_BASE, product_category_sub_id)
-
-        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort)
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
-
-
 
     @staticmethod
     def login(email, password):
         """Log a client in
         """
-
+        
         url = ApiWrapper.generateApiUrl('/login')
         r = requests.get(url, params=dict(email=email, password=password))
 

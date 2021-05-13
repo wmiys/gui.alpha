@@ -1,4 +1,3 @@
-
 class SidenavFilterCategories
 {
     /**********************************************************
@@ -9,12 +8,16 @@ class SidenavFilterCategories
         this.addEventListeners();
         this.classes = SidenavFilterCategories.classes;
         this.dataAttrs = SidenavFilterCategories.dataAttrs;
+
+
+        this.addEventListeners = this.addEventListeners.bind(this);
+        this.collapseSidenavFilterCategoryList = this.collapseSidenavFilterCategoryList.bind(this);
     }
 
     /**********************************************************
     Regsites all of the event listeners for this class
     **********************************************************/
-    addEventListeners = () => {
+    addEventListeners() {
         $(SidenavFilterCategories.classes.collapseListBtn).on('click', (e) => {
             this.collapseSidenavFilterCategoryList(e.currentTarget);
         });
@@ -23,7 +26,7 @@ class SidenavFilterCategories
     /**********************************************************
     Toggle a collapseable list
     **********************************************************/
-    collapseSidenavFilterCategoryList = (a_eBtnClicked) => {
+    collapseSidenavFilterCategoryList(a_eBtnClicked) {
         let listItem = $(a_eBtnClicked).closest(this.classes.listItem);     // the list item containing the button that was clicked
         let listItemID = $(listItem).attr(this.dataAttrs.id);               // it's id
 
@@ -54,3 +57,5 @@ SidenavFilterCategories.dataAttrs = {
     id: 'data-id',
     categoryType: 'data-category-type',
 } 
+
+
