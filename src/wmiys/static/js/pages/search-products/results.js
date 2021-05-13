@@ -1,10 +1,6 @@
-console.log('inside results');
 
 const m_SidenavFilterCategories = new SidenavFilterCategories();
 const m_SortingElement = new SortingElement();
-
-
-// console.log(SortingElement.Options);
 
 
 const e_pagination = {
@@ -25,9 +21,6 @@ const e_pagination = {
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    console.log('cunt');
-    console.log(SortingElement.Options);
-
     // addListeners();
     m_SortingElement.displayOptions();
     togglePaginationStates();

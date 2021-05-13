@@ -1,11 +1,8 @@
-console.log('inside SortingType');
-
 
 
 class SortingType
 {
     constructor(a_id, a_text, a_urlSortQuery, a_subtext=null) {
-        console.log('SortingType - constructor');
         this.id = a_id;
         this.text = a_text;
         this.subtext = a_subtext;
@@ -16,7 +13,6 @@ class SortingType
     Generate the html for an element
     **********************************************************/
     getHtml = () => {
-        console.log('SortingType - getHtml');
         const subtextDisplay = this.subtext == null ? '' : `data-subtext="${this.subtext}"`;
         let html = `<option value="${this.id}" ${subtextDisplay}>${this.text}</option>`;
         return html;
