@@ -11,6 +11,7 @@ import wmiys.common.Security as Security
 from wmiys.common.Security import apiWrapper
 from wmiys.common.ApiWrapper import ApiWrapper
 from wmiys.common.Constants import Constants
+from wmiys.common.Pagination import Pagination
 from functools import wraps, update_wrapper
 from collections import namedtuple
 
@@ -18,6 +19,8 @@ bpSearchProducts = Blueprint('search_products', __name__)
 
 QueryParms = namedtuple('QueryParms', 'location_id starts_on ends_on sort')
 queryParms = None
+
+DEFAULT_PER_PAGE = 20
 
 def load_request_parms(f):
     @wraps(f)
@@ -60,15 +63,14 @@ def baseReturn(productsApiResponse):
     categories = ApiWrapper.getProductCategories(True)
 
     # split the response into the results and pagination sections
-    responseData = productsApiResponse.json()
-    pagination = responseData['pagination']
-    productsData =  responseData['results']
-    
-    productsData = generateImageData(productsData)
-    
-    return flask.render_template('pages/search-products/results.html', products=productsData, productCategories=categories.json(), urlParms=request.args.to_dict())
+    responseData = productsApiResponse.json()    
+    productsData = generateImageData(responseData['results'])
+    pagination = Pagination(request, int(responseData['pagination']['total_pages']))
 
-
+    # merge all the outgoing data into 1 dict
+    outData = dict(products=productsData, productCategories=categories.json(), urlParms=request.args.to_dict(), pagination=pagination.getAllPaginationLinks(), total_records=int(responseData['pagination']['total_records']))
+    
+    return flask.render_template('pages/search-products/results.html', data=outData)
 
 #---------------------------------------------------------------
 # Routes
@@ -77,21 +79,27 @@ def baseReturn(productsApiResponse):
 @Security.login_required
 @load_request_parms
 def pSearchResultsAll():
-    productsResponse = apiWrapper.searchProductsAll(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, queryParms.sort)
+    page = request.args.get('page') or 1
+    productsResponse = apiWrapper.searchProductsAll(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, queryParms.sort, DEFAULT_PER_PAGE, page)
+
+    # return jsonify(productsResponse.json())
+
     return baseReturn(productsResponse)
 
 @bpSearchProducts.route('/categories/major/<int:product_categories_major_id>')
 @Security.login_required
 @load_request_parms
 def pSearchResultsMajor(product_categories_major_id):
-    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_major_id, queryParms.sort)
+    page = request.args.get('page') or 1
+    productsResponse = apiWrapper.searchProductsCategoryMajor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_major_id, queryParms.sort, DEFAULT_PER_PAGE, page)
     return baseReturn(productsResponse)
 
 @bpSearchProducts.route('/categories/minor/<int:product_categories_minor_id>')
 @Security.login_required
 @load_request_parms
 def pSearchResultsMinor(product_categories_minor_id):
-    productsResponse = apiWrapper.searchProductsCategoryMinor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id, queryParms.sort)
+    page = request.args.get('page') or 1
+    productsResponse = apiWrapper.searchProductsCategoryMinor(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_minor_id, queryParms.sort, DEFAULT_PER_PAGE, page)
     return baseReturn(productsResponse)
 
 
@@ -99,5 +107,6 @@ def pSearchResultsMinor(product_categories_minor_id):
 @Security.login_required
 @load_request_parms
 def pSearchResultsSub(product_categories_sub_id):
-    productsResponse = apiWrapper.searchProductsCategorySub(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id, queryParms.sort)
+    page = request.args.get('page') or 1
+    productsResponse = apiWrapper.searchProductsCategorySub(queryParms.location_id, queryParms.starts_on, queryParms.ends_on, product_categories_sub_id, queryParms.sort, DEFAULT_PER_PAGE, page)
     return baseReturn(productsResponse)

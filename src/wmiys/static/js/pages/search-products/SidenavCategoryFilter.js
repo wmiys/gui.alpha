@@ -1,4 +1,3 @@
-
 class SidenavFilterCategories
 {
     /**********************************************************
@@ -54,3 +53,5 @@ SidenavFilterCategories.dataAttrs = {
     id: 'data-id',
     categoryType: 'data-category-type',
 } 
+
+

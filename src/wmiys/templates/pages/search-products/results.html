@@ -7,23 +7,52 @@
 
 ***************************************************************************************************
 
-Input parms:
-- productCategories:
-- (list) major
-- id
-- name
-- (list) minor
-- id
-- name
-- parent_id
-- (list) sub
-- id
-- name
-- parent_id
-- urlParms:
-- location_id
-- starts_on
-- ends_on
+Input parms (data):
+
+* productCategories:
+    - major (list) 
+        - id
+        - name
+    - minor (list) 
+        - id
+        - name
+        - parent_id
+    - sub (list) 
+        - id
+        - name
+        - parent_id
+
+* urlParms:
+    - location_id (required parms)
+    - starts_on (required parms)
+    - ends_on (required parms)
+    - additional...
+
+* products (list):
+    - id
+    - name
+    - description
+    - product_categories_sub_id
+    - product_categories_sub_name
+    - product_categories_minor_id
+    - product_categories_minor_name
+    - product_categories_major_id
+    - product_categories_major_name
+    - price_full
+    - price_half
+    - image
+    - minimum_age
+    - user_id
+    - user_name_first
+    - user_name_last
+
+* pagination:
+    - first
+    - previous
+    - current
+    - next
+    - last
+
 
 ***************************************************************************************************
 #}
@@ -48,16 +77,15 @@ Input parms:
 
 
             <div class="col-sm-12 col-lg-8">
-
                 <div class="d-lg-flex justify-content-between mt-4 mt-lg-0">
-                    <h3 class="mb-3 mb-lg-0">Results <span class="badge badge-pill badge-secondary">{{ products|count }}</span></h3>
+                    <h3 class="mb-3 mb-lg-0">Results <span class="badge badge-pill badge-secondary">{{ data.total_records }}</span></h3>
                     <select class="selectpickr-search-product" title="Sort by"></select>
                 </div>
 
                 <!-- where all the products will be displayed -->
                 <div id="lender-product-listings" class="mt-4">
 
-                    {% for product in products %}
+                    {% for product in data.products %}
                     <div class="card card-user-product mb-5" data-product-id="{{ product.id }}">
                         <div class="row no-gutters">
 
@@ -119,12 +147,14 @@ Input parms:
 
 
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination pagination-search-products justify-content-center">
-                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    <ul class="pagination pagination-search-products justify-content-center" data-page-last="{{ data.pagination.pages.last }}">
+                        <li class="page-item page-item-first"><a class="page-link" href="{{ data.pagination.urls.first }}"><i class='bx bx-chevrons-left'></i></a></li>
+                        <li class="page-item page-item-previous"><a class="page-link" href="{{ data.pagination.urls.previous }}"><i class='bx bx-chevron-left'></i></a></li>
+                        <li class="page-item page-item-left"><a class="page-link" href="{{ data.pagination.urls.previous }}">{{ data.pagination.pages.previous }}</a></li>
+                        <li class="page-item page-item-center"><a class="page-link" href="{{ data.pagination.urls.current }}">{{ data.pagination.pages.current }}</a></li>
+                        <li class="page-item page-item-right"><a class="page-link" href="{{ data.pagination.urls.next }}">{{ data.pagination.pages.next }}</a></li>
+                        <li class="page-item page-item-next"><a class="page-link" href="{{ data.pagination.urls.next }}"><i class='bx bx-chevron-right'></i></a></li>
+                        <li class="page-item page-item-last"><a class="page-link" href="{{ data.pagination.urls.last }}"><i class='bx bx-chevrons-right'></i></a></li>
                     </ul>
                 </nav>
 
@@ -137,11 +167,19 @@ Input parms:
     </div>
 
     <div class="mb-5"></div>
+    <script>console.log('before includes');</script>
 
     {% include 'includes/footer.html' %}
+    <script>console.log('after includes');</script>
+    
     <script src="/static/js/pages/search-products/SidenavCategoryFilter.js"></script>
+    <!-- <script>console.log('after SidenavCategoryFilter');</script> -->
+
     <script src="/static/js/pages/search-products/SortingElement.js"></script>
+    <!-- <script>console.log('after SortingElement');</script> -->
+
     <script src="/static/js/pages/search-products/results.js"></script>
+    <!-- <script>console.log('after results');</script> -->
 
 </body>
 

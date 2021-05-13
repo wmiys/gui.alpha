@@ -463,4 +463,9 @@ textarea {
   transform: rotate(-180deg) scale(1.6);
 }
 
+.sidenav-filter-categories-list-item.active a {
+  color: #f62dae !important;
+  font-weight: bold;
+}
+
 /*# sourceMappingURL=style.css.map */
