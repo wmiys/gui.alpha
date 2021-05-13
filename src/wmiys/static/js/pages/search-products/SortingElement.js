@@ -7,12 +7,14 @@ class SortingType
         this.text = a_text;
         this.subtext = a_subtext;
         this.urlSortQuery = a_urlSortQuery;
+
+        this.getHtml = this.getHtml.bind(this);
     }
 
     /**********************************************************
     Generate the html for an element
     **********************************************************/
-    getHtml = () => {
+    getHtml() {
         const subtextDisplay = this.subtext == null ? '' : `data-subtext="${this.subtext}"`;
         let html = `<option value="${this.id}" ${subtextDisplay}>${this.text}</option>`;
         return html;
@@ -23,13 +25,21 @@ class SortingType
 class SortingElement
 {
     constructor() {
+
+        this.addEventListeners = this.addEventListeners.bind(this);
+        this.setNewSortOption  = this.setNewSortOption.bind(this);
+        this.displayOptions    = this.displayOptions.bind(this);
+        this.setOptionFromUrl  = this.setOptionFromUrl.bind(this);
+        this.getOptionsHtml    = this.getOptionsHtml.bind(this);
+        this.getValue          = this.getValue.bind(this);
+
         this.addEventListeners();   
     }
 
     /**********************************************************
     Register all the event listeners
     **********************************************************/
-    addEventListeners = () => {
+    addEventListeners() {
         const self = this;
 
         $(SortingElement.selectors.container).on('change', function() {
@@ -41,7 +51,7 @@ class SortingElement
     Once a new option is chosen, set the sort url query parm to the new one.
     Then, refresh the page.
     **********************************************************/
-    setNewSortOption = () => {
+    setNewSortOption() {
         const val = this.getValue();
         const urlQueryParmValue = SortingElement.Options[val].urlSortQuery;
         UrlParser.setQueryParm('sort', urlQueryParmValue, true);
@@ -50,7 +60,7 @@ class SortingElement
     /**********************************************************
     Display all of the available options.
     **********************************************************/
-    displayOptions = () => {
+    displayOptions() {
         const optionsHtml = this.getOptionsHtml();
         $(SortingElement.selectors.container).html(optionsHtml);
         this.setOptionFromUrl();
@@ -60,7 +70,7 @@ class SortingElement
     /**********************************************************
     Set the selected option from the value in the current url
     **********************************************************/
-    setOptionFromUrl = () => {
+    setOptionFromUrl() {
         const urlValue = UrlParser.getQueryParm('sort');
 
         if (urlValue == null) {
@@ -80,7 +90,7 @@ class SortingElement
     /**********************************************************
     Generate the html for the options within the select element
     **********************************************************/
-    getOptionsHtml = () => {
+    getOptionsHtml() {
         let html = '';
 
         for (const option of Object.values(SortingElement.Options)) {
@@ -93,7 +103,7 @@ class SortingElement
     /**********************************************************
     Get the currently selected value
     **********************************************************/
-    getValue = () => {
+    getValue() {
         const value = $(SortingElement.selectors.container).find('option:checked').val();
         return parseInt(value);
     }
@@ -101,7 +111,7 @@ class SortingElement
     /**********************************************************
     Get a list of all the option elements in the DOM.
     **********************************************************/
-    static getOptions = () => {
+    static getOptions() {
         return $(SortingElement.selectors.container).find('option');
     }
 }
