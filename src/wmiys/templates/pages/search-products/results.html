@@ -76,17 +76,40 @@ Input parms (data):
     {% include 'includes/navbar.html' %}
 
     <div class="container">
-        <div class="row mt-5">
+
+        <div class="d-lg-none mb-3">
+            <div class="d-md-flex justify-content-between mt-4 mt-lg-0">
+                <h3 class="mb-3">Results <span class="badge badge-pill badge-secondary">{{ data.total_records }}</span></h3>
+                <div>
+                    <select class="selectpickr-search-product form-control" title="Sort by" data-width="auto"></select>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row mt-lg-5">
+
+            <div class="d-lg-none col-12">
+                <button type="button" class="btn btn-light text-muted w-100 text-left d-flex justify-content-between align-items-center" id="btn-toggle-filters">
+                    <div>Show filters</div>
+                    <div><i class='bx bx-plus'></i></div>
+                </button>
+            </div>
+
             <!-- sidenav -->
-            <div class="col-sm-12 col-lg-4">
+            <div class="col-sm-12 col-lg-4 mt-3 mt-lg-0 d-none d-lg-block category-column">
+            <!-- <div class="col-sm-12 col-lg-4"> -->
                 {% include 'pages/search-products/sidenav.html' %}
             </div>
 
 
             <div class="col-sm-12 col-lg-8">
-                <div class="d-lg-flex justify-content-between mt-4 mt-lg-0">
+                <div class="d-lg-flex justify-content-between mt-4 mt-lg-0 d-none d-lg-block">
                     <h3 class="mb-3 mb-lg-0">Results <span class="badge badge-pill badge-secondary">{{ data.total_records }}</span></h3>
-                    <select class="selectpickr-search-product" title="Sort by"></select>
+                    <div>
+                        <select class="selectpickr-search-product form-control" title="Sort by" data-width="auto"></select>
+                    </div>
                 </div>
 
                 <!-- where all the products will be displayed -->
