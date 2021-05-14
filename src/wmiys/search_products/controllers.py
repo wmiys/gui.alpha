@@ -11,6 +11,7 @@ from wmiys.common.Security import apiWrapper
 from functools import wraps, update_wrapper
 from wmiys.search_products.SearchProducts import SearchProducts
 
+
 bpSearchProducts = Blueprint('search_products', __name__)
 
 searchProductsHandler = None
