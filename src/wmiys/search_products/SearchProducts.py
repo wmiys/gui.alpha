@@ -2,6 +2,7 @@ import flask
 from wmiys.common.ApiWrapper import ApiWrapper
 from wmiys.common.Constants import Constants
 from wmiys.common.Pagination import Pagination
+import wmiys.common.FlaskRequestUrls as FlaskRequestUrls
 
 class SearchProducts:
     """Object that handles the interfacing with the api wrapper
@@ -68,7 +69,7 @@ class SearchProducts:
         responseData = productsApiResponse.json()    
         productsData = self.generateImageData(responseData['results'])
         pagination = Pagination(self._request, int(responseData['pagination']['total_pages']))
-
+        
         # merge all the outgoing data into 1 dict
         outData = dict()
 
@@ -77,6 +78,7 @@ class SearchProducts:
         outData['urlParms']          = self._request.args.to_dict()
         outData['pagination']        = pagination.getAllPaginationLinks()
         outData['total_records']     = int(responseData['pagination']['total_records'])
+        outData['query_string']      = FlaskRequestUrls.getUrlDict().get('query_string')
 
         return outData
     
