@@ -118,7 +118,7 @@ class SortingElement
 
 
 SortingElement.selectors = {
-    container: '.selectpickr-search-product',
+    container: '.selectpickr-search-product:visible',
 }
 
 SortingElement.Options = {
