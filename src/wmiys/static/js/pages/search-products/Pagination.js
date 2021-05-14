@@ -28,7 +28,7 @@ class Pagination
     **********************************************************/
     init() {
         const presentPage = UrlParser.getQueryParm('page');
-        const lastPage = $(e_pagination.list).attr('data-page-last');
+        const lastPage = $(Pagination.list).attr('data-page-last');
 
         if (presentPage == 1 || presentPage == null) {
             this.togglePaginationStateFirstPage();

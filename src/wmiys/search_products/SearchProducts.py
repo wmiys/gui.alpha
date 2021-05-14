@@ -75,7 +75,7 @@ class SearchProducts:
 
         outData['products']          = productsData
         outData['productCategories'] = categories.json()
-        outData['urlParms']          = self._request.args.to_dict()
+        # outData['urlParms']          = self._request.args.to_dict()
         outData['pagination']        = pagination.getAllPaginationLinks()
         outData['total_records']     = int(responseData['pagination']['total_records'])
         outData['query_string']      = FlaskRequestUrls.getUrlDict().get('query_string')
