@@ -27,10 +27,13 @@ class Pagination
     Toggle the appropriate pagination state.
     **********************************************************/
     init() {
-        const presentPage = UrlParser.getQueryParm('page');
+        let presentPage = UrlParser.getQueryParm('page');
         const lastPage = $(Pagination.list).attr('data-page-last');
 
         if (presentPage == 1 || presentPage == null) {
+            // protection against null value
+            presentPage = 1;
+            
             this.togglePaginationStateFirstPage();
     
             if (presentPage == lastPage) {
@@ -38,11 +41,12 @@ class Pagination
             }
     
             return;
-            
-        } else if (presentPage == lastPage) {
+        } 
+        else if (presentPage == lastPage) {
             this.togglePaginationStateLastPage();
             return;
-        } else {
+        } 
+        else {
             this.togglePaginationStateNormal();
         }
     }
