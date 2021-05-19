@@ -42,6 +42,7 @@ const eButtons = {
     },
     saveImg: {
         cover: '#form-new-product-btn-save-img-cover',
+        imgs: '#form-new-product-btn-save-img-imgs',
     },
     
 }
@@ -114,6 +115,10 @@ function addEventListeners() {
 
     $(eButtons.saveImg.cover).on('click', function() {
         saveCoverImage();
+    });
+
+    $(eButtons.saveImg.imgs).on('click', function() {
+        saveProductImages();
     });
 
     filePondCover.on('updatefiles', function(error, file) {
@@ -348,7 +353,9 @@ function submitFormEvent() {
     formData.append('price_half', values.priceHalf);
     formData.append('minimum_age', values.minimumAge);
 
-    ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
+    ApiWrapper.requestPutProduct(mProductID, formData, function() {
+        $(eButtons.saveImg.cover).prop('disabled', true);
+    }, submitFormEventError);
 }
 
 /**********************************************************
@@ -356,15 +363,30 @@ Update the cover image file in the database.
 **********************************************************/
 function saveCoverImage() {
     let imageFile = filePondCover.getFile();
-    console.log('save');
 
-    let formData = new FormData();
-
-    if (imageFile != null) {
-        formData.append('image', imageFile.file);
+    if (imageFile == null) {
+        return;
     }
 
+    let formData = new FormData();
+    formData.append('image', imageFile.file);
+
     ApiWrapper.requestPutProduct(mProductID, formData);
+}
+
+
+function saveProductImages() {
+    
+    let files = filePondImages.getFiles();
+
+    const formData = new FormData();
+
+    for (const f of files) {
+        formData.append(f.file.name, f.file);
+    }
+
+
+    ApiWrapper.requestPostProductImages(mProductID, formData);
 }
 
 /**********************************************************

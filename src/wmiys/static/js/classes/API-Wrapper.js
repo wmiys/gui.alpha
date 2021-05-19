@@ -331,6 +331,24 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a GET product images request.
+    Retrieve all the product images for a single product.
+    **********************************************************/
+    static requestPostProductImages(productID, filesList, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/images`;
+
+        $.ajax({
+            url: url,
+            data: filesList,
+            processData: false,
+            contentType: false,
+            type: ApiWrapper.REQUEST_TYPES.POST,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************

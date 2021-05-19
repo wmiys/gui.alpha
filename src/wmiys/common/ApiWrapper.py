@@ -194,6 +194,16 @@ class ApiWrapper:
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    
+    def postProductImages(self, product_id, imageFiles):
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.post(url, auth=(self.email, self.password), files=imageFiles)
+        return response
+    
+
+    
+
+
 
     #************************************************************************************
     #                         LOGIN AND OTHER SHIT

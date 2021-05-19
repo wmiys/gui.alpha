@@ -113,7 +113,7 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
 
 
 #------------------------------------------------------
-# Create a new product
+# Create a new product availability record
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/availability', methods=['POST'])
 @Security.login_required
@@ -151,4 +151,39 @@ def getProductImages(product_id: int):
     return jsonify(images.json())
 
 
+#------------------------------------------------------
+# Get all the product images for a single product.
+#------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['POST'])
+@Security.login_required
+def postProductImages(product_id: int):
+    # images = apiWrapper.getProductImages(product_id)
+    # return jsonify(images.json())
+
+    filesDictRaw = request.files.to_dict() or None
+
+    if not filesDictRaw:
+        return 'cunt - no files'
+
+
+    apiData = []
+
+    for imgFile in filesDictRaw.values():
+        # print(imgFile)
+        name = imgFile.filename
+        apiData.append(('images', (name, imgFile)))
+    
+    print(apiData)
+    results = apiWrapper.postProductImages(product_id, apiData)
+
+
+
+
+
+
+
+
+
+
+    return 'cunt'
 
