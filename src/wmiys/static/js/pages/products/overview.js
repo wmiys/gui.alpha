@@ -40,6 +40,9 @@ const eButtons = {
         prev: $('#form-new-product-btn-step-prev'),
         next: $('#form-new-product-btn-step-next'),
     },
+    saveImg: {
+        cover: '#form-new-product-btn-save-img-cover',
+    },
     
 }
 
@@ -92,20 +95,12 @@ function addEventListeners() {
         stepToFormPage(this);
     });
     
-    // $(eButtons.submit).on('click', function() {
-    //     submitFormEvent();
-    // });
-
-    // $(cInputs).on('change', function() {
-    //     const inputID = $(this).attr('id');
-
-    //     if (inputID != null) {
-    //         submitFormEvent();
-    //     }   
-    // });
-
     $(cInputs).on('keydown change', function() {
         removeInvalidClass(this);
+    });
+
+    $(eButtons.submit).on('click', function() {
+        submitFormEvent();
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -117,13 +112,13 @@ function addEventListeners() {
         resetProductCategories();
     });
 
+    $(eButtons.saveImg.cover).on('click', function() {
+        saveCoverImage();
+    });
 
-    $(eButtons.removeImage).on('click', function() {
-        removeImage();
-    });  
-
-
-
+    filePondCover.on('updatefiles', function(error, file) {
+        handleCoverPhotoEdit();
+    });
 }
 
 /**********************************************************
@@ -146,8 +141,8 @@ function initProductCoverImagePlugin() {
         allowImagePreview: true,
         allowFileTypeValidation: true,
         acceptedFileTypes: ['image/*'],
-        imageValidateSizeMinWidth: 1200,
-        imageValidateSizeMinHeight: 800,
+        // imageValidateSizeMinWidth: 1200,
+        // imageValidateSizeMinHeight: 800,
         credits: false,
     });
 
@@ -161,9 +156,6 @@ function displayInitialCoverPhoto() {
     if (currentImgUrl == "-1") {
         return;
     }
-
-    console.log('here');
-    console.log(currentImgUrl);
 
     const pondImage = {
         source: currentImgUrl,
@@ -213,14 +205,7 @@ function getProductImagesSuccess(response, status, xhr) {
         });
     }
 
-    console.table(files)
-
     filePondImages.addFiles(files);
-
-    // const pond = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
-    // pond.addEventListener('FilePond:updatefiles', function(e) {
-    //     console.log(e);
-    // });
 }
 
 /**********************************************************
@@ -363,19 +348,47 @@ function submitFormEvent() {
     formData.append('price_half', values.priceHalf);
     formData.append('minimum_age', values.minimumAge);
 
+    ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
+}
+
+/**********************************************************
+Update the cover image file in the database.
+**********************************************************/
+function saveCoverImage() {
+    let imageFile = filePondCover.getFile();
+    console.log('save');
+
+    let formData = new FormData();
+
+    if (imageFile != null) {
+        formData.append('image', imageFile.file);
+    }
+
+    ApiWrapper.requestPutProduct(mProductID, formData);
+}
+
+/**********************************************************
+When the cover photo input is changed, disable/enable the save button.
+
+If no files are present, disable it.
+Otherwise, allow users to save the new photo.
+
+This was made because we want users to have cover photos.
+Also, I don't want to send an empty file to the api.
+**********************************************************/
+function handleCoverPhotoEdit() {
     let imageFile = filePondCover.getFile();
 
     if (imageFile != null) {
-        formData.append('image', filePondCover.getFile().file);
+        $(eButtons.saveImg.cover).prop('disabled', false);
+    } else {
+        $(eButtons.saveImg.cover).prop('disabled', true); 
     }
-
-    // ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
 }
 
 
 /**********************************************************
-Returns an object containing all the new prodcut form
-input values.
+Returns an object containing all the new prodcut form input values.
 **********************************************************/
 function getInputValues() {
     const inputKeys = Object.keys(eInputs);
