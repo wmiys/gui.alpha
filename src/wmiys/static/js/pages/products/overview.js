@@ -17,17 +17,18 @@ const ePages = {
 
 // form inputs
 const eInputs = {
-    categoryMajor   : $('#form-new-product-input-category-major'),
-    categoryMinor   : $('#form-new-product-input-category-minor'),
-    categorySub     : $('#form-new-product-input-category-sub'),
-    location        : $('#form-new-product-input-location'),
-    dropoffDistance : $('#form-new-product-input-dropoff-distance'),
-    photos          : $('#form-new-product-input-photos'),
-    name            : $('#form-new-product-input-name'),
-    description     : $('#form-new-product-input-description'),
-    priceFull       : $('#form-new-product-input-price-full'),
-    priceHalf       : $('#form-new-product-input-price-half'),
-    minimumAge      : $('#form-new-product-input-minimum-age'),
+    categoryMajor    : $('#form-new-product-input-category-major'),
+    categoryMinor    : $('#form-new-product-input-category-minor'),
+    categorySub      : $('#form-new-product-input-category-sub'),
+    location         : $('#form-new-product-input-location'),
+    dropoffDistance  : $('#form-new-product-input-dropoff-distance'),
+    coverPhoto       : $('#form-new-product-input-cover-photo'),
+    productImages : $('#form-new-product-input-photos'),
+    name             : $('#form-new-product-input-name'),
+    description      : $('#form-new-product-input-description'),
+    priceFull        : $('#form-new-product-input-price-full'),
+    priceHalf        : $('#form-new-product-input-price-half'),
+    minimumAge       : $('#form-new-product-input-minimum-age'),
 }
 
 // buttons
@@ -52,9 +53,12 @@ const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
 
 
-let filePond = null;
+let filePondCover = null;
+let filePondImages = null;
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
+
+
 
 /**********************************************************
 Main logic
@@ -62,39 +66,12 @@ Main logic
 $(document).ready(function() {
     $('#product-edit-navbar-tab-edit').addClass('active');
     loadSelect2();
-    loadFileSelectorPlugin();
+    registerFilePondExtensions();
+    initProductCoverImagePlugin();
+    loadProductImagesPlugin();
     checkIfCategoriesAreSet();
     addEventListeners();
 });
-
-/**********************************************************
-Load the file selector plugin
-**********************************************************/
-function loadFileSelectorPlugin() {
-    FilePond.registerPlugin(FilePondPluginFileValidateType);
-    FilePond.registerPlugin(FilePondPluginImagePreview);
-    FilePond.registerPlugin(FilePondPluginImageValidateSize);
-
-    const inputElement = document.querySelector(`#${$(eInputs.photos).attr('id')}`);
-    
-    filePond = FilePond.create(inputElement, {
-        allowImagePreview: true,
-        allowFileTypeValidation: true,
-        acceptedFileTypes: ['image/*'],
-        imageValidateSizeMinWidth: 1200,
-        imageValidateSizeMinHeight: 800,
-    });
-
-    // fire event when a file is uploaded
-    // const pond = document.querySelector('.filepond--root');
-    // if (pond == null) {
-    //     return;
-    // }
-    // pond.addEventListener('FilePond:addfile', e => {
-    //     submitFormEvent();
-    // });
-}
-
 
 /**********************************************************
 Adds event listeners to the page elements
@@ -144,6 +121,79 @@ function addEventListeners() {
     $(eButtons.removeImage).on('click', function() {
         removeImage();
     });  
+}
+
+/**********************************************************
+Registers all of the FilePond extensions.
+Need to do this for the FilePond instantiations to work.
+**********************************************************/
+function registerFilePondExtensions() {
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginImageValidateSize);
+}
+
+/**********************************************************
+Load the file selector plugin for the cover photo
+**********************************************************/
+function initProductCoverImagePlugin() {
+    const inputElement = document.querySelector(`#${$(eInputs.coverPhoto).attr('id')}`);
+    
+    filePondCover = FilePond.create(inputElement, {
+        allowImagePreview: true,
+        allowFileTypeValidation: true,
+        acceptedFileTypes: ['image/*'],
+        imageValidateSizeMinWidth: 1200,
+        imageValidateSizeMinHeight: 800,
+    });
+}
+
+/**********************************************************
+Load the file selector plugin for the product images.
+Then, try to fetch the product images.
+**********************************************************/
+function loadProductImagesPlugin() {    
+    const inputElement = document.querySelector(`#${$(eInputs.productImages).attr('id')}`);
+
+    filePondImages = FilePond.create(inputElement, {
+        // files: files,
+        allowMultiple: true,
+        allowImagePreview: true,
+        allowReorder: true,
+        maxFiles: 5,
+        allowFileTypeValidation: true,
+        acceptedFileTypes: ['image/*'],
+    });
+
+    ApiWrapper.requestGetProductImages(mProductID, getProductImagesSuccess, getProductImagesError); 
+}
+
+/**********************************************************
+Callback for a successful GET for loadProductImagesPlugin.
+Transforms the response data into FilePond 'readable' objects.
+Then insert them into the filepond input so the user can see them.
+**********************************************************/
+function getProductImagesSuccess(response, status, xhr) {
+    const files = [];
+
+    for (const img of response) {
+        files.push({
+            source: img.file_name,
+            options: {type: 'remote'},
+        });
+    }
+
+    filePondImages.addFiles(files);
+}
+
+/**********************************************************
+Callback for an error encountered in the GET for loadProductImagesPlugin.
+**********************************************************/
+function getProductImagesError(xhr, status, error) {
+    console.error('getProductImagesError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
 }
 
 
@@ -226,7 +276,7 @@ function loadMajorCategoriesError(xhr, status, error) {
     console.error(error);
     
     enableSubmitButton();
-    Utilities.displayAlert('Error loading major categories');
+    // Utilities.displayAlert('Error loading major categories');
 }
 
 
@@ -264,8 +314,6 @@ function submitFormEvent() {
     disableSubmitButton();
 
     const values = getInputValues(); 
-
-    console.log(values);
        
     let formData = new FormData();
     
@@ -278,10 +326,10 @@ function submitFormEvent() {
     formData.append('price_half', values.priceHalf);
     formData.append('minimum_age', values.minimumAge);
 
-    let imageFile = filePond.getFile();
+    let imageFile = filePondCover.getFile();
 
     if (imageFile != null) {
-        formData.append('image', filePond.getFile().file);
+        formData.append('image', filePondCover.getFile().file);
     }
 
     ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
@@ -495,9 +543,6 @@ function removeInvalidClass(eInputElement) {
 Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
-    
-    console.log(response);
-    // window.location.href = '/products';
     enableSubmitButton();
 }
 
@@ -505,7 +550,7 @@ function submitFormEventSuccess(response, status, xhr) {
 Actions to take if the create product request was not successful.
 **********************************************************/
 function submitFormEventError(xhr, status, error) {
-    Utilities.displayAlert('There was an error. Please try again.');
+    // Utilities.displayAlert('There was an error. Please try again.');
 
     console.error('submitFormEventError');
     console.error(xhr);
@@ -596,6 +641,4 @@ function removeImage() {
     // show the file input
     $('.form-group-image').removeClass('d-none');
 }
-
-
 

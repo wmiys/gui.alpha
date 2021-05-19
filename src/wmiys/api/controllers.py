@@ -141,5 +141,14 @@ def apiUserUpdate():
     return (jsonify(apiResponse.json()), 200)
 
 
+#------------------------------------------------------
+# Get all the product images for a single product.
+#------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['GET'])
+@Security.login_required
+def getProductImages(product_id: int):
+    images = apiWrapper.getProductImages(product_id)
+    return jsonify(images.json())
+
 
 

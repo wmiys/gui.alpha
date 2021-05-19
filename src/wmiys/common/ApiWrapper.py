@@ -177,6 +177,27 @@ class ApiWrapper:
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
 
+
+    #************************************************************************************
+    #                             PRODUCT IMAGES
+    #************************************************************************************
+    def getProductImages(self, product_id):
+        """Get all the product images for a single product
+
+        Args:
+            product_id (int): product id
+
+        Returns:
+            list: product images
+        """
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+
+    #************************************************************************************
+    #                         LOGIN AND OTHER SHIT
+    #************************************************************************************
     @staticmethod
     def login(email, password):
         """Log a client in

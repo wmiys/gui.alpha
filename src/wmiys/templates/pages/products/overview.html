@@ -8,29 +8,29 @@
 ***************************************************************************************************
 
 Input parms:
-- product:
-- id
-- name
-- description
-- product_categories_sub_id
-- product_categories_sub_name
-- product_categories_minor_id
-- product_categories_minor_name
-- product_categories_major_id
-- product_categories_major_name
-- location_id
-- location_city
-- location_state_id
-- location_state_name
-- dropoff_distance
-- price_full
-- price_half
-- image
-- created_on
-- user_id
-- user_email
-- user_name_first
-- user_name_last
+- product (list):
+    - id
+    - name
+    - description
+    - product_categories_sub_id
+    - product_categories_sub_name
+    - product_categories_minor_id
+    - product_categories_minor_name
+    - product_categories_major_id
+    - product_categories_major_name
+    - location_id
+    - location_city
+    - location_state_id
+    - location_state_name
+    - dropoff_distance
+    - price_full
+    - price_half
+    - image
+    - created_on
+    - user_id
+    - user_email
+    - user_name_first
+    - user_name_last
 
 ***************************************************************************************************
 #}
@@ -220,13 +220,25 @@ Input parms:
                             <button type="button" class="btn btn-sm btn-text-secondary mt-3" id="form-new-product-btn-image-change">Use a different photo</button>
                             {% endif %}
                             <div class="form-group form-group-image{% if product.image %} d-none{% endif %}">
-                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos">
+                                <input type="file" class="form-new-product-input" id="form-new-product-input-cover-photo">
                             </div>
                         </div>
                     </div>
 
                     <hr>
-                    <!-- <p>We can put tips and advice here for selecting good, quality photos.</p> -->
+                    
+                    <div class="row mt-5">
+                        <div class="col-lg-4">
+                            <h4>Additional Photos</h4>
+                            <p class="text-muted text-sm">Add up to 5 more photos of your product.</p>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-group">
+                                <input type="file" class="form-new-product-input" id="form-new-product-input-photos">
+                            </div>
+                        </div>
+                    </div>
+
                     <hr>
                 </div>
 

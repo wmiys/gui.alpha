@@ -316,6 +316,21 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a GET product images request.
+    Retrieve all the product images for a single product.
+    **********************************************************/
+    static requestGetProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/images`;
+        
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************

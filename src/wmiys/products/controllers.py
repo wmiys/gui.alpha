@@ -49,7 +49,7 @@ def productsNew():
     # load the edit product page
     return redirect(url_for('products.productPageEdit', product_id=emptyProduct['id']))
 
-@bpProducts.route('<int:product_id>')
+@bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @Security.login_required
 def productPageEdit(product_id):
     apiResponse = apiWrapper.getUserProduct(product_id)
