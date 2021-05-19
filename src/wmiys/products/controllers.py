@@ -59,9 +59,6 @@ def productPageEdit(product_id):
 
     product = apiResponse.json()
 
-    if product['image']:
-        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
-
     return flask.render_template('pages/products/overview.html', product=product)
 
 

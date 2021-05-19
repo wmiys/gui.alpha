@@ -92,17 +92,17 @@ function addEventListeners() {
         stepToFormPage(this);
     });
     
-    $(eButtons.submit).on('click', function() {
-        submitFormEvent();
-    });
+    // $(eButtons.submit).on('click', function() {
+    //     submitFormEvent();
+    // });
 
-    $(cInputs).on('change', function() {
-        const inputID = $(this).attr('id');
+    // $(cInputs).on('change', function() {
+    //     const inputID = $(this).attr('id');
 
-        if (inputID != null) {
-            submitFormEvent();
-        }   
-    });
+    //     if (inputID != null) {
+    //         submitFormEvent();
+    //     }   
+    // });
 
     $(cInputs).on('keydown change', function() {
         removeInvalidClass(this);
@@ -121,6 +121,9 @@ function addEventListeners() {
     $(eButtons.removeImage).on('click', function() {
         removeImage();
     });  
+
+
+
 }
 
 /**********************************************************
@@ -137,7 +140,7 @@ function registerFilePondExtensions() {
 Load the file selector plugin for the cover photo
 **********************************************************/
 function initProductCoverImagePlugin() {
-    const inputElement = document.querySelector(`#${$(eInputs.coverPhoto).attr('id')}`);
+    const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.coverPhoto));
     
     filePondCover = FilePond.create(inputElement, {
         allowImagePreview: true,
@@ -145,15 +148,40 @@ function initProductCoverImagePlugin() {
         acceptedFileTypes: ['image/*'],
         imageValidateSizeMinWidth: 1200,
         imageValidateSizeMinHeight: 800,
+        credits: false,
     });
+
+    displayInitialCoverPhoto();
 }
+
+
+function displayInitialCoverPhoto() {
+    const currentImgUrl = $(Utilities.getJqueryElementID(eInputs.coverPhoto)).closest('.form-group-image').attr('data-img-src');
+
+    if (currentImgUrl == "-1") {
+        return;
+    }
+
+    console.log('here');
+    console.log(currentImgUrl);
+
+    const pondImage = {
+        source: currentImgUrl,
+        options: {type: 'remote'},
+    }
+
+    filePondCover.addFiles([pondImage]);   
+}
+
+
+
 
 /**********************************************************
 Load the file selector plugin for the product images.
 Then, try to fetch the product images.
 **********************************************************/
 function loadProductImagesPlugin() {    
-    const inputElement = document.querySelector(`#${$(eInputs.productImages).attr('id')}`);
+    const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
 
     filePondImages = FilePond.create(inputElement, {
         // files: files,
@@ -163,6 +191,7 @@ function loadProductImagesPlugin() {
         maxFiles: 5,
         allowFileTypeValidation: true,
         acceptedFileTypes: ['image/*'],
+        credits: false,
     });
 
     ApiWrapper.requestGetProductImages(mProductID, getProductImagesSuccess, getProductImagesError); 
@@ -176,6 +205,7 @@ Then insert them into the filepond input so the user can see them.
 function getProductImagesSuccess(response, status, xhr) {
     const files = [];
 
+
     for (const img of response) {
         files.push({
             source: img.file_name,
@@ -183,17 +213,24 @@ function getProductImagesSuccess(response, status, xhr) {
         });
     }
 
+    console.table(files)
+
     filePondImages.addFiles(files);
+
+    // const pond = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
+    // pond.addEventListener('FilePond:updatefiles', function(e) {
+    //     console.log(e);
+    // });
 }
 
 /**********************************************************
 Callback for an error encountered in the GET for loadProductImagesPlugin.
 **********************************************************/
 function getProductImagesError(xhr, status, error) {
-    console.error('getProductImagesError');
-    console.error(xhr);
-    console.error(status);
-    console.error(error); 
+    // console.error('getProductImagesError');
+    // console.error(xhr);
+    // console.error(status);
+    // console.error(error); 
 }
 
 
@@ -332,7 +369,7 @@ function submitFormEvent() {
         formData.append('image', filePondCover.getFile().file);
     }
 
-    ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
+    // ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
 }
 
 

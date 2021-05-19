@@ -29,4 +29,8 @@ class Utilities {
 
         return result;
     }
+
+    static getJqueryElementID(a_oJqueryElement) {
+        return `#${$(a_oJqueryElement).attr('id')}`;
+    }
 }
