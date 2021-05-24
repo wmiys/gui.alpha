@@ -26,9 +26,7 @@ def productsGet():
 
     # format the product images
     for product in products:
-        if product['image'] != None:
-            product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
-        else:
+        if not product['image']:
             product['image'] = '/static/img/placeholder.jpg'
 
     return flask.render_template('pages/products/products.html', products=products)
