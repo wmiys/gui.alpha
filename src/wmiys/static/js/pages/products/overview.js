@@ -118,7 +118,8 @@ function addEventListeners() {
     });
 
     $(eButtons.saveImg.imgs).on('click', function() {
-        saveProductImages();
+        // saveProductImages();
+        uploadNewProductImages();
     });
 
     filePondCover.on('updatefiles', function(error, file) {
@@ -375,8 +376,16 @@ function saveCoverImage() {
 }
 
 
+function uploadNewProductImages() {
+    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages);
+}
+
+
 function saveProductImages() {
     
+    // ApiWrapper.requestDeleteProductImages(mProductID)
+
+
     let files = filePondImages.getFiles();
 
     const formData = new FormData();
@@ -388,6 +397,10 @@ function saveProductImages() {
 
     ApiWrapper.requestPostProductImages(mProductID, formData);
 }
+
+
+
+
 
 /**********************************************************
 When the cover photo input is changed, disable/enable the save button.

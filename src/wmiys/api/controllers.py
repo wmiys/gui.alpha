@@ -154,36 +154,38 @@ def getProductImages(product_id: int):
 #------------------------------------------------------
 # Get all the product images for a single product.
 #------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['DELETE'])
+@Security.login_required
+def deleteProductImages(product_id: int):
+
+
+    apiWrapper.deleteProductImages(product_id)
+    return ('deleted bitch', 200)
+
+
+#------------------------------------------------------
+# Get all the product images for a single product.
+#------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['POST'])
 @Security.login_required
 def postProductImages(product_id: int):
-    # images = apiWrapper.getProductImages(product_id)
-    # return jsonify(images.json())
+    # imgFileRaw = request.files.get('image') or None
 
-    filesDictRaw = request.files.to_dict() or None
+    # if not imgFileRaw:
+    #     return ('No image files were given.', 400)
 
-    if not filesDictRaw:
-        return 'cunt - no files'
-
-
-    apiData = []
-
-    for imgFile in filesDictRaw.values():
-        # print(imgFile)
-        name = imgFile.filename
-        apiData.append(('images', (name, imgFile)))
     
-    print(apiData)
-    results = apiWrapper.postProductImages(product_id, apiData)
+    imgsDict = dict(request.files.to_dict()) or None
+
+    if not imgsDict:
+        return ('No image files were given', 400)
+
+    
 
 
-
-
-
-
-
-
-
+    # name = imgFileRaw.filename
+    # imgFileDict = dict(image = (name, imgFileRaw))
+    apiWrapper.postProductImages(product_id, imgsDict)
 
     return 'cunt'
 

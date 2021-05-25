@@ -200,10 +200,12 @@ class ApiWrapper:
         response = requests.post(url, auth=(self.email, self.password), files=imageFiles)
         return response
     
+    def deleteProductImages(self, product_id):
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.delete(url, auth=(self.email, self.password))
+        return response
 
     
-
-
 
     #************************************************************************************
     #                         LOGIN AND OTHER SHIT
