@@ -171,9 +171,6 @@ function displayInitialCoverPhoto() {
     filePondCover.addFiles([pondImage]);   
 }
 
-
-
-
 /**********************************************************
 Load the file selector plugin for the product images.
 Then, try to fetch the product images.
@@ -218,10 +215,10 @@ function getProductImagesSuccess(response, status, xhr) {
 Callback for an error encountered in the GET for loadProductImagesPlugin.
 **********************************************************/
 function getProductImagesError(xhr, status, error) {
-    // console.error('getProductImagesError');
-    // console.error(xhr);
-    // console.error(status);
-    // console.error(error); 
+    console.error('getProductImagesError');
+    console.error(xhr);
+    console.error(status);
+    console.error(error); 
 }
 
 
@@ -339,7 +336,7 @@ function loadSubCategoriesSuccess(result, status, xhr) {
 Actions to take to send the create prodcut request.
 **********************************************************/
 function submitFormEvent() {    
-    disableSubmitButton();
+    // disableSubmitButton();
 
     const values = getInputValues(); 
        
@@ -374,11 +371,6 @@ function saveCoverImage() {
 
     ApiWrapper.requestPutProduct(mProductID, formData);
 }
-
-
-
-
-
 
 
 /**********************************************************
@@ -698,12 +690,16 @@ function setNewStepButtonLocations(eActiveFormTab) {
 
     // show/hide the submit button if it's the final page
     if (nextLocation != 'submit') {
+        // not the submit page
         $(eButtons.formSteps.next).attr('data-page-location', nextLocation);
         $(eButtons.formSteps.next).removeClass('d-none');
         $(eButtons.submit).addClass('d-none');
+        $(eButtons.formSteps.next).prop('disabled', false);
     } else {
-        $(eButtons.formSteps.next).addClass('d-none');
-        $(eButtons.submit).removeClass('d-none');
+        // submit page
+        // $(eButtons.formSteps.next).addClass('d-none');
+        // $(eButtons.submit).removeClass('d-none');
+        $(eButtons.formSteps.next).prop('disabled', true);
     }
 }
 
