@@ -218,14 +218,14 @@ Input parms:
                             <div class="form-group form-group-image" data-img-src="{{ product.image or '-1' }}">
                                 <input type="file" class="form-new-product-input" id="form-new-product-input-cover-photo">
                             </div>
-                            
+
                             <button type="button" class="float-right btn btn-sm btn-success form-new-product-btn-save-img" id="form-new-product-btn-save-img-cover" disabled>Save</button>
 
                         </div>
                     </div>
 
                     <hr>
-                    
+
                     <div class="row mt-5">
                         <div class="col-lg-4">
                             <h4>Additional Photos</h4>
@@ -260,7 +260,7 @@ Input parms:
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <input class="form-control form-new-product-input" id="form-new-product-input-name" type="text" value="{% if product.name %}{{ product.name }}{% endif %}">
+                                <input class="form-control form-new-product-input" id="form-new-product-input-name" type="text" value="{{product.name or ''}}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                                 <p class="text-muted mt-2"><small>Make it short, descriptive, and exciting.</small></p>
                             </div>
@@ -278,11 +278,7 @@ Input parms:
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-description">Describe your product to renters</label>
-                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7">
-                                        {% if product.description %}
-                                        {{ product.description }}
-                                        {% endif %}
-                                    </textarea>
+                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7">{{product.description or ''}}</textarea>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
