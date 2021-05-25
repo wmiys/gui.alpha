@@ -316,6 +316,53 @@ class ApiWrapper
         });
     }
 
+    /**********************************************************
+    Send a GET product images request.
+    Retrieve all the product images for a single product.
+    **********************************************************/
+    static requestGetProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/images`;
+        
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
+    Send a POST product images request.
+    **********************************************************/
+    static requestPostProductImages(productID, filesList, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/images`;
+
+        $.ajax({
+            url: url,
+            data: filesList,
+            processData: false,
+            contentType: false,
+            type: ApiWrapper.REQUEST_TYPES.POST,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
+    Send a DELETE product images request.
+    Deletes all images of a product.
+    **********************************************************/
+    static requestDeleteProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/products/${productID}/images`;
+
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.DELETE,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
 
 
     /**********************************************************

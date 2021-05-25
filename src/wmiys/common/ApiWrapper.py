@@ -177,6 +177,39 @@ class ApiWrapper:
         response = requests.get(url, params=parms, auth=(self.email, self.password))
         return response
 
+
+    #************************************************************************************
+    #                             PRODUCT IMAGES
+    #************************************************************************************
+    def getProductImages(self, product_id):
+        """Get all the product images for a single product
+
+        Args:
+            product_id (int): product id
+
+        Returns:
+            list: product images
+        """
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+    
+    def postProductImages(self, product_id, imageFiles):
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.post(url, auth=(self.email, self.password), files=imageFiles)
+        return response
+    
+    def deleteProductImages(self, product_id):
+        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        response = requests.delete(url, auth=(self.email, self.password))
+        return response
+
+    
+
+    #************************************************************************************
+    #                         LOGIN AND OTHER SHIT
+    #************************************************************************************
     @staticmethod
     def login(email, password):
         """Log a client in

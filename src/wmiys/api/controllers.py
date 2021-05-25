@@ -113,12 +113,11 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
 
 
 #------------------------------------------------------
-# Create a new product
+# Create a new product availability record
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/availability', methods=['POST'])
 @Security.login_required
 def apiProductAvailability(product_id):
-    
     apiResponse = apiWrapper.insertProductAvailability(product_id, request.form)
 
     if apiResponse.status_code != 200:          # error
@@ -141,5 +140,36 @@ def apiUserUpdate():
     return (jsonify(apiResponse.json()), 200)
 
 
+#------------------------------------------------------
+# Get all the product images for a single product.
+#------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['GET'])
+@Security.login_required
+def getProductImages(product_id: int):
+    images = apiWrapper.getProductImages(product_id)
+    return jsonify(images.json())
 
+
+#------------------------------------------------------
+# Delete all the product images for a single product.
+#------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['DELETE'])
+@Security.login_required
+def deleteProductImages(product_id: int):
+    apiWrapper.deleteProductImages(product_id)
+    return ('deleted bitch', 200)
+
+
+#------------------------------------------------------
+# Get all the product images for a single product.
+#------------------------------------------------------
+@bpApi.route('products/<int:product_id>/images', methods=['POST'])
+@Security.login_required
+def postProductImages(product_id: int):    
+    imgsDict = dict(request.files.to_dict()) or None
+
+    if imgsDict:
+        apiWrapper.postProductImages(product_id, imgsDict)
+
+    return ('', 200)
 

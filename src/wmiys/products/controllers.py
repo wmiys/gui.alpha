@@ -26,9 +26,7 @@ def productsGet():
 
     # format the product images
     for product in products:
-        if product['image'] != None:
-            product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
-        else:
+        if not product['image']:
             product['image'] = '/static/img/placeholder.jpg'
 
     return flask.render_template('pages/products/products.html', products=products)
@@ -49,7 +47,7 @@ def productsNew():
     # load the edit product page
     return redirect(url_for('products.productPageEdit', product_id=emptyProduct['id']))
 
-@bpProducts.route('<int:product_id>')
+@bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @Security.login_required
 def productPageEdit(product_id):
     apiResponse = apiWrapper.getUserProduct(product_id)
@@ -59,11 +57,7 @@ def productPageEdit(product_id):
 
     product = apiResponse.json()
 
-    if product['image']:
-        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
-
     return flask.render_template('pages/products/overview.html', product=product)
-
 
 
 @bpProducts.route('<int:product_id>/availability')

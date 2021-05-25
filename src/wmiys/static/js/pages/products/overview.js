@@ -17,17 +17,18 @@ const ePages = {
 
 // form inputs
 const eInputs = {
-    categoryMajor   : $('#form-new-product-input-category-major'),
-    categoryMinor   : $('#form-new-product-input-category-minor'),
-    categorySub     : $('#form-new-product-input-category-sub'),
-    location        : $('#form-new-product-input-location'),
-    dropoffDistance : $('#form-new-product-input-dropoff-distance'),
-    photos          : $('#form-new-product-input-photos'),
-    name            : $('#form-new-product-input-name'),
-    description     : $('#form-new-product-input-description'),
-    priceFull       : $('#form-new-product-input-price-full'),
-    priceHalf       : $('#form-new-product-input-price-half'),
-    minimumAge      : $('#form-new-product-input-minimum-age'),
+    categoryMajor    : $('#form-new-product-input-category-major'),
+    categoryMinor    : $('#form-new-product-input-category-minor'),
+    categorySub      : $('#form-new-product-input-category-sub'),
+    location         : $('#form-new-product-input-location'),
+    dropoffDistance  : $('#form-new-product-input-dropoff-distance'),
+    coverPhoto       : $('#form-new-product-input-cover-photo'),
+    productImages : $('#form-new-product-input-photos'),
+    name             : $('#form-new-product-input-name'),
+    description      : $('#form-new-product-input-description'),
+    priceFull        : $('#form-new-product-input-price-full'),
+    priceHalf        : $('#form-new-product-input-price-half'),
+    minimumAge       : $('#form-new-product-input-minimum-age'),
 }
 
 // buttons
@@ -38,6 +39,10 @@ const eButtons = {
     formSteps: {
         prev: $('#form-new-product-btn-step-prev'),
         next: $('#form-new-product-btn-step-next'),
+    },
+    saveImg: {
+        cover: '#form-new-product-btn-save-img-cover',
+        imgs: '#form-new-product-btn-save-img-imgs',
     },
     
 }
@@ -52,9 +57,12 @@ const cInputs  = '.form-new-product-input';
 const cBtnStep = '.form-new-product-btn-step';
 
 
-let filePond = null;
+let filePondCover = null;
+let filePondImages = null;
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
+
+
 
 /**********************************************************
 Main logic
@@ -62,39 +70,12 @@ Main logic
 $(document).ready(function() {
     $('#product-edit-navbar-tab-edit').addClass('active');
     loadSelect2();
-    loadFileSelectorPlugin();
+    registerFilePondExtensions();
+    initProductCoverImagePlugin();
+    loadProductImagesPlugin();
     checkIfCategoriesAreSet();
     addEventListeners();
 });
-
-/**********************************************************
-Load the file selector plugin
-**********************************************************/
-function loadFileSelectorPlugin() {
-    FilePond.registerPlugin(FilePondPluginFileValidateType);
-    FilePond.registerPlugin(FilePondPluginImagePreview);
-    FilePond.registerPlugin(FilePondPluginImageValidateSize);
-
-    const inputElement = document.querySelector(`#${$(eInputs.photos).attr('id')}`);
-    
-    filePond = FilePond.create(inputElement, {
-        allowImagePreview: true,
-        allowFileTypeValidation: true,
-        acceptedFileTypes: ['image/*'],
-        imageValidateSizeMinWidth: 1200,
-        imageValidateSizeMinHeight: 800,
-    });
-
-    // fire event when a file is uploaded
-    // const pond = document.querySelector('.filepond--root');
-    // if (pond == null) {
-    //     return;
-    // }
-    // pond.addEventListener('FilePond:addfile', e => {
-    //     submitFormEvent();
-    // });
-}
-
 
 /**********************************************************
 Adds event listeners to the page elements
@@ -115,20 +96,12 @@ function addEventListeners() {
         stepToFormPage(this);
     });
     
-    $(eButtons.submit).on('click', function() {
-        submitFormEvent();
-    });
-
-    $(cInputs).on('change', function() {
-        const inputID = $(this).attr('id');
-
-        if (inputID != null) {
-            submitFormEvent();
-        }   
-    });
-
     $(cInputs).on('keydown change', function() {
         removeInvalidClass(this);
+    });
+
+    $(eButtons.submit).on('click', function() {
+        submitFormEvent();
     });
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -140,10 +113,115 @@ function addEventListeners() {
         resetProductCategories();
     });
 
+    $(eButtons.saveImg.cover).on('click', function() {
+        saveCoverImage();
+    });
 
-    $(eButtons.removeImage).on('click', function() {
-        removeImage();
-    });  
+    $(eButtons.saveImg.imgs).on('click', function() {
+        // saveProductImages();
+        uploadNewProductImages();
+    });
+
+    filePondCover.on('updatefiles', function(error, file) {
+        handleCoverPhotoEdit();
+    });
+}
+
+/**********************************************************
+Registers all of the FilePond extensions.
+Need to do this for the FilePond instantiations to work.
+**********************************************************/
+function registerFilePondExtensions() {
+    FilePond.registerPlugin(FilePondPluginFileValidateType);
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginImageValidateSize);
+}
+
+/**********************************************************
+Load the file selector plugin for the cover photo
+**********************************************************/
+function initProductCoverImagePlugin() {
+    const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.coverPhoto));
+    
+    filePondCover = FilePond.create(inputElement, {
+        allowImagePreview: true,
+        allowFileTypeValidation: true,
+        acceptedFileTypes: ['image/*'],
+        // imageValidateSizeMinWidth: 1200,
+        // imageValidateSizeMinHeight: 800,
+        credits: false,
+    });
+
+    displayInitialCoverPhoto();
+}
+
+
+function displayInitialCoverPhoto() {
+    const currentImgUrl = $(Utilities.getJqueryElementID(eInputs.coverPhoto)).closest('.form-group-image').attr('data-img-src');
+
+    if (currentImgUrl == "-1") {
+        return;
+    }
+
+    const pondImage = {
+        source: currentImgUrl,
+        options: {type: 'remote'},
+    }
+
+    filePondCover.addFiles([pondImage]);   
+}
+
+
+
+
+/**********************************************************
+Load the file selector plugin for the product images.
+Then, try to fetch the product images.
+**********************************************************/
+function loadProductImagesPlugin() {    
+    const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
+
+    filePondImages = FilePond.create(inputElement, {
+        // files: files,
+        allowMultiple: true,
+        allowImagePreview: true,
+        allowReorder: true,
+        maxFiles: 5,
+        allowFileTypeValidation: true,
+        acceptedFileTypes: ['image/*'],
+        credits: false,
+    });
+
+    ApiWrapper.requestGetProductImages(mProductID, getProductImagesSuccess, getProductImagesError); 
+}
+
+/**********************************************************
+Callback for a successful GET for loadProductImagesPlugin.
+Transforms the response data into FilePond 'readable' objects.
+Then insert them into the filepond input so the user can see them.
+**********************************************************/
+function getProductImagesSuccess(response, status, xhr) {
+    const files = [];
+
+
+    for (const img of response) {
+        files.push({
+            source: img.file_name,
+            options: {type: 'remote'},
+        });
+    }
+
+    filePondImages.addFiles(files);
+}
+
+/**********************************************************
+Callback for an error encountered in the GET for loadProductImagesPlugin.
+**********************************************************/
+function getProductImagesError(xhr, status, error) {
+    // console.error('getProductImagesError');
+    // console.error(xhr);
+    // console.error(status);
+    // console.error(error); 
 }
 
 
@@ -226,7 +304,7 @@ function loadMajorCategoriesError(xhr, status, error) {
     console.error(error);
     
     enableSubmitButton();
-    Utilities.displayAlert('Error loading major categories');
+    // Utilities.displayAlert('Error loading major categories');
 }
 
 
@@ -264,8 +342,6 @@ function submitFormEvent() {
     disableSubmitButton();
 
     const values = getInputValues(); 
-
-    console.log(values);
        
     let formData = new FormData();
     
@@ -278,19 +354,100 @@ function submitFormEvent() {
     formData.append('price_half', values.priceHalf);
     formData.append('minimum_age', values.minimumAge);
 
-    let imageFile = filePond.getFile();
+    ApiWrapper.requestPutProduct(mProductID, formData, function() {
+        $(eButtons.saveImg.cover).prop('disabled', true);
+    }, submitFormEventError);
+}
 
-    if (imageFile != null) {
-        formData.append('image', filePond.getFile().file);
+/**********************************************************
+Update the cover image file in the database.
+**********************************************************/
+function saveCoverImage() {
+    let imageFile = filePondCover.getFile();
+
+    if (imageFile == null) {
+        return;
     }
 
-    ApiWrapper.requestPutProduct(mProductID, formData, submitFormEventSuccess, submitFormEventError);
+    let formData = new FormData();
+    formData.append('image', imageFile.file);
+
+    ApiWrapper.requestPutProduct(mProductID, formData);
+}
+
+
+
+
+
+
+
+/**********************************************************
+User want's to upload new product images.
+
+1. First, send a request to delete all of the existing product images.
+2. Then, upload the new ones.
+**********************************************************/
+function uploadNewProductImages() {
+    disableProductImagesSaveButton();
+
+    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages, enableProductImagesSaveButton);
+}
+
+/**********************************************************
+Send an API request to create the new product images.
+**********************************************************/
+function saveProductImages() {
+    const formData = new FormData();
+
+    let files = filePondImages.getFiles();
+
+    for (const f of files) {
+        formData.append(f.file.name, f.file);
+    }
+
+    ApiWrapper.requestPostProductImages(mProductID, formData, enableProductImagesSaveButton, enableProductImagesSaveButton);
+}
+
+/**********************************************************
+Disables the save button when loading the product images.
+**********************************************************/
+function disableProductImagesSaveButton() {
+    const buttonWidth = $(eButtons.saveImg.imgs).width();
+    const originalText = $(eButtons.saveImg.imgs).text();
+    $(eButtons.saveImg.imgs).html(CommonHtml.spinnerSmall).width(buttonWidth).prop('disabled', true).attr('data-normal-text', originalText);
+}
+
+/**********************************************************
+Enables the save button for product images.
+**********************************************************/
+function enableProductImagesSaveButton() {
+    const originalText = $(eButtons.saveImg.imgs).attr('data-normal-text');
+    $(eButtons.saveImg.imgs).text(originalText).prop('disabled', false);
 }
 
 
 /**********************************************************
-Returns an object containing all the new prodcut form
-input values.
+When the cover photo input is changed, disable/enable the save button.
+
+If no files are present, disable it.
+Otherwise, allow users to save the new photo.
+
+This was made because we want users to have cover photos.
+Also, I don't want to send an empty file to the api.
+**********************************************************/
+function handleCoverPhotoEdit() {
+    let imageFile = filePondCover.getFile();
+
+    if (imageFile != null) {
+        $(eButtons.saveImg.cover).prop('disabled', false);
+    } else {
+        $(eButtons.saveImg.cover).prop('disabled', true); 
+    }
+}
+
+
+/**********************************************************
+Returns an object containing all the new prodcut form input values.
 **********************************************************/
 function getInputValues() {
     const inputKeys = Object.keys(eInputs);
@@ -495,9 +652,6 @@ function removeInvalidClass(eInputElement) {
 Actions to take if the create product request was successful.
 **********************************************************/
 function submitFormEventSuccess(response, status, xhr) {
-    
-    console.log(response);
-    // window.location.href = '/products';
     enableSubmitButton();
 }
 
@@ -505,7 +659,7 @@ function submitFormEventSuccess(response, status, xhr) {
 Actions to take if the create product request was not successful.
 **********************************************************/
 function submitFormEventError(xhr, status, error) {
-    Utilities.displayAlert('There was an error. Please try again.');
+    // Utilities.displayAlert('There was an error. Please try again.');
 
     console.error('submitFormEventError');
     console.error(xhr);
@@ -596,6 +750,4 @@ function removeImage() {
     // show the file input
     $('.form-group-image').removeClass('d-none');
 }
-
-
 
