@@ -376,30 +376,54 @@ function saveCoverImage() {
 }
 
 
+
+
+
+
+
+/**********************************************************
+User want's to upload new product images.
+
+1. First, send a request to delete all of the existing product images.
+2. Then, upload the new ones.
+**********************************************************/
 function uploadNewProductImages() {
-    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages);
+    disableProductImagesSaveButton();
+
+    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages, enableProductImagesSaveButton);
 }
 
-
+/**********************************************************
+Send an API request to create the new product images.
+**********************************************************/
 function saveProductImages() {
-    
-    // ApiWrapper.requestDeleteProductImages(mProductID)
-
+    const formData = new FormData();
 
     let files = filePondImages.getFiles();
-
-    const formData = new FormData();
 
     for (const f of files) {
         formData.append(f.file.name, f.file);
     }
 
-
-    ApiWrapper.requestPostProductImages(mProductID, formData);
+    ApiWrapper.requestPostProductImages(mProductID, formData, enableProductImagesSaveButton, enableProductImagesSaveButton);
 }
 
+/**********************************************************
+Disables the save button when loading the product images.
+**********************************************************/
+function disableProductImagesSaveButton() {
+    const buttonWidth = $(eButtons.saveImg.imgs).width();
+    const originalText = $(eButtons.saveImg.imgs).text();
+    $(eButtons.saveImg.imgs).html(CommonHtml.spinnerSmall).width(buttonWidth).prop('disabled', true).attr('data-normal-text', originalText);
+}
 
-
+/**********************************************************
+Enables the save button for product images.
+**********************************************************/
+function enableProductImagesSaveButton() {
+    const originalText = $(eButtons.saveImg.imgs).attr('data-normal-text');
+    $(eButtons.saveImg.imgs).text(originalText).prop('disabled', false);
+}
 
 
 /**********************************************************

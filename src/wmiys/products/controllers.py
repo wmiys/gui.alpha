@@ -60,7 +60,6 @@ def productPageEdit(product_id):
     return flask.render_template('pages/products/overview.html', product=product)
 
 
-
 @bpProducts.route('<int:product_id>/availability')
 @Security.login_required
 def productPageAvailability(product_id):

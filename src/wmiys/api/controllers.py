@@ -118,7 +118,6 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
 @bpApi.route('products/<int:product_id>/availability', methods=['POST'])
 @Security.login_required
 def apiProductAvailability(product_id):
-    
     apiResponse = apiWrapper.insertProductAvailability(product_id, request.form)
 
     if apiResponse.status_code != 200:          # error
@@ -152,13 +151,11 @@ def getProductImages(product_id: int):
 
 
 #------------------------------------------------------
-# Get all the product images for a single product.
+# Delete all the product images for a single product.
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['DELETE'])
 @Security.login_required
 def deleteProductImages(product_id: int):
-
-
     apiWrapper.deleteProductImages(product_id)
     return ('deleted bitch', 200)
 
@@ -168,24 +165,11 @@ def deleteProductImages(product_id: int):
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['POST'])
 @Security.login_required
-def postProductImages(product_id: int):
-    # imgFileRaw = request.files.get('image') or None
-
-    # if not imgFileRaw:
-    #     return ('No image files were given.', 400)
-
-    
+def postProductImages(product_id: int):    
     imgsDict = dict(request.files.to_dict()) or None
 
-    if not imgsDict:
-        return ('No image files were given', 400)
+    if imgsDict:
+        apiWrapper.postProductImages(product_id, imgsDict)
 
-    
-
-
-    # name = imgFileRaw.filename
-    # imgFileDict = dict(image = (name, imgFileRaw))
-    apiWrapper.postProductImages(product_id, imgsDict)
-
-    return 'cunt'
+    return ('', 200)
 
