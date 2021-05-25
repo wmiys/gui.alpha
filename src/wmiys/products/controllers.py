@@ -10,6 +10,7 @@ from wmiys.common.ApiWrapper import ApiWrapper
 import wmiys.common.Security as Security
 from wmiys.common.Security import apiWrapper
 from wmiys.common.Constants import Constants
+from datetime import datetime
 
 
 bpProducts = Blueprint('products', __name__)
@@ -74,6 +75,14 @@ def productPageAvailability(product_id):
 
     if productResponse['image']:
         productResponse['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, productResponse['image'])
+
+    # format the dates
+    for row in availabilities:
+        formatToken = '%m/%d/%Y'
+        keys = ['created_on', 'ends_on', 'starts_on']
+
+        for key in keys:
+            row[key] = datetime.fromisoformat(row[key]).strftime(formatToken)
 
     return flask.render_template('pages/products/availability.html', product=productResponse, availabilities=availabilities)
     
