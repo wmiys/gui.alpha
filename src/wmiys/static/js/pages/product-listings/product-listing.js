@@ -1,10 +1,17 @@
 
 
 
+const mProductListingForm = new ProductListingForm();
+
+
+
 /**********************************************************
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    console.log('product listing bitch');
+    
+
+    mProductListingForm.run();
+
 });
 
