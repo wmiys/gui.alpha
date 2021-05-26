@@ -12,9 +12,31 @@ class ProductListingForm
         this.datesFlatpickr = new FlatpickrRange(ProductListingForm.inputs.dates, true);
     }
 
-    run() {
-
+    getLocationValue() {
+        return $(ProductListingForm.inputs.location).val();
     }
+
+    getDatesValues() {
+        const dates = this.datesFlatpickr.getDateValues();
+        return dates;
+    }
+
+
+    setInputValuesFromUrl() {
+        const startsOn = UrlParser.getQueryParm('starts_on');
+        const endsOn = UrlParser.getQueryParm('ends_on');
+        const locationID = UrlParser.getQueryParm('location_id');
+
+        this.setDatesValues(startsOn, endsOn);
+    }
+
+
+
+    setDatesValues(startsOn, endsOn) {
+        this.datesFlatpickr.flatpickrInstance.setDate([startsOn, endsOn], true);
+    }
+
+
 }
 
 

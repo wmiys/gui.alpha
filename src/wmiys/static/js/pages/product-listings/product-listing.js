@@ -9,9 +9,15 @@ const mProductListingForm = new ProductListingForm();
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    
 
-    mProductListingForm.run();
+    mProductListingForm.setInputValuesFromUrl();
 
 });
 
+
+
+
+function shit() {
+    console.log(mProductListingForm.getDatesValues());
+    console.log(mProductListingForm.getLocationValue());
+}
