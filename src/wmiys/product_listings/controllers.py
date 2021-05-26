@@ -18,4 +18,5 @@ bpProductListings = Blueprint('bpProductListings', __name__)
 @bpProductListings.route('<int:product_id>')
 @Security.login_required
 def productListingRoute(product_id: int):
-    return flask.render_template('pages/product-listings/product-listing.html')
+    productListingApiResponse = apiWrapper.getProductListing(product_id)
+    return flask.render_template('pages/product-listings/product-listing.html', data=productListingApiResponse.json())

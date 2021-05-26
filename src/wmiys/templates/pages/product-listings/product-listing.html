@@ -1,18 +1,76 @@
+{#
+***************************************************************************************************
+
+* Template: product-listing.html
+* URL: /listings/:product_id
+* Purpose: Display a lender's product to potential renters
+
+***************************************************************************************************
+
+Input parms (data):
+  - categories
+    - major_id
+    - major_name
+    - minor_id
+    - minor_name
+    - sub_id
+    - sub_name
+  - lender
+    - id
+    - name_first
+    - name_last
+  - meta
+    - description
+    - id
+    - image
+    - minimum_age
+    - name
+  - price
+    - full
+    - half
+
+***************************************************************************************************
+#}
+
 <!doctype html>
 <html lang="en">
 
 <head>
     {% include 'includes/header.html' %}
-    <title>CHANGE ME FUCKER</title>
+    <title>{{ data.meta.name }}</title>
 </head>
 
 <body>
     {% include 'includes/navbar.html' %}
 
 
-    <div class="container">
+    <div class="container mt-5">
 
-        <h1 class="my-5">Product Listing</h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="h3">{{ data.meta.name }}</h1>
+                <hr>
+
+                <div class="product-listing-description-container">
+                    <div class="product-listing-description-data">
+                        {{ data.meta.description|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="p-4 card card-body rounded sticky-top" style="top: 80px;">
+
+                    <p>$120 per night</p>
+
+                    <button type="button" class="btn btn-block btn-lg btn-primary">Book your stay</button>
+
+
+                </div>
+            </div>
+
+        </div>
 
     </div>
 

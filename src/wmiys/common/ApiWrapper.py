@@ -206,6 +206,14 @@ class ApiWrapper:
         return response
 
     
+    #************************************************************************************
+    #                         PRODUCT LISTINGS
+    #************************************************************************************
+    def getProductListing(self, product_id):
+        url = "{}/listings/{}".format(ApiWrapper.URL_BASE, product_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
 
     #************************************************************************************
     #                         LOGIN AND OTHER SHIT
