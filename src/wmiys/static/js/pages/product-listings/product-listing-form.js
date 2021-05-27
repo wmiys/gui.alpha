@@ -10,21 +10,81 @@ class ProductListingForm
     constructor() {
         LocationsSelect.init(ProductListingForm.inputs.location, 'Location', 3);
         this.datesFlatpickr = new FlatpickrRange(ProductListingForm.inputs.dates, true);
+        this.setInputValuesFromUrl();
+    }
+
+    
+    /**********************************************************
+    Setup the object.
+    **********************************************************/
+    init() {
+        const self = this;
+        self.setInputValuesFromUrl();
+        self.addEventListeners();
+    }
+
+    
+    /**********************************************************
+    Register all the event listeners.
+    **********************************************************/
+    addEventListeners() {
+        const self = this;
+        
+        $(ProductListingForm.inputs.location).on('select2:select', function(e) {
+            self.setLocationUrlQueryParmToInputValue();
+        }).bind(this);
+
+        
+        $(ProductListingForm.inputs.dates).on('change', function() {
+            self.setDatesUrlQueryParmsToInputValues();
+        }).bind(this);
     }
 
     /**********************************************************
-    Returns the current value of the location input.
+    Sets the location_id, starts_on, and ends_on url query parms to the values in their respective inputs.
     **********************************************************/
-    getLocationValue() {
-        return $(ProductListingForm.inputs.location).val();
+    setUrlQueryParmsToInputValues() {
+        const self = this;
+        this.setDatesUrlQueryParmsToInputValues();
+        this.setDatesUrlQueryParmsToInputValues();
     }
 
     /**********************************************************
-    Returns the current values of the dates input as an object: startsOn and endsOn.
+    Sets the location_id url query parm to the values in its respective input.
     **********************************************************/
-    getDatesValues() {
-        const dates = this.datesFlatpickr.getDateValues();
-        return dates;
+    setLocationUrlQueryParmToInputValue() {
+        const self = this;
+
+        const newLocationID = this.getLocationValue();
+
+        if (newLocationID != null) {
+            UrlParser.setQueryParmsNoReload({location_id: newLocationID});
+        }
+    }
+
+    /**********************************************************
+    Sets the starts_on and ends_on url query parms to the values in their respective inputs.
+    **********************************************************/
+    setDatesUrlQueryParmsToInputValues() {
+        const self = this;
+        
+        // default the new values to their existing value
+        const newUrlParms = {
+            starts_on: UrlParser.getQueryParm(ProductListingForm.urlQueryParms.startsOn),
+            ends_on: UrlParser.getQueryParm(ProductListingForm.urlQueryParms.endsOn),
+        }
+
+
+        const dates = this.getDatesValues();
+
+        if (dates.endsOn != null) {
+            newUrlParms.ends_on = dates.endsOn;
+        }
+        if (dates.startsOn != null) {
+            newUrlParms.starts_on = dates.startsOn;
+        }
+
+        UrlParser.setQueryParmsNoReload(newUrlParms);
     }
 
     /**********************************************************
@@ -63,6 +123,21 @@ class ProductListingForm
         const html = `<option value="${locationObject.id}" selected>${displayText}</option>`;
 
         $(ProductListingForm.inputs.location).html(html);
+    }
+
+    /**********************************************************
+    Returns the current value of the location input.
+    **********************************************************/
+    getLocationValue() {
+        return $(ProductListingForm.inputs.location).val();
+    }
+
+    /**********************************************************
+    Returns the current values of the dates input as an object: startsOn and endsOn.
+    **********************************************************/
+    getDatesValues() {
+        const dates = this.datesFlatpickr.getDateValues();
+        return dates;
     }
 }
 

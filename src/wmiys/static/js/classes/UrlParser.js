@@ -54,4 +54,18 @@ class UrlParser
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams;
     }
+
+    /**********************************************************
+    Set's the url query parms of the current url to the key, values contained in the object.
+    AND DOES NOT REFRESH THE PAGE!!!!... MAGIC BITCH.
+    **********************************************************/
+    static setQueryParmsNoReload(newQueryParmsObject) {
+        const url = new URL(window.location);
+
+        for (const key in newQueryParmsObject) {
+            url.searchParams.set(key, newQueryParmsObject[key]);
+        }
+
+        window.history.pushState({}, '', url);
+    }
 }
