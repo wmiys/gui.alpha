@@ -32,20 +32,76 @@ Input parms (data):
 ***************************************************************************************************
 #}
 
+
 <!doctype html>
 <html lang="en">
 
 <head>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     {% include 'includes/header.html' %}
+
     <title>{{ data.meta.name }}</title>
 </head>
 
 <body>
     {% include 'includes/navbar.html' %}
 
+    <!-- Slider main container -->
+    <div class="swiper-container mb-5">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/1e1e92ff-54c8-4e73-871e-ec8e8f8ccffd.jpg">
+            </div>
 
-    <div class="container mt-5">
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3ad2bdca-47ae-4f14-905d-ccb1095a8bff.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3e9ddfaf-53a1-41bc-8c4c-0900cc3bb8c2.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/4d4ec29f-efdf-4f5f-86f2-91899c187a9b.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/5d460b4e-c77c-4254-a4a5-e221daa5ac95.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/1e1e92ff-54c8-4e73-871e-ec8e8f8ccffd.jpg">
+            </div>
 
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3ad2bdca-47ae-4f14-905d-ccb1095a8bff.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3e9ddfaf-53a1-41bc-8c4c-0900cc3bb8c2.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/4d4ec29f-efdf-4f5f-86f2-91899c187a9b.jpg">
+            </div>
+            <div class="swiper-slide">
+                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/5d460b4e-c77c-4254-a4a5-e221daa5ac95.jpg">
+            </div>
+            
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- If we need scrollbar -->
+        <!-- <div class="swiper-scrollbar"></div> -->
+    </div>
+
+
+
+
+
+    <div class="container">
 
         <div class="row">
             <div class="col-lg-8">
@@ -79,13 +135,8 @@ Input parms (data):
                         </div>
 
 
-                        <button type="button" class="btn btn-block btn-lg btn-primary" onclick="shit()">Book your stay</button>                     
+                        <button type="button" class="btn btn-block btn-lg btn-primary">Book your stay</button>
                     </form>
-
-                    
-                    
-
-
                 </div>
             </div>
 
@@ -98,9 +149,11 @@ Input parms (data):
 
 
     {% include 'includes/footer.html' %}
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="/static/js/classes/FlatpickrRange.js"></script>
     <script src="/static/js/classes/LocationsSelect.js"></script>
     <script src="/static/js/pages/product-listings/product-listing-form.js"></script>
+    <script src="/static/js/pages/product-listings/product-images-swiper.js"></script>
     <script src="/static/js/pages/product-listings/product-listing.js"></script>
 
 </body>
