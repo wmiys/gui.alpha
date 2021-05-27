@@ -173,3 +173,12 @@ def postProductImages(product_id: int):
 
     return ('', 200)
 
+
+#------------------------------------------------------
+# Get a location based on the location's id.
+#------------------------------------------------------
+@bpApi.route('locations/<int:location_id>', methods=['GET'])
+@Security.login_required
+def getLocation(location_id: int):    
+    locationApiResponse = apiWrapper.getLocation(location_id)
+    return jsonify(locationApiResponse.json())

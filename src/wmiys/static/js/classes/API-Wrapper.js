@@ -364,6 +364,18 @@ class ApiWrapper
     }
 
 
+    static requestGetLocation(locationID, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/locations/${locationID}`;
+
+        $.ajax({
+            url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+
 
     /**********************************************************
     Checks if an object contains all the fields in a list

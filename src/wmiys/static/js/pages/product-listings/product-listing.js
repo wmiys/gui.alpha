@@ -12,12 +12,18 @@ $(document).ready(function() {
 
     mProductListingForm.setInputValuesFromUrl();
 
+
+
+    shit();
+
 });
 
 
 
 
 function shit() {
-    console.log(mProductListingForm.getDatesValues());
-    console.log(mProductListingForm.getLocationValue());
+
+
+
+
 }

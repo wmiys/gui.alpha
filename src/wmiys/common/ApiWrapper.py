@@ -216,6 +216,23 @@ class ApiWrapper:
 
 
     #************************************************************************************
+    #                         LOCATIONS
+    #************************************************************************************
+    def getLocation(self, location_id: int):
+        """Request to get a single location.
+
+        Args:
+            location_id (int): location id
+
+        Returns:
+            api response
+        """
+        url = "{}/locations/{}".format(ApiWrapper.URL_BASE, location_id)
+        response = requests.get(url, auth=(self.email, self.password))
+        return response
+
+
+    #************************************************************************************
     #                         LOGIN AND OTHER SHIT
     #************************************************************************************
     @staticmethod
