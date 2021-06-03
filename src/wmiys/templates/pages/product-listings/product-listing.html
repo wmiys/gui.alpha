@@ -28,6 +28,11 @@ Input parms (data):
   - price
     - full
     - half
+  - images
+    - created_on
+    - file_name
+    - id
+    - product_id
 
 ***************************************************************************************************
 #}
@@ -53,37 +58,14 @@ Input parms (data):
         <div class="swiper-wrapper">
             <!-- Slides -->
             <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/1e1e92ff-54c8-4e73-871e-ec8e8f8ccffd.jpg">
+                <img src="{{ data.meta.image }}">
             </div>
 
+            {% for productImage in data.images %}
             <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3ad2bdca-47ae-4f14-905d-ccb1095a8bff.jpg">
+                <img src="{{ productImage.file_name }}">
             </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3e9ddfaf-53a1-41bc-8c4c-0900cc3bb8c2.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/4d4ec29f-efdf-4f5f-86f2-91899c187a9b.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/5d460b4e-c77c-4254-a4a5-e221daa5ac95.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/1e1e92ff-54c8-4e73-871e-ec8e8f8ccffd.jpg">
-            </div>
-
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3ad2bdca-47ae-4f14-905d-ccb1095a8bff.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/3e9ddfaf-53a1-41bc-8c4c-0900cc3bb8c2.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/4d4ec29f-efdf-4f5f-86f2-91899c187a9b.jpg">
-            </div>
-            <div class="swiper-slide">
-                <img src="http://10.0.0.82/files/api.wmiys/src/product-images/covers/5d460b4e-c77c-4254-a4a5-e221daa5ac95.jpg">
-            </div>
+            {% endfor %}
             
         </div>
         <!-- If we need pagination -->
