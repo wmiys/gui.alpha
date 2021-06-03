@@ -86,8 +86,6 @@ Input parms (data):
             </div>
         </div>
 
-
-
         <div class="row mt-lg-5">
 
             <div class="d-lg-none col-12">
@@ -99,7 +97,6 @@ Input parms (data):
 
             <!-- sidenav -->
             <div class="col-sm-12 col-lg-4 mt-3 mt-lg-0 d-none d-lg-block category-column">
-            <!-- <div class="col-sm-12 col-lg-4"> -->
                 {% include 'pages/search-products/sidenav.html' %}
             </div>
 
@@ -120,9 +117,10 @@ Input parms (data):
                         <div class="row no-gutters">
 
                             <div class="container-imgs col-md-4 col-sm-12 ">
-                                <!-- <a href="/products/{{ product.id }}" class="h-100 w-100"> -->
-                                <a href="#" class="h-100 w-100"></a>
-                                <div class="container-img-pics w-100 h-100" style="background-image: url('{{ product.image }}');"></div>
+                                
+                                {% set listingUrl = "/listings/" ~ product.id ~ '?' ~ data.query_string %}
+                                <a href="{{ listingUrl }}" class="h-100 w-100">
+                                    <div class="container-img-pics w-100 h-100" style="background-image: url('{{ product.image }}');"></div>
                                 </a>
                             </div>
                             <div class="col-md-8 col-sm-12">
