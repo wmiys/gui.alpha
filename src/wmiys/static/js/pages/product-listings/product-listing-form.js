@@ -7,10 +7,13 @@ class ProductListingForm
     /**********************************************************
     Constructor
     **********************************************************/
-    constructor() {
+    constructor(a_iProductID) {
+        // this.productID = a_iProductID;
         LocationsSelect.init(ProductListingForm.inputs.location, 'Location', 3);
         this.datesFlatpickr = new FlatpickrRange(ProductListingForm.inputs.dates, true);
         this.setInputValuesFromUrl();
+
+        // this.shit = 'heu';
     }
 
     
@@ -132,6 +135,17 @@ class ProductListingForm
         return $(ProductListingForm.inputs.location).val();
     }
 
+
+    getStartsOnValue() {
+        const dates = this.getDatesValues();
+        return dates.startsOn;
+    }
+
+    getEndsOnValue() {
+        const dates = this.getDatesValues();
+        return dates.endsOn;
+    }
+
     /**********************************************************
     Returns the current values of the dates input as an object: startsOn and endsOn.
     **********************************************************/
@@ -139,6 +153,19 @@ class ProductListingForm
         const dates = this.datesFlatpickr.getDateValues();
         return dates;
     }
+
+
+    isProductAvailable() {
+        const self = this;
+
+        ApiWrapper.requestGetProductListingAvailability(UrlParser.getPathValue(1), this.getLocationValue(), this.getStartsOnValue(), this.getEndsOnValue(), function(response) {
+            console.log(response.available);
+        });
+    }
+
+
+
+
 }
 
 

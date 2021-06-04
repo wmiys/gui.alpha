@@ -214,6 +214,14 @@ class ApiWrapper:
         response = requests.get(url, auth=(self.email, self.password))
         return response
 
+    
+    def getProductListingAvailability(self, product_id, starts_on, ends_on, location_id):
+        url = "{}/listings/{}/availability".format(ApiWrapper.URL_BASE, product_id)
+        parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        response = requests.get(url, params=parms, auth=(self.email, self.password))
+
+        return response
+
 
     #************************************************************************************
     #                         LOCATIONS

@@ -1,8 +1,9 @@
 
 
+const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
+const mProductListingForm = new ProductListingForm(mProductID);
 
-const mProductListingForm = new ProductListingForm();
-
+console.log(mProductID);
 
 
 /**********************************************************
@@ -10,27 +11,12 @@ Main logic
 **********************************************************/
 $(document).ready(function() {
     mProductListingForm.init();
-
-    shit();
+    // mProductListingForm.isProductAvailable();
 
 });
 
 
-
-
-function shit() {
-
-
-    const testObk = {
-        hey: 'tits',
-        fuck: 'asshole',
-        cunt: 48384,
-    }
-
-
-    for (const i in testObk) {
-        // console.log(i);
-    }
-
-
+function isProductAvailabile() {
+    mProductListingForm.isProductAvailable();
 }
+

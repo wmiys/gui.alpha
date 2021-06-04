@@ -363,12 +363,35 @@ class ApiWrapper
         });
     }
 
-
+    /**********************************************************
+    Send a GET location request to the API
+    **********************************************************/
     static requestGetLocation(locationID, fnSuccess=console.log, fnError=console.error) {
         const url = `/api/locations/${locationID}`;
 
         $.ajax({
             url: url,
+            type: ApiWrapper.REQUEST_TYPES.GET,
+            success: fnSuccess,
+            error: fnError,
+        });
+    }
+
+    /**********************************************************
+    Send a GET location request to the API
+    **********************************************************/
+    static requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, fnSuccess=console.log, fnError=console.error) {
+        const url = `/api/listings/${productID}/availability`;
+
+        const apiData = {
+            location_id: locationID,
+            starts_on: startsOn,
+            ends_on: endsOn,
+        }
+
+        $.ajax({
+            url: url,
+            data: apiData,
             type: ApiWrapper.REQUEST_TYPES.GET,
             success: fnSuccess,
             error: fnError,

@@ -182,3 +182,18 @@ def postProductImages(product_id: int):
 def getLocation(location_id: int):    
     locationApiResponse = apiWrapper.getLocation(location_id)
     return jsonify(locationApiResponse.json())
+
+
+#------------------------------------------------------
+# Request a product listing availability
+#------------------------------------------------------
+@bpApi.route('listings/<int:product_id>/availability', methods=['GET'])
+@Security.login_required
+def getProductListingAvailability(product_id: int):    
+    
+    apiResponse = apiWrapper.getProductListingAvailability(product_id, request.args.get('starts_on'), request.args.get('ends_on'), request.args.get('location_id'))
+    return jsonify(apiResponse.json())
+    
+    # return ('product listing availability', 200)
+    
+
