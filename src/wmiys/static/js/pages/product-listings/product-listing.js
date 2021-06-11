@@ -17,6 +17,6 @@ $(document).ready(function() {
 
 
 function isProductAvailabile() {
-    mProductListingForm.isProductAvailable();
+    // mProductListingForm.isProductAvailable();
 }
 

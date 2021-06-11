@@ -3,7 +3,6 @@
 
 class ProductListingForm
 {
-
     /**********************************************************
     Constructor
     **********************************************************/
@@ -12,11 +11,8 @@ class ProductListingForm
         LocationsSelect.init(ProductListingForm.inputs.location, 'Location', 3);
         this.datesFlatpickr = new FlatpickrRange(ProductListingForm.inputs.dates, true);
         this.setInputValuesFromUrl();
-
-        // this.shit = 'heu';
     }
 
-    
     /**********************************************************
     Setup the object.
     **********************************************************/
@@ -24,8 +20,8 @@ class ProductListingForm
         const self = this;
         self.setInputValuesFromUrl();
         self.addEventListeners();
+        self.checkAvailability();
     }
-
     
     /**********************************************************
     Register all the event listeners.
@@ -41,6 +37,56 @@ class ProductListingForm
         $(ProductListingForm.inputs.dates).on('change', function() {
             self.setDatesUrlQueryParmsToInputValues();
         }).bind(this);
+
+
+        $(ProductListingForm.inputClass).on('change', function() {
+            self.checkAvailability();
+        }).bind(this);
+
+        $(ProductListingForm.buttons.check).on('click', function() {
+            self.checkAvailability();
+        }).bind(this);
+    }
+
+    /**********************************************************
+    Checks the availability of the product listing based on the inputs in the form.
+    **********************************************************/
+    checkAvailability() {
+        const self = this;
+
+        this.toggleErrorMessage(false);
+
+        const productID = UrlParser.getPathValue(1);
+        const locationID = this.getLocationValue();
+        const startsOn = this.getStartsOnValue();
+        const endsOn = this.getEndsOnValue();
+
+        if (Array(productID, locationID, startsOn, endsOn).includes(null)) {
+            return;
+        }
+
+        this.showSpinnerForCheckButton();
+        this.toggleCheckButtons(false);
+
+        ApiWrapper.requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, function(response) {
+            
+            const isAvailabile = response.available;
+            console.log(isAvailabile);
+
+            self.showNormalCheckButton();
+
+            if (isAvailabile) {
+                self.toggleCheckButtons(true);
+            } 
+            else {
+                self.toggleCheckButtons(false);
+                self.toggleErrorMessage(true);
+            }
+
+        }, function(response) {                 // error actions
+            self.toggleCheckButtons(false);
+            self.showNormalCheckButton();
+        });
     }
 
     /**********************************************************
@@ -135,12 +181,17 @@ class ProductListingForm
         return $(ProductListingForm.inputs.location).val();
     }
 
-
+    /**********************************************************
+    Returns the current value of the startsOn input.
+    **********************************************************/
     getStartsOnValue() {
         const dates = this.getDatesValues();
         return dates.startsOn;
     }
 
+    /**********************************************************
+    Returns the current value of the endsOn input.
+    **********************************************************/
     getEndsOnValue() {
         const dates = this.getDatesValues();
         return dates.endsOn;
@@ -154,17 +205,54 @@ class ProductListingForm
         return dates;
     }
 
-
-    isProductAvailable() {
-        const self = this;
-
-        ApiWrapper.requestGetProductListingAvailability(UrlParser.getPathValue(1), this.getLocationValue(), this.getStartsOnValue(), this.getEndsOnValue(), function(response) {
-            console.log(response.available);
-        });
+    /**********************************************************
+    Show the error message section:
+        True - show the section
+        False - hide the message
+    **********************************************************/
+    toggleErrorMessage(a_bShowMessage) {
+        if (a_bShowMessage) {
+            $(ProductListingForm.errorMessage).removeClass('d-none');
+        } else {
+            $(ProductListingForm.errorMessage).addClass('d-none');
+        }
     }
 
+    /**********************************************************
+    Show/hide the book/check buttons:
+        true = show the book button, hide the check button
+        false = hide the book button, show the check button
+    **********************************************************/
+    toggleCheckButtons(a_bShowBookButton) {
+        if (a_bShowBookButton) {
+            $(ProductListingForm.buttons.book).removeClass('d-none');
+            $(ProductListingForm.buttons.check).addClass('d-none');
+        } else {
+            $(ProductListingForm.buttons.book).addClass('d-none');
+            $(ProductListingForm.buttons.check).removeClass('d-none');
+        }
+    }
 
+    /**********************************************************
+    Display the spinner element in the check availability button
+    **********************************************************/
+    showSpinnerForCheckButton() {
+        const checkBtn = ProductListingForm.buttons.check;
+        const width = $(checkBtn).width();
 
+        $(checkBtn).html(CommonHtml.spinnerSmall).width(width).prop('disabled', true);
+    }
+    
+    /**********************************************************
+    Remove the spinner, and show the normal text for the check availability button
+    **********************************************************/
+    showNormalCheckButton() {
+        const checkBtn = ProductListingForm.buttons.check;
+        const width = $(checkBtn).width();
+        const originalText = 'Check availability';
+
+        $(checkBtn).text(originalText).width(width).prop('disabled', false);
+    }
 
 }
 
@@ -174,11 +262,17 @@ Static constants for ProductListingForm
 **********************************************************/
 ProductListingForm.form = '#product-listing-form';
 ProductListingForm.inputClass = '.product-listing-form-input';
+ProductListingForm.errorMessage = '#product-listing-form-error-message';
 
 
 ProductListingForm.inputs = {
     location: '#product-listing-form-input-location',
     dates: '#product-listing-form-input-dates',
+}
+
+ProductListingForm.buttons = {
+    book: '#product-listing-form-button-book',
+    check: '#product-listing-form-button-check',
 }
 
 ProductListingForm.urlQueryParms = {

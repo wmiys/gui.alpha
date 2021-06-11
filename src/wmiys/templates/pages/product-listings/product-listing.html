@@ -74,14 +74,7 @@ Input parms (data):
         <!-- If we need navigation buttons -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
-
-        <!-- If we need scrollbar -->
-        <!-- <div class="swiper-scrollbar"></div> -->
     </div>
-
-
-
-
 
     <div class="container">
 
@@ -90,6 +83,7 @@ Input parms (data):
                 <h1 class="h3">{{ data.meta.name }}</h1>
                 <hr>
 
+                <!-- product description -->
                 <div class="product-listing-description-container">
                     <div class="product-listing-description-data">
                         {{ data.meta.description|safe }}
@@ -98,9 +92,10 @@ Input parms (data):
             </div>
 
             <div class="col-lg-4">
+                <!-- card on the right to book the product -->
                 <div class="p-4 card card-body rounded sticky-top" style="top: 80px;">
-
-                    <p>$120 per night</p>
+                    <!-- product full day price -->
+                    <p><span class="h5 text-secondary">${{ data.price.full }}</span> per day</p>
 
                     <hr>
 
@@ -115,9 +110,15 @@ Input parms (data):
                         <div class="form-group">
                             <input type="text" class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-dates" placeholder="Dates">
                         </div>
+                        
+                        <!-- error message section - initially hidden -->
+                        <p id="product-listing-form-error-message" class="text-danger d-none">Product is not available during this time or location.</p>
+                        
+                        <!-- book product -->
+                        <button type="button" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none">Book your stay</button>
+                        <!-- check product availability -->
+                        <button type="button" id="product-listing-form-button-check" class="btn btn-block btn-lg btn-secondary">Check availability</button>
 
-
-                        <button type="button" class="btn btn-block btn-lg btn-primary" onclick="isProductAvailabile()">Book your stay</button>
                     </form>
                 </div>
             </div>
@@ -125,10 +126,6 @@ Input parms (data):
         </div>
 
     </div>
-
-
-
-
 
     {% include 'includes/footer.html' %}
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
