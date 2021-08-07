@@ -1,0 +1,140 @@
+{#
+***************************************************************************************************
+
+* Template: product-listing.html
+* URL: /listings/:product_id
+* Purpose: Display a lender's product to potential renters
+
+***************************************************************************************************
+
+Input parms (data):
+  - categories
+    - major_id
+    - major_name
+    - minor_id
+    - minor_name
+    - sub_id
+    - sub_name
+  - lender
+    - id
+    - name_first
+    - name_last
+  - meta
+    - description
+    - id
+    - image
+    - minimum_age
+    - name
+  - price
+    - full
+    - half
+  - images
+    - created_on
+    - file_name
+    - id
+    - product_id
+
+***************************************************************************************************
+#}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    {% include 'includes/header.html' %}
+
+    <title>{{ data.meta.name }}</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+    <!-- Slider main container -->
+    <div class="swiper-container mb-5">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+                <img src="{{ data.meta.image }}">
+            </div>
+
+            {% for productImage in data.images %}
+            <div class="swiper-slide">
+                <img src="{{ productImage.file_name }}">
+            </div>
+            {% endfor %}
+            
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="h3">{{ data.meta.name }}</h1>
+                <hr>
+
+                <!-- product description -->
+                <div class="product-listing-description-container">
+                    <div class="product-listing-description-data">
+                        {{ data.meta.description|safe }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- card on the right to book the product -->
+                <div class="p-4 card card-body rounded sticky-top" style="top: 80px;">
+                    <!-- product full day price -->
+                    <p><span class="h5 text-secondary">${{ data.price.full }}</span> per day</p>
+
+                    <hr>
+
+                    <form id="product-listing-form">
+                        <!-- location -->
+                        <div class="form-group border">
+                            <select class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-location" placeholder="Search"></select>
+                            <div class="invalid-feedback">Invalid feedback text</div>
+                        </div>
+
+                        <!-- dates -->
+                        <div class="form-group">
+                            <input type="text" class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-dates" placeholder="Dates">
+                        </div>
+                        
+                        <!-- error message section - initially hidden -->
+                        <p id="product-listing-form-error-message" class="text-danger d-none">Product is not available during this time or location.</p>
+                        
+                        <!-- book product -->
+                        <button type="button" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none">Book your stay</button>
+                        <!-- check product availability -->
+                        <button type="button" id="product-listing-form-button-check" class="btn btn-block btn-lg btn-secondary">Check availability</button>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% include 'includes/footer.html' %}
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/static/js/classes/FlatpickrRange.js"></script>
+    <script src="/static/js/classes/LocationsSelect.js"></script>
+    <script src="/static/js/pages/product-listings/product-listing-form.js"></script>
+    <script src="/static/js/pages/product-listings/product-images-swiper.js"></script>
+    <script src="/static/js/pages/product-listings/product-listing.js"></script>
+
+</body>
+
+</html>

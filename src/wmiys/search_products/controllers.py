@@ -70,4 +70,5 @@ def pSearchResultsSub(product_categories_sub_id):
 # Utility functions
 #---------------------------------------------------------------
 def baseReturn(productSearchResults: dict):
+    # return flask.jsonify(productSearchResults)
     return flask.render_template('pages/search-products/results.html', data=productSearchResults)
