@@ -30,7 +30,7 @@
             </div>
 
             <div class="d-flex justify-content-center ">
-                <form id="form-email">
+                <form id="form-email" method="post" action="logic.php">
                     <div class="form-row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <button type="button" class="btn btn-lg btn-block btn-primary" id="btn-submit">Notify Me</button>
+                            <button type="submit" class="btn btn-lg btn-block btn-primary" id="btn-submit">Notify Me</button>
                         </div>
 
                     </div>
