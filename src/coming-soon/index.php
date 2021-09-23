@@ -1,3 +1,23 @@
+<?php
+
+include('logic.php');
+
+$emailAdded = false;
+
+// insert the user's email address if they submitted it
+if (isset($_POST['email'])) {
+    try {
+        insertEmail();
+    } catch (PDOexception $e) {
+
+    } finally {
+        $emailAdded = true;
+        unset($_POST['email']);
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,18 +47,30 @@
             <div>
                 <h1 class="title">Coming soon!</h1>
                 <h4 class="sub-title mb-3">Your vacation is about to get a whole lot better</h4>
+
             </div>
 
             <div class="d-flex justify-content-center ">
-                <form id="form-email" method="post" action="logic.php">
+                
+                <form id="form-email" method="post">
+                    <!-- success alert message box -->
+                    <div class="alert alert-success alert-dismissible fade show <?php if (!$emailAdded) echo 'd-none'; ?>" role="alert">
+                        <strong>Thank you!</strong> We'll keep you updated.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
                     <div class="form-row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-lg" id="input-email" placeholder="Email address">
+                                <!-- email input form element -->
+                                <input type="email" class="form-control form-control-lg" id="input-email" placeholder="Email address" name="email" required>
                             </div>
                         </div>
                         <div class="col-sm-12">
-                            <button type="submit" class="btn btn-lg btn-block btn-primary" id="btn-submit">Notify Me</button>
+                            <!-- submit button -->
+                            <button type="submit" class="btn btn-lg btn-block btn-primary" id="btn-submit">Notify me</button>
                         </div>
 
                     </div>
@@ -50,11 +82,11 @@
 
 
     <!-- jquery -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <!-- popper -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <!-- bootstrap -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 </body>
 
 </html>
