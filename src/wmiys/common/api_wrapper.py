@@ -1,5 +1,4 @@
 import requests
-import json
 
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
@@ -19,9 +18,7 @@ class ApiWrapper:
     #------------------------------------------------------
     # Get the client's information
     #------------------------------------------------------
-    def getUser(self):
-        """Get the client's information
-        """
+    def getUser(self):        
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response

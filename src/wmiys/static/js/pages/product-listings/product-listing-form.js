@@ -46,10 +46,27 @@ class ProductListingForm
         $(ProductListingForm.buttons.check).on('click', function() {
             self.checkAvailability();
         }).bind(this);
+
+        $(ProductListingForm.buttons.book).on('click', function() {
+            self.sendProductRequest();
+        }).bind(this);
     }
 
     /**********************************************************
-    Checks the availability of the product listing based on the inputs in the form.
+    Send a new product request.
+    **********************************************************/
+    sendProductRequest() {
+        console.log('hey');
+
+        const productID = UrlParser.getPathValue(1);
+        const locationID = this.getLocationValue();
+        const startsOn = this.getStartsOnValue();
+        const endsOn = this.getEndsOnValue();
+    }
+
+    /**********************************************************
+    Checks the availability of the product listing based on the 
+    inputs in the form.
     **********************************************************/
     checkAvailability() {
         const self = this;
@@ -69,9 +86,7 @@ class ProductListingForm
         this.toggleCheckButtons(false);
 
         ApiWrapper.requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, function(response) {
-            
             const isAvailabile = response.available;
-            console.log(isAvailabile);
 
             self.showNormalCheckButton();
 
@@ -90,7 +105,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the location_id, starts_on, and ends_on url query parms to the values in their respective inputs.
+    Sets the location_id, starts_on, and ends_on url query parms 
+    to the values in their respective inputs.
     **********************************************************/
     setUrlQueryParmsToInputValues() {
         const self = this;
@@ -99,7 +115,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the location_id url query parm to the values in its respective input.
+    Sets the location_id url query parm to the values in its 
+    respective input.
     **********************************************************/
     setLocationUrlQueryParmToInputValue() {
         const self = this;
@@ -112,7 +129,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the starts_on and ends_on url query parms to the values in their respective inputs.
+    Sets the starts_on and ends_on url query parms to the values 
+    in their respective inputs.
     **********************************************************/
     setDatesUrlQueryParmsToInputValues() {
         const self = this;
@@ -137,7 +155,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Retrieves the values of the current URL query parms, and sets the input element values to them.
+    Retrieves the values of the current URL query parms, and 
+    sets the input element values to them.
 
     The URL query parms are:
         - starts_on
@@ -163,7 +182,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Takes in a location object and sets the location input value to City, State combo recieved.
+    Takes in a location object and sets the location input value 
+    to City, State combo recieved.
     **********************************************************/
     setLocationValue(locationObject) {
         const self = this;
@@ -198,7 +218,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Returns the current values of the dates input as an object: startsOn and endsOn.
+    Returns the current values of the dates input as an 
+    object: startsOn and endsOn.
     **********************************************************/
     getDatesValues() {
         const dates = this.datesFlatpickr.getDateValues();
@@ -244,7 +265,8 @@ class ProductListingForm
     }
     
     /**********************************************************
-    Remove the spinner, and show the normal text for the check availability button
+    Remove the spinner, and show the normal text for the check 
+    availability button.
     **********************************************************/
     showNormalCheckButton() {
         const checkBtn = ProductListingForm.buttons.check;
