@@ -1,8 +1,10 @@
-"""
-Package:        search_products
-Url Prefix:     /search/products
-Description:    Handles the routing for the product search results page
-"""
+#*******************************************************************************************
+# Module:       search_products
+#
+# Url Prefix:   /search/products
+#
+# Description:  Handles the routing for the product search results page
+#*******************************************************************************************
 
 import flask
 from functools import wraps, update_wrapper

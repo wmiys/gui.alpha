@@ -1,7 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-
-# from wmiys.api.controllers import bpApi
 from . import routes
 
 

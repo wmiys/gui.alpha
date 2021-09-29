@@ -1,8 +1,10 @@
-"""
-Package:        account_settings
-Url Prefix:     /account-settings
-Description:    Handles the routing for account settings
-"""
+#*******************************************************************************************
+# Module:       account_settings
+#
+# Url Prefix:   /account-settings
+#
+# Description:  Routing for all account settings
+#*******************************************************************************************
 
 from flask import Blueprint, render_template
 from ..common import security

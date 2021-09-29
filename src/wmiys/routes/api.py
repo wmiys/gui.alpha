@@ -1,9 +1,10 @@
-
-"""
-Package:        api
-Url Prefix:     /api
-Description:    Handles the requests for the front end api
-"""
+#*******************************************************************************************
+# Module:       api
+#
+# Url Prefix:   /api
+#
+# Description:  Handles the requests for the front end api
+#*******************************************************************************************
 
 import flask
 from flask import Blueprint, jsonify, request

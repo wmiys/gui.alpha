@@ -1,8 +1,10 @@
-"""
-Package:        product_listings
-Url Prefix:     /search/products
-Description:    Handles the routing for the a product listing page
-"""
+#*******************************************************************************************
+# Module:       product_listings
+#
+# Url Prefix:   /listings
+#
+# Description:  Handles the routing for the a product listing page (visiting a product page as a renter)
+#*******************************************************************************************
 
 import flask
 from functools import wraps, update_wrapper

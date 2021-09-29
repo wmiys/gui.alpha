@@ -1,24 +1,16 @@
-"""
-Package:        products
-Url Prefix:     /products
-Description:    Handles pages dealing with lender products
-"""
+#*******************************************************************************************
+# Module:       products
+#
+# Url Prefix:   /products
+#
+# Description:  Handles pages dealing with lender products
+#*******************************************************************************************
 
 import flask
-from flask import Blueprint, jsonify, request, redirect, url_for
 from datetime import datetime
-
-
-# from wmiys.common.ApiWrapper import ApiWrapper
-# import wmiys.common.Security as Security
-# from wmiys.common.Security import security.apiWrapper
-# from wmiys.common.constants import constants
-
 from ..common import security, constants
 
-
-
-bpProducts = Blueprint('products', __name__)
+bpProducts = flask.Blueprint('products', __name__)
 
 @bpProducts.route('', methods=['GET'])
 @security.login_required
@@ -51,7 +43,7 @@ def productsNew():
     emptyProduct = apiResponse.json()
 
     # load the edit product page
-    return redirect(url_for('products.productPageEdit', product_id=emptyProduct['id']))
+    return flask.redirect(flask.url_for('products.productPageEdit', product_id=emptyProduct['id']))
 
 @bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @security.login_required

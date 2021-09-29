@@ -1,9 +1,10 @@
-"""
-Package:        home
-Url Prefix:     none
-Description:    Handles the routing for the home page, login, and create account
-"""
-
+#*******************************************************************************************
+# Module:       home
+#
+# Url Prefix:   /home
+#
+# Description:  Handles the routing for the home page, login, and create account
+#*******************************************************************************************
 import flask
 from ..common import security
 
