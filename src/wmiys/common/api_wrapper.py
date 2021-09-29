@@ -154,7 +154,6 @@ class ApiWrapper:
     # Returns the api response
     #------------------------------------------------------
     def insertProductAvailability(self, product_id, newProductAvailabilityFormData):
-
         url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
         response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData)
         return response
@@ -255,6 +254,19 @@ class ApiWrapper:
         response = requests.get(url, params=parms, auth=(self.email, self.password))
 
         return response
+
+
+    #************************************************************************************
+    #                             PRODUCT REQUESTS
+    #************************************************************************************
+
+    #------------------------------------------------------
+    # Insert a new product request to a lender
+    #------------------------------------------------------
+    def insertProductRequest(self, product_id, starts_on, ends_on, location_id):
+        url = f'''{ApiWrapper.URL_BASE}/requests/submitted'''
+        parms = dict(dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on, product_id=product_id)
+        return requests.post(url, data=parms, auth=(self.email, self.password))
 
 
     #************************************************************************************

@@ -55,13 +55,29 @@ class ProductListingForm
     /**********************************************************
     Send a new product request.
     **********************************************************/
-    sendProductRequest() {
-        console.log('hey');
+    async sendProductRequest() {
+        // disable the button
+        this.showSpinnerForBookButton();
 
+        // retrieve all the data
         const productID = UrlParser.getPathValue(1);
         const locationID = this.getLocationValue();
         const startsOn = this.getStartsOnValue();
         const endsOn = this.getEndsOnValue();
+        
+        // send the request to the api
+        let apiResponse = ApiWrapper.requestPostProductRequest(productID, locationID, startsOn, endsOn);
+        apiResponse = await Promise.resolve(apiResponse);
+
+        // display the response result
+        if ((await apiResponse).ok) {
+            alert('success');
+        } else {
+            alert('Error');
+        }
+
+        // enable the book button
+        this.showNormalBookButton();
     }
 
     /**********************************************************
@@ -272,6 +288,27 @@ class ProductListingForm
         const checkBtn = ProductListingForm.buttons.check;
         const width = $(checkBtn).width();
         const originalText = 'Check availability';
+
+        $(checkBtn).text(originalText).width(width).prop('disabled', false);
+    }
+
+    /**********************************************************
+    Display the spinner element in the book button
+    **********************************************************/
+    showSpinnerForBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+
+        $(checkBtn).html(CommonHtml.spinnerSmall).width(width).prop('disabled', true);
+    }
+    
+    /**********************************************************
+    Remove the spinner, and show the normal text for the book button.
+    **********************************************************/
+    showNormalBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+        const originalText = 'Book your stay';
 
         $(checkBtn).text(originalText).width(width).prop('disabled', false);
     }

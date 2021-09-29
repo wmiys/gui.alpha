@@ -8,6 +8,7 @@
 
 import flask
 from ..common import ApiWrapper, security as security
+from http import HTTPStatus
 
 # module blueprint
 bpApi = flask.Blueprint('api', __name__)
@@ -202,10 +203,22 @@ def getLocation(location_id: int):
 @bpApi.route('listings/<int:product_id>/availability', methods=['GET'])
 @security.login_required
 def getProductListingAvailability(product_id: int):    
-    
     apiResponse = security.apiWrapper.getProductListingAvailability(product_id, flask.request.args.get('starts_on'), flask.request.args.get('ends_on'), flask.request.args.get('location_id'))
     return flask.jsonify(apiResponse.json())
     
-    # return ('product listing availability', 200)
+
+@bpApi.route('requests/submitted', methods=['POST'])
+@security.login_required
+def insertProductRequest():
+    # transform the request form into a dict
+    data: dict = flask.request.form.to_dict()
+    apiResponse = security.apiWrapper.insertProductRequest(data.get('product_id'), data.get('starts_on'), data.get('ends_on'), data.get('location_id'))
+
+    if not apiResponse.ok:
+        return (apiResponse.text, HTTPStatus.BAD_REQUEST)
+    else:
+        return ('', HTTPStatus.CREATED)
+
     
+
 
