@@ -10,13 +10,18 @@ import flask
 from functools import wraps, update_wrapper
 from ..common import security, SearchProducts
 
+# module blueprint
 bpSearchProducts = flask.Blueprint('search_products', __name__)
 
 searchProductsHandler = None
 
-#---------------------------------------------------------------
+###########################################
+# Decorators
+###########################################
+
+#------------------------------------------------------
 # Initializes the searchProductsHandler
-#---------------------------------------------------------------
+#------------------------------------------------------
 def load_request_parms(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -31,9 +36,13 @@ def load_request_parms(f):
 
     return wrap
 
-#---------------------------------------------------------------
+###########################################
 # Routes
-#---------------------------------------------------------------
+###########################################
+
+#------------------------------------------------------
+# Search all products (no category filter)
+#------------------------------------------------------
 @bpSearchProducts.route('')
 @security.login_required
 @load_request_parms
@@ -41,6 +50,9 @@ def pSearchResultsAll():
     productsResponse = searchProductsHandler.searchAll()
     return baseReturn(searchProductsHandler.transformSearchResults(productsResponse))
 
+#------------------------------------------------------
+# Search all products of a major category
+#------------------------------------------------------
 @bpSearchProducts.route('/categories/major/<int:product_categories_major_id>')
 @security.login_required
 @load_request_parms
@@ -48,6 +60,10 @@ def pSearchResultsMajor(product_categories_major_id):
     productsResponse = searchProductsHandler.searchMajor(product_categories_major_id)
     return baseReturn(searchProductsHandler.transformSearchResults(productsResponse))
 
+
+#------------------------------------------------------
+# Search all products of a minor category
+#------------------------------------------------------
 @bpSearchProducts.route('/categories/minor/<int:product_categories_minor_id>')
 @security.login_required
 @load_request_parms
@@ -56,6 +72,9 @@ def pSearchResultsMinor(product_categories_minor_id):
     return baseReturn(searchProductsHandler.transformSearchResults(productsResponse))
 
 
+#------------------------------------------------------
+# Search all products of a sub category
+#------------------------------------------------------
 @bpSearchProducts.route('/categories/sub/<int:product_categories_sub_id>')
 @security.login_required
 @load_request_parms
@@ -64,9 +83,8 @@ def pSearchResultsSub(product_categories_sub_id):
     return baseReturn(searchProductsHandler.transformSearchResults(productsResponse))
 
 
-#---------------------------------------------------------------
+###########################################
 # Utility functions
-#---------------------------------------------------------------
+###########################################
 def baseReturn(productSearchResults: dict):
-    # return flask.jsonify(productSearchResults)
     return flask.render_template('pages/search-products/results.html', data=productSearchResults)

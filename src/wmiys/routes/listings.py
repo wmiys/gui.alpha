@@ -10,9 +10,12 @@ import flask
 from functools import wraps, update_wrapper
 from ..common import security
 
+# module blueprint
 bpProductListings = flask.Blueprint('bpProductListings', __name__)
 
-
+#------------------------------------------------------
+# Product listing page
+#------------------------------------------------------
 @bpProductListings.route('<int:product_id>')
 @security.login_required
 def productListingRoute(product_id: int):

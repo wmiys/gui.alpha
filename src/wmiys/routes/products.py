@@ -10,8 +10,12 @@ import flask
 from datetime import datetime
 from ..common import security, constants
 
+# module blueprint
 bpProducts = flask.Blueprint('products', __name__)
 
+#------------------------------------------------------
+# Products page
+#------------------------------------------------------
 @bpProducts.route('', methods=['GET'])
 @security.login_required
 def productsGet():
@@ -30,6 +34,9 @@ def productsGet():
     return flask.render_template('pages/products/products.html', products=products)
 
 
+#------------------------------------------------------
+# Create new product
+#------------------------------------------------------
 @bpProducts.route('new')
 @security.login_required
 def productsNew():
@@ -45,6 +52,9 @@ def productsNew():
     # load the edit product page
     return flask.redirect(flask.url_for('products.productPageEdit', product_id=emptyProduct['id']))
 
+#------------------------------------------------------
+# Single product page
+#------------------------------------------------------
 @bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @security.login_required
 def productPageEdit(product_id):
@@ -58,6 +68,9 @@ def productPageEdit(product_id):
     return flask.render_template('pages/products/overview.html', product=product)
 
 
+#------------------------------------------------------
+# Product availability
+#------------------------------------------------------
 @bpProducts.route('<int:product_id>/availability')
 @security.login_required
 def productPageAvailability(product_id):
@@ -83,6 +96,9 @@ def productPageAvailability(product_id):
 
     return flask.render_template('pages/products/availability.html', product=productResponse, availabilities=availabilities)
     
+#------------------------------------------------------
+# Product insights
+#------------------------------------------------------
 @bpProducts.route('<int:product_id>/insights')
 @security.login_required
 def productPageInsights(product_id):
@@ -98,6 +114,9 @@ def productPageInsights(product_id):
 
     return flask.render_template('pages/products/insights.html', product=product)
 
+#------------------------------------------------------
+# Product settings
+#------------------------------------------------------
 @bpProducts.route('<int:product_id>/settings')
 @security.login_required
 def productPageSettings(product_id):
