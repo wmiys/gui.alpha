@@ -1,8 +1,8 @@
 import flask
-from wmiys.common.ApiWrapper import ApiWrapper
-from wmiys.common.Constants import Constants
-from wmiys.common.Pagination import Pagination
-import wmiys.common.FlaskRequestUrls as FlaskRequestUrls
+from .api_wrapper import ApiWrapper
+from .pagination import Pagination
+from . import constants, flask_request_urls
+
 
 class SearchProducts:
     """Object that handles the interfacing with the api wrapper
@@ -12,32 +12,12 @@ class SearchProducts:
 
     def __init__(self, a_oFlaskRequest: flask.request, a_oApiWrapper: ApiWrapper):
         self._request     = a_oFlaskRequest
-        self._location_id = a_oFlaskRequest.args.get('location_id') or None
-        self._starts_on   = a_oFlaskRequest.args.get('starts_on') or None
-        self._ends_on     = a_oFlaskRequest.args.get('ends_on') or None
-        self._sort        = a_oFlaskRequest.args.get('sort') or None
-        self._page        = a_oFlaskRequest.args.get('page') or 1
+        self.location_id = a_oFlaskRequest.args.get('location_id') or None
+        self.starts_on   = a_oFlaskRequest.args.get('starts_on') or None
+        self.ends_on     = a_oFlaskRequest.args.get('ends_on') or None
+        self.sort        = a_oFlaskRequest.args.get('sort') or None
+        self.page        = a_oFlaskRequest.args.get('page') or 1
         self.apiWrapper   = a_oApiWrapper
-
-    @property
-    def location_id(self) -> int:
-        return self._location_id
-    
-    @property
-    def starts_on(self):
-        return self._starts_on
-
-    @property
-    def ends_on(self):
-        return self._ends_on
-
-    @property
-    def sort(self):
-        return self._sort
-    
-    @property
-    def page(self):
-        return self._page
 
     def areRequiredFieldsSet(self) -> bool:
         if None in [self.location_id, self.starts_on, self.ends_on]:
@@ -78,7 +58,7 @@ class SearchProducts:
         # outData['urlParms']          = self._request.args.to_dict()
         outData['pagination']        = pagination.getAllPaginationLinks()
         outData['total_records']     = int(responseData['pagination']['total_records'])
-        outData['query_string']      = FlaskRequestUrls.getUrlDict().get('query_string')
+        outData['query_string']      = flask_request_urls.getUrlDict().get('query_string')
 
         return outData
     
@@ -88,7 +68,7 @@ class SearchProducts:
         # format the product images
         for product in productsData:
             if product['image'] != None:
-                product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+                product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
             else:
                 product['image'] = '/static/img/placeholder.jpg'
         
