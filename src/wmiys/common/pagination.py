@@ -1,5 +1,3 @@
-
-from wmiys.common.Utilities import Utilities
 from flask import request
 
 class Pagination:

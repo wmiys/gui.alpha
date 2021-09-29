@@ -6,19 +6,24 @@ Description:    Handles pages dealing with lender products
 
 import flask
 from flask import Blueprint, jsonify, request, redirect, url_for
-from wmiys.common.ApiWrapper import ApiWrapper
-import wmiys.common.Security as Security
-from wmiys.common.Security import apiWrapper
-from wmiys.common.Constants import Constants
 from datetime import datetime
+
+
+# from wmiys.common.ApiWrapper import ApiWrapper
+# import wmiys.common.Security as Security
+# from wmiys.common.Security import security.apiWrapper
+# from wmiys.common.constants import constants
+
+from ..common import security, constants
+
 
 
 bpProducts = Blueprint('products', __name__)
 
 @bpProducts.route('', methods=['GET'])
-@Security.login_required
+@security.login_required
 def productsGet():
-    apiResponse = apiWrapper.getUserProducts()
+    apiResponse = security.apiWrapper.getUserProducts()
 
     if apiResponse.status_code != 200:
         pass    # error
@@ -34,10 +39,10 @@ def productsGet():
 
 
 @bpProducts.route('new')
-@Security.login_required
+@security.login_required
 def productsNew():
     # create an empty product
-    apiResponse = apiWrapper.postUserProduct(None, None)
+    apiResponse = security.apiWrapper.postUserProduct(None, None)
 
     if apiResponse.status_code != 200:
         pass    # error
@@ -49,9 +54,9 @@ def productsNew():
     return redirect(url_for('products.productPageEdit', product_id=emptyProduct['id']))
 
 @bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
-@Security.login_required
+@security.login_required
 def productPageEdit(product_id):
-    apiResponse = apiWrapper.getUserProduct(product_id)
+    apiResponse = security.apiWrapper.getUserProduct(product_id)
 
     if apiResponse.status_code != 200:
         pass    # error
@@ -62,19 +67,19 @@ def productPageEdit(product_id):
 
 
 @bpProducts.route('<int:product_id>/availability')
-@Security.login_required
+@security.login_required
 def productPageAvailability(product_id):
-    apiResponse = apiWrapper.getProductAvailabilities(product_id)
+    apiResponse = security.apiWrapper.getProductAvailabilities(product_id)
     
     if apiResponse.status_code != 200:
         pass    # error
 
     availabilities = apiResponse.json()
 
-    productResponse = apiWrapper.getUserProduct(product_id).json()
+    productResponse = security.apiWrapper.getUserProduct(product_id).json()
 
     if productResponse['image']:
-        productResponse['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, productResponse['image'])
+        productResponse['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, productResponse['image'])
 
     # format the dates
     for row in availabilities:
@@ -87,9 +92,9 @@ def productPageAvailability(product_id):
     return flask.render_template('pages/products/availability.html', product=productResponse, availabilities=availabilities)
     
 @bpProducts.route('<int:product_id>/insights')
-@Security.login_required
+@security.login_required
 def productPageInsights(product_id):
-    apiResponse = apiWrapper.getUserProduct(product_id)
+    apiResponse = security.apiWrapper.getUserProduct(product_id)
 
     if apiResponse.status_code != 200:
         pass    # error
@@ -97,14 +102,14 @@ def productPageInsights(product_id):
     product = apiResponse.json()
 
     if product['image']:
-        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+        product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
 
     return flask.render_template('pages/products/insights.html', product=product)
 
 @bpProducts.route('<int:product_id>/settings')
-@Security.login_required
+@security.login_required
 def productPageSettings(product_id):
-    apiResponse = apiWrapper.getUserProduct(product_id)
+    apiResponse = security.apiWrapper.getUserProduct(product_id)
 
     if apiResponse.status_code != 200:
         pass    # error
@@ -112,6 +117,6 @@ def productPageSettings(product_id):
     product = apiResponse.json()
 
     if product['image']:
-        product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+        product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
 
     return flask.render_template('pages/products/settings.html', product=product)

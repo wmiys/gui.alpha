@@ -7,9 +7,9 @@ Description:    Handles the requests for the front end api
 
 import flask
 from flask import Blueprint, jsonify, request
-from wmiys.common.ApiWrapper import ApiWrapper
-import wmiys.common.Security as Security
-from wmiys.common.Security import apiWrapper
+from ..common import ApiWrapper, security as security
+from ..common.security import apiWrapper
+
 
 bpApi = Blueprint('api', __name__)
 
@@ -64,7 +64,7 @@ def apiCreateAccount():
 
 
 @bpApi.route('products', methods=['POST'])
-@Security.login_required
+@security.login_required
 def apiProductsPost():
     apiResponse = apiWrapper.postUserProduct(request.form, request.files.get('image'))
 
@@ -74,7 +74,7 @@ def apiProductsPost():
     return ('', 200)
 
 @bpApi.route('products/<int:product_id>', methods=['PUT'])
-@Security.login_required
+@security.login_required
 def apiProductPut(product_id):
     apiResponse = apiWrapper.putUserProduct(product_id, request.form, request.files.get('image'))
 
@@ -92,7 +92,7 @@ def apiProductPut(product_id):
 #  - DELETE: Delete a single product availability record
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET', 'PUT','DELETE'])
-@Security.login_required
+@security.login_required
 def apiProductAvailabilityModify(product_id, product_availability_id):
     if request.method == 'GET':
         apiResponse = apiWrapper.getProductAvailability(product_id, product_availability_id)
@@ -116,7 +116,7 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
 # Create a new product availability record
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/availability', methods=['POST'])
-@Security.login_required
+@security.login_required
 def apiProductAvailability(product_id):
     apiResponse = apiWrapper.insertProductAvailability(product_id, request.form)
 
@@ -130,7 +130,7 @@ def apiProductAvailability(product_id):
 # Update a user's info
 #------------------------------------------------------
 @bpApi.route('users', methods=['PUT'])
-@Security.login_required
+@security.login_required
 def apiUserUpdate():
     apiResponse = apiWrapper.updateUser(request.form)
 
@@ -144,7 +144,7 @@ def apiUserUpdate():
 # Get all the product images for a single product.
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['GET'])
-@Security.login_required
+@security.login_required
 def getProductImages(product_id: int):
     images = apiWrapper.getProductImages(product_id)
     return jsonify(images.json())
@@ -154,7 +154,7 @@ def getProductImages(product_id: int):
 # Delete all the product images for a single product.
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['DELETE'])
-@Security.login_required
+@security.login_required
 def deleteProductImages(product_id: int):
     apiWrapper.deleteProductImages(product_id)
     return ('deleted bitch', 200)
@@ -164,7 +164,7 @@ def deleteProductImages(product_id: int):
 # Get all the product images for a single product.
 #------------------------------------------------------
 @bpApi.route('products/<int:product_id>/images', methods=['POST'])
-@Security.login_required
+@security.login_required
 def postProductImages(product_id: int):    
     imgsDict = dict(request.files.to_dict()) or None
 
@@ -178,7 +178,7 @@ def postProductImages(product_id: int):
 # Get a location based on the location's id.
 #------------------------------------------------------
 @bpApi.route('locations/<int:location_id>', methods=['GET'])
-@Security.login_required
+@security.login_required
 def getLocation(location_id: int):    
     locationApiResponse = apiWrapper.getLocation(location_id)
     return jsonify(locationApiResponse.json())
@@ -188,7 +188,7 @@ def getLocation(location_id: int):
 # Request a product listing availability
 #------------------------------------------------------
 @bpApi.route('listings/<int:product_id>/availability', methods=['GET'])
-@Security.login_required
+@security.login_required
 def getProductListingAvailability(product_id: int):    
     
     apiResponse = apiWrapper.getProductListingAvailability(product_id, request.args.get('starts_on'), request.args.get('ends_on'), request.args.get('location_id'))

@@ -4,16 +4,14 @@ Url Prefix:     /account-settings
 Description:    Handles the routing for account settings
 """
 
-import flask
-from flask import Blueprint, jsonify, request
-import wmiys.common.Security as Security
-from wmiys.common.Security import apiWrapper
+from flask import Blueprint, render_template
+from ..common import security
 
 bpAccountSettings = Blueprint('account_settings', __name__)
 
 
 @bpAccountSettings.route('')
-@Security.login_required
+@security.login_required
 def accountSettings():
-    response = apiWrapper.getUser()
-    return flask.render_template('pages/account-settings/account-settings.html', userInfo=response.json())
+    response = security.apiWrapper.getUser()
+    return render_template('pages/account-settings/account-settings.html', userInfo=response.json())

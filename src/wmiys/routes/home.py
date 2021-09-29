@@ -5,14 +5,12 @@ Description:    Handles the routing for the home page, login, and create account
 """
 
 import flask
-from flask import Blueprint, jsonify, request
-import wmiys.common.Security as Security
-from wmiys.common.Security import apiWrapper
+from ..common import security
 
-bpHome = Blueprint('home', __name__)
+bpHome = flask.Blueprint('home', __name__)
 
 @bpHome.route('')
-@Security.login_required
+@security.login_required
 def pHome():
     return flask.render_template('pages/home.html', email=flask.session.get('email'), password=flask.session.get('password'))
 

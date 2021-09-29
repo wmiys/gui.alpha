@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-# from wmiys.home.controllers import bpHome
-from wmiys.api.controllers import bpApi
+
+# from wmiys.api.controllers import bpApi
 from . import routes
 
 
@@ -23,9 +23,8 @@ def registerBlueprints(flaskApp):
     Args:
         flaskApp (obj): the flask application
     """
-    flaskApp.register_blueprint(bpApi, url_prefix='/api')
-    
     flaskApp.register_blueprint(routes.home.bpHome, url_prefix='/')
+    flaskApp.register_blueprint(routes.api.bpApi, url_prefix='/api')
     flaskApp.register_blueprint(routes.products.bpProducts, url_prefix='/products')
     flaskApp.register_blueprint(routes.account_settings.bpAccountSettings, url_prefix='/account-settings')
     flaskApp.register_blueprint(routes.search_products.bpSearchProducts, url_prefix='/search/products')

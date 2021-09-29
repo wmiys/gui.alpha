@@ -1,5 +1,4 @@
 import requests
-from wmiys.common.Utilities import Utilities
 import json
 
 class ApiWrapper:

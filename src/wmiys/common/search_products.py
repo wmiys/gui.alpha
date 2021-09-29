@@ -1,8 +1,9 @@
 import flask
-from wmiys.common.ApiWrapper import ApiWrapper
-from wmiys.common.Constants import Constants
-from wmiys.common.Pagination import Pagination
-import wmiys.common.FlaskRequestUrls as FlaskRequestUrls
+
+from .api_wrapper import ApiWrapper
+from .pagination import Pagination
+from . import constants, flask_request_urls
+
 
 class SearchProducts:
     """Object that handles the interfacing with the api wrapper
@@ -78,7 +79,7 @@ class SearchProducts:
         # outData['urlParms']          = self._request.args.to_dict()
         outData['pagination']        = pagination.getAllPaginationLinks()
         outData['total_records']     = int(responseData['pagination']['total_records'])
-        outData['query_string']      = FlaskRequestUrls.getUrlDict().get('query_string')
+        outData['query_string']      = flask_request_urls.getUrlDict().get('query_string')
 
         return outData
     
@@ -88,7 +89,7 @@ class SearchProducts:
         # format the product images
         for product in productsData:
             if product['image'] != None:
-                product['image'] = '{}/{}'.format(Constants.PRODUCT_IMAGES_PATH, product['image'])
+                product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
             else:
                 product['image'] = '/static/img/placeholder.jpg'
         
