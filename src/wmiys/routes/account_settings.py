@@ -1,4 +1,3 @@
-
 """
 Package:        account_settings
 Url Prefix:     /account-settings

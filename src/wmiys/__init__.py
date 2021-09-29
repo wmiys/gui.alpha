@@ -1,11 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
-from wmiys.home.controllers import bpHome
+# from wmiys.home.controllers import bpHome
 from wmiys.api.controllers import bpApi
-from wmiys.products.controllers import bpProducts
-from wmiys.account_settings.controllers import bpAccountSettings
-from wmiys.search_products.controllers import bpSearchProducts
-from wmiys.product_listings.controllers import bpProductListings
+from . import routes
 
 
 def initApp(flaskApp):
@@ -26,12 +23,13 @@ def registerBlueprints(flaskApp):
     Args:
         flaskApp (obj): the flask application
     """
-    flaskApp.register_blueprint(bpHome, url_prefix='/')
     flaskApp.register_blueprint(bpApi, url_prefix='/api')
-    flaskApp.register_blueprint(bpProducts, url_prefix='/products')
-    flaskApp.register_blueprint(bpAccountSettings, url_prefix='/account-settings')
-    flaskApp.register_blueprint(bpSearchProducts, url_prefix='/search/products')
-    flaskApp.register_blueprint(bpProductListings, url_prefix='/listings')
+    
+    flaskApp.register_blueprint(routes.home.bpHome, url_prefix='/')
+    flaskApp.register_blueprint(routes.products.bpProducts, url_prefix='/products')
+    flaskApp.register_blueprint(routes.account_settings.bpAccountSettings, url_prefix='/account-settings')
+    flaskApp.register_blueprint(routes.search_products.bpSearchProducts, url_prefix='/search/products')
+    flaskApp.register_blueprint(routes.listings.bpProductListings, url_prefix='/listings')
 
 
 app = Flask(__name__)
