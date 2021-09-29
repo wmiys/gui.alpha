@@ -1,5 +1,4 @@
 import flask
-
 from .api_wrapper import ApiWrapper
 from .pagination import Pagination
 from . import constants, flask_request_urls
@@ -13,32 +12,12 @@ class SearchProducts:
 
     def __init__(self, a_oFlaskRequest: flask.request, a_oApiWrapper: ApiWrapper):
         self._request     = a_oFlaskRequest
-        self._location_id = a_oFlaskRequest.args.get('location_id') or None
-        self._starts_on   = a_oFlaskRequest.args.get('starts_on') or None
-        self._ends_on     = a_oFlaskRequest.args.get('ends_on') or None
-        self._sort        = a_oFlaskRequest.args.get('sort') or None
-        self._page        = a_oFlaskRequest.args.get('page') or 1
+        self.location_id = a_oFlaskRequest.args.get('location_id') or None
+        self.starts_on   = a_oFlaskRequest.args.get('starts_on') or None
+        self.ends_on     = a_oFlaskRequest.args.get('ends_on') or None
+        self.sort        = a_oFlaskRequest.args.get('sort') or None
+        self.page        = a_oFlaskRequest.args.get('page') or 1
         self.apiWrapper   = a_oApiWrapper
-
-    @property
-    def location_id(self) -> int:
-        return self._location_id
-    
-    @property
-    def starts_on(self):
-        return self._starts_on
-
-    @property
-    def ends_on(self):
-        return self._ends_on
-
-    @property
-    def sort(self):
-        return self._sort
-    
-    @property
-    def page(self):
-        return self._page
 
     def areRequiredFieldsSet(self) -> bool:
         if None in [self.location_id, self.starts_on, self.ends_on]:
