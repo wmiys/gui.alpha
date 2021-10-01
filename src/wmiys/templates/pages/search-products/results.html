@@ -39,7 +39,6 @@ Input parms (data):
     - product_categories_major_id
     - product_categories_major_name
     - price_full
-    - price_half
     - image
     - minimum_age
     - user_id
@@ -141,7 +140,7 @@ Input parms (data):
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-4">
+                                        <div class="col-sm-12 col-md-6">
                                             <div><small class="text-muted font-weight-light">Full Day</small></div>
                                             <div class="h5 text-secondary">
                                                 {% if product.price_full %}
@@ -151,17 +150,7 @@ Input parms (data):
                                                 {% endif %}
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-4">
-                                            <div><small class="text-muted font-weight-light">Half Day</small></div>
-                                            <div class="h5 text-secondary">
-                                                {% if product.price_half %}
-                                                ${{ "{0:.2f}".format(product.price_half) }}
-                                                {% else %}
-                                                &mdash;
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-4">
+                                        <div class="col-sm-12 col-md-6">
                                             <div><small class="text-muted font-weight-light">Category</small></div>
                                             <div class="h5 text-secondary text-truncate">{{ product.product_categories_sub_name }}</div>
                                         </div>
@@ -187,8 +176,6 @@ Input parms (data):
                 </nav>
 
             </div>
-
-
         </div>
 
 

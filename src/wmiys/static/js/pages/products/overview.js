@@ -27,7 +27,6 @@ const eInputs = {
     name             : $('#form-new-product-input-name'),
     description      : $('#form-new-product-input-description'),
     priceFull        : $('#form-new-product-input-price-full'),
-    priceHalf        : $('#form-new-product-input-price-half'),
     minimumAge       : $('#form-new-product-input-minimum-age'),
 }
 
@@ -348,7 +347,6 @@ function submitFormEvent() {
     formData.append('location_id', values.location);
     formData.append('dropoff_distance', values.dropoffDistance);
     formData.append('price_full', values.priceFull);
-    formData.append('price_half', values.priceHalf);
     formData.append('minimum_age', values.minimumAge);
 
     ApiWrapper.requestPutProduct(mProductID, formData, function() {
@@ -562,31 +560,6 @@ function validateInputPriceFull() {
     if (!isValueValidPrice(value)) {
         setInputToInvalid($(eInputs.priceFull), 'Must be greater than 0');
         $(eInputs.priceFull).closest('.input-group').addClass('is-invalid');
-        result = false;
-    }
-    
-    return result;
-}
-
-/**********************************************************
-Check if the half day price input has a value
-**********************************************************/
-function validateInputPriceHalf() {
-    const value = $(eInputs.priceHalf).val();
-
-    let result = true;
-    
-    // has value
-    if (isValueNullOrEmpty(value)) {
-        setInputToInvalid($(eInputs.priceHalf), 'Required');
-        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
-        return false;
-    }
-    
-    // is valid double > 0
-    if (!isValueValidPrice(value)) {
-        setInputToInvalid($(eInputs.priceHalf), 'Must be greater than 0');
-        $(eInputs.priceHalf).closest('.input-group').addClass('is-invalid');
         result = false;
     }
     

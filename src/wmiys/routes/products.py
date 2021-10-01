@@ -5,10 +5,11 @@
 #
 # Description:  Handles pages dealing with lender products
 #*******************************************************************************************
-
+from __future__ import annotations
 import flask
 from datetime import datetime
 from ..common import security, constants
+from http import HTTPStatus
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -24,7 +25,7 @@ def productsGet():
     if apiResponse.status_code != 200:
         pass    # error
 
-    products = apiResponse.json()
+    products: list[dict] = apiResponse.json()
 
     # format the product images
     for product in products:
