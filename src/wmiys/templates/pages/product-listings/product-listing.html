@@ -99,23 +99,27 @@ Input parms (data):
 
                     <hr>
 
-                    <form id="product-listing-form">
+                    <form id="product-listing-form" method="post" action="/create-checkout-session/{{ data.meta.id }}">
                         <!-- location -->
                         <div class="form-group border">
-                            <select class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-location" placeholder="Search"></select>
+                            <select class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-location" placeholder="Search" name="location"></select>
                             <div class="invalid-feedback">Invalid feedback text</div>
                         </div>
 
                         <!-- dates -->
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-dates" placeholder="Dates">
+                            <input type="text" class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-dates" placeholder="Dates" name="dates">
                         </div>
                         
                         <!-- error message section - initially hidden -->
                         <p id="product-listing-form-error-message" class="text-danger d-none">Product is not available during this time or location.</p>
                         
                         <!-- book product -->
-                        <button type="button" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none">Book your stay</button>
+                        <button type="submit" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none">Book your stay</button>
+                        <!-- <button type="submit" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none">Book your stay</button> -->
+                        <!-- <input type="submit" value="Book your stay" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none"> -->
+                        <!-- <input type="submit" value="Book your stay" id="product-listing-form-button-book" class="btn btn-block btn-lg btn-primary d-none"> -->
+
                         <!-- check product availability -->
                         <button type="button" id="product-listing-form-button-check" class="btn btn-block btn-lg btn-secondary">Check availability</button>
 
@@ -124,6 +128,14 @@ Input parms (data):
             </div>
 
         </div>
+
+        <!-- <form action="/create-checkout-session" method="post">
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="fname" value="John"><br>
+            <label for="lname">Last name:</label><br>
+            <input type="text" id="lname" name="lname" value="Doe"><br><br>
+            <input type="submit" value="Submit">
+        </form> -->
 
     </div>
 

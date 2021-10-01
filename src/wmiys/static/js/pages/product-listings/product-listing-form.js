@@ -64,20 +64,58 @@ class ProductListingForm
         const locationID = this.getLocationValue();
         const startsOn = this.getStartsOnValue();
         const endsOn = this.getEndsOnValue();
+
+
+
+        $(ProductListingForm.form).submit();
+
+
+        const formData = new FormData();
+
+        formData.append('product_id',  UrlParser.getPathValue(1));
+        formData.append('location_id', this.getLocationValue());
+        formData.append('starts_on', this.getStartsOnValue());
+        formData.append('ends_on', this.getEndsOnValue());
+
         
-        // send the request to the api
-        let apiResponse = ApiWrapper.requestPostProductRequest(productID, locationID, startsOn, endsOn);
-        apiResponse = await Promise.resolve(apiResponse);
+        // const XHR = new XMLHttpRequest();
+        // XHR.open("POST", '/create-checkout-session');
+        // XHR.send(formData);
 
-        // display the response result
-        if ((await apiResponse).ok) {
-            alert('success');
-        } else {
-            alert('Error');
-        }
 
-        // enable the book button
-        this.showNormalBookButton();
+        // window.location.href = '/create-checkout-session';
+
+
+        // const response = await fetch('/create-checkout-session', {
+        //     method: 'POST',
+        //     body: apiData,
+        // });
+
+
+
+        //         // Define what happens on successful data submission
+        // XHR.addEventListener("load", function(event) {
+        //     // alert( event.target.responseText );
+        //     console.log(event.target);
+        // });
+
+        // XHR.open("POST", '/create-checkout-session');
+        // XHR.send(formData);
+        
+        
+        // // send the request to the api
+        // let apiResponse = ApiWrapper.requestPostProductRequest(productID, locationID, startsOn, endsOn);
+        // apiResponse = await Promise.resolve(apiResponse);
+
+        // // display the response result
+        // if ((await apiResponse).ok) {
+        //     alert('success');
+        // } else {
+        //     alert('Error');
+        // }
+
+        // // enable the book button
+        // this.showNormalBookButton();
     }
 
     /**********************************************************
