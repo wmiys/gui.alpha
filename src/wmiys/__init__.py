@@ -27,7 +27,7 @@ def registerBlueprints(flaskApp):
     flaskApp.register_blueprint(routes.account_settings.bpAccountSettings, url_prefix='/account-settings')
     flaskApp.register_blueprint(routes.search_products.bpSearchProducts, url_prefix='/search/products')
     flaskApp.register_blueprint(routes.listings.bpProductListings, url_prefix='/listings')
-    flaskApp.register_blueprint(routes.checkout.bpCreateCheckoutSession, url_prefix='/create-checkout-session')
+    flaskApp.register_blueprint(routes.checkout.bpCreateCheckoutSession, url_prefix='/checkout')
 
 app = Flask(__name__)
 initApp(app)

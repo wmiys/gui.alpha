@@ -99,7 +99,7 @@ Input parms (data):
 
                     <hr>
 
-                    <form id="product-listing-form" method="post" action="/create-checkout-session/{{ data.meta.id }}">
+                    <form id="product-listing-form" method="post" action="/checkout/{{ data.meta.id }}">
                         <!-- location -->
                         <div class="form-group border">
                             <select class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-location" placeholder="Search" name="location"></select>
@@ -110,7 +110,13 @@ Input parms (data):
                         <div class="form-group">
                             <input type="text" class="form-control form-control-sm product-listing-form-input" id="product-listing-form-input-dates" placeholder="Dates" name="dates">
                         </div>
-                        
+
+                        <!-- dates -->
+                        <div class="form-group d-none">
+                            <input type="date" name="hidden-starts-on">
+                            <input type="date" name="hidden-ends-on">
+                        </div>
+
                         <!-- error message section - initially hidden -->
                         <p id="product-listing-form-error-message" class="text-danger d-none">Product is not available during this time or location.</p>
                         

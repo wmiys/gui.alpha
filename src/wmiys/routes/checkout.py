@@ -24,29 +24,15 @@ stripe.api_key = stripe_keys.test
 def createCheckout(product_id: int):
 
 
-    requestForm: dict = flask.request.form.to_dict()
+    request_form = dict(flask.request.form.to_dict())
+    location_id = request_form.get('location')
+    starts_on = request_form.get('hidden-starts-on')
+    ends_on = request_form.get('hidden-ends-on')
 
-    data = dict(dates=requestForm.get('dates'), location_id=requestForm.get('location'), product_id=product_id)
-
-    print("\n"*10)
-    print(flask.json.dumps(data, indent=4))
-    print("\n"*10)
-
-
-    apiResponse = security.apiWrapper.getProductListing(product_id)
-
-    productMeta: dict = dict(apiResponse.json()).get('meta')
-
-    product = dict(apiResponse.json())
-
+    product_api_response = security.apiWrapper.getProductListing(product_id)
+    product = dict(product_api_response.json())
     name = product.get('meta').get('name')
     price = int(round(product.get('price').get('full') * 100))
-
-
-
-    # print("\n"*10)
-    # print(flask.json.dumps(productMeta, indent=4))
-    # print("\n"*10)
 
 
     session = stripe.checkout.Session.create(
@@ -62,11 +48,11 @@ def createCheckout(product_id: int):
         'quantity': 1,
         }],
         mode='payment',
-        success_url='https://example.com/success',
-        cancel_url='https://example.com/cancel',
+        success_url='https://example.com/success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url='https://example.com/cancel?session_id={CHECKOUT_SESSION_ID}',
         billing_address_collection='auto',
         shipping_address_collection={
-            'allowed_countries': ['US', 'CA'],
+            'allowed_countries': ['US'],
         },
     )
 
@@ -76,5 +62,3 @@ def createCheckout(product_id: int):
 
     return response
 
-
-    # return flask.redirect(session.url, code=303)

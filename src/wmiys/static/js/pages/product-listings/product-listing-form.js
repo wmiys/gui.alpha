@@ -200,9 +200,11 @@ class ProductListingForm
 
         if (dates.endsOn != null) {
             newUrlParms.ends_on = dates.endsOn;
+            $(ProductListingForm.inputs.hidden.endsOn).val(dates.endsOn);
         }
         if (dates.startsOn != null) {
             newUrlParms.starts_on = dates.startsOn;
+            $(ProductListingForm.inputs.hidden.startsOn).val(dates.startsOn);
         }
 
         UrlParser.setQueryParmsNoReload(newUrlParms);
@@ -233,6 +235,10 @@ class ProductListingForm
     **********************************************************/
     setDatesValues(startsOn, endsOn) {
         this.datesFlatpickr.flatpickrInstance.setDate([startsOn, endsOn], true);
+
+        // set the hidden inputs
+        $(ProductListingForm.inputs.hidden.endsOn).val(startsOn);
+        $(ProductListingForm.inputs.hidden.startsOn).val(endsOn);
     }
 
     /**********************************************************
@@ -365,7 +371,12 @@ ProductListingForm.errorMessage = '#product-listing-form-error-message';
 ProductListingForm.inputs = {
     location: '#product-listing-form-input-location',
     dates: '#product-listing-form-input-dates',
+    hidden: {
+        startsOn: 'input[name="hidden-starts-on"]',
+        endsOn: 'input[name="hidden-ends-on"]',
+    }
 }
+
 
 ProductListingForm.buttons = {
     book: '#product-listing-form-button-book',
