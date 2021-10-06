@@ -4,7 +4,6 @@ from . import flask_request_urls as flask_request_urls
 from . import search_products as search_products
 from . import security as security
 from . import utilities as utilities
-from . import stripe_keys as stripe_keys
 
 # classes
 from .api_wrapper import ApiWrapper as ApiWrapper

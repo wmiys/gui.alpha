@@ -260,13 +260,13 @@ class ApiWrapper:
     #                               PAYMENTS
     #************************************************************************************
     
-    
+    #------------------------------------------------------
+    # Insert a new pending payment request
+    #------------------------------------------------------
     def insertPayment(self, product_id, location_id, starts_on, ends_on):
         url = f'''{ApiWrapper.URL_BASE}/payments'''
         parms = dict(product_id=product_id, dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on)
         return requests.post(url, data=parms, auth=(self.email, self.password))
-
-
 
 
     #************************************************************************************
