@@ -28,7 +28,8 @@ def createPaymentApiRequest(product_id: int) -> requests.Response:
 #------------------------------------------------------
 def getStripeCheckoutSession(payment_api_response) -> stripe.checkout.Session:
     product_name = payment_api_response.get('product_name')
-    success_url, cancel_url = _getStripeCheckoutSessionUrls(payment_api_response)
+    success_url = _getStripeCheckoutSessionUrls(payment_api_response)
+    cancel_url = str(flask.request.referrer)    # previous product search url
     total_price, renter_fee = _getStripeCheckoutSessionPrices(payment_api_response)
 
     session = stripe.checkout.Session.create(
@@ -58,7 +59,7 @@ def getStripeCheckoutSession(payment_api_response) -> stripe.checkout.Session:
 def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> tuple:
     url_template = 'https://example.com/{}/{{}}?session_id={{{{CHECKOUT_SESSION_ID}}}}'.format(payment_api_response.get('id'))
 
-    return (url_template.format('success'), url_template.format('cancel'))
+    return url_template.format('success')
 
 #------------------------------------------------------
 # Create a new stripe checkout session

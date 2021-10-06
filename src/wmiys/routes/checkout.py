@@ -1,7 +1,7 @@
 #*******************************************************************************************
 # Module:       product_listings
 #
-# Url Prefix:   /create-checkout-session
+# Url Prefix:   /checkout
 #
 # Description:  Handles the routing for the a product listing page (visiting a product page as a renter)
 #*******************************************************************************************
@@ -22,7 +22,7 @@ stripe.api_key = payments.keys.test
 #------------------------------------------------------
 @bpCreateCheckoutSession.route('<int:product_id>', methods=['POST'])
 @security.login_required
-def createCheckout(product_id: int):
+def createCheckout(product_id: int):    
     # create new payment request to save the price data for later
     apiPaymentResponse = payments.createPaymentApiRequest(product_id)
     if not apiPaymentResponse.ok:
