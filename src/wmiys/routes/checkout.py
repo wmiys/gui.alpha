@@ -9,8 +9,10 @@
 
 import flask
 import stripe
+import uuid
 from ..common import security
 from .. import payments
+
 
 # module blueprint
 bpCreateCheckoutSession = flask.Blueprint('bpCreateCheckoutSession', __name__)
@@ -38,3 +40,23 @@ def createCheckout(product_id: int):
 
     return response
 
+
+#------------------------------------------------------
+# Renter has successfully authorized the charge on their account.
+# Now, we need to inform the lender that someone wants to use one of their products.
+# We do this by creating a new product request.
+#------------------------------------------------------
+@bpCreateCheckoutSession.route('success/<uuid:payment_id>', methods=['GET'])
+@security.login_required
+def successfulRenterPayment(payment_id: uuid.UUID):
+    payment_id = str(payment_id)
+    session_id = flask.request.args.get('session_id') or None
+
+    if not session_id:
+        return ('Missing session_id request url parm.', 400)
+
+    
+    # create a new product request for the lender
+
+    
+    return flask.jsonify(dict(payment_id=payment_id, session_id=session_id))

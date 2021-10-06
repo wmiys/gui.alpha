@@ -57,9 +57,8 @@ def getStripeCheckoutSession(payment_api_response) -> stripe.checkout.Session:
 # Generate the success/cancel urls for the stripe session
 #------------------------------------------------------
 def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> tuple:
-    url_template = 'https://example.com/{}/{{}}?session_id={{{{CHECKOUT_SESSION_ID}}}}'.format(payment_api_response.get('id'))
-
-    return url_template.format('success')
+    url = 'http://10.0.0.82:8000/checkout/success/{}?session_id={{CHECKOUT_SESSION_ID}}'.format(payment_api_response.get('id'))
+    return url
 
 #------------------------------------------------------
 # Create a new stripe checkout session
