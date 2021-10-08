@@ -60,12 +60,18 @@ def successfulRenterPayment(payment_id: uuid.UUID):
     # create a new product request for the lender
     apiResponse = security.apiWrapper.insertProductRequest(payment_id, session_id)
 
-    if not apiResponse.ok:
+    # redirect the user to the success page
+    if apiResponse.ok:
+        return flask.redirect(flask.url_for('bpCreateCheckoutSession.successPage'))
+    else:
         # error inserting the product request
         return (apiResponse.text, apiResponse.status_code)
-        
 
-
-    # now redirect the user to a "success" page
     
-    return flask.jsonify(dict(payment_id=payment_id, session_id=session_id))
+#------------------------------------------------------
+# Show a success page after the product request was send to the lender
+#------------------------------------------------------
+@bpCreateCheckoutSession.route('request-sent', methods=['GET'])
+@security.login_required
+def successPage():
+    return flask.render_template('pages/product-listings/successful-product-request.html')

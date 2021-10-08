@@ -484,4 +484,9 @@ textarea {
   object-fit: cover;
 }
 
+.request-sent-img {
+  width: 300px;
+  height: auto;
+}
+
 /*# sourceMappingURL=style.css.map */

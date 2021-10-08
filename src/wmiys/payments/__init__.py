@@ -85,9 +85,3 @@ def _getStripeCheckoutSessionLineItems(name: str, price) -> dict:
 
     return result
 
-
-
-def sendNewProductRequest(payment_id, session_id):
-    apiResponse = security.apiWrapper.insertProductRequest(payment_id, session_id)
-
-    
