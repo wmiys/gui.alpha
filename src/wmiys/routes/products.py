@@ -15,7 +15,7 @@ from http import HTTPStatus
 bpProducts = flask.Blueprint('products', __name__)
 
 #------------------------------------------------------
-# Products page
+# Inventory page
 #------------------------------------------------------
 @bpProducts.route('', methods=['GET'])
 @security.login_required
@@ -32,7 +32,18 @@ def productsGet():
         if not product['image']:
             product['image'] = '/static/img/placeholder.jpg'
 
-    return flask.render_template('pages/products/products.html', products=products)
+    return flask.render_template('pages/products/inventory.html', products=products)
+
+
+#------------------------------------------------------
+# All received product requests (as a lender)
+#------------------------------------------------------
+@bpProducts.route('requests', methods=['GET'])
+@security.login_required
+def requestsGet():
+    return flask.render_template('pages/products/requests.html')
+
+
 
 
 #------------------------------------------------------
@@ -66,7 +77,7 @@ def productPageEdit(product_id):
 
     product = apiResponse.json()
 
-    return flask.render_template('pages/products/overview.html', product=product)
+    return flask.render_template('pages/products/product/overview.html', product=product)
 
 
 #------------------------------------------------------
@@ -95,7 +106,7 @@ def productPageAvailability(product_id):
         for key in keys:
             row[key] = datetime.fromisoformat(row[key]).strftime(formatToken)
 
-    return flask.render_template('pages/products/availability.html', product=productResponse, availabilities=availabilities)
+    return flask.render_template('pages/products/product/availability.html', product=productResponse, availabilities=availabilities)
     
 #------------------------------------------------------
 # Product insights
@@ -113,7 +124,7 @@ def productPageInsights(product_id):
     if product['image']:
         product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
 
-    return flask.render_template('pages/products/insights.html', product=product)
+    return flask.render_template('pages/products/product/insights.html', product=product)
 
 #------------------------------------------------------
 # Product settings
@@ -131,4 +142,4 @@ def productPageSettings(product_id):
     if product['image']:
         product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
 
-    return flask.render_template('pages/products/settings.html', product=product)
+    return flask.render_template('pages/products/product/settings.html', product=product)

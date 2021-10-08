@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% include 'includes/header.html' %}
+    
+    <!-- additional header css includes -->
+    {% block head %}
+    {% endblock %}
+    
+    <title>{% block title %}Products{% endblock %}</title>
+</head>
+<body>
+
+    {% include 'includes/navbar.html' %}
+
+    <div class="container mt-5">
+        <div class="row">
+
+            <!-- sidenav -->
+            <div class="col-sm-12 col-lg-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="menu mt-4">
+                            <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                                <a class="nav-link" href="/products" role="tab">Inventory</a>
+                                <a class="nav-link" href="/products/requests" role="tab">Requests</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- child page content -->
+            <div class="col-sm-12 col-lg-9">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    
+    
+    {% include 'includes/footer.html' %}
+
+    <!-- additional footer scripts -->
+    {% block footer %}
+    {% endblock %}
+
+</body>
+</html>
