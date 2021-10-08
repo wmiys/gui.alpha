@@ -276,9 +276,9 @@ class ApiWrapper:
     #------------------------------------------------------
     # Insert a new product request to a lender
     #------------------------------------------------------
-    def insertProductRequest(self, product_id, starts_on, ends_on, location_id):
-        url = f'''{ApiWrapper.URL_BASE}/requests/submitted'''
-        parms = dict(dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on, product_id=product_id)
+    def insertProductRequest(self, payment_id, session_id):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received'''
+        parms = dict(payment_id=payment_id, session_id=session_id)
         return requests.post(url, data=parms, auth=(self.email, self.password))
 
 
