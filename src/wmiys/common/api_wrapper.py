@@ -281,6 +281,14 @@ class ApiWrapper:
         parms = dict(payment_id=payment_id, session_id=session_id)
         return requests.post(url, data=parms, auth=(self.email, self.password))
 
+    #------------------------------------------------------
+    # Fetch all requests received
+    #------------------------------------------------------
+    def getProductRequestsReceived(self):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received'''
+        # parms = dict(payment_id=payment_id, session_id=session_id)
+        return requests.get(url, auth=(self.email, self.password))
+
 
     #************************************************************************************
     #                         LOCATIONS

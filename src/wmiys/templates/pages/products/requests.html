@@ -9,6 +9,8 @@
 
 Input parms:
 
+data
+
 ***************************************************************************************************
 #}
 
@@ -28,10 +30,22 @@ Input parms:
 
     <p>This is where my requests will go</p>
 
+    <ul>
+        
+        {% for request in data %}
+            <li>{{ request.id }} - {{ request.payout }}</li>
+        {% endfor %}
+    </ul>
+
 
 
 </div>
 
+{% endblock %}
+
+
+{% block footer %}
+<script src="/static/js/pages/products/requests.js"></script>
 {% endblock %}
 
 

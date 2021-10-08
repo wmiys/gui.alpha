@@ -41,7 +41,8 @@ def productsGet():
 @bpProducts.route('requests', methods=['GET'])
 @security.login_required
 def requestsGet():
-    return flask.render_template('pages/products/requests.html')
+    apiResponse = security.apiWrapper.getProductRequestsReceived()
+    return flask.render_template('pages/products/requests.html', data=apiResponse.json())
 
 
 
