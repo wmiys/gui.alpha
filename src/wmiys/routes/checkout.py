@@ -33,6 +33,10 @@ def createCheckout(product_id: int):
 
     # create a new stripe checkout session
     payment = apiPaymentResponse.json() 
+
+    print(flask.json.dumps(payment, indent=4))
+
+
     session = payments.getStripeCheckoutSession(payment)
 
     # try to add allow access from anywhere

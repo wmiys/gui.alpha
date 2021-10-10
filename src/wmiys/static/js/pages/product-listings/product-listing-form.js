@@ -237,8 +237,8 @@ class ProductListingForm
         this.datesFlatpickr.flatpickrInstance.setDate([startsOn, endsOn], true);
 
         // set the hidden inputs
-        $(ProductListingForm.inputs.hidden.endsOn).val(startsOn);
-        $(ProductListingForm.inputs.hidden.startsOn).val(endsOn);
+        $(ProductListingForm.inputs.hidden.endsOn).val(endsOn);
+        $(ProductListingForm.inputs.hidden.startsOn).val(startsOn);
     }
 
     /**********************************************************

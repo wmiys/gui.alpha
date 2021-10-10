@@ -65,7 +65,7 @@ def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> tuple:
 #------------------------------------------------------
 def _getStripeCheckoutSessionPrices(payment_api_response: dict) -> tuple:
     total_price = round(payment_api_response.get('total_price') * 100)
-    renter_fee = round(payment_api_response.get('total_price_renter') * 100)
+    renter_fee = round(payment_api_response.get('total_renter_fee') * 100)
 
     return (total_price, renter_fee)
 

@@ -7,9 +7,20 @@
 
 ***************************************************************************************************
 
-Input parms:
-
-data
+Input parms -> data (list):
+    - created_on
+    - ends_on
+    - expires_on
+    - id
+    - location_city
+    - location_id
+    - location_state_id
+    - location_state_name
+    - payout
+    - product_id
+    - product_name
+    - starts_on
+    - status
 
 ***************************************************************************************************
 #}
@@ -30,12 +41,29 @@ data
 
     <p>This is where my requests will go</p>
 
-    <ul>
+    
         
-        {% for request in data %}
-            <li>{{ request.id }} - {{ request.payout }}</li>
-        {% endfor %}
-    </ul>
+    {% for request in data %}
+        
+        <div class="card product-request">
+            <div class="card-body">
+
+                <div class="product-request-id">{{ request.id }}</div>
+                <div class="product-request-id">{{ request.product_name }}</div>
+                <div class="product-request-id">{{ request.starts_on }}</div>
+                <div class="product-request-id">{{ request.ends_on }}</div>
+                <div class="product-request-id">{{ request.location_id }}</div>
+                <div class="product-request-id">{{ request.status }}</div>
+
+
+            </div>
+
+        </div>
+
+
+
+    {% endfor %}
+    
 
 
 
