@@ -45,8 +45,8 @@ def requestsGet():
 
     requests = apiResponse.json()
     
-    date_format_token = '%m/%d/%Y'
-    date_keys = ['ends_on', 'starts_on']
+    date_format_token = '%m/%d/%y'
+    date_keys = ['ends_on', 'starts_on', 'expires_on']
     
     for request in requests:
         # format the dates

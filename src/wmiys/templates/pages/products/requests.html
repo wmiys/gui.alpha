@@ -39,41 +39,66 @@ Input parms -> data (list):
 
 <!-- where all the products will be displayed -->
 <div class="my-4">
-
-    <p>This is where my requests will go</p>
-
-    
-        
+     
     {% for request in data %}
-        
-        <div class="card product-request">
-            <div class="card-body d-md-flex">
+        <div class="card product-request mb-3" data-request-id="{{ request.id }}">
+            <div class="card-body px-md-5">
 
-                <div>
-                    <!-- product name -->
-                    <div class="product-request-product-name">{{ request.product_name }}</div>
-                    
-                    <!-- dates -->
-                    <div class="product-request-dates mt-3">
-                        <span class="product-request-dates-start">{{ request.starts_on }}</span> to
-                        <span class="product-request-dates-end">{{ request.ends_on }}</span>
+                <!-- product name -->
+                <div><small class="text-muted font-weight-light">Product</small></div>
+                <h4 class="mb-3">{{ request.product_name }}</h4>
+
+                <hr>
+
+                <div class="d-md-flex justify-content-between">
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- payout -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">PAYOUT</small></div>
+                            <div class="h5">${{ request.payout }}</div>
+                        </div>
+                        
+                        <!-- dropoff location -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">LOCATION</small></div>
+                            <div class="h5">{{ request.location_city }}, {{ request.location_state_id }}</div>
+                        </div>
+                    </div>
+    
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- starts on -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">STARTS</small></div>
+                            <div class="h5">{{ request.starts_on }}</div>
+                        </div>
+    
+                        <!-- ends on -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">ENDS</small></div>
+                            <div class="h5">{{ request.ends_on }}</div>
+                        </div>
+                    </div>
+    
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- expires on -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">EXPIRES</small></div>
+                            <div class="h5">{{ request.expires_on }}</div>
+                        </div>
+
+                        <!-- status -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">STATUS</small></div>
+                            <span class="badge badge-{{ request.status_badge_class }}">{{ request.status }}</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- payout -->
-                <div class="product-request-payout mt-3">${{ request.payout }}</div>
-                
-                <!-- status -->
-                <div class="product-request-status mt-3">
-                    <span class="badge badge-{{ request.status_badge_class }}">{{ request.status }}</span>
-                </div>
-                
-                <!-- response buttons -->
-                <div class="mt-3">
-                    <button type="button" class="btn btn-sm btn-success">Accept</button>
-                    <button type="button" class="btn btn-sm btn-danger">Decline</button>
-                </div>
-                
+                <hr>
+
+                <!-- accept or deny request buttons -->
+                <button type="button" class="btn btn-sm btn-success product-request-btn-accept">Accept</button>
+                <button type="button" class="btn btn-sm btn-text-light product-request-btn-decline">Decline</button>
             </div>
         </div>
     {% endfor %}
