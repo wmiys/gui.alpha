@@ -9,7 +9,6 @@ from __future__ import annotations
 import flask
 from datetime import datetime
 from ..common import security, constants
-from http import HTTPStatus
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -42,7 +41,29 @@ def productsGet():
 @security.login_required
 def requestsGet():
     apiResponse = security.apiWrapper.getProductRequestsReceived()
-    return flask.render_template('pages/products/requests.html', data=apiResponse.json())
+
+
+    requests = apiResponse.json()
+    
+    date_format_token = '%m/%d/%Y'
+    date_keys = ['ends_on', 'starts_on']
+    
+    for request in requests:
+        # format the dates
+        for key in date_keys:
+            request[key] = datetime.fromisoformat(request[key]).strftime(date_format_token)
+
+        # create the status badge classes
+        badge = 'danger'
+
+        if request.get('status') == 'pending':
+            badge = 'light'
+        elif request.get('status') == 'accepted':
+            badge = 'success'
+            
+        request['status_badge_class'] = badge
+
+    return flask.render_template('pages/products/requests.html', data=requests)
 
 
 

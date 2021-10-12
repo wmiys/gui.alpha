@@ -21,6 +21,7 @@ Input parms -> data (list):
     - product_name
     - starts_on
     - status
+    - status_badge_class
 
 ***************************************************************************************************
 #}
@@ -37,7 +38,7 @@ Input parms -> data (list):
 </div>
 
 <!-- where all the products will be displayed -->
-<div class="mt-4">
+<div class="my-4">
 
     <p>This is where my requests will go</p>
 
@@ -46,27 +47,37 @@ Input parms -> data (list):
     {% for request in data %}
         
         <div class="card product-request">
-            <div class="card-body">
+            <div class="card-body d-md-flex">
 
-                <div class="product-request-id">{{ request.id }}</div>
-                <div class="product-request-id">{{ request.product_name }}</div>
-                <div class="product-request-id">{{ request.starts_on }}</div>
-                <div class="product-request-id">{{ request.ends_on }}</div>
-                <div class="product-request-id">{{ request.location_id }}</div>
-                <div class="product-request-id">{{ request.status }}</div>
+                <div>
+                    <!-- product name -->
+                    <div class="product-request-product-name">{{ request.product_name }}</div>
+                    
+                    <!-- dates -->
+                    <div class="product-request-dates mt-3">
+                        <span class="product-request-dates-start">{{ request.starts_on }}</span> to
+                        <span class="product-request-dates-end">{{ request.ends_on }}</span>
+                    </div>
+                </div>
 
-
+                <!-- payout -->
+                <div class="product-request-payout mt-3">${{ request.payout }}</div>
+                
+                <!-- status -->
+                <div class="product-request-status mt-3">
+                    <span class="badge badge-{{ request.status_badge_class }}">{{ request.status }}</span>
+                </div>
+                
+                <!-- response buttons -->
+                <div class="mt-3">
+                    <button type="button" class="btn btn-sm btn-success">Accept</button>
+                    <button type="button" class="btn btn-sm btn-danger">Decline</button>
+                </div>
+                
             </div>
-
         </div>
-
-
-
     {% endfor %}
     
-
-
-
 </div>
 
 {% endblock %}
