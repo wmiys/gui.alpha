@@ -1,0 +1,123 @@
+{#
+***************************************************************************************************
+
+* Template: requests.html
+* URL: /products/requests
+* Purpose: To display all the product requests a lender has received
+
+***************************************************************************************************
+
+Input parms -> data (list):
+    - created_on
+    - ends_on
+    - expires_on
+    - id
+    - location_city
+    - location_id
+    - location_state_id
+    - location_state_name
+    - payout
+    - product_id
+    - product_name
+    - starts_on
+    - status
+    - status_badge_class
+
+***************************************************************************************************
+#}
+
+
+{% extends "pages/products/base.html" %}
+{% block title %}Product Requests{% endblock %}
+
+
+{% block content %}
+
+<div class="toolbar mb-3">
+    <h2>Product requests</h2>
+</div>
+
+<!-- where all the products will be displayed -->
+<div class="my-4">
+     
+    {% for request in data %}
+        <div class="card product-request mb-3" data-request-id="{{ request.id }}">
+            <div class="card-body px-md-5">
+
+                <!-- product name -->
+                <div><small class="text-muted font-weight-light">Product</small></div>
+                <h4 class="mb-3">{{ request.product_name }}</h4>
+
+                <hr>
+
+                <div class="d-md-flex justify-content-between">
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- payout -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">PAYOUT</small></div>
+                            <div class="h5">${{ request.payout }}</div>
+                        </div>
+                        
+                        <!-- dropoff location -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">LOCATION</small></div>
+                            <div class="h5">{{ request.location_city }}, {{ request.location_state_id }}</div>
+                        </div>
+                    </div>
+    
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- starts on -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">STARTS</small></div>
+                            <div class="h5">{{ request.starts_on }}</div>
+                        </div>
+    
+                        <!-- ends on -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">ENDS</small></div>
+                            <div class="h5">{{ request.ends_on }}</div>
+                        </div>
+                    </div>
+    
+                    <div class="d-flex justify-content-between mb-3 d-md-block">
+                        <!-- expires on -->
+                        <div class="mb-md-3">
+                            <div><small class="text-muted font-weight-light">EXPIRES</small></div>
+                            <div class="h5">{{ request.expires_on }}</div>
+                        </div>
+
+                        <!-- status -->
+                        <div>
+                            <div><small class="text-muted font-weight-light">STATUS</small></div>
+                            <span class="badge badge-{{ request.status_badge_class }}">{{ request.status }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- only show accept/deny buttons if the request has not been responded to yet -->
+                {% if request.status == 'pending' %}
+                    <hr>
+
+                    <!-- accept or deny request buttons -->
+                    <button type="button" class="btn btn-sm btn-success product-request-btn" data-status-value="accept">Accept</button>
+                    <button type="button" class="btn btn-sm btn-text-light product-request-btn" data-status-value="decline">Decline</button>
+                {% endif %}
+
+
+
+            </div>
+        </div>
+    {% endfor %}
+    
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+<script src="/static/js/classes/SpinnerButton.js"></script>
+<script src="/static/js/pages/products/requests.js"></script>
+
+{% endblock %}
+
+

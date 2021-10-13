@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'includes/header.html' %}
+    <title>Thank you!</title>
+</head>
+<body>
+
+    {% include 'includes/navbar.html' %}
+
+    <div class="container mt-5">
+        <div class="d-md-flex align-items-center justify-content-between">
+            <div>
+                <h1 class="display-4 btn-text-primary">Request sent!</h1>
+                <p class="lead">You will get a response within 24 hours.</p>
+                <hr class="my-4">
+                <p>If the lender cancels or does not respond, you will be automatically refunded.</p>
+            </div>
+
+            <div class="mt-5 ml-md-5">
+                <img src="/static/img/order-confirmed.svg" alt="My Happy SVG"/ class="request-sent-img">
+            </div>
+        </div>
+    </div>
+
+
+    {% include 'includes/footer.html' %}
+</body>
+</html>

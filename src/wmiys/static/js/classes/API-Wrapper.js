@@ -378,7 +378,7 @@ class ApiWrapper
     }
 
     /**********************************************************
-    Send a GET location request to the API
+    Send a GET product availability request to the API
     **********************************************************/
     static requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, fnSuccess=console.log, fnError=console.error) {
         const url = `/api/listings/${productID}/availability`;
@@ -396,6 +396,40 @@ class ApiWrapper
             success: fnSuccess,
             error: fnError,
         });
+    }
+
+    /**********************************************************
+    Send a POST product request to the API
+    **********************************************************/
+    static async requestPostProductRequest(productID, locationID, startsOn, endsOn) {
+        const url = '/api/requests/submitted';
+
+        const apiData = new FormData();
+        apiData.append('location_id', locationID);
+        apiData.append('starts_on', startsOn);
+        apiData.append('ends_on', endsOn);
+        apiData.append('product_id', productID);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: apiData,
+        });
+
+        return response;
+    }
+
+
+    /**********************************************************
+    Send a post product request status response
+    **********************************************************/
+    static async requestPostProductRequestResponse(responseID, status) {
+        const url = `/api/requests/received/${responseID}/${status}`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+        });
+
+        return response;
     }
 
 

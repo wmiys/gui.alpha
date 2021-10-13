@@ -46,10 +46,39 @@ class ProductListingForm
         $(ProductListingForm.buttons.check).on('click', function() {
             self.checkAvailability();
         }).bind(this);
+
+        $(ProductListingForm.buttons.book).on('click', function() {
+            self.sendProductRequest();
+        }).bind(this);
     }
 
     /**********************************************************
-    Checks the availability of the product listing based on the inputs in the form.
+    Send a new product request.
+    **********************************************************/
+    async sendProductRequest() {
+        // disable the button
+        this.showSpinnerForBookButton();
+
+        // retrieve all the data
+        const productID = UrlParser.getPathValue(1);
+        const locationID = this.getLocationValue();
+        const startsOn = this.getStartsOnValue();
+        const endsOn = this.getEndsOnValue();
+
+        $(ProductListingForm.form).submit();
+
+
+        const formData = new FormData();
+
+        formData.append('product_id',  UrlParser.getPathValue(1));
+        formData.append('location_id', this.getLocationValue());
+        formData.append('starts_on', this.getStartsOnValue());
+        formData.append('ends_on', this.getEndsOnValue());
+    }
+
+    /**********************************************************
+    Checks the availability of the product listing based on the 
+    inputs in the form.
     **********************************************************/
     checkAvailability() {
         const self = this;
@@ -69,9 +98,7 @@ class ProductListingForm
         this.toggleCheckButtons(false);
 
         ApiWrapper.requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, function(response) {
-            
             const isAvailabile = response.available;
-            console.log(isAvailabile);
 
             self.showNormalCheckButton();
 
@@ -90,7 +117,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the location_id, starts_on, and ends_on url query parms to the values in their respective inputs.
+    Sets the location_id, starts_on, and ends_on url query parms 
+    to the values in their respective inputs.
     **********************************************************/
     setUrlQueryParmsToInputValues() {
         const self = this;
@@ -99,7 +127,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the location_id url query parm to the values in its respective input.
+    Sets the location_id url query parm to the values in its 
+    respective input.
     **********************************************************/
     setLocationUrlQueryParmToInputValue() {
         const self = this;
@@ -112,7 +141,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Sets the starts_on and ends_on url query parms to the values in their respective inputs.
+    Sets the starts_on and ends_on url query parms to the values 
+    in their respective inputs.
     **********************************************************/
     setDatesUrlQueryParmsToInputValues() {
         const self = this;
@@ -128,16 +158,19 @@ class ProductListingForm
 
         if (dates.endsOn != null) {
             newUrlParms.ends_on = dates.endsOn;
+            $(ProductListingForm.inputs.hidden.endsOn).val(dates.endsOn);
         }
         if (dates.startsOn != null) {
             newUrlParms.starts_on = dates.startsOn;
+            $(ProductListingForm.inputs.hidden.startsOn).val(dates.startsOn);
         }
 
         UrlParser.setQueryParmsNoReload(newUrlParms);
     }
 
     /**********************************************************
-    Retrieves the values of the current URL query parms, and sets the input element values to them.
+    Retrieves the values of the current URL query parms, and 
+    sets the input element values to them.
 
     The URL query parms are:
         - starts_on
@@ -160,10 +193,15 @@ class ProductListingForm
     **********************************************************/
     setDatesValues(startsOn, endsOn) {
         this.datesFlatpickr.flatpickrInstance.setDate([startsOn, endsOn], true);
+
+        // set the hidden inputs
+        $(ProductListingForm.inputs.hidden.endsOn).val(endsOn);
+        $(ProductListingForm.inputs.hidden.startsOn).val(startsOn);
     }
 
     /**********************************************************
-    Takes in a location object and sets the location input value to City, State combo recieved.
+    Takes in a location object and sets the location input value 
+    to City, State combo recieved.
     **********************************************************/
     setLocationValue(locationObject) {
         const self = this;
@@ -198,7 +236,8 @@ class ProductListingForm
     }
 
     /**********************************************************
-    Returns the current values of the dates input as an object: startsOn and endsOn.
+    Returns the current values of the dates input as an 
+    object: startsOn and endsOn.
     **********************************************************/
     getDatesValues() {
         const dates = this.datesFlatpickr.getDateValues();
@@ -244,12 +283,34 @@ class ProductListingForm
     }
     
     /**********************************************************
-    Remove the spinner, and show the normal text for the check availability button
+    Remove the spinner, and show the normal text for the check 
+    availability button.
     **********************************************************/
     showNormalCheckButton() {
         const checkBtn = ProductListingForm.buttons.check;
         const width = $(checkBtn).width();
         const originalText = 'Check availability';
+
+        $(checkBtn).text(originalText).width(width).prop('disabled', false);
+    }
+
+    /**********************************************************
+    Display the spinner element in the book button
+    **********************************************************/
+    showSpinnerForBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+
+        $(checkBtn).html(CommonHtml.spinnerSmall).width(width).prop('disabled', true);
+    }
+    
+    /**********************************************************
+    Remove the spinner, and show the normal text for the book button.
+    **********************************************************/
+    showNormalBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+        const originalText = 'Book your stay';
 
         $(checkBtn).text(originalText).width(width).prop('disabled', false);
     }
@@ -268,7 +329,12 @@ ProductListingForm.errorMessage = '#product-listing-form-error-message';
 ProductListingForm.inputs = {
     location: '#product-listing-form-input-location',
     dates: '#product-listing-form-input-dates',
+    hidden: {
+        startsOn: 'input[name="hidden-starts-on"]',
+        endsOn: 'input[name="hidden-ends-on"]',
+    }
 }
+
 
 ProductListingForm.buttons = {
     book: '#product-listing-form-button-book',

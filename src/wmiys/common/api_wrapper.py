@@ -1,5 +1,4 @@
 import requests
-import json
 
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
@@ -19,9 +18,7 @@ class ApiWrapper:
     #------------------------------------------------------
     # Get the client's information
     #------------------------------------------------------
-    def getUser(self):
-        """Get the client's information
-        """
+    def getUser(self):        
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
         response = requests.get(url, auth=(self.email, self.password))
         return response
@@ -157,7 +154,6 @@ class ApiWrapper:
     # Returns the api response
     #------------------------------------------------------
     def insertProductAvailability(self, product_id, newProductAvailabilityFormData):
-
         url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
         response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData)
         return response
@@ -258,6 +254,44 @@ class ApiWrapper:
         response = requests.get(url, params=parms, auth=(self.email, self.password))
 
         return response
+
+
+    #************************************************************************************
+    #                               PAYMENTS
+    #************************************************************************************
+    
+    #------------------------------------------------------
+    # Insert a new pending payment request
+    #------------------------------------------------------
+    def insertPayment(self, product_id, location_id, starts_on, ends_on):
+        url = f'''{ApiWrapper.URL_BASE}/payments'''
+        parms = dict(product_id=product_id, dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+        return requests.post(url, data=parms, auth=(self.email, self.password))
+
+
+    #************************************************************************************
+    #                             PRODUCT REQUESTS
+    #************************************************************************************
+
+    #------------------------------------------------------
+    # Insert a new product request to a lender
+    #------------------------------------------------------
+    def insertProductRequest(self, payment_id, session_id):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received'''
+        parms = dict(payment_id=payment_id, session_id=session_id)
+        return requests.post(url, data=parms, auth=(self.email, self.password))
+
+    #------------------------------------------------------
+    # Fetch all requests received
+    #------------------------------------------------------
+    def getProductRequestsReceived(self):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received'''
+        return requests.get(url, auth=(self.email, self.password))
+
+
+    def insertProductRequestResponse(self, request_id, status):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received/{request_id}/{status}'''
+        return requests.post(url, auth=(self.email, self.password))
 
 
     #************************************************************************************

@@ -3,8 +3,6 @@
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 const mProductListingForm = new ProductListingForm(mProductID);
 
-console.log(mProductID);
-
 
 /**********************************************************
 Main logic
