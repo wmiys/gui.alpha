@@ -207,6 +207,9 @@ def getProductListingAvailability(product_id: int):
     return flask.jsonify(apiResponse.json())
     
 
+#------------------------------------------------------
+# Submit a new product request
+#------------------------------------------------------
 @bpApi.route('requests/submitted', methods=['POST'])
 @security.login_required
 def insertProductRequest():
@@ -218,6 +221,20 @@ def insertProductRequest():
         return (apiResponse.text, HTTPStatus.BAD_REQUEST)
     else:
         return ('', HTTPStatus.CREATED)
+
+
+
+@bpApi.route('requests/received/<int:request_id>/<string:status>', methods=['POST'])
+@security.login_required
+def insertProductRequestResponse(request_id: int, status: str):
+    
+    apiResponse = security.apiWrapper.insertProductRequestResponse(request_id, status)
+
+    if apiResponse.ok:
+        return ('', HTTPStatus.NO_CONTENT.value)
+    else:
+        return (apiResponse.text, HTTPStatus.BAD_REQUEST)
+
 
     
 

@@ -419,6 +419,20 @@ class ApiWrapper
     }
 
 
+    /**********************************************************
+    Send a post product request status response
+    **********************************************************/
+    static async requestPostProductRequestResponse(responseID, status) {
+        const url = `/api/requests/received/${responseID}/${status}`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+        });
+
+        return response;
+    }
+
+
 
     /**********************************************************
     Checks if an object contains all the fields in a list

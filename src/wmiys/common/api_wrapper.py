@@ -286,8 +286,12 @@ class ApiWrapper:
     #------------------------------------------------------
     def getProductRequestsReceived(self):
         url = f'''{ApiWrapper.URL_BASE}/requests/received'''
-        # parms = dict(payment_id=payment_id, session_id=session_id)
         return requests.get(url, auth=(self.email, self.password))
+
+
+    def insertProductRequestResponse(self, request_id, status):
+        url = f'''{ApiWrapper.URL_BASE}/requests/received/{request_id}/{status}'''
+        return requests.post(url, auth=(self.email, self.password))
 
 
     #************************************************************************************

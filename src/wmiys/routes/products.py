@@ -42,7 +42,6 @@ def productsGet():
 def requestsGet():
     apiResponse = security.apiWrapper.getProductRequestsReceived()
 
-
     requests = apiResponse.json()
     
     date_format_token = '%m/%d/%y'
@@ -54,7 +53,8 @@ def requestsGet():
             request[key] = datetime.fromisoformat(request[key]).strftime(date_format_token)
 
         # create the status badge classes
-        badge = 'danger'
+        
+        badge = 'danger'    # assume it's declined or expired
 
         if request.get('status') == 'pending':
             badge = 'light'
@@ -64,8 +64,6 @@ def requestsGet():
         request['status_badge_class'] = badge
 
     return flask.render_template('pages/products/requests.html', data=requests)
-
-
 
 
 #------------------------------------------------------

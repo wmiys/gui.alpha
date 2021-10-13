@@ -65,8 +65,6 @@ class ProductListingForm
         const startsOn = this.getStartsOnValue();
         const endsOn = this.getEndsOnValue();
 
-
-
         $(ProductListingForm.form).submit();
 
 
@@ -76,46 +74,6 @@ class ProductListingForm
         formData.append('location_id', this.getLocationValue());
         formData.append('starts_on', this.getStartsOnValue());
         formData.append('ends_on', this.getEndsOnValue());
-
-        
-        // const XHR = new XMLHttpRequest();
-        // XHR.open("POST", '/create-checkout-session');
-        // XHR.send(formData);
-
-
-        // window.location.href = '/create-checkout-session';
-
-
-        // const response = await fetch('/create-checkout-session', {
-        //     method: 'POST',
-        //     body: apiData,
-        // });
-
-
-
-        //         // Define what happens on successful data submission
-        // XHR.addEventListener("load", function(event) {
-        //     // alert( event.target.responseText );
-        //     console.log(event.target);
-        // });
-
-        // XHR.open("POST", '/create-checkout-session');
-        // XHR.send(formData);
-        
-        
-        // // send the request to the api
-        // let apiResponse = ApiWrapper.requestPostProductRequest(productID, locationID, startsOn, endsOn);
-        // apiResponse = await Promise.resolve(apiResponse);
-
-        // // display the response result
-        // if ((await apiResponse).ok) {
-        //     alert('success');
-        // } else {
-        //     alert('Error');
-        // }
-
-        // // enable the book button
-        // this.showNormalBookButton();
     }
 
     /**********************************************************

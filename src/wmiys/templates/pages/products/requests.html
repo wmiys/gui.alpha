@@ -97,8 +97,8 @@ Input parms -> data (list):
                 <hr>
 
                 <!-- accept or deny request buttons -->
-                <button type="button" class="btn btn-sm btn-success product-request-btn-accept">Accept</button>
-                <button type="button" class="btn btn-sm btn-text-light product-request-btn-decline">Decline</button>
+                <button type="button" class="btn btn-sm btn-success product-request-btn" data-status-value="accept">Accept</button>
+                <button type="button" class="btn btn-sm btn-text-light product-request-btn" data-status-value="decline">Decline</button>
             </div>
         </div>
     {% endfor %}
@@ -109,7 +109,9 @@ Input parms -> data (list):
 
 
 {% block footer %}
+<script src="/static/js/classes/SpinnerButton.js"></script>
 <script src="/static/js/pages/products/requests.js"></script>
+
 {% endblock %}
 
 
