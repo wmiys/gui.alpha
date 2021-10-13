@@ -93,12 +93,18 @@ Input parms -> data (list):
                         </div>
                     </div>
                 </div>
+                
+                <!-- only show accept/deny buttons if the request has not been responded to yet -->
+                {% if request.status == 'pending' %}
+                    <hr>
 
-                <hr>
+                    <!-- accept or deny request buttons -->
+                    <button type="button" class="btn btn-sm btn-success product-request-btn" data-status-value="accept">Accept</button>
+                    <button type="button" class="btn btn-sm btn-text-light product-request-btn" data-status-value="decline">Decline</button>
+                {% endif %}
 
-                <!-- accept or deny request buttons -->
-                <button type="button" class="btn btn-sm btn-success product-request-btn" data-status-value="accept">Accept</button>
-                <button type="button" class="btn btn-sm btn-text-light product-request-btn" data-status-value="decline">Decline</button>
+
+
             </div>
         </div>
     {% endfor %}
