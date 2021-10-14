@@ -284,14 +284,19 @@ class ApiWrapper:
     #------------------------------------------------------
     # Fetch all requests received
     #------------------------------------------------------
-    def getProductRequestsReceived(self):
-        url = f'''{ApiWrapper.URL_BASE}/requests/received'''
-        return requests.get(url, auth=(self.email, self.password))
+    def getProductRequestsReceived(self, status: str='all'):
+        url = f'{ApiWrapper.URL_BASE}/requests/received'
+        parms = dict(status=status)
+        return requests.get(url, auth=(self.email, self.password), params=parms)
 
-
+    #------------------------------------------------------
+    # Lender responds to a received product request
+    #------------------------------------------------------
     def insertProductRequestResponse(self, request_id, status):
-        url = f'''{ApiWrapper.URL_BASE}/requests/received/{request_id}/{status}'''
+        url = f'{ApiWrapper.URL_BASE}/requests/received/{request_id}/{status}'
         return requests.post(url, auth=(self.email, self.password))
+
+
 
 
     #************************************************************************************
