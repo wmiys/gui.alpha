@@ -1,8 +1,15 @@
 
 const eRequestButtons = '.product-request-btn'
-
 const eProductRequestClass = '.product-request';
+const eStatusDropdown = '.dropdown-status';
 
+const STATUS_FILTERS = {
+    All: 'all',
+    Accepted: 'accepted',
+    Denied: 'denied',
+    Expired: 'expired',
+    Pending: 'pending',
+}
 
 
 
@@ -11,7 +18,7 @@ Main logic.
 *************************************************/
 $(document).ready(function() {
     $('#products-sidenav-link-requests').addClass('active');
-
+    setActiveStatusDropdownOption();
     addEventListeners();
 });
 
@@ -53,4 +60,19 @@ async function sendRequestResponse(responseButtonClicked) {
 
         Utilities.displayAlert('Error. Response not saved.');
     }
+}
+
+
+/************************************************
+Set the active status filter dropdown.
+*************************************************/
+function setActiveStatusDropdownOption() {
+    const urlStatusParmValue = UrlParser.getQueryParm('status');
+
+    // use pending if no status filter is set in the url
+    const statusFilter = urlStatusParmValue != null ? urlStatusParmValue : STATUS_FILTERS.Pending;
+
+    // select the active dropdown item
+    const eActiveDropdownItem = $(eStatusDropdown).find(`.dropdown-item[data-status='${statusFilter}']`);
+    $(eActiveDropdownItem).addClass('active');    
 }

@@ -35,6 +35,20 @@ Input parms -> data (list):
 
 <div class="toolbar mb-3">
     <h2>Product requests</h2>
+
+    <div>
+        <!-- status filter -->
+        <div class="dropdown dropdown-status btn-stretch-sm">
+            <button class="btn btn-sm btn-light btn-stretch-sm dropdown-toggle" type="button" data-toggle="dropdown">Status</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" data-status="all" href="/products/requests?status=all">All</a>
+                <a class="dropdown-item" data-status="accepted" href="/products/requests?status=accepted">Accepted</a>
+                <a class="dropdown-item" data-status="denied" href="/products/requests?status=denied">Denied</a>
+                <a class="dropdown-item" data-status="expired" href="/products/requests?status=expired">Expired</a>
+                <a class="dropdown-item" data-status="pending" href="/products/requests?status=pending">Pending</a>
+            </div>
+          </div>
+    </div>
 </div>
 
 <!-- where all the products will be displayed -->
