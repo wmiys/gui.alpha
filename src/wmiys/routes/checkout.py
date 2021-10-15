@@ -13,12 +13,13 @@ import uuid
 from http import HTTPStatus
 from ..common import security
 from .. import payments
+from .. import keys
 
 
 # module blueprint
 bpCreateCheckoutSession = flask.Blueprint('bpCreateCheckoutSession', __name__)
 
-stripe.api_key = payments.keys.test
+stripe.api_key = keys.payments.test
 
 #------------------------------------------------------
 # Create a new product checkout stripe page

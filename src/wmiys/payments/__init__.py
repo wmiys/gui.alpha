@@ -1,9 +1,6 @@
 import flask
 import requests
 import stripe
-import math
-
-from . import keys as keys
 from ..common import security
 
 
