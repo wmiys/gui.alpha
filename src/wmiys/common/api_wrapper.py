@@ -1,5 +1,12 @@
 import requests
 
+from .. import keys
+
+custom_headers = {
+    'x-client-key': keys.verification.header
+}
+
+
 class ApiWrapper:
     URL_BASE = 'http://10.0.0.82:5000'
 
@@ -20,7 +27,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getUser(self):        
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     #------------------------------------------------------
@@ -28,7 +35,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def updateUser(self, user_data):
         url = "{}/users/{}".format(ApiWrapper.URL_BASE, self.userID)
-        response = requests.put(url, auth=(self.email, self.password), data=user_data)
+        response = requests.put(url, auth=(self.email, self.password), data=user_data, headers=custom_headers)
         return response
 
     #************************************************************************************
@@ -40,7 +47,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getUserProducts(self):
         url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     #------------------------------------------------------
@@ -48,7 +55,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getUserProduct(self, product_id):
         url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     #------------------------------------------------------
@@ -62,7 +69,7 @@ class ApiWrapper:
         else:
             productImage = None
 
-        response = requests.post(url, auth=(self.email, self.password), files=productImage, data=newProduct)
+        response = requests.post(url, auth=(self.email, self.password), files=productImage, data=newProduct, headers=custom_headers)
         return response
     
     #------------------------------------------------------
@@ -76,7 +83,7 @@ class ApiWrapper:
         else:
             productImage = None
 
-        response = requests.put(url, auth=(self.email, self.password), files=productImage, data=updatedProduct)
+        response = requests.put(url, auth=(self.email, self.password), files=productImage, data=updatedProduct, headers=custom_headers)
 
         return response
 
@@ -95,7 +102,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getProductAvailabilities(self, product_id):
         url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
     
     #------------------------------------------------------
@@ -109,7 +116,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getProductAvailability(self, product_id, product_availability_id):
         url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -125,7 +132,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def putProductAvailability(self, product_id, product_availability_id, updatedProductAvailability):
         url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
-        response = requests.put(url, auth=(self.email, self.password), data=updatedProductAvailability)
+        response = requests.put(url, auth=(self.email, self.password), data=updatedProductAvailability, headers=custom_headers)
         return response
 
 
@@ -140,7 +147,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def deleteProductAvailability(self, product_id, product_availability_id):
         url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
-        response = requests.delete(url, auth=(self.email, self.password))
+        response = requests.delete(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -155,7 +162,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def insertProductAvailability(self, product_id, newProductAvailabilityFormData):
         url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData)
+        response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData, headers=custom_headers)
         return response
 
 
@@ -170,7 +177,7 @@ class ApiWrapper:
     def searchProductsAll(self, location_id, starts_on, ends_on, sort, per_page, page):
         url = "{}/search/products".format(ApiWrapper.URL_BASE)
         parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
-        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        response = requests.get(url, params=parms, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -180,7 +187,7 @@ class ApiWrapper:
     def searchProductsCategoryMajor(self, location_id, starts_on, ends_on, product_category_major_id, sort, per_page, page):
         url = "{}/search/products/categories/major/{}".format(ApiWrapper.URL_BASE, product_category_major_id)
         parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
-        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        response = requests.get(url, params=parms, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -190,7 +197,7 @@ class ApiWrapper:
     def searchProductsCategoryMinor(self, location_id, starts_on, ends_on, product_category_minor_id, sort, per_page, page):
         url = "{}/search/products/categories/minor/{}".format(ApiWrapper.URL_BASE, product_category_minor_id)
         parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
-        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        response = requests.get(url, params=parms, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -200,7 +207,7 @@ class ApiWrapper:
     def searchProductsCategorySub(self, location_id, starts_on, ends_on, product_category_sub_id, sort, per_page, page):
         url = "{}/search/products/categories/sub/{}".format(ApiWrapper.URL_BASE, product_category_sub_id)
         parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on, sort=sort, per_page=per_page, page=page)
-        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        response = requests.get(url, params=parms, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -213,7 +220,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getProductImages(self, product_id):
         url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     #------------------------------------------------------
@@ -221,7 +228,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def postProductImages(self, product_id, imageFiles):
         url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.post(url, auth=(self.email, self.password), files=imageFiles)
+        response = requests.post(url, auth=(self.email, self.password), files=imageFiles, headers=custom_headers)
         return response
     
     #------------------------------------------------------
@@ -229,7 +236,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def deleteProductImages(self, product_id):
         url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
-        response = requests.delete(url, auth=(self.email, self.password))
+        response = requests.delete(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     
@@ -242,7 +249,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getProductListing(self, product_id):
         url = "{}/listings/{}".format(ApiWrapper.URL_BASE, product_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
     #------------------------------------------------------
@@ -251,7 +258,7 @@ class ApiWrapper:
     def getProductListingAvailability(self, product_id, starts_on, ends_on, location_id):
         url = "{}/listings/{}/availability".format(ApiWrapper.URL_BASE, product_id)
         parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
-        response = requests.get(url, params=parms, auth=(self.email, self.password))
+        response = requests.get(url, params=parms, auth=(self.email, self.password), headers=custom_headers)
 
         return response
 
@@ -266,7 +273,7 @@ class ApiWrapper:
     def insertPayment(self, product_id, location_id, starts_on, ends_on):
         url = f'''{ApiWrapper.URL_BASE}/payments'''
         parms = dict(product_id=product_id, dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on)
-        return requests.post(url, data=parms, auth=(self.email, self.password))
+        return requests.post(url, data=parms, auth=(self.email, self.password), headers=custom_headers)
 
 
     #************************************************************************************
@@ -279,7 +286,7 @@ class ApiWrapper:
     def insertProductRequest(self, payment_id, session_id):
         url = f'''{ApiWrapper.URL_BASE}/requests/received'''
         parms = dict(payment_id=payment_id, session_id=session_id)
-        return requests.post(url, data=parms, auth=(self.email, self.password))
+        return requests.post(url, data=parms, auth=(self.email, self.password), headers=custom_headers)
 
     #------------------------------------------------------
     # Fetch all requests received
@@ -287,14 +294,14 @@ class ApiWrapper:
     def getProductRequestsReceived(self, status: str='all'):
         url = f'{ApiWrapper.URL_BASE}/requests/received'
         parms = dict(status=status)
-        return requests.get(url, auth=(self.email, self.password), params=parms)
+        return requests.get(url, auth=(self.email, self.password), params=parms, headers=custom_headers)
 
     #------------------------------------------------------
     # Lender responds to a received product request
     #------------------------------------------------------
     def insertProductRequestResponse(self, request_id, status):
         url = f'{ApiWrapper.URL_BASE}/requests/received/{request_id}/{status}'
-        return requests.post(url, auth=(self.email, self.password))
+        return requests.post(url, auth=(self.email, self.password), headers=custom_headers)
 
 
 
@@ -308,7 +315,7 @@ class ApiWrapper:
     #------------------------------------------------------
     def getLocation(self, location_id: int):
         url = "{}/locations/{}".format(ApiWrapper.URL_BASE, location_id)
-        response = requests.get(url, auth=(self.email, self.password))
+        response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
 
@@ -322,7 +329,7 @@ class ApiWrapper:
     @staticmethod
     def login(email, password):
         url = ApiWrapper.generateApiUrl('/login')
-        r = requests.get(url, params=dict(email=email, password=password))
+        r = requests.get(url, params=dict(email=email, password=password), headers=custom_headers)
 
         return r
     
@@ -333,7 +340,7 @@ class ApiWrapper:
     def createAccount(email, password, name_first, name_last, birth_date):
         url = ApiWrapper.generateApiUrl('/users')
         parms = dict(email=email, password=password, name_first=name_first, name_last=name_last, birth_date=birth_date)
-        response = requests.post(url, data=parms)
+        response = requests.post(url, data=parms, headers=custom_headers)
         return response
 
 
