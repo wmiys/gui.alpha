@@ -3,7 +3,6 @@ import requests
 import stripe
 from ..common import security
 
-
 #------------------------------------------------------
 # Create a new payment request record in the api
 #------------------------------------------------------
@@ -53,7 +52,7 @@ def getStripeCheckoutSession(payment_api_response) -> stripe.checkout.Session:
 #------------------------------------------------------
 # Generate the success/cancel urls for the stripe session
 #------------------------------------------------------
-def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> tuple:
+def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> str:
     url = 'http://10.0.0.82:8000/checkout/success/{}?session_id={{CHECKOUT_SESSION_ID}}'.format(payment_api_response.get('id'))
     return url
 
