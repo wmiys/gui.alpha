@@ -46,7 +46,7 @@ class ApiWrapper:
     # Get a user's products
     #------------------------------------------------------
     def getUserProducts(self):
-        url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
+        url = f'{ApiWrapper.URL_BASE}/products'
         response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
@@ -54,7 +54,7 @@ class ApiWrapper:
     # Get a user's product
     #------------------------------------------------------
     def getUserProduct(self, product_id):
-        url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}'
         response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
@@ -62,7 +62,7 @@ class ApiWrapper:
     # Create a new product
     #------------------------------------------------------
     def postUserProduct(self, newProduct, imageFile):
-        url = "{}/users/{}/products".format(ApiWrapper.URL_BASE, self.userID)
+        url = f'{ApiWrapper.URL_BASE}/products'
 
         if imageFile:
             productImage = {'image': (imageFile.filename, imageFile)}   # setup the photo to send to the api
@@ -76,7 +76,7 @@ class ApiWrapper:
     # Update a product
     #------------------------------------------------------
     def putUserProduct(self, product_id, updatedProduct, imageFile):
-        url = "{}/users/{}/products/{}".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}'
 
         if imageFile:
             productImage = {'image': (imageFile.filename, imageFile)}       # setup the photo to send to the api
@@ -101,7 +101,7 @@ class ApiWrapper:
     # Returns: a list of all the product's availabilities
     #------------------------------------------------------
     def getProductAvailabilities(self, product_id):
-        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/availability'
         response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
     
@@ -115,7 +115,7 @@ class ApiWrapper:
     # Returns the api response
     #------------------------------------------------------
     def getProductAvailability(self, product_id, product_availability_id):
-        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/availability/{product_availability_id}'
         response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
@@ -131,7 +131,7 @@ class ApiWrapper:
     # Returns the api response
     #------------------------------------------------------
     def putProductAvailability(self, product_id, product_availability_id, updatedProductAvailability):
-        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/availability/{product_availability_id}'
         response = requests.put(url, auth=(self.email, self.password), data=updatedProductAvailability, headers=custom_headers)
         return response
 
@@ -145,8 +145,8 @@ class ApiWrapper:
     #
     # Returns the api response
     #------------------------------------------------------
-    def deleteProductAvailability(self, product_id, product_availability_id):
-        url = "{}/users/{}/products/{}/availability/{}".format(ApiWrapper.URL_BASE, self.userID, product_id, product_availability_id)
+    def deleteProductAvailability(self, product_id: int, product_availability_id: int):
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/availability/{product_availability_id}'
         response = requests.delete(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
@@ -161,7 +161,7 @@ class ApiWrapper:
     # Returns the api response
     #------------------------------------------------------
     def insertProductAvailability(self, product_id, newProductAvailabilityFormData):
-        url = "{}/users/{}/products/{}/availability".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/availability'
         response = requests.post(url, auth=(self.email, self.password), data=newProductAvailabilityFormData, headers=custom_headers)
         return response
 
@@ -219,7 +219,7 @@ class ApiWrapper:
     # Get all the product images for a single product
     #------------------------------------------------------
     def getProductImages(self, product_id):
-        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/images'
         response = requests.get(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
@@ -227,7 +227,7 @@ class ApiWrapper:
     # Create a new product image
     #------------------------------------------------------
     def postProductImages(self, product_id, imageFiles):
-        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/images'
         response = requests.post(url, auth=(self.email, self.password), files=imageFiles, headers=custom_headers)
         return response
     
@@ -235,7 +235,7 @@ class ApiWrapper:
     # Delete the images for a product
     #------------------------------------------------------
     def deleteProductImages(self, product_id):
-        url = "{}/users/{}/products/{}/images".format(ApiWrapper.URL_BASE, self.userID, product_id)
+        url = f'{ApiWrapper.URL_BASE}/products/{product_id}/images'
         response = requests.delete(url, auth=(self.email, self.password), headers=custom_headers)
         return response
 
