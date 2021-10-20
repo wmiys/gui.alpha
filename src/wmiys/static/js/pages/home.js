@@ -16,7 +16,6 @@ const eFormProductSearch = {
 
     classes: {
         input: '.product-search-form-input',
-        // productCategorySubDropdownItem: '.'
     },
 
     dateRangesFlatpick: null,
@@ -50,6 +49,8 @@ const eFormProductSearch = {
     },
 }
 
+let eLocationInput = null;
+
 
 /**********************************************************
 Main logic
@@ -64,7 +65,7 @@ $(document).ready(function() {
 Loads all of the js plugins
 **********************************************************/
 function loadPlugins() {
-    LocationsSelect.init(eFormProductSearch.inputs.location, 'Location', 3);
+    eLocationInput = LocationsSelect.init(eFormProductSearch.inputs.location, 'Location', 3);
     eFormProductSearch.dateRangesFlatpick = new FlatpickrRange(eFormProductSearch.inputs.dates, true);
     loadCategories();
 }
@@ -81,7 +82,13 @@ function setEventListeners() {
     $(eFormProductSearch.buttons.search).on('click', function() {
         gotoSearchProductsPage();
     });
+
+    $(eFormProductSearch.classes.input).on('change', function() {
+        inputValueChange(this);
+    });
 }
+
+
 
 /**********************************************************
 Handler for when the product search category input is changed.
@@ -162,17 +169,6 @@ Sorts the list of product categories by Minor, Sub category.
 This doesn't really do anything right now...
 **********************************************************/
 function sortCategories(unsortedCategories) {
-    // // sort by sub category first
-    // const sortedCategories = unsortedCategories.sort(function(a, b) {
-    //     const subA = a.name.toUpperCase();
-    //     const subB = b.name.toUpperCase();
-
-    //     return (subA < subB) ? -1 : 1;
-    // });
-
-
-    //     console.log(sortCategories);
-
     return unsortedCategories;
 }
 
@@ -237,6 +233,23 @@ function gotoSearchProductsPage() {
     window.location.href = `${newUrl}?${urlQueryParms}`;
 }
 
+
+/**********************************************************
+When an input value is changed, check if the search button
+can be enabled. 
+
+The dates and location inputs all need a value in order to
+search for a product.
+**********************************************************/
+function inputValueChange(eChangedInput) {
+    const searchInputValues = eFormProductSearch.getInputValues();
+
+    if (Object.values(searchInputValues).includes(null)) {
+        $(eFormProductSearch.buttons.search).prop('disabled', true);
+    } else {
+        $(eFormProductSearch.buttons.search).prop('disabled', false);
+    }
+}
 
 
 
