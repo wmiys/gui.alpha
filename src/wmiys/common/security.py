@@ -1,8 +1,5 @@
 import flask
-from functools import wraps, update_wrapper
-from .api_wrapper import ApiWrapper
-
-apiWrapper = ApiWrapper()
+from functools import wraps
 
 
 def login_required(f):
@@ -12,13 +9,7 @@ def login_required(f):
         if not flask.session:
             return flask.redirect(flask.url_for('home.pLogin'))
 
-        # set the wrapper authentication members
-        global apiWrapper
-        apiWrapper.userID   = flask.session.get('userID')
-        apiWrapper.email    = flask.session.get('email')
-        apiWrapper.password = flask.session.get('password')
-
-        # try using flask g object
+        # set the flask g object
         flask.g.user_id  = flask.session.get('userID')
         flask.g.email    = flask.session.get('email')
         flask.g.password = flask.session.get('password')

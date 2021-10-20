@@ -7,8 +7,8 @@
 #*******************************************************************************************
 
 import flask
-from functools import wraps, update_wrapper
-from ..common import security, SearchProducts, api_wrapper2
+from functools import wraps
+from ..common import security, SearchProducts
 
 # module blueprint
 bpSearchProducts = flask.Blueprint('search_products', __name__)

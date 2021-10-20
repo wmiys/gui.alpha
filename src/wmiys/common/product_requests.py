@@ -2,7 +2,7 @@ from __future__ import annotations
 import flask
 from enum import Enum
 from datetime import datetime
-from . import security, api_wrapper2
+from . import security, api_wrapper
 
 
 DATE_FORMAT_TOKEN = '%m/%d/%y'
@@ -31,7 +31,7 @@ class StatusBadge(str, Enum):
 # Returns all the product request api response from the api
 #------------------------------------------------------
 def getRequests(status: str=RequestStatus.pending.value) -> list[dict]:
-    api = api_wrapper2.ApiWrapperRequests(flask.g)
+    api = api_wrapper.ApiWrapperRequests(flask.g)
     apiResponse = api.get(status)
     requests = apiResponse.json()
     

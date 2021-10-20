@@ -1,8 +1,7 @@
 from __future__ import annotations
 import flask
-from .api_wrapper import ApiWrapper
 from .pagination import Pagination
-from . import constants, flask_request_urls, api_wrapper2
+from . import constants, flask_request_urls, api_wrapper
 
 
 class SearchProducts:
@@ -20,7 +19,7 @@ class SearchProducts:
         self.sort        = flask_request.args.get('sort') or None
         self.page        = flask_request.args.get('page') or 1
 
-        self._api_wrapper = api_wrapper2.ApiWrapperSearchProducts(flask.g)
+        self._api_wrapper = api_wrapper.ApiWrapperSearchProducts(flask.g)
 
     def areRequiredFieldsSet(self) -> bool:
         if None in [self.location_id, self.starts_on, self.ends_on]:
@@ -46,7 +45,7 @@ class SearchProducts:
         if productsApiResponse.status_code != 200:
             pass
             
-        categories = api_wrapper2.getProductCategories(True)
+        categories = api_wrapper.getProductCategories(True)
 
         # split the response into the results and pagination sections
         responseData = productsApiResponse.json()    

@@ -1,7 +1,7 @@
 import flask
 import requests
 import stripe
-from ..common import security, api_wrapper2
+from ..common import api_wrapper
 
 #------------------------------------------------------
 # Create a new payment request record in the api
@@ -15,7 +15,7 @@ def createPaymentApiRequest(product_id: int) -> requests.Response:
     ends_on     = request_form.get('hidden-ends-on')
 
     # create a new payment request record in the api    
-    api = api_wrapper2.ApiWrapperPayments(flask.g)
+    api = api_wrapper.ApiWrapperPayments(flask.g)
     apiPaymentResponse = api.post(product_id, location_id, starts_on, ends_on)
     
     return apiPaymentResponse

@@ -9,7 +9,7 @@ from __future__ import annotations
 import flask
 from datetime import datetime
 from http import HTTPStatus
-from ..common import security, constants, product_requests, api_wrapper2
+from ..common import security, constants, product_requests, api_wrapper
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -20,7 +20,7 @@ bpProducts = flask.Blueprint('products', __name__)
 @bpProducts.route('', methods=['GET'])
 @security.login_required
 def productsGet():
-    api_wrapper = api_wrapper2.ApiWrapperProducts(flask.g)
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
     api_response = api_wrapper.get()
 
     if not api_response.ok:
@@ -52,7 +52,7 @@ def requestsGet():
 @bpProducts.route('new')
 @security.login_required
 def productsNew():
-    api_wrapper = api_wrapper2.ApiWrapperProducts(flask.g)
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
     
     # post an empty product
     api_response = api_wrapper.post(None, None)
@@ -116,7 +116,7 @@ def productPageSettings(product_id):
 #------------------------------------------------------
 def _getProductApiResponse(product_id: int) -> dict:
     # get the product's info from the api
-    api_wrapper = api_wrapper2.ApiWrapperProducts(flask.g)
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
     api_response = api_wrapper.get(product_id)
 
     if not api_response.ok:
@@ -135,7 +135,7 @@ def _getProductApiResponse(product_id: int) -> dict:
 # Get the product's availability records from the api
 #------------------------------------------------------
 def _getProductAvailabilityApiResponse(product_id: int) -> list[dict]:
-    api_wrapper = api_wrapper2.ApiWrapperProductAvailability(flask.g)
+    api_wrapper = api_wrapper.ApiWrapperProductAvailability(flask.g)
     api_response = api_wrapper.get(product_id)
     
     if not api_response.ok:
