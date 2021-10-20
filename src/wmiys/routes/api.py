@@ -28,20 +28,20 @@ def apiLogin():
     password = flask.request.args.get('password')
 
     # call the api
-    result = api_wrapper.login(email, password)
+    api_response = api_wrapper.login(email, password)
 
     # verify that the login was successful
-    if result.status_code != 200:
-        flask.abort(result.status_code)
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
 
     # set the session variables
-    responseData = result.json()
+    responseData = api_response.json()
     
     flask.session['userID'] = responseData['id']
     flask.session['email'] = email
     flask.session['password'] = password
 
-    return ('', 200)
+    return ('', HTTPStatus.OK.value)
 
 
 #------------------------------------------------------
@@ -57,8 +57,8 @@ def apiCreateAccount():
 
     api_response = api_wrapper.createAccount(email=user_email, password=user_password, name_first=user_name_first, name_last=user_name_last, birth_date=user_birth_date)
 
-    if api_response.status_code != 200:
-        flask.abort(api_response.status_code)
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
 
     # set the session variables
     responseData = api_response.json()
@@ -66,7 +66,7 @@ def apiCreateAccount():
     flask.session['email'] = user_email
     flask.session['password'] = user_password
 
-    return ('', 200)
+    return ('', HTTPStatus.OK.value)
 
 
 #------------------------------------------------------
@@ -75,12 +75,15 @@ def apiCreateAccount():
 @bpApi.route('products', methods=['POST'])
 @security.login_required
 def apiProductsPost():
-    apiResponse = security.apiWrapper.postUserProduct(flask.request.form, flask.request.files.get('image'))
+    api = api_wrapper.ApiWrapperProducts(flask.g)
+    api_response = api.post(flask.request.form.to_dict(), flask.request.files.get('image'))
 
-    if apiResponse.status_code != 200:
-        flask.abort(apiResponse.status_code)
+    if api_response.ok:
+        return ('', HTTPStatus.OK.value)
+    else: 
+        return (api_response.text, api_response.status_code)
     
-    return ('', 200)
+    
 
 
 #------------------------------------------------------
@@ -89,12 +92,13 @@ def apiProductsPost():
 @bpApi.route('products/<int:product_id>', methods=['PUT'])
 @security.login_required
 def apiProductPut(product_id):
-    apiResponse = security.apiWrapper.putUserProduct(product_id, flask.request.form, flask.request.files.get('image'))
+    api = api_wrapper.ApiWrapperProducts(flask.g)
+    api_response = api.put(product_id, flask.request.form.to_dict(), flask.request.files.get('image'))
 
-    if apiResponse.status_code != 200:
-        flask.abort(apiResponse.status_code)
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
     
-    return ('', 200)
+    return ('', HTTPStatus.OK.value)
 
 
 
@@ -107,23 +111,22 @@ def apiProductPut(product_id):
 @bpApi.route('products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET', 'PUT','DELETE'])
 @security.login_required
 def apiProductAvailabilityModify(product_id, product_availability_id):
-    
-    api_wrapper = api_wrapper.ApiWrapperProductAvailability(flask.g)
+    api = api_wrapper.ApiWrapperProductAvailability(flask.g)
     
     if flask.request.method == 'GET':
-        apiResponse = api_wrapper.get(product_id, product_availability_id)
+        apiResponse = api.get(product_id, product_availability_id)
 
         if not apiResponse.ok:
             return (apiResponse.text, apiResponse.status_code)
         else:
-            return (flask.jsonify(apiResponse.json()), 200)
+            return (flask.jsonify(apiResponse.json()), HTTPStatus.OK.value)
 
     apiResponse = None
 
     if flask.request.method == 'PUT':
-        apiResponse = api_wrapper.put(product_availability_id, product_availability_id, flask.request.form.to_dict())
+        apiResponse = api.put(product_availability_id, product_availability_id, flask.request.form.to_dict())
     elif flask.request.method == 'DELETE':
-        apiResponse = api_wrapper.delete(product_id, product_availability_id)
+        apiResponse = api.delete(product_id, product_availability_id)
 
 
     return ('', apiResponse.status_code)
@@ -135,11 +138,11 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
 @bpApi.route('products/<int:product_id>/availability', methods=['POST'])
 @security.login_required
 def apiProductAvailability(product_id):
-    api_wrapper = api_wrapper.ApiWrapperProductAvailability(flask.g)
-    api_response = api_wrapper.post(product_id, flask.request.form.to_dict())
+    api = api_wrapper.ApiWrapperProductAvailability(flask.g)
+    api_response = api.post(product_id, flask.request.form.to_dict())
 
     if api_response.ok:
-        return (flask.jsonify(api_response.json()), 200)
+        return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
     else:
         flask.abort(api_response.status_code)
 
@@ -150,12 +153,12 @@ def apiProductAvailability(product_id):
 @security.login_required
 def apiUserUpdate():
     api = api_wrapper.ApiWrapperUsers(flask.g)
-    apiResponse = api.put(flask.request.form.to_dict())
+    api_response = api.put(flask.request.form.to_dict())
 
-    if apiResponse.status_code != 200:          # error
-        flask.abort(apiResponse.status_code)
+    if api_response.status_code != HTTPStatus.OK.value:          # error
+        flask.abort(api_response.status_code)
 
-    return (flask.jsonify(apiResponse.json()), 200)
+    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
 
 
 #------------------------------------------------------
@@ -176,7 +179,7 @@ def getProductImages(product_id: int):
 @security.login_required
 def deleteProductImages(product_id: int):
     api = api_wrapper.ApiWrapperProductImages(flask.g)
-    response = api.delete(product_id)
+    api_response = api.delete(product_id)
     return ('', 204)
 
 
@@ -192,7 +195,7 @@ def postProductImages(product_id: int):
         api = api_wrapper.ApiWrapperProductImages(flask.g)
         api.post(product_id, imgs)
 
-    return ('', 200)
+    return ('', HTTPStatus.OK.value)
 
 
 
@@ -202,8 +205,8 @@ def postProductImages(product_id: int):
 @bpApi.route('locations/<int:location_id>', methods=['GET'])
 @security.login_required
 def getLocation(location_id: int):
-    api_wrapper = api_wrapper.ApiWrapperLocations(flask.g)
-    api_response = api_wrapper.get(location_id)
+    api = api_wrapper.ApiWrapperLocations(flask.g)
+    api_response = api.get(location_id)
 
     return flask.jsonify(api_response.json())
 

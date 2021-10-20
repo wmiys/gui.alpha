@@ -91,7 +91,6 @@ class ApiWrapperBase(ApiWrapperAbstract):
     #   flask_g: the global flask object (g)
     #------------------------------------------------------
     def __init__(self, flask_g=None, user_id: int=None, email: str=None, password: str=None):
-        
         self.user_id  = getattr(flask_g, 'user_id', user_id)
         self.email    = getattr(flask_g, 'email', email)
         self.password = getattr(flask_g, 'password', password)
@@ -189,6 +188,15 @@ class ApiWrapperProducts(ApiWrapperBase):
             parms.url = f'{self.URL}/{product_id}'
         
         return self._get(parms)
+
+    #------------------------------------------------------
+    # Update a product
+    #------------------------------------------------------
+    def put(self, product_id: int, new_product_data: dict, product_cover_photo=None) -> requests.Response:
+        parms = self._getCommonRequestObject(new_product_data, product_cover_photo)
+        parms.url = f'{self.URL}/{product_id}'
+
+        return self._put(parms)
     
     #------------------------------------------------------
     # Create a new product
@@ -196,13 +204,6 @@ class ApiWrapperProducts(ApiWrapperBase):
     def post(self, new_product_data: dict, product_cover_photo=None) -> requests.Response:
         parms = self._getCommonRequestObject(new_product_data, product_cover_photo)
         return self._post(parms)
-
-    #------------------------------------------------------
-    # Update a product
-    #------------------------------------------------------
-    def put(self, new_product_data: dict, product_cover_photo=None) -> requests.Response:
-        parms = self._getCommonRequestObject(new_product_data, product_cover_photo)
-        return self._put(parms)
 
     #------------------------------------------------------
     # Private method to create a common RequestParm used 
@@ -215,6 +216,8 @@ class ApiWrapperProducts(ApiWrapperBase):
             parms.files = {'image': (product_cover_photo.filename, product_cover_photo)}
         
         return parms
+
+
 
 #************************************************************************************
 #************************************************************************************
@@ -297,11 +300,13 @@ class ApiWrapperProductAvailability(ApiWrapperBase):
         return self._post(parms)
 
 
+
 #************************************************************************************
 #************************************************************************************
 #                             PRODUCT IMAGES
 #************************************************************************************
 #************************************************************************************
+
 class ApiWrapperProductImages(ApiWrapperBase):
     """Api Wrapper for Product Images"""
 

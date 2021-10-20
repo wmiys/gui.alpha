@@ -2,6 +2,7 @@ from __future__ import annotations
 import flask
 from .pagination import Pagination
 from . import constants, flask_request_urls, api_wrapper
+from .api_wrapper import ApiWrapperSearchProducts
 
 
 class SearchProducts:
@@ -19,7 +20,7 @@ class SearchProducts:
         self.sort        = flask_request.args.get('sort') or None
         self.page        = flask_request.args.get('page') or 1
 
-        self._api_wrapper = api_wrapper.ApiWrapperSearchProducts(flask.g)
+        self._api_wrapper = ApiWrapperSearchProducts(flask.g)
 
     def areRequiredFieldsSet(self) -> bool:
         if None in [self.location_id, self.starts_on, self.ends_on]:
@@ -48,19 +49,18 @@ class SearchProducts:
         categories = api_wrapper.getProductCategories(True)
 
         # split the response into the results and pagination sections
-        responseData = productsApiResponse.json()    
-        productsData = self.generateImageData(responseData['results'])
-        pagination = Pagination(self._request, int(responseData['pagination']['total_pages']))
+        api_response = productsApiResponse.json()    
+        products = self.generateImageData(api_response['results'])
+        pagination = Pagination(self._request, int(api_response['pagination']['total_pages']))
         
         # merge all the outgoing data into 1 dict
-        outData = dict()
-
-        outData['products']          = productsData
-        outData['productCategories'] = categories.json()
-        # outData['urlParms']          = self._request.args.to_dict()
-        outData['pagination']        = pagination.getAllPaginationLinks()
-        outData['total_records']     = int(responseData['pagination']['total_records'])
-        outData['query_string']      = flask_request_urls.getUrlDict().get('query_string')
+        outData = dict(
+            products          = products,
+            productCategories = categories.json(),
+            pagination        = pagination.getAllPaginationLinks(),
+            total_records     = int(api_response['pagination']['total_records']),
+            query_string      = flask_request_urls.getUrlDict().get('query_string'),
+        )
 
         return outData
     

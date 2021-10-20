@@ -19,16 +19,13 @@ bpProductListings = flask.Blueprint('bpProductListings', __name__)
 @security.login_required
 def productListingRoute(product_id: int):    
     # get the listing data
-    api_wrapper = api_wrapper.ApiWrapperListing(flask.g)
-    listing = api_wrapper.get(product_id)
+    api = api_wrapper.ApiWrapperListing(flask.g)
+    listing = api.get(product_id)
     outDataDict: dict = listing.json()
     
     # get the product images
-    api_wrapper = api_wrapper.ApiWrapperProductImages(flask.g)
-    images = api_wrapper.get(product_id)
-
-    # print(flask.json.dumps(images.json(), indent=4))
-    print(images.text)
+    api = api.ApiWrapperProductImages(flask.g)
+    images = api.get(product_id)    
 
     outDataDict.setdefault('images', images.json())
 

@@ -1,7 +1,11 @@
 import flask
 from functools import wraps
 
-
+#------------------------------------------------------
+# Decorator function that verifies that the user's session variables are set.
+# If they are, save them to the flask.g object.
+# Otherwise, redirect them to the login page.
+#------------------------------------------------------
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
