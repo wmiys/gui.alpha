@@ -8,7 +8,7 @@ class LocationsSelect
     Initialize a select2 location search plugin.
     **********************************************************/
     static init(a_eInput, a_strPlaceholder = '', a_iMinimumInputLength = 3) {
-        $(a_eInput).select2({
+        return $(a_eInput).select2({
             minimumInputLength: a_iMinimumInputLength,
             theme: 'bootstrap4',
             placeholder: a_strPlaceholder,
