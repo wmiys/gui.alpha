@@ -8,7 +8,7 @@
 
 import flask
 from functools import wraps, update_wrapper
-from ..common import security, SearchProducts
+from ..common import security, SearchProducts, api_wrapper2
 
 # module blueprint
 bpSearchProducts = flask.Blueprint('search_products', __name__)
@@ -27,7 +27,7 @@ def load_request_parms(f):
     def wrap(*args, **kwargs):
         # set query parms
         global searchProductsHandler
-        searchProductsHandler = SearchProducts(flask.request, security.apiWrapper)
+        searchProductsHandler = SearchProducts(flask.request)
 
         if searchProductsHandler.areRequiredFieldsSet() == False:
             return flask.redirect(flask.url_for('home.pHome'))

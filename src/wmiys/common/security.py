@@ -18,6 +18,11 @@ def login_required(f):
         apiWrapper.email    = flask.session.get('email')
         apiWrapper.password = flask.session.get('password')
 
+        # try using flask g object
+        flask.g.user_id  = flask.session.get('userID')
+        flask.g.email    = flask.session.get('email')
+        flask.g.password = flask.session.get('password')
+
         return f(*args, **kwargs)
 
     return wrap

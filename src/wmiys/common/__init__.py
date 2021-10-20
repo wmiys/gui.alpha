@@ -5,6 +5,7 @@ from . import search_products as search_products
 from . import security as security
 from . import utilities as utilities
 from . import product_requests as product_requests
+from . import api_wrapper2 as api_wrapper2
 
 # classes
 from .api_wrapper import ApiWrapper as ApiWrapper

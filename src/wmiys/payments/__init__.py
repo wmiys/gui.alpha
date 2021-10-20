@@ -1,20 +1,22 @@
 import flask
 import requests
 import stripe
-from ..common import security
+from ..common import security, api_wrapper2
 
 #------------------------------------------------------
 # Create a new payment request record in the api
 #------------------------------------------------------
 def createPaymentApiRequest(product_id: int) -> requests.Response:
     # get all the form data
-    request_form = dict(flask.request.form.to_dict())
-    location_id = request_form.get('location')
-    starts_on = request_form.get('hidden-starts-on')
-    ends_on = request_form.get('hidden-ends-on')
+    request_form: dict = flask.request.form.to_dict()
 
-    # create a new payment request record in the api
-    apiPaymentResponse = security.apiWrapper.insertPayment(product_id, location_id, starts_on, ends_on)
+    location_id = request_form.get('location')
+    starts_on   = request_form.get('hidden-starts-on')
+    ends_on     = request_form.get('hidden-ends-on')
+
+    # create a new payment request record in the api    
+    api = api_wrapper2.ApiWrapperPayments(flask.g)
+    apiPaymentResponse = api.post(product_id, location_id, starts_on, ends_on)
     
     return apiPaymentResponse
 
