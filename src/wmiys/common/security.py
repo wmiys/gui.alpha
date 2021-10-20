@@ -1,10 +1,11 @@
 import flask
-from functools import wraps, update_wrapper
-from .api_wrapper import ApiWrapper
+from functools import wraps
 
-apiWrapper = ApiWrapper()
-
-
+#------------------------------------------------------
+# Decorator function that verifies that the user's session variables are set.
+# If they are, save them to the flask.g object.
+# Otherwise, redirect them to the login page.
+#------------------------------------------------------
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -12,11 +13,10 @@ def login_required(f):
         if not flask.session:
             return flask.redirect(flask.url_for('home.pLogin'))
 
-        # set the wrapper authentication members
-        global apiWrapper
-        apiWrapper.userID   = flask.session.get('userID')
-        apiWrapper.email    = flask.session.get('email')
-        apiWrapper.password = flask.session.get('password')
+        # set the flask g object
+        flask.g.user_id  = flask.session.get('userID')
+        flask.g.email    = flask.session.get('email')
+        flask.g.password = flask.session.get('password')
 
         return f(*args, **kwargs)
 

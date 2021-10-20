@@ -9,7 +9,7 @@ from __future__ import annotations
 import flask
 from datetime import datetime
 from http import HTTPStatus
-from ..common import security, constants, product_requests
+from ..common import security, constants, product_requests, api_wrapper
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -20,12 +20,13 @@ bpProducts = flask.Blueprint('products', __name__)
 @bpProducts.route('', methods=['GET'])
 @security.login_required
 def productsGet():
-    apiResponse = security.apiWrapper.getUserProducts()
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
+    api_response = api_wrapper.get()
 
-    if apiResponse.status_code != HTTPStatus.OK.value:
-        pass    # error
+    if not api_response.ok:
+        return flask.jsonify(api_response.text, api_response.status_code)
 
-    products: list[dict] = apiResponse.json()
+    products: list[dict] = api_response.json()
 
     # format the product images
     for product in products:
@@ -51,14 +52,16 @@ def requestsGet():
 @bpProducts.route('new')
 @security.login_required
 def productsNew():
-    # create an empty product
-    apiResponse = security.apiWrapper.postUserProduct(None, None)
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
+    
+    # post an empty product
+    api_response = api_wrapper.post(None, None)
 
-    if apiResponse.status_code != 200:
-        pass    # error
+    if not api_response.ok:
+        return flask.jsonify(api_response.text, api_response.status_code)
 
     # get the id from the response
-    emptyProduct = apiResponse.json()
+    emptyProduct = api_response.json()
 
     # load the edit product page
     return flask.redirect(flask.url_for('products.productPageEdit', product_id=emptyProduct['id']))
@@ -69,14 +72,9 @@ def productsNew():
 @bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @security.login_required
 def productPageEdit(product_id):
-    apiResponse = security.apiWrapper.getUserProduct(product_id)
+    product_api_response = _getProductApiResponse(product_id)
 
-    if apiResponse.status_code != 200:
-        pass    # error
-
-    product = apiResponse.json()
-
-    return flask.render_template('pages/products/product/overview.html', product=product)
+    return flask.render_template('pages/products/product/overview.html', product=product_api_response)
 
 
 #------------------------------------------------------
@@ -85,27 +83,11 @@ def productPageEdit(product_id):
 @bpProducts.route('<int:product_id>/availability')
 @security.login_required
 def productPageAvailability(product_id):
-    apiResponse = security.apiWrapper.getProductAvailabilities(product_id)
-    
-    if apiResponse.status_code != 200:
-        pass    # error
+    # get the product's availability records from the api
+    availabilities = _getProductAvailabilityApiResponse(product_id)
+    product_api_response = _getProductApiResponse(product_id)
 
-    availabilities = apiResponse.json()
-
-    productResponse = security.apiWrapper.getUserProduct(product_id).json()
-
-    if productResponse['image']:
-        productResponse['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, productResponse['image'])
-
-    # format the dates
-    for row in availabilities:
-        formatToken = '%m/%d/%Y'
-        keys = ['created_on', 'ends_on', 'starts_on']
-
-        for key in keys:
-            row[key] = datetime.fromisoformat(row[key]).strftime(formatToken)
-
-    return flask.render_template('pages/products/product/availability.html', product=productResponse, availabilities=availabilities)
+    return flask.render_template('pages/products/product/availability.html', product=product_api_response, availabilities=availabilities)
     
 #------------------------------------------------------
 # Product insights
@@ -113,17 +95,9 @@ def productPageAvailability(product_id):
 @bpProducts.route('<int:product_id>/insights')
 @security.login_required
 def productPageInsights(product_id):
-    apiResponse = security.apiWrapper.getUserProduct(product_id)
+    product_api_response = _getProductApiResponse(product_id)
 
-    if apiResponse.status_code != 200:
-        pass    # error
-
-    product = apiResponse.json()
-
-    if product['image']:
-        product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
-
-    return flask.render_template('pages/products/product/insights.html', product=product)
+    return flask.render_template('pages/products/product/insights.html', product=product_api_response)
 
 #------------------------------------------------------
 # Product settings
@@ -131,14 +105,55 @@ def productPageInsights(product_id):
 @bpProducts.route('<int:product_id>/settings')
 @security.login_required
 def productPageSettings(product_id):
-    apiResponse = security.apiWrapper.getUserProduct(product_id)
+    product_api_response = _getProductApiResponse(product_id)
 
-    if apiResponse.status_code != 200:
-        pass    # error
+    return flask.render_template('pages/products/product/settings.html', product=product_api_response)
 
-    product = apiResponse.json()
 
-    if product['image']:
-        product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
 
-    return flask.render_template('pages/products/product/settings.html', product=product)
+#------------------------------------------------------
+# Retrieve the api response for a product
+#------------------------------------------------------
+def _getProductApiResponse(product_id: int) -> dict:
+    # get the product's info from the api
+    api_wrapper = api_wrapper.ApiWrapperProducts(flask.g)
+    api_response = api_wrapper.get(product_id)
+
+    if not api_response.ok:
+        flask.abort(api_response.status_code, api_response.text)
+        return
+
+    product_api_response = api_response.json()
+
+    # set the absolute file path for the product cover photo if it has one
+    if product_api_response['image']:
+        product_api_response['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product_api_response['image'])
+    
+    return product_api_response
+
+#------------------------------------------------------
+# Get the product's availability records from the api
+#------------------------------------------------------
+def _getProductAvailabilityApiResponse(product_id: int) -> list[dict]:
+    api_wrapper = api_wrapper.ApiWrapperProductAvailability(flask.g)
+    api_response = api_wrapper.get(product_id)
+    
+    if not api_response.ok:
+        flask.abort(api_response.status_code, api_response.text)
+        return
+
+    availabilities = api_response.json()
+    _formatAvailabilityDates(availabilities)
+
+    return availabilities
+
+#------------------------------------------------------
+# Format the date fields
+#------------------------------------------------------
+def _formatAvailabilityDates(product_availabilities: list[dict]):
+    for row in product_availabilities:
+        formatToken = '%m/%d/%Y'
+        keys = ['created_on', 'ends_on', 'starts_on']
+
+        for key in keys:
+            row[key] = datetime.fromisoformat(row[key]).strftime(formatToken)

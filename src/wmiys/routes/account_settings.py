@@ -5,12 +5,11 @@
 #
 # Description:  Routing for all account settings
 #*******************************************************************************************
-
-from flask import Blueprint, render_template
-from ..common import security
+import flask
+from ..common import security, ApiWrapperUsers
 
 # module blueprint
-bpAccountSettings = Blueprint('account_settings', __name__)
+bpAccountSettings = flask.Blueprint('account_settings', __name__)
 
 
 #------------------------------------------------------
@@ -19,5 +18,6 @@ bpAccountSettings = Blueprint('account_settings', __name__)
 @bpAccountSettings.route('')
 @security.login_required
 def accountSettings():
-    response = security.apiWrapper.getUser()
-    return render_template('pages/account-settings/account-settings.html', userInfo=response.json())
+    api = ApiWrapperUsers(flask.g)
+    response = api.get()
+    return flask.render_template('pages/account-settings/account-settings.html', userInfo=response.json())

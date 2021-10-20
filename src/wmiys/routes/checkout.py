@@ -29,15 +29,13 @@ stripe.api_key = keys.payments.test
 def createCheckout(product_id: int):    
     # create new payment request to save the price data for later
     apiPaymentResponse = payments.createPaymentApiRequest(product_id)
+
     if not apiPaymentResponse.ok:
         return ('', 400)
 
-    # create a new stripe checkout session
     payment = apiPaymentResponse.json() 
 
-    print(flask.json.dumps(payment, indent=4))
-
-
+    # Now generate all the data we need for the stripe checkout session
     session = payments.getStripeCheckoutSession(payment)
 
     # try to add allow access from anywhere
