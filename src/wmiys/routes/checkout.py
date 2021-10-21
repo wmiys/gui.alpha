@@ -11,7 +11,7 @@ import flask
 import stripe
 import uuid
 from http import HTTPStatus
-from ..common import security
+from ..common import security, api_wrapper
 from .. import payments
 from .. import keys
 
@@ -56,19 +56,28 @@ def successfulRenterPayment(payment_id: uuid.UUID):
     payment_id = str(payment_id)
     session_id = flask.request.args.get('session_id') or None
 
+    # print(flask.request.args.to_dict())
+
+    print(flask.json.dumps(flask.request.args.to_dict(), indent=4))
+
+    print(session_id)
+
     if not session_id:
         return ('Missing session_id request url parm.', HTTPStatus.BAD_REQUEST.value)
 
     
     # create a new product request for the lender
-    apiResponse = security.apiWrapper.insertProductRequest(payment_id, session_id)
+    # apiResponse = security.apiWrapper.insertProductRequest(payment_id, session_id)
+
+    api = api_wrapper.ApiWrapperRequests(flask.g)
+    api_response = api.post(payment_id, session_id)
 
     # redirect the user to the success page
-    if apiResponse.ok:
+    if api_response.ok:
         return flask.redirect(flask.url_for('bpCreateCheckoutSession.successPage'))
     else:
         # error inserting the product request
-        return (apiResponse.text, apiResponse.status_code)
+        return (api_response.text, api_response.status_code)
 
     
 #------------------------------------------------------
