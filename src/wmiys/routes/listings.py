@@ -24,7 +24,7 @@ def productListingRoute(product_id: int):
     outDataDict: dict = listing.json()
     
     # get the product images
-    api = api.ApiWrapperProductImages(flask.g)
+    api = api_wrapper.ApiWrapperProductImages(flask.g)
     images = api.get(product_id)    
 
     outDataDict.setdefault('images', images.json())

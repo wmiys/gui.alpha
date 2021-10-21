@@ -493,8 +493,8 @@ class ApiWrapperRequests(ApiWrapperBase):
     #------------------------------------------------------
     def post(self, payment_id, session_id) -> requests.Response:
         parms = RequestParms(
-            url   = self.URL,
-            parms = dict(payment_id=payment_id, session_id=session_id)
+            url  = self.URL,
+            data = dict(payment_id=payment_id, session_id=session_id)
         )
 
         return self._post(parms)
