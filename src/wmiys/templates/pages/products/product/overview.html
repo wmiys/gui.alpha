@@ -48,7 +48,7 @@ Input parms:
     {% include 'pages/products/product/product-navbar.html' %}
 
     <div class="container pb-3">
-        <form class="form-new-product mt-5">
+        <form class="form-new-product my-5">
             <div class="tab-content form-new-product-pages">
                 <p class="subtitle text-primary mb-3">EDIT YOUR PRODUCT</p>
 
@@ -152,7 +152,7 @@ Input parms:
                             <div class="form-group">
                                 <label for="form-new-product-input-dropoff-distance">Number of miles</label>
 
-                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal" value="{{ product.dropoff_distance }}">
+                                <input class="form-control form-new-product-input" id="form-new-product-input-dropoff-distance" type="text" inputmode="decimal" value="{{ product.dropoff_distance or '' }}">
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -370,6 +370,9 @@ Input parms:
     </div>
 
 
+    <div class="mb-5"></div>
+    <div class="mb-5"></div>
+    <div class="mb-5"></div>
 
     {% include 'includes/footer.html' %}
     <script src="/static/js/pages/products/product/overview.js"></script>
