@@ -1,5 +1,7 @@
 $color-primary: #f62dae;
+$color-primary-light: #f62dae14;
 $color-secondary: #7189ff;
+$color-bg-gray: #fafbfc;
 
 body {
     font-family: "Karla", sans-serif;
@@ -55,6 +57,12 @@ body {
 .btn-text-light {
     color: darkgrey;
 }
+
+
+.bg-gray {
+    background-color: $color-bg-gray;
+}
+
 
 input[type=color],
 input[type=date],
@@ -263,7 +271,8 @@ textarea {
 }
 
 .user-product-menu {
-    background-color: rgb(250, 251, 252);
+    // background-color: rgb(250, 251, 252);
+    background-color: $color-bg-gray;
     box-shadow: inset 0 -1px 0 rgb(234, 236, 239);
 
     .breadcrumb {
@@ -434,10 +443,20 @@ textarea {
     }
 }
 
+
+
 @media screen and (min-width: 768px) {
     .card-home-search-hero {
         .title { font-size: 60px; }
         .sub-title { font-size: initial; }
+        
+    }
+}
+
+// ultrawide screens
+@media screen and (min-width: 2400px) {
+    .card-home-search-hero {
+        height: 700px;
     }
 }
 
@@ -523,4 +542,75 @@ textarea {
 .request-sent-img {
     width: 300px;
     height: auto;
+}
+
+
+.icon-rounded {
+    display: inline-block;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 4rem
+}
+
+.icon-rounded svg,.icon-rounded i {
+    vertical-align: middle
+}
+
+.icon-rounded.icon-rounded-sm {
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem
+}
+
+.icon-rounded.icon-rounded-lg {
+    width: 5rem;
+    height: 5rem;
+    line-height: 5rem
+}
+
+.icon-rounded.icon-rounded-xl {
+    width: 7rem;
+    height: 7rem;
+    line-height: 7rem
+}
+
+.svg-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: text-bottom;
+    stroke: currentColor;
+    stroke-width: 3;
+    --layer1: currentColor;
+    --layer2: currentColor
+}
+
+.svg-icon.svg-icon-light {
+    stroke-width: 2
+}
+
+.svg-icon.svg-icon-heavy {
+    stroke-width: 4
+}
+
+.svg-icon.svg-icon-md {
+    width: 30px;
+    height: 30px
+}
+
+.svg-icon.svg-icon-lg {
+    width: 36px;
+    height: 36px
+}
+
+
+.home-icon {
+    background-color: $color-primary-light;
+    margin-bottom: 20px;
+
+    i {
+        font-size: 20px;
+        color: $color-primary;
+    }
 }
