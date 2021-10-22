@@ -1,5 +1,6 @@
 $color-primary: #f62dae;
 $color-secondary: #7189ff;
+$color-bg-gray: #fafbfc;
 
 body {
     font-family: "Karla", sans-serif;
@@ -55,6 +56,12 @@ body {
 .btn-text-light {
     color: darkgrey;
 }
+
+
+.bg-gray {
+    background-color: $color-bg-gray;
+}
+
 
 input[type=color],
 input[type=date],
@@ -263,7 +270,8 @@ textarea {
 }
 
 .user-product-menu {
-    background-color: rgb(250, 251, 252);
+    // background-color: rgb(250, 251, 252);
+    background-color: $color-bg-gray;
     box-shadow: inset 0 -1px 0 rgb(234, 236, 239);
 
     .breadcrumb {
@@ -434,10 +442,20 @@ textarea {
     }
 }
 
+
+
 @media screen and (min-width: 768px) {
     .card-home-search-hero {
         .title { font-size: 60px; }
         .sub-title { font-size: initial; }
+        
+    }
+}
+
+// ultrawide screens
+@media screen and (min-width: 2400px) {
+    .card-home-search-hero {
+        height: 700px;
     }
 }
 

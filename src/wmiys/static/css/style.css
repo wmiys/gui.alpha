@@ -53,6 +53,10 @@ body {
   color: darkgrey;
 }
 
+.bg-gray {
+  background-color: #fafbfc;
+}
+
 input[type=color],
 input[type=date],
 input[type=datetime],
@@ -420,6 +424,11 @@ textarea {
   }
   .card-home-search-hero .sub-title {
     font-size: initial;
+  }
+}
+@media screen and (min-width: 2400px) {
+  .card-home-search-hero {
+    height: 700px;
   }
 }
 .btn-spinner .btn-spinner-text {

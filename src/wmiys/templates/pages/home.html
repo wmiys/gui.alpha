@@ -9,9 +9,12 @@
 <body>
     {% include 'includes/navbar.html' %}
 
+    <!-- search bar -->
     <div class="card-home-wrapper">
         <div class="card bg-dark text-white card-home-search-hero rounded-0">
-            <img src="https://d19m59y37dris4.cloudfront.net/directory/1-6-1/img/photo/photo-1501621965065-c6e1cf6b53e2.jpg" class="card-img" alt="...">
+            <!-- background image -->
+            <img src="/static/img/home-search-bg-img.jpg" class="card-img" alt="Beach vacation rentals">
+
             <div class="card-img-overlay">
                 <div class="container h-100 d-flex flex-column justify-content-center">
 
@@ -65,6 +68,40 @@
             </div>
         </div>
     </div>
+
+    <section class="bg-gray py-5">
+        <div class="container">
+            
+            <div class="text-center pb-lg-4">
+                <div class="subtitle text-secondary">One-of-a-kind vacation rentals</div>
+                <h2 class="mb-5 h1">Booking with us is easy</h2>
+            </div>
+
+            <div class="row text-center">
+
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <h3 class="h4">Find the perfect rental</h3>
+                    <p class="text-muted">Skip the gear shop and find the perfect vacation rental to complement your get-a-way vibe.</p>
+                </div>
+
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <h3 class="h4">Book with confidence</h3>
+                    <p class="text-muted">You choose where you want your items delivered.</p>
+                </div>
+
+                <div class="col-lg-4 mb-3 mb-lg-0">
+                    <h3 class="h4">Enjoy your vacation</h3>
+                    <p class="text-muted">Save some cash by renting for a fraction of the cost.</p>
+                </div>        
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+
 
     {% include 'includes/footer.html' %}
     <script src="/static/js/classes/Dropdown.js"></script>
