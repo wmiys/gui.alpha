@@ -124,10 +124,6 @@ def _getProductApiResponse(product_id: int) -> dict:
 
     product_api_response = api_response.json()
 
-    # set the absolute file path for the product cover photo if it has one
-    if product_api_response['image']:
-        product_api_response['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product_api_response['image'])
-    
     return product_api_response
 
 #------------------------------------------------------
