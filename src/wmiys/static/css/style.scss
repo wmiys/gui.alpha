@@ -1,4 +1,5 @@
 $color-primary: #f62dae;
+$color-primary-light: #f62dae14;
 $color-secondary: #7189ff;
 $color-bg-gray: #fafbfc;
 
@@ -605,7 +606,7 @@ textarea {
 
 
 .home-icon {
-    background-color: #f62dae14;
+    background-color: $color-primary-light;
     margin-bottom: 20px;
 
     i {
