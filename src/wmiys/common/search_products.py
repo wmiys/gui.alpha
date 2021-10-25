@@ -65,13 +65,9 @@ class SearchProducts:
         return outData
     
     def generateImageData(self, search_products_results: list[dict]):
-        search_products_results
-        
         # format the product images
         for product in search_products_results:
-            if product['image'] != None:
-                product['image'] = '{}/{}'.format(constants.PRODUCT_IMAGES_PATH, product['image'])
-            else:
-                product['image'] = '/static/img/placeholder.jpg'
+            if product['image'] == None:
+                product['image'] = '/static/img/placeholder.jpg'                
         
         return search_products_results
