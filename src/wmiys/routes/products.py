@@ -23,7 +23,7 @@ def productsGet():
     api_response = api.get()
 
     if not api_response.ok:
-        return flask.jsonify(api_response.text, api_response.status_code)
+        flask.abort(api_response.status_code)
 
     products: list[dict] = api_response.json()
 
@@ -57,7 +57,8 @@ def productsNew():
     api_response = api.post(None, None)
 
     if not api_response.ok:
-        return flask.jsonify(api_response.text, api_response.status_code)
+        flask.abort(400)
+        # return flask.jsonify(api_response.text, api_response.status_code)
 
     # get the id from the response
     emptyProduct = api_response.json()

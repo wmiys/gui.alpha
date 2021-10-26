@@ -57,6 +57,10 @@ body {
   background-color: #fafbfc;
 }
 
+.color-primary-light {
+  color: #f62dae14;
+}
+
 input[type=color],
 input[type=date],
 input[type=datetime],
@@ -569,6 +573,20 @@ textarea {
 .product-listing-description-data.less {
   height: 500px;
   overflow-y: hidden;
+}
+
+.not-found-page {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.not-found-page-main {
+  font-size: 8rem;
+  color: #7189ff;
+  margin-bottom: 12px;
 }
 
 /*# sourceMappingURL=style.css.map */

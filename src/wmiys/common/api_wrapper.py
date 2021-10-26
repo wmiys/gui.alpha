@@ -358,7 +358,7 @@ class ApiWrapperSearchProducts(ApiWrapperBase):
     """Api Wrapper for Search Products"""
 
     URL = 'search/products'
-    URL_CATEGORY_TEMPLATE = 'search/products/{}/{}'
+    URL_CATEGORY_TEMPLATE = 'search/products/categories/{}/{}'
     
     #------------------------------------------------------
     # Search all products

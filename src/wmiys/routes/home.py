@@ -41,3 +41,12 @@ def pLogin():
     flask.session.pop('password', None)
 
     return flask.render_template('pages/login.html')
+
+
+#------------------------------------------------------
+# 404 page
+#------------------------------------------------------
+@bpHome.route('404')
+def p404():
+    return flask.render_template('pages/404.html')
+
