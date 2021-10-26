@@ -23,7 +23,7 @@ const eInputs = {
     location         : $('#form-new-product-input-location'),
     dropoffDistance  : $('#form-new-product-input-dropoff-distance'),
     coverPhoto       : $('#form-new-product-input-cover-photo'),
-    productImages : $('#form-new-product-input-photos'),
+    productImages    : $('#form-new-product-input-photos'),
     name             : $('#form-new-product-input-name'),
     description      : $('#form-new-product-input-description'),
     priceFull        : $('#form-new-product-input-price-full'),
@@ -63,6 +63,9 @@ const mProductID = UrlParser.getPathValue(1);   // the product id found in the u
 
 
 
+let descriptionTextEditor = null;
+
+
 /**********************************************************
 Main logic
 **********************************************************/
@@ -74,7 +77,9 @@ $(document).ready(function() {
     loadProductImagesPlugin();
     checkIfCategoriesAreSet();
     addEventListeners();
+    initPell();
 });
+
 
 /**********************************************************
 Adds event listeners to the page elements
@@ -246,6 +251,39 @@ function loadSelect2() {
         },
         
     });
+}
+
+
+/**********************************************************
+Setup the description textarea editor
+**********************************************************/
+function initPell() {
+    // save the description text and clear it from the screen
+    const initialText = $(eInputs.description).text();
+    $(eInputs.description).text('');
+
+
+    // init the pell library
+    const editor = document.getElementById($(eInputs.description)[0].id);
+    
+    descriptionTextEditor = window.pell.init({
+        element: editor,
+        onChange: (html) => {
+            console.log(html);
+        },
+        actions: [
+            'bold',
+            'italic',
+            'underline',
+            'strikethrough',
+            // 'heading1',
+            // 'heading2',
+            'olist',
+            'ulist',
+        ],
+    });
+
+    editor.content.innerHTML = initialText;
 }
 
 /**********************************************************
@@ -445,7 +483,13 @@ function getInputValues() {
     
     for (let count = 0; count < inputKeys.length; count++) {
         const key = inputKeys[count];
-        inputValues[key] = $(eInputs[key]).val();
+
+        if (key != 'description') {
+            inputValues[key] = $(eInputs[key]).val();
+        } else {
+            const descriptionText = $(descriptionTextEditor).find('.pell-content').html().trim();
+            inputValues[key] = descriptionText;
+        }
     }
     
     return inputValues;

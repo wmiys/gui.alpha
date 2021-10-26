@@ -20,7 +20,7 @@ class ProductListingForm
         const self = this;
         self.setInputValuesFromUrl();
         self.addEventListeners();
-        self.checkAvailability();
+        self.showSpinnerForCheckButton();
     }
     
     /**********************************************************
@@ -58,12 +58,6 @@ class ProductListingForm
     async sendProductRequest() {
         // disable the button
         this.showSpinnerForBookButton();
-
-        // retrieve all the data
-        const productID = UrlParser.getPathValue(1);
-        const locationID = this.getLocationValue();
-        const startsOn = this.getStartsOnValue();
-        const endsOn = this.getEndsOnValue();
 
         $(ProductListingForm.form).submit();
 
@@ -185,7 +179,7 @@ class ProductListingForm
         const locationID = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.locationID);
 
         this.setDatesValues(startsOn, endsOn);
-        ApiWrapper.requestGetLocation(locationID, self.setLocationValue);
+        ApiWrapper.requestGetLocation(locationID, self.setLocationValue.bind(self));
     }
 
     /**********************************************************
@@ -210,6 +204,8 @@ class ProductListingForm
         const html = `<option value="${locationObject.id}" selected>${displayText}</option>`;
 
         $(ProductListingForm.inputs.location).html(html);
+
+        self.checkAvailability();
     }
 
     /**********************************************************

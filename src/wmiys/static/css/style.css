@@ -566,4 +566,9 @@ textarea {
   color: #f62dae;
 }
 
+.product-listing-description-data.less {
+  height: 500px;
+  overflow-y: hidden;
+}
+
 /*# sourceMappingURL=style.css.map */
