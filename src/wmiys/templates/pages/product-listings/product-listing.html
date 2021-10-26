@@ -85,17 +85,25 @@ Input parms (data):
 
                 <!-- product description -->
                 <div class="product-listing-description-container">
-                    <div class="product-listing-description-data">
+                    <div class="product-listing-description-data less">
                         {{ data.meta.description|safe }}
                     </div>
+
+                    <!-- show more/less buttons -->
+                    <div class="d-flex justify-content-around">
+                        <button class="btn btn-text-light mt-3 product-listing-description-show-more-btn">Show more</button>
+                        <button class="btn btn-text-light mt-3 product-listing-description-show-more-btn d-none">Show less</button>
+                    </div>
                 </div>
+
+                <hr>
             </div>
 
             <div class="col-lg-4">
                 <!-- card on the right to book the product -->
-                <div class="p-4 card card-body rounded sticky-top" style="top: 80px;">
+                <div class="p-4 card card-body rounded sticky-top mt-3" style="top: 80px;">
                     <!-- product full day price -->
-                    <p><span class="h5 text-secondary">${{ data.price.full }}</span> per day</p>
+                    <p><span class="h5 text-secondary">${{ "{:.2f}".format(data.price.full) }}</span> per day</p>
 
                     <hr>
 
@@ -131,6 +139,10 @@ Input parms (data):
             </div>
 
         </div>
+
+    </div>
+
+    <div class="my-5">
 
     </div>
 
