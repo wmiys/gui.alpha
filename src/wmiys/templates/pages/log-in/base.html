@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    {% include 'includes/header.html' %}
+    
+    <!-- additional header css includes -->
+    {% block head %}{% endblock %}
+    
+    <title>{% block title %}WMIYS{% endblock %}</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8 col-lg-6 col-xl-5 bg-gray">
+                <div class="d-flex flex-column justify-content-center h-100 p-lg-5">
+                    <!-- content goes here -->
+                    <div class="container p-lg-5">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+    
+            </div>
+    
+            <div class="d-none d-md-block col-md-4 col-lg-6 col-xl-7 login-img">
+            </div>
+        </div>
+    
+    </div>
+    
+    {% include 'includes/footer.html' %}
+    
+    <!-- additional footer scripts -->
+    {% block footer %}{% endblock %}
+
+</body>
+</html>

@@ -589,4 +589,15 @@ textarea {
   margin-bottom: 12px;
 }
 
+.login-img {
+  background-image: url("/static/img/login.jpg");
+  height: 100vh;
+  background-position: center;
+  /* Center the image */
+  background-repeat: no-repeat;
+  /* Do not repeat the image */
+  background-size: cover;
+  /* Resize the background image to cover the entire container */
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -29,7 +29,7 @@ def pCreateAccount():
     flask.session.pop('email', None)
     flask.session.pop('password', None)
     
-    return flask.render_template('pages/create-account.html')
+    return flask.render_template('pages/log-in/create-account.html')
 
 #------------------------------------------------------
 # Login page
@@ -40,7 +40,7 @@ def pLogin():
     flask.session.pop('email', None)
     flask.session.pop('password', None)
 
-    return flask.render_template('pages/login.html')
+    return flask.render_template('pages/log-in/login.html')
 
 
 #------------------------------------------------------
