@@ -40,7 +40,10 @@ Input parms:
 
 <head>
     {% include 'includes/header.html' %}
+    <!-- Pell - WYSIWYG text editor -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/pell/dist/pell.min.css">    
     <title>{{ product.name }}</title>
+    
 </head>
 
 <body>
@@ -278,7 +281,11 @@ Input parms:
                         <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="form-new-product-input-description">Describe your product to renters</label>
-                                <textarea class="form-control form-new-product-input" id="form-new-product-input-description" rows="7">{{product.description or ''}}</textarea>
+                                <div class="form-new-product-input pell" id="form-new-product-input-description">
+                                    {% if product.description %}
+                                        {{product.description|e}}                                        
+                                    {% endif %}
+                                </div>
                                 <div class="invalid-feedback">Invalid feedback text</div>
                             </div>
                         </div>
@@ -375,6 +382,8 @@ Input parms:
     <div class="mb-5"></div>
 
     {% include 'includes/footer.html' %}
+    <!-- Pell - WYSIWYG text editor -->    
+    <script src="https://unpkg.com/pell"></script>
     <script src="/static/js/pages/products/product/overview.js"></script>
 </body>
 
