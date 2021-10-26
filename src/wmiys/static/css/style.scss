@@ -58,10 +58,15 @@ body {
     color: darkgrey;
 }
 
-
 .bg-gray {
     background-color: $color-bg-gray;
 }
+
+.color-primary-light {
+    color: $color-primary-light;
+}
+
+
 
 
 input[type=color],
@@ -621,3 +626,19 @@ textarea {
     overflow-y: hidden;
 }
 
+
+
+// 404 page
+.not-found-page {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.not-found-page-main {
+    font-size: 8rem;
+    color: $color-secondary;
+    margin-bottom: 12px;
+}

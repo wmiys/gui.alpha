@@ -1,6 +1,8 @@
-from flask import Flask
+import flask
 from flask_cors import CORS
 from . import routes
+from .common import security
+from werkzeug.exceptions import HTTPException
 
 
 def initApp(flaskApp):
@@ -29,6 +31,14 @@ def registerBlueprints(flaskApp):
     flaskApp.register_blueprint(routes.listings.bpProductListings, url_prefix='/listings')
     flaskApp.register_blueprint(routes.checkout.bpCreateCheckoutSession, url_prefix='/checkout')
 
-app = Flask(__name__)
+# register the abort 404 page
+def register404Page(flaskApp: flask.Flask):
+    flaskApp.register_error_handler(Exception, security.show_404)
+
+
+app = flask.Flask(__name__)
 initApp(app)
 registerBlueprints(app)
+register404Page(app)
+
+
