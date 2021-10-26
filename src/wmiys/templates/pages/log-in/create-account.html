@@ -1,0 +1,61 @@
+{% extends "pages/log-in/base.html" %}
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+
+    <h1>Create your account</h1>
+                    
+    <form id="form-create-account" class="mt-3">
+        <div class="form-row">
+            <!-- first name -->
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="form-create-account-name-first">First Name</label>
+                    <input type="text" class="form-control form-control-lg" id="form-create-account-name-first" required>
+                </div>
+            </div>
+
+            <!-- last name -->
+            <div class="col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="form-create-account-name-last">Last Name</label>
+                    <input type="text" class="form-control form-control-lg" id="form-create-account-name-last" required>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- dob -->
+        <div class="form-group">
+            <label for="form-create-account-dob">Birth date</label>
+            <input type="date" class="form-control form-control-lg" id="form-create-account-dob" required>
+        </div>
+
+        <!-- email -->
+        <div class="form-group">
+            <label for="form-create-account-email">Email</label>
+            <input type="email" class="form-control form-control-lg" id="form-create-account-email" required>
+        </div>
+
+        <!-- password -->
+        <div class="form-group">
+            <label for="form-create-account-password">Password</label>
+            <input type="password" class="form-control form-control-lg" id="form-create-account-password" required minlength="1">
+        </div>
+
+        <!-- submit button -->
+        <button type="button" class="btn btn-lg btn-block btn-primary" id="form-create-account-submit">Create account</button>
+
+        <hr>
+
+        <p class="text-center mt-2"><a href="/login">Login</a></p>
+    </form>
+
+
+{% endblock %}
+
+
+
+{% block footer %}
+<script src="static/js/pages/create-account.js"></script>
+{% endblock %}
