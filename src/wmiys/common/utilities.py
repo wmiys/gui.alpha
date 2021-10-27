@@ -3,10 +3,6 @@ from datetime import datetime
 
 SECONDS_PER_HOUR = 3600
 
-
-
-
-
 def printWithSpaces(record='', numSpaces: int=20):
     print("\n" * numSpaces)
     print(record)
