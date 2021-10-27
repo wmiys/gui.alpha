@@ -9,21 +9,19 @@
     
     <title>{% block title %}WMIYS{% endblock %}</title>
 </head>
-<body>
+<body class="bg-gray">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8 col-lg-6 col-xl-5 bg-gray">
-                <div class="d-flex flex-column justify-content-center h-100 p-lg-5">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="d-flex flex-column justify-content-center vh-100 p-lg-5">
                     <!-- content goes here -->
                     <div class="container p-lg-5">
                         {% block content %}{% endblock %}
                     </div>
                 </div>
-    
             </div>
     
-            <div class="d-none d-md-block col-md-4 col-lg-6 col-xl-7 login-img">
-            </div>
+            <div class="d-none d-md-block col-md-4 col-lg-6 col-xl-7 login-img"></div>
         </div>
     
     </div>
