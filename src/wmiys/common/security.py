@@ -24,4 +24,5 @@ def login_required(f):
 
 # show the 404 page
 def show_404(e: Exception):
-    return flask.render_template('pages/404.html')
+    pass
+    # return flask.render_template('pages/404.html')

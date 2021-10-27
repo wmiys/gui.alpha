@@ -1,0 +1,72 @@
+
+{#
+    Input parms:
+        - userInfo
+#}
+
+{% extends "pages/account-settings/base.html" %}
+{% block title %}Account Settings{% endblock %}
+
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="mb-4">General information</h5>
+        <form class="form-account-settings-basic">
+            <div class="form-row">
+                <!-- first name -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label for="form-account-settings-basic-name-first">First name</label>
+                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-first" required value="{{ userInfo.name_first }}">
+                    </div>
+                </div>
+
+                <!-- last name -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label for="form-account-settings-basic-name-last">Last name</label>
+                        <input type="text" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-name-last" required value="{{ userInfo.name_last }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- email -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label for="form-account-settings-basic-email">Email</label>
+                        <input type="email" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-email" required value="{{ userInfo.email }}">
+                    </div>
+                </div>
+
+                <!-- dob -->
+                <div class="col-sm-12 col-md-6">
+                    <div class="form-group">
+                        <label for="form-account-settings-basic-dob">Birthday</label>
+                        <input type="date" class="form-control form-account-settings-basic-input" id="form-account-settings-basic-dob" required value="{{ userInfo.birth_date }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- save button -->
+            <div class="form-row">
+                <button type="button" class="btn btn-primary form-account-settings-basic-btn px-4 btn-spinner btn-stretch-sm" id="form-account-settings-basic-submit">
+                    <div class="btn-spinner-text">Save changes</div>
+                    <div class="spinner-border spinner-border-sm btn-spinner-spinner" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block footer %}
+<script src="/static/js/pages/account-settings/general.js"></script>
+{% endblock %}

@@ -52,6 +52,7 @@ Main logic
 *************************************************/
 $(document).ready(function() {
     addEventListeners();
+    activateSidelink();
 });
 
 /************************************************
@@ -69,6 +70,14 @@ function addEventListeners() {
     });
 
 }
+
+
+function activateSidelink() {
+    $('#v-pills-general-tab').addClass('active');
+}
+
+
+
 
 /************************************************
 Sends an update request to the api
