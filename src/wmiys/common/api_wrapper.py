@@ -521,6 +521,24 @@ class ApiWrapperRequests(ApiWrapperBase):
         return self._post(parms)
     
 
+class ApiWrapperRequestsSubmitted(ApiWrapperBase):
+    """Api Wrapper for Product Requests"""
+    
+    URL = 'requests/submitted'
+
+    def get(self, status: str=None) -> requests.Response:
+
+
+        parms = RequestParms(
+            url = self.URL,
+            parms = dict(status=status)
+        )
+
+        return self._get(parms)
+
+
+
+
 #************************************************************************************
 #************************************************************************************
 #                         LOCATIONS

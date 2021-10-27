@@ -25,4 +25,5 @@ from .api_wrapper import ApiWrapperListing as ApiWrapperListing
 from .api_wrapper import ApiWrapperListingAvailability as ApiWrapperListingAvailability
 from .api_wrapper import ApiWrapperPayments as ApiWrapperPayments
 from .api_wrapper import ApiWrapperRequests as ApiWrapperRequests
+from .api_wrapper import ApiWrapperRequestsSubmitted as ApiWrapperRequestsSubmitted
 from .api_wrapper import ApiWrapperLocations as ApiWrapperLocations
