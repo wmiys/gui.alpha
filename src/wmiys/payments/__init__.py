@@ -50,12 +50,13 @@ def getStripeCheckoutSession(payment_api_response) -> stripe.checkout.Session:
 
     return session
 
+VPS_IP_ADDRESS = '104.225.208.116'
 
 #------------------------------------------------------
 # Generate the success/cancel urls for the stripe session
 #------------------------------------------------------
 def _getStripeCheckoutSessionUrls(payment_api_response: dict) -> str:
-    url = 'http://10.0.0.82:8000/checkout/success/{}?session_id={{CHECKOUT_SESSION_ID}}'.format(payment_api_response.get('id'))
+    url = flask.request.host_url + 'checkout/success/{}?session_id={{CHECKOUT_SESSION_ID}}'.format(payment_api_response.get('id'))
     return url
 
 #------------------------------------------------------

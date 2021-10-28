@@ -3,7 +3,8 @@ from datetime import date
 from .. import keys
 
 
-URL_BASE = 'http://10.0.0.82:5000'
+# URL_BASE = 'http://10.0.0.82:5000'
+URL_BASE = 'http://api.wmiys.com:81'
 
 custom_headers = {
     'x-client-key': keys.verification.header

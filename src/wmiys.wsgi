@@ -1,0 +1,1 @@
+from wmiys import app as application
