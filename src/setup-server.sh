@@ -7,6 +7,7 @@ mod_wsgi-express start-server \
 --log-level info   \
 --server-root /etc/wmiys.com \
 --host 104.225.208.116 \
---log-to-terminal \
 --document-root /var/www/wmiys/front-end/wmiys/static \
 /var/www/wmiys/front-end/wmiys.wsgi
+
+/etc/wmiys.com/apachectl restart
