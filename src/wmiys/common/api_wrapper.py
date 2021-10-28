@@ -1,10 +1,10 @@
 import requests
 from datetime import date
 from .. import keys
+from . import utilities
 
 
-# URL_BASE = 'http://10.0.0.82:5000'
-URL_BASE = 'http://api.wmiys.com:81'
+URL_BASE = 'https://api.wmiys.com'
 
 custom_headers = {
     'x-client-key': keys.verification.header
@@ -17,7 +17,6 @@ custom_headers = {
 def login(email, password) -> requests.Response:
     url = f'{URL_BASE}/login'
     api_response = requests.get(url, params=dict(email=email, password=password), headers=custom_headers)
-
     return api_response
 
 

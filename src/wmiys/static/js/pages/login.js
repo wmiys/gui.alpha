@@ -79,16 +79,14 @@ Actions to take when the user successfully logged in
 function loginSuccess(result,status,xhr) {
     enableSubmitButton();
 
-    // console.log(result);
-    // return;
-
     const values = getInputValues();
 
     LocalStorage.setUserID(result.id);
     LocalStorage.setEmail(result.email);
     LocalStorage.setPassword(values.password);
 
-    window.location.href = '/';
+    // go to the home page
+    window.location.href = window.location.origin;
 }
 
 /**********************************************************

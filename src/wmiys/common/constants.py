@@ -1,4 +1,9 @@
+from enum import Enum
 
-PRODUCT_IMAGES_PATH = 'http://10.0.0.82/files/api.wmiys/src/product-images/covers'
+
+class DevConstants(Enum):
+    API_URL = 'http://10.0.0.82:5000'
+
+
 
 
