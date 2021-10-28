@@ -8,7 +8,7 @@
 from __future__ import annotations
 import flask
 from datetime import datetime
-from ..common import security, constants, product_requests, api_wrapper
+from ..common import security, product_requests, api_wrapper
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)

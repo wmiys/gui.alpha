@@ -26,8 +26,7 @@ def pHome():
 @bpHome.route('create-account')
 def pCreateAccount():
     # clear the session data
-    flask.session.pop('email', None)
-    flask.session.pop('password', None)
+    security.clear_session_values()
     
     return flask.render_template('pages/log-in/create-account.html')
 
@@ -37,8 +36,7 @@ def pCreateAccount():
 @bpHome.route('login')
 def pLogin():
     # clear the session data
-    flask.session.pop('email', None)
-    flask.session.pop('password', None)
+    security.clear_session_values()
 
     return flask.render_template('pages/log-in/login.html')
 
