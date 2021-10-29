@@ -27,9 +27,9 @@ def productsGet():
 
     products: list[dict] = api_response.json()
 
-    # format the product images
+    # use the placeholder image if the product does not have an image
     for product in products:
-        product.setdefault('image', '/static/img/placeholder.jpg')
+        product['image'] = product['image'] or '/static/img/placeholder.jpg'
 
     return flask.render_template('pages/products/inventory.html', products=products)
 

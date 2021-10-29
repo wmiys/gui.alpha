@@ -9,7 +9,6 @@ const e_btnSubmit         = $('#form-login-submit');
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    LocalStorage.clear();
     addListeners();
 });
 
@@ -77,13 +76,7 @@ function getInputValues() {
 Actions to take when the user successfully logged in
 **********************************************************/
 function loginSuccess(result,status,xhr) {
-    enableSubmitButton();
-
-    const values = getInputValues();
-
-    LocalStorage.setUserID(result.id);
-    LocalStorage.setEmail(result.email);
-    LocalStorage.setPassword(values.password);
+    // enableSubmitButton();
 
     // go to the home page
     window.location.href = window.location.origin;
