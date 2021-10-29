@@ -1,10 +1,13 @@
 import flask
 from functools import wraps
+from . import constants
 
 
 SESSION_KEY_USER_ID  = 'userID'
 SESSION_KEY_EMAIL    = 'email'
 SESSION_KEY_PASSWORD = 'password'
+
+LOGIN_URL_PREFIX = constants.ProductionUrls.FRONT_END
 
 #------------------------------------------------------
 # Decorator function that verifies that the user's session variables are set.
@@ -16,7 +19,8 @@ def login_required(f):
     def wrap(*args, **kwargs):
         # if user is not logged in, redirect to login page
         if not flask.session:
-            return flask.redirect(flask.url_for('home.pLogin'))
+            redirect_url = f'{LOGIN_URL_PREFIX}/login'
+            return flask.redirect(redirect_url, 302)
 
         # set the flask g object
         flask.g.user_id  = flask.session.get(SESSION_KEY_USER_ID)
