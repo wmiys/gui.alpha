@@ -35,11 +35,15 @@ def apiLogin():
         return (api_response.text, api_response.status_code)
 
     # set the session variables
-    responseData = api_response.json()
+    response_data: dict = api_response.json()
+
+    security.clear_session_values()
     
-    flask.session['userID'] = responseData['id']
-    flask.session['email'] = email
-    flask.session['password'] = password
+    security.set_session_values(
+        user_id  = response_data.get('id'),
+        email    = email,
+        password = password
+    )
 
     return ('', HTTPStatus.OK.value)
 
@@ -49,22 +53,29 @@ def apiLogin():
 #------------------------------------------------------
 @bpApi.route('create-account', methods=['POST'])
 def apiCreateAccount():
-    user_email      = flask.request.form.get('email')
-    user_password   = flask.request.form.get('password')
-    user_name_first = flask.request.form.get('name_first')
-    user_name_last  = flask.request.form.get('name_last')
-    user_birth_date = flask.request.form.get('birth_date')
+    # create an account with the api
+    api_response = api_wrapper.createAccount(
+        email      = flask.request.form.get('email'),
+        password   = flask.request.form.get('password'),
+        name_first = flask.request.form.get('name_first'),
+        name_last  = flask.request.form.get('name_last'),
+        birth_date = flask.request.form.get('birth_date')
+    )
 
-    api_response = api_wrapper.createAccount(email=user_email, password=user_password, name_first=user_name_first, name_last=user_name_last, birth_date=user_birth_date)
-
+    # make sure the API accepted the request successfully
     if not api_response.ok:
         return (api_response.text, api_response.status_code)
+    else:
+        response_data = api_response.json()
+    
+    # save user's credentials into the session
+    security.clear_session_values()
 
-    # set the session variables
-    responseData = api_response.json()
-    flask.session['userID'] = responseData['id']
-    flask.session['email'] = user_email
-    flask.session['password'] = user_password
+    security.set_session_values(
+        user_id  = response_data.get('id'),
+        email    = flask.request.form.get('email'),
+        password = flask.request.form.get('password')
+    )
 
     return ('', HTTPStatus.OK.value)
 

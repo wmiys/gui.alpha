@@ -8,7 +8,6 @@ from . import product_requests as product_requests
 from . import api_wrapper as api_wrapper
 
 
-
 # classes
 from .pagination import Pagination as Pagination
 from .search_products import SearchProducts as SearchProducts
