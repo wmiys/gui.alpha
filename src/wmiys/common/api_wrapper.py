@@ -1,7 +1,6 @@
 import requests
 from datetime import date
 from .. import keys
-from . import utilities
 
 
 URL_BASE = 'https://api.wmiys.com'
