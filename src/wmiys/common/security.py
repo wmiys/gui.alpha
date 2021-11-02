@@ -1,6 +1,6 @@
 import flask
 from functools import wraps
-from . import constants
+from wmiys_common import constants
 
 
 SESSION_KEY_USER_ID  = 'userID'
