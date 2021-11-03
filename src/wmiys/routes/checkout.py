@@ -5,15 +5,13 @@
 #
 # Description:  Handles the routing for the a product listing page (visiting a product page as a renter)
 #*******************************************************************************************
-
-
 import flask
 import stripe
 import uuid
 from http import HTTPStatus
+from wmiys_common import keys
 from ..common import security, api_wrapper
 from .. import payments
-from .. import keys
 
 
 # module blueprint

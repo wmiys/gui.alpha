@@ -2,8 +2,8 @@ from __future__ import annotations
 import flask
 from enum import Enum
 from datetime import datetime, timedelta
+from wmiys_common import utilities
 from .api_wrapper import ApiWrapperRequests, ApiWrapperRequestsSubmitted
-from . import utilities
 
 
 DATE_FORMAT_TOKEN = '%m/%d/%y'

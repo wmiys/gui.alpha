@@ -1,7 +1,7 @@
 from __future__ import annotations
 import flask
 from .pagination import Pagination
-from . import constants, flask_request_urls, api_wrapper
+from . import flask_request_urls, api_wrapper
 from .api_wrapper import ApiWrapperSearchProducts
 
 
