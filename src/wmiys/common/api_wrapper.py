@@ -1,9 +1,9 @@
 import requests
 from datetime import date
-from wmiys_common import keys
+from wmiys_common import keys, constants
 
 
-URL_BASE = 'https://api.wmiys.com'
+URL_BASE = constants.ProductionUrls.API.value
 
 custom_headers = {
     'x-client-key': keys.verification.header
