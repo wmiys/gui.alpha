@@ -22,7 +22,11 @@ bpProducts = flask.Blueprint('products', __name__)
 @bpProducts.get('')
 @security.login_required
 def overviewGet():
-    return flask.render_template('pages/products/overview.html')
+
+    api = api_wrapper.ApiWrapperUsers(flask.g)
+    response = api.get()
+
+    return flask.render_template('pages/products/overview.html', data=response.json())
 
 
 

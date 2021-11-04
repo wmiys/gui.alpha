@@ -8,21 +8,15 @@
 ***************************************************************************************************
 
 Input parms -> data (list):
-    - created_on
-    - ends_on
-    - expires_on
     - id
-    - location_city
-    - location_id
-    - location_state_id
-    - location_state_name
-    - payout
-    - product_id
-    - product_name
-    - starts_on
-    - status
-    - status_badge_class
-
+    - email
+    - name_first
+    - name_last
+    - birth_date
+    - created_on
+    - count_products
+    - count_agreements
+    - lender_balance
 ***************************************************************************************************
 #}
 
@@ -43,7 +37,7 @@ Input parms -> data (list):
         <div class="card card-products-overview">
             <div class="card-body">
                 <div>
-                    <div class="card-products-overview-stat"    data-countup-value="4534">0</div>
+                    <div class="card-products-overview-stat"    data-countup-value="{{ data.count_products }}">0</div>
                     <div class="text-muted">Products</div>
                 </div>
                     
@@ -59,7 +53,7 @@ Input parms -> data (list):
         <div class="card card-products-overview">
             <div class="card-body">
                 <div>
-                    <div class="card-products-overview-stat" data-countup-value="3">0</div>
+                    <div class="card-products-overview-stat" data-countup-value="{{ data.count_agreements }}">0</div>
                     <div class="text-muted">Accepted Requests</div>
                 </div>
                     
@@ -77,7 +71,7 @@ Input parms -> data (list):
         <div class="card card-products-overview">
             <div class="card-body">
                 <div>
-                    <div class="card-products-overview-stat" data-countup-value="4565.56" data-countup-value="4565.56" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
+                    <div class="card-products-overview-stat" data-countup-value="{{ data.lender_balance }}" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
                     <div class="text-muted">Total Earnings</div>
                 </div>
                     
