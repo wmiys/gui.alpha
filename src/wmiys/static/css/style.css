@@ -600,4 +600,16 @@ textarea {
   /* Resize the background image to cover the entire container */
 }
 
+.card-products-overview {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.card-products-overview .card-body {
+  display: flex;
+  justify-content: space-between;
+}
+.card-products-overview .card-products-overview-stat {
+  font-size: x-large;
+}
+
 /*# sourceMappingURL=style.css.map */

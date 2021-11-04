@@ -1,0 +1,104 @@
+{#
+***************************************************************************************************
+
+* Template: overview.html
+* URL: /products
+* Purpose: To display all the product requests a lender has received
+
+***************************************************************************************************
+
+Input parms -> data (list):
+    - created_on
+    - ends_on
+    - expires_on
+    - id
+    - location_city
+    - location_id
+    - location_state_id
+    - location_state_name
+    - payout
+    - product_id
+    - product_name
+    - starts_on
+    - status
+    - status_badge_class
+
+***************************************************************************************************
+#}
+
+
+{% extends "pages/products/base.html" %}
+{% block title %}Lender Overview{% endblock %}
+
+
+{% block content %}
+
+
+<h1>Overview</h1>
+
+
+<div class="row">
+    <!-- product count -->
+    <div class="col-sm-12 col-md-6">
+        <div class="card card-products-overview">
+            <div class="card-body">
+                <div>
+                    <div class="card-products-overview-stat"    data-countup-value="4534">0</div>
+                    <div class="text-muted">Products</div>
+                </div>
+                    
+                <div class="icon-rounded home-icon mb-0">
+                    <i class='bx bx-buoy'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- count accepted requests -->
+    <div class="col-sm-12 col-md-6">
+        <div class="card card-products-overview">
+            <div class="card-body">
+                <div>
+                    <div class="card-products-overview-stat" data-countup-value="3">0</div>
+                    <div class="text-muted">Accepted Requests</div>
+                </div>
+                    
+                <div class="icon-rounded home-icon mb-0">
+                    <i class='bx bx-check'></i>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+<div class="row">
+    <!-- total earnings -->
+    <div class="col-sm-12 col-md-6">
+        <div class="card card-products-overview">
+            <div class="card-body">
+                <div>
+                    <div class="card-products-overview-stat" data-countup-value="4565.56" data-countup-value="4565.56" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
+                    <div class="text-muted">Total Earnings</div>
+                </div>
+                    
+                <div class="icon-rounded home-icon mb-0">
+                    <i class='bx bx-dollar'></i>
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+
+{% endblock %}
+
+
+{% block footer %}
+<script src="/static/js/external/countUp.min.js"></script>
+<script src="/static/js/classes/SpinnerButton.js"></script>
+<script src="/static/js/classes/CountUp.js"></script>
+<script src="/static/js/pages/products/overview.js"></script>
+{% endblock %}
+
+

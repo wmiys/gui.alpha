@@ -654,22 +654,18 @@ textarea {
 }
 
 
-// .container-requests-submitted {
-//     display: flex;
-//     flex-wrap: wrap;
-// }
+// products overview page
+.card-products-overview {
+    margin-top: 15px;
+    margin-bottom: 15px;
 
+    .card-body {
+        display: flex;
+        justify-content: space-between;
+    }
 
-// .card-product-request-submitted {
-//     width: 300px;
-//     margin-bottom: 20px;
-
-//     .cover-photo {
-//         width: 100%;
-//         height: 200px;
-//         background-repeat: no-repeat;
-//         background-size: cover; 
-//         object-fit: cover;
-//     }
-// }
+    .card-products-overview-stat {
+        font-size: x-large;
+    }
+}
 
