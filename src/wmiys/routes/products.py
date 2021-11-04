@@ -13,10 +13,27 @@ from ..common import security, product_requests, api_wrapper
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
 
+
+
+
+#------------------------------------------------------
+# Overview page
+#------------------------------------------------------
+@bpProducts.get('')
+@security.login_required
+def overviewGet():
+
+    api = api_wrapper.ApiWrapperUsers(flask.g)
+    response = api.get()
+
+    return flask.render_template('pages/products/overview.html', data=response.json())
+
+
+
 #------------------------------------------------------
 # Inventory page
 #------------------------------------------------------
-@bpProducts.route('', methods=['GET'])
+@bpProducts.route('inventory', methods=['GET'])
 @security.login_required
 def productsGet():
     api = api_wrapper.ApiWrapperProducts(flask.g)
