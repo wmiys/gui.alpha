@@ -33,7 +33,7 @@ def overviewGet():
 #------------------------------------------------------
 # Inventory page
 #------------------------------------------------------
-@bpProducts.route('inventory', methods=['GET'])
+@bpProducts.get('inventory')
 @security.login_required
 def productsGet():
     api = api_wrapper.ApiWrapperProducts(flask.g)
@@ -54,7 +54,7 @@ def productsGet():
 #------------------------------------------------------
 # All received product requests (as a lender)
 #------------------------------------------------------
-@bpProducts.route('requests', methods=['GET'])
+@bpProducts.get('requests')
 @security.login_required
 def requestsGet():
     status_filter = flask.request.args.get('status', 'pending')
@@ -65,7 +65,7 @@ def requestsGet():
 #------------------------------------------------------
 # Create new product
 #------------------------------------------------------
-@bpProducts.route('new')
+@bpProducts.get('new')
 @security.login_required
 def productsNew():
     api = api_wrapper.ApiWrapperProducts(flask.g)
@@ -97,7 +97,7 @@ def productPageEdit(product_id):
 #------------------------------------------------------
 # Product availability
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/availability')
+@bpProducts.get('<int:product_id>/availability')
 @security.login_required
 def productPageAvailability(product_id):
     # get the product's availability records from the api
@@ -109,7 +109,7 @@ def productPageAvailability(product_id):
 #------------------------------------------------------
 # Product insights
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/insights')
+@bpProducts.get('<int:product_id>/insights')
 @security.login_required
 def productPageInsights(product_id):
     product_api_response = _getProductApiResponse(product_id)
@@ -119,7 +119,7 @@ def productPageInsights(product_id):
 #------------------------------------------------------
 # Product settings
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/settings')
+@bpProducts.get('<int:product_id>/settings')
 @security.login_required
 def productPageSettings(product_id):
     product_api_response = _getProductApiResponse(product_id)
