@@ -5,24 +5,17 @@
 #
 # Description:  Setup various services on the platform
 #*******************************************************************************************
-import flask
-from flask.helpers import url_for
-import stripe
 import uuid
 from http import HTTPStatus
-from werkzeug.utils import redirect
-from wmiys_common import keys, utilities, config_pairs
-from ..common import security, api_wrapper
-from .. import payments
+import flask
 
-
-URL_TEMPLATE = 'http://10.0.0.82:8000/setup/lender/{}?status={}'
-
+from ..common import security
+from ..payments import payout_accounts
 
 # module blueprint
 bpSetup = flask.Blueprint('bpSetup', __name__)
 
-stripe.api_key = keys.payments.test
+
 
 #------------------------------------------------------
 # Create a new product checkout stripe page
@@ -30,26 +23,41 @@ stripe.api_key = keys.payments.test
 @bpSetup.get('lender')
 @security.login_required
 def createLenderAccount():
-    
-    new_account: stripe.Account = stripe.Account.create(type='express')
+    # get a new payout account from the api
+    api_response = payout_accounts.getNewPayoutAccountResponse(flask.g)
 
-    utilities.printWithSpaces(new_account.stripe_id)
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
+    else:
+        payout_account: dict = api_response.json()
 
-    account_link: stripe.AccountLink = stripe.AccountLink.create(
-        account     = new_account.stripe_id,
-        refresh_url = URL_TEMPLATE.format(new_account.stripe_id, 'refresh'),
-        return_url  = URL_TEMPLATE.format(new_account.stripe_id, 'return'),
-        type        = "account_onboarding",
+    # generate the success/error urls for the account link
+    url_success, url_error = payout_accounts.getAccountLinkUrls(payout_account)
+
+    # create a stripe account link object
+    account_link = payout_accounts.createAccountLink(
+        account_id = payout_account.get('account_id'),
+        url_success = url_success,
+        url_error = url_error
     )
 
-    return flask.redirect(account_link.url, code=303)
+    # redirect the user to the stripe onboarding pages
+    return flask.redirect(account_link.url, code=HTTPStatus.SEE_OTHER.value)
 
 
 #------------------------------------------------------
-# Create a new product checkout stripe page
+# Successful stripe onboarding process
 #------------------------------------------------------
-@bpSetup.get('lender/<stripe_account_id>')
+@bpSetup.get('lender/confirm/<uuid:payout_account_id>')
 @security.login_required
-def getLenderAccount(stripe_account_id):
-    account = stripe.Account.retrieve(stripe_account_id)
-    return flask.jsonify(account)
+def confirm(payout_account_id: uuid.UUID):
+    return str(payout_account_id)
+
+
+#------------------------------------------------------
+# Error with the stripe onboarding process
+#------------------------------------------------------
+@bpSetup.get('lender/error/<uuid:payout_account_id>')
+@security.login_required
+def error(payout_account_id: uuid.UUID):
+    return str(payout_account_id)

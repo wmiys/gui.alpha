@@ -557,4 +557,15 @@ class ApiWrapperLocations(ApiWrapperBase):
 
 
 
+class ApiWrapperPayoutAccounts(ApiWrapperBase):
+
+    URL = 'payout-accounts'
+
+    def post(self) -> requests.Response:
+        parms = RequestParms(
+            url = self.URL
+        )
+
+        return self._post(parms)
+
 
