@@ -1,6 +1,7 @@
 from __future__ import annotations
 import requests
 import uuid
+from functools import wraps
 import flask
 import stripe
 from stripe.api_resources.abstract import api_resource
@@ -50,6 +51,23 @@ def confirmAccount(flask_g, payout_account_id: uuid.UUID, confirmed: bool) -> re
     api = api_wrapper.ApiWrapperPayoutAccounts(flask_g)
     api_response = api.put(payout_account_id, confirmed)
     return api_response
+
+
+
+#------------------------------------------------------
+# Decorator that checks if the user has a payout account setup already
+#------------------------------------------------------
+def payout_account_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        # if user is not logged in, redirect to login page
+        if not isUserConfirmed(flask.g):
+            return flask.redirect(flask.url_for('bpSetup.start'), 302)
+
+        return f(*args, **kwargs)
+
+    return wrap
+
 
 
 #------------------------------------------------------
