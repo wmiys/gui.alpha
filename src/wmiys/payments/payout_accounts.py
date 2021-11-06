@@ -3,6 +3,7 @@ import requests
 import uuid
 import flask
 import stripe
+from stripe.api_resources.abstract import api_resource
 from wmiys_common import keys, config_pairs
 from ..common import api_wrapper
 
@@ -41,3 +42,29 @@ def createAccountLink(account_id, url_success, url_error) -> stripe.AccountLink:
         return_url  = url_success,
         type        = "account_onboarding",
     )
+
+#------------------------------------------------------
+# Confirm the account
+#------------------------------------------------------
+def confirmAccount(flask_g, payout_account_id: uuid.UUID, confirmed: bool) -> requests.Response:
+    api = api_wrapper.ApiWrapperPayoutAccounts(flask_g)
+    api_response = api.put(payout_account_id, confirmed)
+    return api_response
+
+
+#------------------------------------------------------
+# Checks if a user's account is already confirmed
+#------------------------------------------------------
+def isUserConfirmed(flask_g) -> bool:
+    api = api_wrapper.ApiWrapperUsers(flask_g)
+    api_response = api.get()
+
+    if not api_response.ok:
+        return True
+    
+    user = api_response.json()
+
+    if not user.get('payout_account_id'):
+        return False
+    else:
+        return True

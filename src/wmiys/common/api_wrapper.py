@@ -1,3 +1,4 @@
+import uuid
 import requests
 from datetime import date
 from wmiys_common import keys, config_pairs
@@ -577,5 +578,13 @@ class ApiWrapperPayoutAccounts(ApiWrapperBase):
         )
 
         return self._post(parms)
+
+    def put(self, payout_account_id: uuid.UUID, confirmed: bool) -> requests.Response:
+        parms = RequestParms(
+            url = f'{self.URL}/{str(payout_account_id)}',
+            data = dict(confirmed=confirmed),
+        )
+
+        return self._put(parms)
 
 
