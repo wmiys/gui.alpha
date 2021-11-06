@@ -519,15 +519,17 @@ class ApiWrapperRequests(ApiWrapperBase):
 
         return self._post(parms)
     
-
+#************************************************************************************
+#************************************************************************************
+#                       SUBMITTED PRODUCT REQUESTS
+#************************************************************************************
+#************************************************************************************
 class ApiWrapperRequestsSubmitted(ApiWrapperBase):
     """Api Wrapper for Product Requests"""
     
     URL = 'requests/submitted'
 
     def get(self, status: str=None) -> requests.Response:
-
-
         parms = RequestParms(
             url = self.URL,
             parms = dict(status=status)
@@ -540,7 +542,7 @@ class ApiWrapperRequestsSubmitted(ApiWrapperBase):
 
 #************************************************************************************
 #************************************************************************************
-#                         LOCATIONS
+#                               LOCATIONS
 #************************************************************************************
 #************************************************************************************
 class ApiWrapperLocations(ApiWrapperBase):
@@ -555,12 +557,20 @@ class ApiWrapperLocations(ApiWrapperBase):
         parms = RequestParms(url=self.URL.format(location_id))
         return self._get(parms)
 
-
+#************************************************************************************
+#************************************************************************************
+#                           PAYOUT ACCOUNTS
+#************************************************************************************
+#************************************************************************************
 
 class ApiWrapperPayoutAccounts(ApiWrapperBase):
+    "Api Wrapper for Payout Accounts"
 
     URL = 'payout-accounts'
 
+    #------------------------------------------------------
+    # Create a new payout account
+    #------------------------------------------------------
     def post(self) -> requests.Response:
         parms = RequestParms(
             url = self.URL
