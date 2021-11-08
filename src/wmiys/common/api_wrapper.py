@@ -1,9 +1,10 @@
+import uuid
 import requests
 from datetime import date
-from wmiys_common import keys, constants
+from wmiys_common import keys, config_pairs
 
 
-URL_BASE = constants.ProductionUrls.API.value
+URL_BASE = config_pairs.ApiUrls.PRODUCTION
 
 custom_headers = {
     'x-client-key': keys.verification.header
@@ -519,15 +520,17 @@ class ApiWrapperRequests(ApiWrapperBase):
 
         return self._post(parms)
     
-
+#************************************************************************************
+#************************************************************************************
+#                       SUBMITTED PRODUCT REQUESTS
+#************************************************************************************
+#************************************************************************************
 class ApiWrapperRequestsSubmitted(ApiWrapperBase):
     """Api Wrapper for Product Requests"""
     
     URL = 'requests/submitted'
 
     def get(self, status: str=None) -> requests.Response:
-
-
         parms = RequestParms(
             url = self.URL,
             parms = dict(status=status)
@@ -540,7 +543,7 @@ class ApiWrapperRequestsSubmitted(ApiWrapperBase):
 
 #************************************************************************************
 #************************************************************************************
-#                         LOCATIONS
+#                               LOCATIONS
 #************************************************************************************
 #************************************************************************************
 class ApiWrapperLocations(ApiWrapperBase):
@@ -555,6 +558,33 @@ class ApiWrapperLocations(ApiWrapperBase):
         parms = RequestParms(url=self.URL.format(location_id))
         return self._get(parms)
 
+#************************************************************************************
+#************************************************************************************
+#                           PAYOUT ACCOUNTS
+#************************************************************************************
+#************************************************************************************
 
+class ApiWrapperPayoutAccounts(ApiWrapperBase):
+    "Api Wrapper for Payout Accounts"
+
+    URL = 'payout-accounts'
+
+    #------------------------------------------------------
+    # Create a new payout account
+    #------------------------------------------------------
+    def post(self) -> requests.Response:
+        parms = RequestParms(
+            url = self.URL
+        )
+
+        return self._post(parms)
+
+    def put(self, payout_account_id: uuid.UUID, confirmed: bool) -> requests.Response:
+        parms = RequestParms(
+            url = f'{self.URL}/{str(payout_account_id)}',
+            data = dict(confirmed=confirmed),
+        )
+
+        return self._put(parms)
 
 

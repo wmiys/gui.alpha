@@ -14,6 +14,10 @@ def initApp(flaskApp):
     
     # flaskApp.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0    # remove cacheing
     flaskApp.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+    flaskApp.config['JSON_SORT_KEYS'] = False               # don't sort the json keys
+    flaskApp.config['JSONIFY_PRETTYPRINT_REGULAR'] = False  # print the json pretty
+
     CORS(flaskApp)                                      # setup the CORS policy
 
 
@@ -30,6 +34,7 @@ def registerBlueprints(flaskApp):
     flaskApp.register_blueprint(routes.search_products.bpSearchProducts, url_prefix='/search/products')
     flaskApp.register_blueprint(routes.listings.bpProductListings, url_prefix='/listings')
     flaskApp.register_blueprint(routes.checkout.bpCreateCheckoutSession, url_prefix='/checkout')
+    flaskApp.register_blueprint(routes.setup.bpSetup, url_prefix='/setup')
 
 # register the abort 404 page
 def register404Page(flaskApp: flask.Flask):

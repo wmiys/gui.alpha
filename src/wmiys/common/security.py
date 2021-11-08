@@ -1,13 +1,13 @@
 import flask
 from functools import wraps
-from wmiys_common import constants
+from wmiys_common import config_pairs
 
 
 SESSION_KEY_USER_ID  = 'userID'
 SESSION_KEY_EMAIL    = 'email'
 SESSION_KEY_PASSWORD = 'password'
 
-LOGIN_URL_PREFIX = constants.ProductionUrls.FRONT_END
+LOGIN_URL_PREFIX = config_pairs.FrontEndUrls.PRODUCTION
 
 #------------------------------------------------------
 # Decorator function that verifies that the user's session variables are set.

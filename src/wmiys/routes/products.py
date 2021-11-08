@@ -9,6 +9,7 @@ from __future__ import annotations
 import flask
 from datetime import datetime
 from ..common import security, product_requests, api_wrapper
+from ..payments import payout_accounts
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -21,20 +22,19 @@ bpProducts = flask.Blueprint('products', __name__)
 #------------------------------------------------------
 @bpProducts.get('')
 @security.login_required
+@payout_accounts.payout_account_required
 def overviewGet():
-
     api = api_wrapper.ApiWrapperUsers(flask.g)
     response = api.get()
 
     return flask.render_template('pages/products/overview.html', data=response.json())
 
-
-
 #------------------------------------------------------
 # Inventory page
 #------------------------------------------------------
-@bpProducts.route('inventory', methods=['GET'])
+@bpProducts.get('inventory')
 @security.login_required
+@payout_accounts.payout_account_required
 def productsGet():
     api = api_wrapper.ApiWrapperProducts(flask.g)
     api_response = api.get()
@@ -54,8 +54,9 @@ def productsGet():
 #------------------------------------------------------
 # All received product requests (as a lender)
 #------------------------------------------------------
-@bpProducts.route('requests', methods=['GET'])
+@bpProducts.get('requests')
 @security.login_required
+@payout_accounts.payout_account_required
 def requestsGet():
     status_filter = flask.request.args.get('status', 'pending')
     requests = product_requests.getRequests(status_filter)
@@ -65,8 +66,9 @@ def requestsGet():
 #------------------------------------------------------
 # Create new product
 #------------------------------------------------------
-@bpProducts.route('new')
+@bpProducts.get('new')
 @security.login_required
+@payout_accounts.payout_account_required
 def productsNew():
     api = api_wrapper.ApiWrapperProducts(flask.g)
     
@@ -88,6 +90,7 @@ def productsNew():
 #------------------------------------------------------
 @bpProducts.route('<int:product_id>', methods=['GET', 'DELETE'])
 @security.login_required
+@payout_accounts.payout_account_required
 def productPageEdit(product_id):
     product_api_response = _getProductApiResponse(product_id)
 
@@ -97,8 +100,9 @@ def productPageEdit(product_id):
 #------------------------------------------------------
 # Product availability
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/availability')
+@bpProducts.get('<int:product_id>/availability')
 @security.login_required
+@payout_accounts.payout_account_required
 def productPageAvailability(product_id):
     # get the product's availability records from the api
     availabilities = _getProductAvailabilityApiResponse(product_id)
@@ -109,8 +113,9 @@ def productPageAvailability(product_id):
 #------------------------------------------------------
 # Product insights
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/insights')
+@bpProducts.get('<int:product_id>/insights')
 @security.login_required
+@payout_accounts.payout_account_required
 def productPageInsights(product_id):
     product_api_response = _getProductApiResponse(product_id)
 
@@ -119,7 +124,7 @@ def productPageInsights(product_id):
 #------------------------------------------------------
 # Product settings
 #------------------------------------------------------
-@bpProducts.route('<int:product_id>/settings')
+@bpProducts.get('<int:product_id>/settings')
 @security.login_required
 def productPageSettings(product_id):
     product_api_response = _getProductApiResponse(product_id)
