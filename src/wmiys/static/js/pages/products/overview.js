@@ -1,4 +1,7 @@
 const eCardOverviewStat = '.card-products-overview-stat';
+const eBtnTransferBalance = '#btn-transfer-balance';
+
+let mBtnTransferSpinner = null;
 
 
 
@@ -8,6 +11,9 @@ Main logic.
 $(document).ready(function() {
     activateSidebarItem();
     initCountUps();
+    addListeners();
+
+    mBtnTransferSpinner = new SpinnerButton(eBtnTransferBalance, 'Transfer your balance');
 });
 
 
@@ -24,4 +30,15 @@ function initCountUps() {
         const countUp = new CountUp(statElement);
         countUp.start();
     }
+}
+
+function addListeners() {
+    $(eBtnTransferBalance).on('click', function() {
+        transferAccountBalance();
+    });
+}
+
+
+function transferAccountBalance() {
+    mBtnTransferSpinner.showSpinner();
 }

@@ -432,6 +432,10 @@ class ApiWrapper
         return response;
     }
 
+    static async requestPostBalanceTransfer() {
+        // const url = '/api/'
+    }
+
 
 
     /**********************************************************
