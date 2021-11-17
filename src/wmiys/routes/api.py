@@ -249,6 +249,23 @@ def insertProductRequestResponse(request_id: int, status: str):
         return (apiResponse.text, HTTPStatus.BAD_REQUEST)
 
 
+
+#------------------------------------------------------
+# Create a new balance transfer request
+#------------------------------------------------------
+@bpApi.post('/balance-transfers')
+@security.login_required
+def insertBalanceTransfer():
     
+    api = api_wrapper.ApiWrapperBalanceTransfers(flask.g)
+    api_response = api.post()
+
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
+    
+    balance_transfer = api_response.json()
+
+    return flask.jsonify(balance_transfer)
+
 
 

@@ -579,6 +579,9 @@ class ApiWrapperPayoutAccounts(ApiWrapperBase):
 
         return self._post(parms)
 
+    #------------------------------------------------------
+    # Confirm a lender's payout account
+    #------------------------------------------------------
     def put(self, payout_account_id: uuid.UUID, confirmed: bool) -> requests.Response:
         parms = RequestParms(
             url = f'{self.URL}/{str(payout_account_id)}',
@@ -588,3 +591,23 @@ class ApiWrapperPayoutAccounts(ApiWrapperBase):
         return self._put(parms)
 
 
+#************************************************************************************
+#************************************************************************************
+#                           BALANCE TRANSFERS
+#************************************************************************************
+#************************************************************************************
+class ApiWrapperBalanceTransfers(ApiWrapperBase):
+    "Api Wrapper for lender balance transfers"
+
+    URL = 'balance-transfers'
+    
+    #------------------------------------------------------
+    # Create a new balance transfer record
+    #------------------------------------------------------
+    def post(self) -> requests.Response:
+        parms = RequestParms(
+            url = self.URL,
+        )
+
+        return self._post(parms)
+    
