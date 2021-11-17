@@ -11,7 +11,7 @@ import uuid
 from http import HTTPStatus
 from wmiys_common import keys
 from ..common import security, api_wrapper
-from .. import payments
+from ..payments import payments
 
 
 # module blueprint

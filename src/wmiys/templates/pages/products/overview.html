@@ -66,12 +66,28 @@ Input parms -> data (list):
 </div>
 
 <div class="row">
+    <!-- account balance -->
+    <div class="col-sm-12 col-md-6">
+        <div class="card card-products-overview">
+            <div class="card-body">
+                <div>
+                    <div class="card-products-overview-stat card-products-overview-stat-balance" data-countup-value="{{ data.lender_balance }}" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
+                    <div class="text-muted">Account balance</div>
+                </div>
+                    
+                <div class="icon-rounded home-icon mb-0">
+                    <i class='bx bx-dollar'></i>
+                </div>
+            </div>
+        </div>
+    </div>   
+
     <!-- total earnings -->
     <div class="col-sm-12 col-md-6">
         <div class="card card-products-overview">
             <div class="card-body">
                 <div>
-                    <div class="card-products-overview-stat" data-countup-value="{{ data.lender_balance }}" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
+                    <div class="card-products-overview-stat" data-countup-value="{{ data.lender_earnings }}" data-countup-prefix="$" data-countup-decimal-places="2">0</div>
                     <div class="text-muted">Total Earnings</div>
                 </div>
                     
@@ -82,6 +98,12 @@ Input parms -> data (list):
         </div>
     </div>   
 </div>
+
+
+<button type="button" class="btn btn-sm btn-secondary mt-3" id="btn-transfer-balance">Transfer your balance</button>
+
+
+
 
 
 

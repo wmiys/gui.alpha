@@ -432,6 +432,19 @@ class ApiWrapper
         return response;
     }
 
+    /**********************************************************
+    Send a post balance transfer for a lender
+    **********************************************************/
+    static async requestPostBalanceTransfer() {
+        const url = '/api/balance-transfers';
+
+        const response = await fetch(url, {
+            method: 'POST',
+        });
+
+        return response;
+    }
+
 
 
     /**********************************************************
