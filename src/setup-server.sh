@@ -8,6 +8,7 @@ mod_wsgi-express start-server \
 --server-root /etc/wmiys.com \
 --host 104.225.208.116 \
 --document-root /var/www/wmiys/front-end/wmiys/static \
+--setup-only \
 /var/www/wmiys/front-end/wmiys.wsgi
 
 /etc/wmiys.com/apachectl restart
