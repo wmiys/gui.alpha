@@ -7,6 +7,7 @@
 #*******************************************************************************************
 
 import flask
+from uuid import UUID
 from ..common import security as security, api_wrapper
 from http import HTTPStatus
 
@@ -236,9 +237,9 @@ def getProductListingAvailability(product_id: int):
 #------------------------------------------------------
 # Lender responds to a product request
 #------------------------------------------------------
-@bpApi.route('requests/received/<int:request_id>/<string:status>', methods=['POST'])
+@bpApi.post('requests/received/<uuid:request_id>/<string:status>')
 @security.login_required
-def insertProductRequestResponse(request_id: int, status: str):
+def insertProductRequestResponse(request_id: UUID, status: str):
     api = api_wrapper.ApiWrapperRequests(flask.g)
 
     apiResponse = api.put(request_id, status)
