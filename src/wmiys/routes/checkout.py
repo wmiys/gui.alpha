@@ -22,16 +22,16 @@ stripe.api_key = keys.payments.test
 #------------------------------------------------------
 # Create a new product checkout stripe page
 #------------------------------------------------------
-@bpCreateCheckoutSession.route('<int:product_id>', methods=['POST'])
+@bpCreateCheckoutSession.post('<int:product_id>')
 @security.login_required
 def createCheckout(product_id: int):    
     # create new payment request to save the price data for later
-    apiPaymentResponse = payments.createPaymentApiRequest(product_id)
+    api_payment_response = payments.createPaymentApiRequest(product_id)
 
-    if not apiPaymentResponse.ok:
+    if not api_payment_response.ok:
         return ('', 400)
 
-    payment = apiPaymentResponse.json() 
+    payment = api_payment_response.json() 
 
     # Now generate all the data we need for the stripe checkout session
     session = payments.getStripeCheckoutSession(payment)
@@ -48,25 +48,17 @@ def createCheckout(product_id: int):
 # Now, we need to inform the lender that someone wants to use one of their products.
 # We do this by creating a new product request.
 #------------------------------------------------------
-@bpCreateCheckoutSession.route('success/<uuid:payment_id>', methods=['GET'])
+@bpCreateCheckoutSession.get('success/<uuid:payment_id>')
 @security.login_required
 def successfulRenterPayment(payment_id: uuid.UUID):
     payment_id = str(payment_id)
     session_id = flask.request.args.get('session_id') or None
-
-    # print(flask.request.args.to_dict())
-
-    print(flask.json.dumps(flask.request.args.to_dict(), indent=4))
-
-    print(session_id)
 
     if not session_id:
         return ('Missing session_id request url parm.', HTTPStatus.BAD_REQUEST.value)
 
     
     # create a new product request for the lender
-    # apiResponse = security.apiWrapper.insertProductRequest(payment_id, session_id)
-
     api = api_wrapper.ApiWrapperRequests(flask.g)
     api_response = api.post(payment_id, session_id)
 
@@ -81,7 +73,7 @@ def successfulRenterPayment(payment_id: uuid.UUID):
 #------------------------------------------------------
 # Show a success page after the product request was send to the lender
 #------------------------------------------------------
-@bpCreateCheckoutSession.route('request-sent', methods=['GET'])
+@bpCreateCheckoutSession.get('request-sent')
 @security.login_required
 def successPage():
     return flask.render_template('pages/product-listings/successful-product-request.html')
