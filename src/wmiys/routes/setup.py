@@ -68,7 +68,8 @@ def confirm(payout_account_id: uuid.UUID):
     api_response = payout_accounts.confirmAccount(flask.g, payout_account_id, True)
 
     if api_response.ok:
-        return flask.redirect(flask.url_for('products.overviewGet'), code=HTTPStatus.SEE_OTHER.value)
+        url = payout_accounts.URL_BASE + flask.url_for('products.overviewGet')
+        return flask.redirect(url, code=HTTPStatus.SEE_OTHER.value)
 
     return flask.jsonify(api_response.json())
 
