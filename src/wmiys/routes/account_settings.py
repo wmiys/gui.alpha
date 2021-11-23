@@ -31,7 +31,8 @@ def accountSettings():
 @bpAccountSettings.route('general')
 @security.login_required
 def accountSettingsGeneral():
-    return flask.redirect(flask.url_for('.accountSettings'))
+    url = f'{flask.request.host_url}/account-settings'
+    return flask.redirect(url)
 
 
 
