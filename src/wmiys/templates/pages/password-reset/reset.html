@@ -1,0 +1,55 @@
+{#
+***************************************************************************************************
+
+* Template: reset.html
+* URL: /password-reset/:password_reset_id
+* Purpose: Reset or update a user's password
+
+***************************************************************************************************
+
+Input parms (data):
+
+***************************************************************************************************
+#}
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% include 'includes/header.html' %}
+    <title>Reset your password</title>
+</head>
+
+<body>
+    {% include 'includes/navbar.html' %}
+
+    <div class="container">
+
+        <h1 class="my-5">Change your password</h1>
+
+        <form class="password-reset-form">
+            <!-- new password -->
+            <div class="form-group">
+                <label for="password-reset-input-new">New password</label>
+                <input type="password" class="form-control password-reset-input" id="password-reset-input-new" required minlength="6">
+            </div>
+
+            <!-- confirm password -->
+            <div class="form-group">
+                <label for="password-reset-input-confirm">Confirm new password</label>
+                <input type="password" class="form-control password-reset-input" id="password-reset-input-confirm" required minlength="6">
+            </div>
+        </form>
+
+        <button type="button" class="btn btn-primary password-reset-btn">Change password</button>
+    </div>
+
+
+
+
+    {% include 'includes/footer.html' %}
+
+</body>
+
+</html>

@@ -35,6 +35,7 @@ def registerBlueprints(flaskApp):
     flaskApp.register_blueprint(routes.listings.bpProductListings, url_prefix='/listings')
     flaskApp.register_blueprint(routes.checkout.bpCreateCheckoutSession, url_prefix='/checkout')
     flaskApp.register_blueprint(routes.setup.bpSetup, url_prefix='/setup')
+    flaskApp.register_blueprint(routes.password_reset.bpPasswordReset, url_prefix='/password-reset')
 
 # register the abort 404 page
 def register404Page(flaskApp: flask.Flask):

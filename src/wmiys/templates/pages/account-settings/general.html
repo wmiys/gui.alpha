@@ -10,6 +10,8 @@
 
 {% block content %}
 
+
+<!-- general information -->
 <div class="card">
     <div class="card-body">
         <h5 class="mb-4">General information</h5>
@@ -52,7 +54,7 @@
 
             <!-- save button -->
             <div class="form-row">
-                <button type="button" class="btn btn-primary form-account-settings-basic-btn px-4 btn-spinner btn-stretch-sm" id="form-account-settings-basic-submit">
+                <button type="button" class="btn btn-success form-account-settings-basic-btn px-4 btn-spinner btn-stretch-sm" id="form-account-settings-basic-submit">
                     <div class="btn-spinner-text">Save changes</div>
                     <div class="spinner-border spinner-border-sm btn-spinner-spinner" role="status">
                         <span class="sr-only">Loading...</span>
@@ -62,6 +64,17 @@
         </form>
     </div>
 </div>
+
+<!-- update password -->
+<div class="card mt-4">
+    <div class="card-body">
+        <h5>Security</h5>
+        <p>Manage your Login & security and settings here.</p>
+        <button type="button" class="btn btn-success" id="btn-update-password">Update password</button>
+    </div>
+</div>
+
+
 
 {% endblock %}
 

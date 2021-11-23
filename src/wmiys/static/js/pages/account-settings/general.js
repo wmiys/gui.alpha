@@ -29,6 +29,10 @@ const eFormBasic = {
     },
 }
 
+// button to update their password
+const eBtnUpdatePassword = '#btn-update-password';
+
+
 const eSideNav = {
     container: $('.card-account-settings-sidenav'),
 
@@ -69,14 +73,15 @@ function addEventListeners() {
         $(this).closest('.alert').prop('hidden', true);
     });
 
+    $(eBtnUpdatePassword).on('click', function() {
+        updatePassword();
+    });
 }
 
 
 function activateSidelink() {
     $('#v-pills-general-tab').addClass('active');
 }
-
-
 
 
 /************************************************
@@ -139,5 +144,15 @@ Displays an alert on the screen
 function displayAlert(message='Success', alertType='success') {
     const alertClass = `alert-${alertType}`;
     $(eAlertDisplay.alert).prop('hidden', false).addClass(alertClass).find('.message').html(message);
+}
+
+
+/************************************************
+Send a request to update a user's password
+*************************************************/
+function updatePassword() {
     
+    
+
+
 }
