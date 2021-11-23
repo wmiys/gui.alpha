@@ -6,13 +6,17 @@
 # Description:  Routing for all account settings
 #*******************************************************************************************
 import flask
+from wmiys_common import config_pairs
 
 
 from ..common import security, ApiWrapperUsers, product_requests
 
+
 # module blueprint
 bpAccountSettings = flask.Blueprint('account_settings', __name__)
 
+
+URL_BASE = config_pairs.FrontEndUrls.PRODUCTION
 
 #------------------------------------------------------
 # Account settings page (general)
@@ -31,7 +35,7 @@ def accountSettings():
 @bpAccountSettings.route('general')
 @security.login_required
 def accountSettingsGeneral():
-    url = f'{flask.request.host_url}/account-settings'
+    url = URL_BASE + flask.url_for('.accountSettings')
     return flask.redirect(url)
 
 

@@ -4,7 +4,6 @@ from uuid import UUID
 from functools import wraps
 import flask
 import stripe
-from stripe.api_resources.abstract import api_resource
 from wmiys_common import keys, config_pairs
 from ..common import api_wrapper
 
