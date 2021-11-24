@@ -32,13 +32,15 @@ Input parms (data):
             <!-- new password -->
             <div class="form-group">
                 <label for="password-reset-input-new">New password</label>
-                <input type="password" class="form-control password-reset-input" id="password-reset-input-new" required minlength="6">
+                <input type="password" class="form-control password-reset-input" id="password-reset-input-new" required>
+                <div class="invalid-feedback"></div>
             </div>
 
             <!-- confirm password -->
             <div class="form-group">
                 <label for="password-reset-input-confirm">Confirm new password</label>
-                <input type="password" class="form-control password-reset-input" id="password-reset-input-confirm" required minlength="6">
+                <input type="password" class="form-control password-reset-input" id="password-reset-input-confirm" required>
+                <div class="invalid-feedback"></div>
             </div>
         </form>
 
@@ -47,8 +49,9 @@ Input parms (data):
 
 
 
-
     {% include 'includes/footer.html' %}
+    <script src="/static/js/classes/SpinnerButton.js"></script>
+    <script src="/static/js/pages/password-reset/index.js"></script>
 
 </body>
 
