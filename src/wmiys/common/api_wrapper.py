@@ -611,3 +611,26 @@ class ApiWrapperBalanceTransfers(ApiWrapperBase):
 
         return self._post(parms)
     
+
+
+#************************************************************************************
+#************************************************************************************
+#                           PASSWORD RESETS
+#************************************************************************************
+#************************************************************************************
+class ApiWrapperPasswordResets(ApiWrapperBase):
+    "Api Wrapper for password resets"
+
+    URL = 'password-resets'
+    
+    #------------------------------------------------------
+    # Create a new balance transfer record
+    #------------------------------------------------------
+    def post(self, email: str) -> requests.Response:
+        parms = RequestParms(
+            url = self.URL,
+            data = dict(email=email),
+        )
+
+        return self._post(parms)
+    

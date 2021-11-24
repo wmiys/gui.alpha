@@ -52,7 +52,7 @@ def apiLogin():
 #------------------------------------------------------
 # Create a new account
 #------------------------------------------------------
-@bpApi.route('create-account', methods=['POST'])
+@bpApi.post('create-account')
 def apiCreateAccount():
     # create an account with the api
     api_response = api_wrapper.createAccount(
@@ -84,7 +84,7 @@ def apiCreateAccount():
 #------------------------------------------------------
 # Create a new product
 #------------------------------------------------------
-@bpApi.route('products', methods=['POST'])
+@bpApi.post('products')
 @security.login_required
 def apiProductsPost():
     api = api_wrapper.ApiWrapperProducts(flask.g)
@@ -161,13 +161,27 @@ def apiProductAvailability(product_id):
 #------------------------------------------------------
 # Update a user's info
 #------------------------------------------------------
-@bpApi.route('users', methods=['PUT'])
+@bpApi.put('users')
 @security.login_required
 def apiUserUpdate():
     api = api_wrapper.ApiWrapperUsers(flask.g)
     api_response = api.put(flask.request.form.to_dict())
 
     if api_response.status_code != HTTPStatus.OK.value:          # error
+        flask.abort(api_response.status_code)
+
+    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
+
+#------------------------------------------------------
+# Get a user's info
+#------------------------------------------------------
+@bpApi.get('users')
+@security.login_required
+def getUser():
+    api = api_wrapper.ApiWrapperUsers(flask.g)
+    api_response = api.get()
+
+    if not api_response.ok:
         flask.abort(api_response.status_code)
 
     return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
@@ -268,5 +282,20 @@ def insertBalanceTransfer():
 
     return flask.jsonify(balance_transfer)
 
+
+
+#------------------------------------------------------
+# Create a new password reset object
+#------------------------------------------------------
+@bpApi.post('/password-resets')
+@security.login_required
+def insertPasswordReset():
+    api = api_wrapper.ApiWrapperPasswordResets(flask.g)
+    api_response = api.post(flask.request.form.get('email'))
+
+    if not api_response.ok:
+        return (api_response.text, api_response.status_code)
+
+    return flask.jsonify(api_response.json())
 
 

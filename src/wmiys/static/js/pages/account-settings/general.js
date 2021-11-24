@@ -150,9 +150,14 @@ function displayAlert(message='Success', alertType='success') {
 /************************************************
 Send a request to update a user's password
 *************************************************/
-function updatePassword() {
-    
-    
+async function updatePassword() {
+    // get the user's email
+    const userData = await (await ApiWrapper.requestGetUser()).json();
+    const email = userData.email;
 
+    // tell the api that they want to update their password
+    const apiResponse = await (await ApiWrapper.requestPostPasswordReset(email)).json();
 
+    // redirect the user to the password reset page
+    window.location.href = `/password-reset/${apiResponse.id}`;
 }
