@@ -633,4 +633,14 @@ class ApiWrapperPasswordResets(ApiWrapperBase):
         )
 
         return self._post(parms)
-    
+
+    #------------------------------------------------------
+    # Update a password reset record
+    #------------------------------------------------------
+    def put(self, password_reset_id: uuid.UUID, new_password: str) -> requests.Response:
+        parms = RequestParms(
+            url = f'{self.URL}/{str(password_reset_id)}',
+            data = dict(password=new_password)
+        )
+
+        return self._put(parms)

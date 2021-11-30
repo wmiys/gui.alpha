@@ -288,7 +288,6 @@ def insertBalanceTransfer():
 # Create a new password reset object
 #------------------------------------------------------
 @bpApi.post('/password-resets')
-@security.login_required
 def insertPasswordReset():
     api = api_wrapper.ApiWrapperPasswordResets(flask.g)
     api_response = api.post(flask.request.form.get('email'))
@@ -297,5 +296,21 @@ def insertPasswordReset():
         return (api_response.text, api_response.status_code)
 
     return flask.jsonify(api_response.json())
+
+
+#------------------------------------------------------
+# Create a new password reset object
+#------------------------------------------------------
+@bpApi.put('/password-resets/<uuid:password_reset_id>')
+def updatePasswordReset(password_reset_id: UUID):
+    api = api_wrapper.ApiWrapperPasswordResets(flask.g)
+    password = flask.request.form.get('password')
+
+    try:
+        api_response = api.put(password_reset_id, password)
+        return (api_response.text, api_response.status_code)
+
+    except Exception as e:
+        return (e, HTTPStatus.BAD_REQUEST)
 
 

@@ -16,7 +16,6 @@ bpPasswordReset = flask.Blueprint('bpPasswordReset', __name__)
 # Page to reset password
 #------------------------------------------------------
 @bpPasswordReset.route('<uuid:password_reset_id>')
-# @security.login_required
 def get(password_reset_id: UUID):
     security.clear_session_values()
     return flask.render_template('pages/password-reset/reset.html')

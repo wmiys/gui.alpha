@@ -16,6 +16,11 @@ const mErrorMessages = {
 
 const eSpinnerButton = new SpinnerButton(ePasswordResetForm.submitButton, $(ePasswordResetForm.submitButton).text());
 
+// password reset id located in the URL
+const mPasswordResetID = UrlParser.getPathValue(1);
+
+
+
 
 /**********************************************************
 Main logic
@@ -25,6 +30,9 @@ $(document).ready(function() {
 });
 
 
+/**********************************************************
+Add the event listeners to the page
+**********************************************************/
 function addEventListeners() {
     $(ePasswordResetForm.submitButton).on('click', function() {
         resetPassword();
@@ -33,17 +41,45 @@ function addEventListeners() {
     $(ePasswordResetForm.inputClasses).on('keydown', function() {
         removeInvalidFeedback(this);
     });
+
+    // user hits enter while an text input is active
+    $(ePasswordResetForm.inputClasses).on('keypress', function(e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            resetPassword();
+        }
+    });
 }
 
 
-function resetPassword() {
+/**********************************************************
+Attempt to reset the user's password
+**********************************************************/
+async function resetPassword() {
     eSpinnerButton.showSpinner();
     
     if (!validateForm()) {
         eSpinnerButton.reset();
+        return;
+    }
+
+    const newPassword = $(ePasswordResetForm.inputs.new).val();
+    
+    let apiResponse = await ApiWrapper.requestPutPasswordReset(mPasswordResetID, newPassword);
+
+    if (apiResponse.ok) {
+        // go to a success page that has a link to login page
+        window.location.href = '/login';
+    } 
+    else {
+        eSpinnerButton.reset();
+        // display alert
     }
 }
 
+/**********************************************************
+Make sure the form is valid before sending the update request
+**********************************************************/
 function validateForm() {
 
     if (!inputsHaveValues()) {
@@ -52,6 +88,8 @@ function validateForm() {
     else if (!inputValuesMatch()) {
         return false;
     }
+
+    return true;
 }
 
 

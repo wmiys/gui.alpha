@@ -450,6 +450,23 @@ class ApiWrapper
         return response;
     }
 
+    /**********************************************************
+    Update a password reset record
+    **********************************************************/
+    static async requestPutPasswordReset(passwordResetID, newPassword) {
+        const url = `/api/password-resets/${passwordResetID}`;
+
+        const formData = new FormData();
+        formData.append('password', newPassword);
+        
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        return response;
+    }
+
 
     /**********************************************************
     Checks if an object contains all the fields in a list

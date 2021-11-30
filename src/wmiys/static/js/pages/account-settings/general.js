@@ -73,6 +73,7 @@ function addEventListeners() {
         $(this).closest('.alert').prop('hidden', true);
     });
 
+    // update password
     $(eBtnUpdatePassword).on('click', function() {
         updatePassword();
     });
@@ -151,6 +152,11 @@ function displayAlert(message='Success', alertType='success') {
 Send a request to update a user's password
 *************************************************/
 async function updatePassword() {
+    // disable the spinner button
+    const buttonText = $(eBtnUpdatePassword).text();
+    const spinnerBtn = new SpinnerButton(eBtnUpdatePassword, buttonText);
+    spinnerBtn.showSpinner();
+    
     // get the user's email
     const userData = await (await ApiWrapper.requestGetUser()).json();
     const email = userData.email;
@@ -160,4 +166,6 @@ async function updatePassword() {
 
     // redirect the user to the password reset page
     window.location.href = `/password-reset/${apiResponse.id}`;
+
+    // spinnerBtn.reset();
 }
