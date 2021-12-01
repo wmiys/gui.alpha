@@ -68,24 +68,11 @@ class ApiWrapper
     
     /**********************************************************
     Send a GET request for a user from the API
-    
-    Parms:
-        userID - the id of the user that wants to be requested
-        userEmail - user's email
-        userPassword - user's password
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
     **********************************************************/
-    static requestGetUser(userID, fnSuccess, fnError) {
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: ApiWrapper.URLS.USERS + '/' + userID,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+    static async requestGetUser() {
+        const url = `/api/users`;
+        const response = await fetch(url);
+        return response;
     }
 
     /**********************************************************
@@ -444,7 +431,41 @@ class ApiWrapper
 
         return response;
     }
+    
+    
+    /**********************************************************
+    Send a post password reset request
+    **********************************************************/
+    static async requestPostPasswordReset(email) {
+        const url = '/api/password-resets';
 
+        const formData = new FormData();
+        formData.append('email', email);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        return response;
+    }
+
+    /**********************************************************
+    Update a password reset record
+    **********************************************************/
+    static async requestPutPasswordReset(passwordResetID, newPassword) {
+        const url = `/api/password-resets/${passwordResetID}`;
+
+        const formData = new FormData();
+        formData.append('password', newPassword);
+        
+        const response = await fetch(url, {
+            method: 'PUT',
+            body: formData,
+        });
+
+        return response;
+    }
 
 
     /**********************************************************

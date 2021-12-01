@@ -26,3 +26,4 @@ from .api_wrapper import ApiWrapperRequests as ApiWrapperRequests
 from .api_wrapper import ApiWrapperRequestsSubmitted as ApiWrapperRequestsSubmitted
 from .api_wrapper import ApiWrapperLocations as ApiWrapperLocations
 from .api_wrapper import ApiWrapperPayoutAccounts as ApiWrapperPayoutAccounts
+from .api_wrapper import ApiWrapperPasswordResets as ApiWrapperPasswordResets

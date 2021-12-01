@@ -6,3 +6,4 @@ from . import search_products as search_products
 from . import api as api
 from . import checkout as checkout
 from . import setup as setup
+from . import password_reset as password_reset
