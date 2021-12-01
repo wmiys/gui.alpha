@@ -9,12 +9,17 @@ const ePasswordResetForm = {
     },
 }
 
+const containers = {
+    form: '.password-reset-container-form',
+    success: '.password-reset-container-success',
+}
+
 const mErrorMessages = {
     required: 'Required',
     noMatch: 'Passwords do not match',
 }
 
-const eSpinnerButton = new SpinnerButton(ePasswordResetForm.submitButton, $(ePasswordResetForm.submitButton).text());
+const mSpinnerButton = new SpinnerButton(ePasswordResetForm.submitButton, $(ePasswordResetForm.submitButton).text());
 
 // password reset id located in the URL
 const mPasswordResetID = UrlParser.getPathValue(1);
@@ -56,10 +61,10 @@ function addEventListeners() {
 Attempt to reset the user's password
 **********************************************************/
 async function resetPassword() {
-    eSpinnerButton.showSpinner();
+    mSpinnerButton.showSpinner();
     
     if (!validateForm()) {
-        eSpinnerButton.reset();
+        mSpinnerButton.reset();
         return;
     }
 
@@ -68,14 +73,22 @@ async function resetPassword() {
     let apiResponse = await ApiWrapper.requestPutPasswordReset(mPasswordResetID, newPassword);
 
     if (apiResponse.ok) {
-        // go to a success page that has a link to login page
-        window.location.href = '/login';
+        toggleContainers();
     } 
     else {
-        eSpinnerButton.reset();
-        // display alert
+        mSpinnerButton.reset();
+        
+        const alertTop = new AlertTop(ALERT_TOP_TYPES.DANGER, 'Something went wrong! Password was not updated.');
+        alertTop.show();
     }
 }
+
+
+function toggleContainers() {
+    $('.container').toggleClass('d-none');
+}
+
+
 
 /**********************************************************
 Make sure the form is valid before sending the update request

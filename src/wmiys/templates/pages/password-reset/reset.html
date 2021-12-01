@@ -7,7 +7,7 @@
 
 ***************************************************************************************************
 
-Input parms (data):
+Input parms (data): none
 
 ***************************************************************************************************
 #}
@@ -24,30 +24,45 @@ Input parms (data):
 <body>
     {% include 'includes/navbar.html' %}
 
-    <div class="container">
+    <div class="my-5">
 
-        <h1 class="my-5">Change your password</h1>
+        <!-- form -->
+        <div class="container password-reset-container-form">
+            <h1 class="">Change your password</h1>
+            <form class="password-reset-form">
+                <!-- new password -->
+                <div class="form-group">
+                    <label for="password-reset-input-new">New password</label>
+                    <input type="password" class="form-control password-reset-input" id="password-reset-input-new" required>
+                    <div class="invalid-feedback"></div>
+                </div>
 
-        <form class="password-reset-form">
-            <!-- new password -->
-            <div class="form-group">
-                <label for="password-reset-input-new">New password</label>
-                <input type="password" class="form-control password-reset-input" id="password-reset-input-new" required>
-                <div class="invalid-feedback"></div>
+                <!-- confirm password -->
+                <div class="form-group">
+                    <label for="password-reset-input-confirm">Confirm new password</label>
+                    <input type="password" class="form-control password-reset-input" id="password-reset-input-confirm" required>
+                    <div class="invalid-feedback"></div>
+                </div>
+            </form>
+
+            <button type="button" class="btn btn-success password-reset-btn">Change password</button>
+        </div>
+
+
+        <!-- success -->
+        <div class="container password-reset-container-success d-none">
+            <div class="d-lg-flex align-items-center justify-content-between">
+                <div>
+                    <p class="h1 text-primary mb-3">Password successfully updated!</p>
+                    <p class="lead"><a href="/login">Log in</a> to your account</p>
+                </div>
+
+                <div class="d-none d-md-block">
+                    <img src="/static/img/password-updated-success.svg" alt="My Happy SVG" class="request-sent-img">
+                </div>
             </div>
-
-            <!-- confirm password -->
-            <div class="form-group">
-                <label for="password-reset-input-confirm">Confirm new password</label>
-                <input type="password" class="form-control password-reset-input" id="password-reset-input-confirm" required>
-                <div class="invalid-feedback"></div>
-            </div>
-        </form>
-
-        <button type="button" class="btn btn-primary password-reset-btn">Change password</button>
+        </div>
     </div>
-
-
 
     {% include 'includes/footer.html' %}
     <script src="/static/js/classes/SpinnerButton.js"></script>

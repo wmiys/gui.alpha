@@ -37,10 +37,6 @@ class AlertTop
     hide() {
         $(AlertTop.SELECTOR).addClass('d-none');
     }
-
-
-
-
 }
 
 
