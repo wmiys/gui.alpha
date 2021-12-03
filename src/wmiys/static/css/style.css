@@ -61,6 +61,12 @@ body {
   color: #f62dae14;
 }
 
+hr {
+  border-top-width: 1px;
+  border-top-color: #d8dee4;
+  border-top-style: solid;
+}
+
 input[type=color],
 input[type=date],
 input[type=datetime],

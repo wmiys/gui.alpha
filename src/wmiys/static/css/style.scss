@@ -3,6 +3,8 @@ $color-primary-light: #f62dae14;
 $color-secondary: #7189ff;
 $color-bg-gray: #fafbfc;
 
+$color-border-muted: #d8dee4;
+
 body {
     font-family: "Karla", sans-serif;
 }
@@ -67,6 +69,11 @@ body {
 }
 
 
+hr {
+    border-top-width: 1px;
+    border-top-color: $color-border-muted;
+    border-top-style: solid;
+}
 
 
 input[type=color],
