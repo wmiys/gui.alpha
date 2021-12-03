@@ -7,19 +7,14 @@ from .. import api_wrapper
 # Create a new payment request record in the api
 #------------------------------------------------------
 def createPaymentApiRequest(product_id: int) -> requests.Response:
-    # get all the form data
-    request_form: dict = flask.request.form.to_dict()
-
-    location_id = request_form.get('location')
-    starts_on   = request_form.get('hidden-starts-on')
-    ends_on     = request_form.get('hidden-ends-on')
-
     # create a new payment request record in the api    
     api = api_wrapper.ApiWrapperPayments(flask.g)
-    apiPaymentResponse = api.post(product_id, location_id, starts_on, ends_on)
-    
-    return apiPaymentResponse
 
+    # get all the form data
+    request_form: dict = flask.request.form.to_dict()
+    request_form.setdefault('product_id', product_id)
+
+    return api.post(request_form)
 
 #------------------------------------------------------
 # Create a new stripe checkout session

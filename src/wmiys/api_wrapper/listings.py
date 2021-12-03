@@ -21,11 +21,11 @@ class ApiWrapperListingAvailability(ApiWrapperBase):
     """Api Wrapper for Listing Availabilities"""
 
     URL = ApiUrls.LISTING_AVAILABILITY
-
-    def get(self, product_id: int, starts_on, ends_on, location_id) -> requests.Response:
+    
+    def get(self, product_id: int, parms: dict) -> requests.Response:
         parms = RequestParms(
             url   = self.URL.format(product_id),
-            parms = dict(location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+            parms = parms
         )
 
         return self._get(parms)

@@ -245,7 +245,7 @@ def getLocation(location_id: int):
 @security.login_required
 def getProductListingAvailability(product_id: int):    
     api = api_wrapper.ApiWrapperListingAvailability(flask.g)
-    availability = api.get(product_id, flask.request.args.get('starts_on'), flask.request.args.get('ends_on'), flask.request.args.get('location_id'))
+    availability = api.get(product_id, flask.request.args.to_dict())
     return flask.jsonify(availability.json())
 
 

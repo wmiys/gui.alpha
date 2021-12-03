@@ -11,10 +11,11 @@ class ApiWrapperPayments(ApiWrapperBase):
     #------------------------------------------------------
     # Insert a new pending payment request
     #------------------------------------------------------
-    def post(self, product_id: int, location_id: int, starts_on: date, ends_on: date) -> requests.Response:
+    def post(self, data: dict) -> requests.Response:
         parms = RequestParms(
             url  = self.URL,
-            data = dict(product_id=product_id, dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+            # data = dict(product_id=product_id, dropoff_location_id=location_id, starts_on=starts_on, ends_on=ends_on)
+            data = data
         )
 
         return self._post(parms)
