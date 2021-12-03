@@ -10,8 +10,9 @@ import stripe
 import uuid
 from http import HTTPStatus
 from wmiys_common import keys
-from ..common import security, api_wrapper
+from ..common import security
 from ..payments import payments
+from .. import api_wrapper
 
 
 # module blueprint

@@ -1,7 +1,7 @@
 import flask
 import requests
 import stripe
-from ..common import api_wrapper
+from .. import api_wrapper
 
 #------------------------------------------------------
 # Create a new payment request record in the api

@@ -8,7 +8,8 @@
 
 import flask
 from uuid import UUID
-from ..common import security as security, api_wrapper
+from ..common import security as security
+from .. import api_wrapper
 from http import HTTPStatus
 
 # module blueprint
