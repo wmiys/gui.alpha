@@ -1,6 +1,7 @@
 from wmiys_common import config_pairs
 from wmiys import app 
-from wmiys.common import api_wrapper, security
+from wmiys.common import security
+from wmiys import api_wrapper
 from wmiys.payments import payout_accounts
 from wmiys.routes import account_settings
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
 import flask
 from .pagination import Pagination
-from . import flask_request_urls, api_wrapper
-from .api_wrapper import ApiWrapperSearchProducts
-
+from . import flask_request_urls
+from .. import api_wrapper
+from ..api_wrapper import ApiWrapperSearchProducts
 
 class SearchProducts:
     """Object that handles the interfacing with the api wrapper."""

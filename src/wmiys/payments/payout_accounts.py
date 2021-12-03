@@ -5,7 +5,7 @@ from functools import wraps
 import flask
 import stripe
 from wmiys_common import keys, config_pairs
-from ..common import api_wrapper
+from .. import api_wrapper
 
 stripe.api_key = keys.payments.test
 

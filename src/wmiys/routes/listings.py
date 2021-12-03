@@ -7,7 +7,8 @@
 #*******************************************************************************************
 
 import flask
-from ..common import security, api_wrapper
+from ..common import security
+from .. import api_wrapper
 
 # module blueprint
 bpProductListings = flask.Blueprint('bpProductListings', __name__)

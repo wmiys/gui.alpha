@@ -7,9 +7,8 @@
 #*******************************************************************************************
 import flask
 from wmiys_common import config_pairs
-
-
-from ..common import security, ApiWrapperUsers, product_requests
+from ..common import security, product_requests
+from ..api_wrapper import ApiWrapperUsers
 
 
 # module blueprint
