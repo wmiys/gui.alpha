@@ -1,9 +1,9 @@
 import requests
-from . import ApiWrapperBase, RequestParms
+from . import ApiWrapperBase, RequestParms, ApiUrls
 
 class ApiWrapperUsers(ApiWrapperBase):
 
-    URL = 'users/{}'
+    URL = ApiUrls.USERS
 
     #------------------------------------------------------
     # Get the client's information
@@ -15,5 +15,6 @@ class ApiWrapperUsers(ApiWrapperBase):
     #------------------------------------------------------
     # Update a user
     #------------------------------------------------------
-    def put(self, user_data) -> requests.Response:
+    def put(self, user_data: dict) -> requests.Response:
         parms = RequestParms(url=self.URL.format(self.user_id), data=user_data)
+        return self._get(parms)
