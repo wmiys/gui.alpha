@@ -1,11 +1,12 @@
 import requests
 from enum import Enum
-from wmiys_common import keys, config_pairs
+from wmiys_common import keys
+from wmiys_common.config import Production as ConfigProduction
 
 #------------------------------------------------------
 # Prefix for the api url
 #------------------------------------------------------
-URL_BASE = config_pairs.ApiUrls.PRODUCTION
+URL_BASE = ConfigProduction.URL_API
 
 #------------------------------------------------------
 # All the suffixes for the api urls

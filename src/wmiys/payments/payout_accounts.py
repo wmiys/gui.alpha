@@ -4,12 +4,17 @@ from uuid import UUID
 from functools import wraps
 import flask
 import stripe
-from wmiys_common import keys, config_pairs
+
+from wmiys_common import keys
+from wmiys_common.config import Production as ConfigProduction
+
+
 from .. import api_wrapper
 
 stripe.api_key = keys.payments.test
 
-URL_BASE = config_pairs.FrontEndUrls.PRODUCTION
+# URL_BASE = config_pairs_old.FrontEndUrls.PRODUCTION
+URL_BASE = ConfigProduction.URL_GUI
 
 #------------------------------------------------------
 # Tell the API that we want to attempt to setup a 
