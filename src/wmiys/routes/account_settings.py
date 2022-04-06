@@ -6,16 +6,16 @@
 # Description:  Routing for all account settings
 #*******************************************************************************************
 import flask
-from wmiys_common import config_pairs
 from ..common import security, product_requests
 from ..api_wrapper import ApiWrapperUsers
-
+from wmiys_common.config import Production as ConfigProduction
 
 # module blueprint
 bpAccountSettings = flask.Blueprint('account_settings', __name__)
 
 
-URL_BASE = config_pairs.FrontEndUrls.PRODUCTION
+# URL_BASE = config_pairs_old.FrontEndUrls.PRODUCTION
+URL_BASE = ConfigProduction.URL_GUI
 
 #------------------------------------------------------
 # Account settings page (general)
