@@ -1,3 +1,7 @@
+import { ApiWrapper }      from "../../classes/API-Wrapper";
+import { SpinnerButton }   from "../../classes/SpinnerButton";
+import { UrlParser }       from "../../classes/UrlParser";
+import { Utilities }       from "../../classes/Utilities";
 
 const eRequestButtons = '.product-request-btn'
 const eProductRequestClass = '.product-request';

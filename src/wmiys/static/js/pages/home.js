@@ -1,3 +1,7 @@
+import { ApiWrapper }      from "../classes/API-Wrapper";
+import { FlatpickrRange }  from "../classes/FlatpickrRange";
+import { LocationsSelect } from "../classes/LocationsSelect";
+
 
 /**********************************************************
 Product search form

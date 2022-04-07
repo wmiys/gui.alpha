@@ -1,3 +1,7 @@
+import { ApiWrapper }      from "../../classes/API-Wrapper";
+import { SpinnerButton }   from "../../classes/SpinnerButton";
+
+
 /************************************************
 This object represents the General Information form.
 It includes all of its inputs and buttons.
@@ -21,7 +25,7 @@ const eFormBasic = {
     getValues: function() {
         const values = {};
 
-        for (inputKey of Object.keys(eFormBasic.inputs)) {
+        for (const inputKey of Object.keys(eFormBasic.inputs)) {
             values[inputKey] = $(eFormBasic.inputs[inputKey]).val();
         }
 

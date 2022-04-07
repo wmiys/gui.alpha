@@ -1,5 +1,6 @@
 
-class Utilities {    
+export class Utilities {    
+    
     /************************************************
     displays an alert on the screen
     *************************************************/

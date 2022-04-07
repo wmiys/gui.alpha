@@ -1,6 +1,6 @@
 
 
-class ProductLender {
+export class ProductLender {
     
     /**********************************************************
     Constructor

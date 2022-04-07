@@ -1,3 +1,8 @@
+import { ApiWrapper }      from "../classes/API-Wrapper";
+import { CommonHtml }      from "../classes/Common-Html";
+import { LocalStorage }    from "../classes/LocalStorage";
+import { Utilities }       from "../classes/Utilities";
+
 // Page elements
 const e_formCreateAccount = $('#form-create-account');
 const e_inputFirstName    = $('#form-create-account-name-first');

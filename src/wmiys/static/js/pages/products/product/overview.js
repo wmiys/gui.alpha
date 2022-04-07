@@ -1,4 +1,8 @@
-// LocalStorage.validateStatus();  // be sure user is loggen in
+import { ApiWrapper }      from "../../../classes/API-Wrapper";
+import { CommonHtml }      from "../../../classes/Common-Html";
+import { UrlParser }       from "../../../classes/UrlParser";
+import { Utilities }       from "../../../classes/Utilities";
+
 
 /**********************************************************
 Module variables

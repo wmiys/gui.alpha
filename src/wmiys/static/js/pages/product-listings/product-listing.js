@@ -1,10 +1,15 @@
-
+import { UrlParser }       from "../../classes/UrlParser";
+import { ProductListingForm } from "./product-listing-form";
+import { swiper } from "./product-images-swiper";
 
 const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 const mProductListingForm = new ProductListingForm(mProductID);
 
 const eDescriptionShowMoreBtn = $('.product-listing-description-show-more-btn');
 const eDescriptionText = $('.product-listing-description-data');
+
+// setup the image swiper component
+const pageSwiper = swiper;
 
 
 /**********************************************************
