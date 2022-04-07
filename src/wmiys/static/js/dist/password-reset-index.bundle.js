@@ -747,10 +747,6 @@ ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];class CommonHtml {
 
 CommonHtml.spinner = '<div class="spinner-border" role="status"></div>';
 CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';/************************************************
-Global Constants
-*************************************************/
-
-luxon.DateTime;/************************************************
 This class contains logic for disabling and then re-enabling html buttons.
 When the button is disabled, a spinner is shown and it is set to disabled.
 *************************************************/
@@ -875,8 +871,6 @@ const mSpinnerButton = new SpinnerButton(ePasswordResetForm.submitButton, $(ePas
 
 // password reset id located in the URL
 const mPasswordResetID = UrlParser.getPathValue(1);
-
-
 
 
 /**********************************************************
