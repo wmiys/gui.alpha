@@ -1,6 +1,6 @@
+import { UrlParser }       from "../../classes/UrlParser";
 
-
-class SortingType
+export class SortingType
 {
     constructor(a_id, a_text, a_urlSortQuery, a_subtext=null) {
         this.id = a_id;
@@ -22,7 +22,7 @@ class SortingType
 }
 
 
-class SortingElement
+export class SortingElement
 {
     constructor() {
 

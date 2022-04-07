@@ -700,11 +700,7 @@ ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];class CommonHtml {
 }
 
 CommonHtml.spinner = '<div class="spinner-border" role="status"></div>';
-CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';/************************************************
-Global Constants
-*************************************************/
-
-luxon.DateTime;class UrlParser
+CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';class UrlParser
 {   
     /**********************************************************
     Get the path value of the current url/

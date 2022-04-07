@@ -1,702 +1,459 @@
-(function(){'use strict';const API_URL_PREFIX = {
-    Production: 'https://api.wmiys.com',
-    Development: 'http://10.0.0.82:5000',
+(function(){'use strict';class UrlParser
+{   
+    /**********************************************************
+    Get the path value of the current url/
+    **********************************************************/
+    static getPathValue(index) {
+        const urlPath = window.location.pathname;
+        const pathValues = urlPath.split("/");
+
+        const adjustedIndex = index + 1;    // empty string in the first index of pathValues
+
+        if (adjustedIndex < pathValues.length && adjustedIndex >= 1) {
+            return pathValues[adjustedIndex];
+        }
+
+        return null;
+    }
+
+    /**********************************************************
+    Returns the value of a URL query parm
+
+        example.com?name=shit
+    
+    getQueryParm('name') would return 'shit'
+    **********************************************************/
+    static getQueryParm(a_strParmName) {
+        const urlParams = UrlParser.getSearchParms();
+        const value = urlParams.get(a_strParmName);
+        return value;
+    }
+
+    /**********************************************************
+    Set's the query paramters of the url.
+    Then refreses the page.
+    **********************************************************/
+    static setQueryParm(a_strKey, a_strValue, a_bRefresh=true) {
+        const urlParams = UrlParser.getSearchParms();
+        urlParams.set(a_strKey, a_strValue);
+
+        if (a_bRefresh) {
+            window.location.search = urlParams;
+        } else {
+            return urlParams;
+        }
+
+    }
+
+    /**********************************************************
+    Returns the current URLSearchParams
+    **********************************************************/
+    static getSearchParms() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams;
+    }
+
+    /**********************************************************
+    Set's the url query parms of the current url to the key, values contained in the object.
+    AND DOES NOT REFRESH THE PAGE!!!!... MAGIC BITCH.
+    **********************************************************/
+    static setQueryParmsNoReload(newQueryParmsObject) {
+        const url = new URL(window.location);
+
+        for (const key in newQueryParmsObject) {
+            url.searchParams.set(key, newQueryParmsObject[key]);
+        }
+
+        window.history.pushState({}, '', url);
+    }
+}class Pagination
+{
+
+    /**********************************************************
+    Constructor.
+
+    Parms:
+        a_eList (str) - string for jquery to select the element.
+    **********************************************************/
+    constructor(a_eList) {
+        if (a_eList == undefined || a_eList == null) {
+            a_eList = Pagination.list;
+        }
+
+        this.eList = a_eList;
+
+        this.togglePaginationStates = this.init.bind(this);
+        this.togglePaginationStateFirstPage = this.togglePaginationStateFirstPage.bind(this);
+        this.toggleFirstAndOnlyPage = this.toggleFirstAndOnlyPage.bind(this);
+        this.togglePaginationStateLastPage = this.togglePaginationStateLastPage.bind(this);
+        this.togglePaginationStateNormal = this.togglePaginationStateNormal.bind(this);
+    }
+
+    /**********************************************************
+    Toggle the appropriate pagination state.
+    **********************************************************/
+    init() {
+        let presentPage = UrlParser.getQueryParm('page');
+        const lastPage = $(Pagination.list).attr('data-page-last');
+
+        if (presentPage == 1 || presentPage == null) {
+            // protection against null value
+            presentPage = 1;
+            
+            this.togglePaginationStateFirstPage();
+    
+            if (presentPage == lastPage) {
+                this.toggleFirstAndOnlyPage();
+            }
+    
+            return;
+        } 
+        else if (presentPage == lastPage) {
+            this.togglePaginationStateLastPage();
+            return;
+        } 
+        else {
+            this.togglePaginationStateNormal();
+        }
+    }
+
+    /**********************************************************
+    First page action
+    **********************************************************/
+    togglePaginationStateFirstPage() {
+        let ul = $(this.eList);
+        const items = Pagination.items;
+    
+        // disable the first and previous buttons
+        $(ul).find(items.first).addClass('disabled');
+        $(ul).find(items.previous).addClass('disabled');
+    
+        // set the left button to active
+        $(ul).find(items.left).addClass('active');
+    
+        // put href value of the right into the middle one
+        const nextLink = $(ul).find(items.next).find('a').attr('href');
+        $(ul).find(items.center).find('a').attr('href', nextLink).text('2');
+    
+        // disable the right button
+        $(ul).find(items.right).find('a').text('...').closest('li').addClass('disabled');
+    }
+
+    /**********************************************************
+    First page and the only page action
+    **********************************************************/
+    toggleFirstAndOnlyPage() {
+        let ul = $(this.eList);
+        const items = Pagination.items;
+    
+        // disable the first and previous buttons
+        $(ul).find(items.center).addClass('disabled');
+        $(ul).find(items.next).addClass('disabled');
+        $(ul).find(items.last).addClass('disabled');
+    }
+
+    /**********************************************************
+    Last page action
+    **********************************************************/
+    togglePaginationStateLastPage() {
+        let ul = $(this.eList);
+        const items = Pagination.items;
+    
+        // disable the first and previous buttons
+        $(ul).find(items.last).addClass('disabled');
+        $(ul).find(items.next).addClass('disabled');
+        $(ul).find(items.right).addClass('disabled').find('a').text('...');
+    
+        // set the right button to active
+        $(ul).find(items.center).addClass('active');
+    }
+
+    /**********************************************************
+    Normal page.
+    **********************************************************/
+    togglePaginationStateNormal() {
+        $(this.eList).find(Pagination.items.center).addClass('active');
+    }
+
+
+}
+
+
+/**********************************************************
+Static properties
+**********************************************************/
+
+Pagination.list = '.pagination-search-products';
+
+Pagination.items = {};
+Pagination.items.first    = '.page-item-first';
+Pagination.items.previous = '.page-item-previous';
+Pagination.items.left     = '.page-item-left';
+Pagination.items.center   = '.page-item-center';
+Pagination.items.right    = '.page-item-right';
+Pagination.items.next     = '.page-item-next';
+Pagination.items.last     = '.page-item-last';class SidenavFilterCategories
+{
+    /**********************************************************
+    Constructor
+    **********************************************************/
+    constructor() {
+        this.addEventListeners();
+        this.classes = SidenavFilterCategories.classes;
+        this.dataAttrs = SidenavFilterCategories.dataAttrs;
+
+        // bind all the functions... fuck javascript
+        this.addEventListeners = this.addEventListeners.bind(this);
+        this.collapseSidenavFilterCategoryList = this.collapseSidenavFilterCategoryList.bind(this);
+        this.revealActiveCategory = this.revealActiveCategory.bind(this);
+        this.revealActiveCategoryMajor = this.revealActiveCategoryMajor.bind(this);
+        this.revealActiveCategoryMinor = this.revealActiveCategoryMinor.bind(this);
+        this.revealActiveCategorySub = this.revealActiveCategorySub.bind(this);
+    }
+
+    /**********************************************************
+    Regsites all of the event listeners for this class
+    **********************************************************/
+    addEventListeners() {
+        $(SidenavFilterCategories.classes.collapseListBtn).on('click', (e) => {
+            this.collapseSidenavFilterCategoryList(e.currentTarget);
+        });
+    }
+
+    /**********************************************************
+    Toggle a collapseable list
+    **********************************************************/
+    collapseSidenavFilterCategoryList(a_eBtnClicked) {
+        let listItem = $(a_eBtnClicked).closest(this.classes.listItem);     // the list item containing the button that was clicked
+        let listItemID = $(listItem).attr(this.dataAttrs.id);               // it's id
+
+        let jqString = `> ${this.classes.list}[${this.dataAttrs.parentID}="${listItemID}"]`;
+
+        // toggle the sub list within the current listItem list whose parent id is the one of the listItem
+        $(listItem).toggleClass('child-list-visible').closest(this.classes.list).find(jqString).collapse('toggle');
+    }
+
+    /**********************************************************
+    Figure out which category item is active 
+    Drill up and uncollapse all of it's parents.
+    **********************************************************/
+    revealActiveCategory() {
+        const categoryType = UrlParser.getPathValue(3); // '/search/products/categories/[major,minor,sub]
+        if (categoryType == null) {
+            return;
+        }
+    
+        const categoryID = UrlParser.getPathValue(4);
+
+        switch(categoryType) {
+            case SidenavFilterCategories.categoryTypes.major:
+                this.revealActiveCategoryMajor(categoryID); break;
+            case SidenavFilterCategories.categoryTypes.minor:
+                this.revealActiveCategoryMinor(categoryID); break;
+            case SidenavFilterCategories.categoryTypes.sub:
+                this.revealActiveCategorySub(categoryID); break;
+            default:
+                console.error('SidenavFilterCategories - revealActiveCategory: invalid product category'); break;
+        }    
+    }
+
+    /**********************************************************
+    Show a sub category item and it's parent and grandfather (major category).
+    **********************************************************/
+    revealActiveCategoryMajor(a_iCategoryId) {
+        let listItemSelector = `${SidenavFilterCategories.classes.listItem}.major[data-id="${a_iCategoryId}"]`;
+        let eListItem = $(listItemSelector);
+
+        $(eListItem).addClass('text-success').removeClass('text-muted').next().collapse('show');
+        $(eListItem).find('a').toggleClass('text-reset, font-weight-bold');
+    }
+
+    /**********************************************************
+    Show a minor category item and it's parent.
+    **********************************************************/
+    revealActiveCategoryMinor(a_iCategoryId) {
+        let listItemSelector = `${SidenavFilterCategories.classes.listItem}.minor[data-id="${a_iCategoryId}"]`;
+        let eListItem = $(listItemSelector);
+
+        $(eListItem).addClass('text-success').removeClass('text-muted').next().collapse('show');
+        $(eListItem).find('a').toggleClass('text-reset, font-weight-bold');
+
+        let grandfatherList = $(eListItem).closest('.collapse');
+        $(grandfatherList).collapse('show');   
+    }
+
+    /**********************************************************
+    Show a major category item.
+    **********************************************************/
+    revealActiveCategorySub(a_iCategoryId) {
+        let listItemSelector = `${SidenavFilterCategories.classes.listItem}.sub[data-id="${a_iCategoryId}"]`;
+        let eListItem = $(listItemSelector);
+        
+        $(eListItem).addClass('text-success').removeClass('text-muted').next().collapse('show');
+        $(eListItem).find('a').toggleClass('text-reset, font-weight-bold');
+        
+        let parentList = $(eListItem).closest(SidenavFilterCategories.classes.list);
+        $(parentList).collapse('show');
+
+        let grandfatherList = $(parentList).closest('.collapse');
+        $(grandfatherList).collapse('show');        
+    }
+
+}
+
+
+/**********************************************************
+Static properties
+**********************************************************/
+SidenavFilterCategories.classes = {
+    container: '.sidenav-filter-categories',
+    list: '.sidenav-filter-categories-list',
+    listItem: '.sidenav-filter-categories-list-item',
+    collapseListBtn: '.sidenav-filter-categories-list-btn-collapse',
+    listMajor: '.sidenav-filter-categories-list-major',
+    listMinor: '.sidenav-filter-categories-list-minor',
+    listSub: '.sidenav-filter-categories-list-sub',
 };
 
-const API_BASE_URL = window.location.hostname == '10.0.0.82' ? API_URL_PREFIX.Development : API_URL_PREFIX.Production;class LocalStorage {
+SidenavFilterCategories.dataAttrs = {
+    parentID: 'data-parent-id',
+    id: 'data-id',
+    categoryType: 'data-category-type',
+}; 
 
-    /**********************************************************
-    Set the user id in local storage
-    
-    Parms:
-        newUserID - the userID to be set
-    **********************************************************/
-    static setUserID(newUserID) {
-        if (newUserID == undefined || newUserID ==  null) {
-            console.error('Invalid userID');
-            return;
-        }
 
-        window.sessionStorage.removeItem(LocalStorage.KEY_USER_ID);
-        window.sessionStorage.setItem(LocalStorage.KEY_USER_ID, newUserID);
+SidenavFilterCategories.categoryTypes = {
+    major: 'major',
+    minor: 'minor',
+    sub: 'sub',
+};class SortingType
+{
+    constructor(a_id, a_text, a_urlSortQuery, a_subtext=null) {
+        this.id = a_id;
+        this.text = a_text;
+        this.subtext = a_subtext;
+        this.urlSortQuery = a_urlSortQuery;
+
+        this.getHtml = this.getHtml.bind(this);
     }
 
     /**********************************************************
-    Get the user id in local storage
+    Generate the html for an element
     **********************************************************/
-    static getUserID() {
-        return window.sessionStorage.getItem(LocalStorage.KEY_USER_ID);
-    }
-
-    /**********************************************************
-    Checks if the user id, email, and password are set
-    **********************************************************/
-    static areCredentialsSet() {
-        if (!LocalStorage.isUserIDSet()) {
-            return false;
-        }
-
-        if (!LocalStorage.isUserEmailSet()) {
-            return false;
-        }
-
-        if (!LocalStorage.isUserPasswordSet()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**********************************************************
-    Checks if the user id is set in local storage.
-
-    If yes: returns true
-    If no: returns false
-    **********************************************************/
-    static isUserIDSet() {
-        let result = false;
-
-        const userID = LocalStorage.getUserID();
-        if (userID != null && userID != undefined) {
-            result = true;
-        }
-
-        return result;
-    }
-
-    /**********************************************************
-    Checks if the user email is set in session storage.
-
-    If yes: returns true
-    If no: returns false
-    **********************************************************/
-    static isUserEmailSet() {
-        let result = false;
-
-        const email = LocalStorage.getEmail();
-        if (email != null && email != undefined) {
-            result = true;
-        }
-
-        return result;
-    }
-
-    /**********************************************************
-    Checks if the user password is set in session storage.
-
-    If yes: returns true
-    If no: returns false
-    **********************************************************/
-    static isUserPasswordSet() {
-        let result = false;
-
-        const password = LocalStorage.getPassword();
-        if (password != null && password != undefined) {
-            result = true;
-        }
-
-        return result;
-    }
-
-    /**********************************************************
-    Get the user's email from local storage
-    **********************************************************/
-    static getEmail() {
-        return window.sessionStorage.getItem(LocalStorage.KEY_EMAIL);
-    }
-
-    /**********************************************************
-    Get the user's password fromo local storage
-    **********************************************************/
-    static getPassword() {
-        return window.sessionStorage.getItem(LocalStorage.KEY_PASSWORD);
-    }
-
-    /**********************************************************
-    Set the email in local storage
-    
-    Parms:
-        newEmail - the email to be set
-    **********************************************************/
-    static setEmail(newEmail) {
-        if (newEmail == undefined || newEmail ==  null) {
-            console.error('Invalid email');
-            return;
-        }
-
-        window.sessionStorage.removeItem(LocalStorage.KEY_EMAIL);
-        window.sessionStorage.setItem(LocalStorage.KEY_EMAIL, newEmail);
-    }
-
-    /**********************************************************
-    Set the password in local storage
-    
-    Parms:
-        newPassword - the password to be set
-    **********************************************************/
-    static setPassword(newPassword) {
-        if (newPassword == undefined || newPassword ==  null) {
-            console.error('Invalid email');
-            return;
-        }
-
-        window.sessionStorage.removeItem(LocalStorage.KEY_PASSWORD);
-        window.sessionStorage.setItem(LocalStorage.KEY_PASSWORD, newPassword);
-    }
-
-
-    /**********************************************************
-    Checks to be sure the user is properly logged in.
-    If not, redirect them to the argument passed in.
-    **********************************************************/
-    static validateStatus(redirectLocation = '/login') {
-        if (!LocalStorage.areCredentialsSet()) {
-            window.location.href = redirectLocation;
-        }
-    }
-
-    /**********************************************************
-    Clear's the session storage.
-    **********************************************************/
-    static clear() {
-        window.sessionStorage.clear();
+    getHtml() {
+        const subtextDisplay = this.subtext == null ? '' : `data-subtext="${this.subtext}"`;
+        let html = `<option value="${this.id}" ${subtextDisplay}>${this.text}</option>`;
+        return html;
     }
 }
 
-LocalStorage.KEY_USER_ID  = 'userID';
-LocalStorage.KEY_EMAIL    = 'email';
-LocalStorage.KEY_PASSWORD = 'password';class ApiWrapper 
-{    
+
+class SortingElement
+{
+    constructor() {
+
+        this.addEventListeners = this.addEventListeners.bind(this);
+        this.setNewSortOption  = this.setNewSortOption.bind(this);
+        this.displayOptions    = this.displayOptions.bind(this);
+        this.setOptionFromUrl  = this.setOptionFromUrl.bind(this);
+        this.getOptionsHtml    = this.getOptionsHtml.bind(this);
+        this.getValue          = this.getValue.bind(this);
+
+        this.addEventListeners();   
+    }
+
     /**********************************************************
-    Send a post Users request to the API
-    
-    Parms:
-        userInfoStruct - user object containing all the fields
+    Register all the event listeners
     **********************************************************/
-    static requestPostUser(userInfoStruct, fnSuccess, fnError) {
-        // ensure the argument contains all the required fields
-        if (!ApiWrapper.objectContainsAllFields(userInfoStruct, ApiWrapper.REQ_FIELDS_USER_POST)) {
-            console.log('missing fields');
+    addEventListeners() {
+        const self = this;
+
+        $(SortingElement.selectors.container).on('change', function() {
+            self.setNewSortOption();
+        });
+    }
+
+    /**********************************************************
+    Once a new option is chosen, set the sort url query parm to the new one.
+    Then, refresh the page.
+    **********************************************************/
+    setNewSortOption() {
+        const val = this.getValue();
+        const urlQueryParmValue = SortingElement.Options[val].urlSortQuery;
+        UrlParser.setQueryParm('sort', urlQueryParmValue, true);
+    }
+
+    /**********************************************************
+    Display all of the available options.
+    **********************************************************/
+    displayOptions() {
+        const optionsHtml = this.getOptionsHtml();
+        $(SortingElement.selectors.container).html(optionsHtml);
+        this.setOptionFromUrl();
+        $(SortingElement.selectors.container).selectpicker('render');
+    }
+
+    /**********************************************************
+    Set the selected option from the value in the current url
+    **********************************************************/
+    setOptionFromUrl() {
+        const urlValue = UrlParser.getQueryParm('sort');
+
+        if (urlValue == null) {
             return;
         }
-        
-        if (fnSuccess == undefined) {
-            fnSuccess = console.log;
-        }
-        
-        if (fnError == undefined) {
-            fnError = console.error;
-        }
-        
-        $.ajax({
-            // url: ApiWrapper.URLS.USERS,
-            url: '/api/create-account',
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            data: userInfoStruct,
-            success: function(result,status,xhr) {
-                fnSuccess(result, status, xhr);
-            },
-            error: function() {
-                fnError(xhr, status, error);
-            },
-        });
-    }
-    
-    /**********************************************************
-    Send a post Users request to the API
-    
-    Parms:
-        userInfoStruct - user object containing all the fields
-    **********************************************************/
-    static requestLogin(loginStruct, fnSuccess, fnError) {
-        // ensure the argument contains all the required fields
-        if (!ApiWrapper.objectContainsAllFields(loginStruct, ApiWrapper.REQ_FIELDS_LOGIN)) {
-            console.log('missing fields');
-            return;
-        }
-        
-        if (fnSuccess == undefined) {
-            fnSuccess = console.log;
-        }
-        
-        if (fnError == undefined) {
-            fnError = console.error;
-        }
-        
-        $.ajax({
-            url: '/api/login',
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            data: loginStruct,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-    
-    /**********************************************************
-    Send a GET request for a user from the API
-    **********************************************************/
-    static async requestGetUser() {
-        const url = `/api/users`;
-        const response = await fetch(url);
-        return response;
-    }
 
-    /**********************************************************
-    Send a PUT request for a user from the API. 
-    Updates the user's info.
-    
-    Parms:
-        userID: the user's id
-        oUser: an object containing the user's info. Optional fields are:
-            - email
-            - password
-            - name_first
-            - name_last
-            - birth_date
-        fnSuccess: successful request callback
-        fnError: unsuccessful request callback
-    **********************************************************/
-    static requestPutUser(oUser, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/users`;
-        
-        $.ajax({
-            url: url,
-            data: oUser,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-
-    /**********************************************************
-    Send a GET request to retrieve all of the product categories
-    
-    Parms:
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
-    **********************************************************/
-    static requestGetProductCategories(fnSuccess=console.log, fnError=console.error) {
-        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET request to retrieve major product categories
-    
-    Parms:
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
-    **********************************************************/
-    static requestGetProductCategoriesMajor(fnSuccess, fnError) {
-        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET request to retrieve minor product categories
-    
-    Parms:
-        majorCategoryID - major category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
-    **********************************************************/
-    static requestGetProductCategoriesMinor(majorCategoryID, fnSuccess, fnError) {
-        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor`;
-
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET request to retrieve sub product categories
-    
-    Parms:
-        majorCategoryID - major category id
-        majorCategoryID - minor category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
-    **********************************************************/
-    static requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, fnSuccess, fnError) {
-        const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor/${minorCategoryID}/sub`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-
-    /**********************************************************
-    Send a POST request to create a new product
-    **********************************************************/
-    static requestPostProduct(data, fnSuccess, fnError) {
-        const url = `/api/products`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a PUT request to create a new product
-    **********************************************************/
-    static requestPutProduct(productID, data, fnSuccess, fnError) {
-        const url = `/api/products/${productID}`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET request to fetch all of a user's products
-    **********************************************************/
-    static requestGetUserProducts(fnSuccess = console.log, fnError=console.error) {
-        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
-        
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET request to fetch a single product availability record.
-    **********************************************************/
-    static requestGetProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a PUT request to update a single product availability record.
-    **********************************************************/
-    static requestPutProductAvailability(productID, productAvailabilityID, productData, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            data: productData,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a DELETE product availability request
-    **********************************************************/
-    static requestDeleteProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.DELETE,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a POST product availability request
-    **********************************************************/
-    static requestPostProductAvailability(productID, productAvailabilityData, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/availability`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            data: productAvailabilityData,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET product images request.
-    Retrieve all the product images for a single product.
-    **********************************************************/
-    static requestGetProductImages(productID, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/images`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a POST product images request.
-    **********************************************************/
-    static requestPostProductImages(productID, filesList, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/images`;
-
-        $.ajax({
-            url: url,
-            data: filesList,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a DELETE product images request.
-    Deletes all images of a product.
-    **********************************************************/
-    static requestDeleteProductImages(productID, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/images`;
-
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.DELETE,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET location request to the API
-    **********************************************************/
-    static requestGetLocation(locationID, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/locations/${locationID}`;
-
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a GET product availability request to the API
-    **********************************************************/
-    static requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/listings/${productID}/availability`;
-
-        const apiData = {
-            location_id: locationID,
-            starts_on: startsOn,
-            ends_on: endsOn,
-        };
-
-        $.ajax({
-            url: url,
-            data: apiData,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-    /**********************************************************
-    Send a POST product request to the API
-    **********************************************************/
-    static async requestPostProductRequest(productID, locationID, startsOn, endsOn) {
-        const url = '/api/requests/submitted';
-
-        const apiData = new FormData();
-        apiData.append('location_id', locationID);
-        apiData.append('starts_on', startsOn);
-        apiData.append('ends_on', endsOn);
-        apiData.append('product_id', productID);
-
-        const response = await fetch(url, {
-            method: 'POST',
-            body: apiData,
-        });
-
-        return response;
-    }
-
-
-    /**********************************************************
-    Send a post product request status response
-    **********************************************************/
-    static async requestPostProductRequestResponse(responseID, status) {
-        const url = `/api/requests/received/${responseID}/${status}`;
-
-        const response = await fetch(url, {
-            method: 'POST',
-        });
-
-        return response;
-    }
-
-    /**********************************************************
-    Send a post balance transfer for a lender
-    **********************************************************/
-    static async requestPostBalanceTransfer() {
-        const url = '/api/balance-transfers';
-
-        const response = await fetch(url, {
-            method: 'POST',
-        });
-
-        return response;
-    }
-    
-    
-    /**********************************************************
-    Send a post password reset request
-    **********************************************************/
-    static async requestPostPasswordReset(email) {
-        const url = '/api/password-resets';
-
-        const formData = new FormData();
-        formData.append('email', email);
-
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData,
-        });
-
-        return response;
-    }
-
-    /**********************************************************
-    Update a password reset record
-    **********************************************************/
-    static async requestPutPasswordReset(passwordResetID, newPassword) {
-        const url = `/api/password-resets/${passwordResetID}`;
-
-        const formData = new FormData();
-        formData.append('password', newPassword);
-        
-        const response = await fetch(url, {
-            method: 'PUT',
-            body: formData,
-        });
-
-        return response;
-    }
-
-
-    /**********************************************************
-    Checks if an object contains all the fields in a list
-    
-    Parms:
-        a_object - the object that needs to be validated
-        a_requiredFields - list of fields the object needs
-    **********************************************************/
-    static objectContainsAllFields(a_object, a_requiredFields) {
-        let result = true;
-        
-        for (const field of a_requiredFields) {
-            if (!a_object.hasOwnProperty(field)) {
-                result = false;
+        for (const option of Object.values(SortingElement.Options)) {
+            if (option.urlSortQuery == urlValue) {
+                const index = option.id;
+                const optionElements = SortingElement.getOptions();
+                $(optionElements[index]).attr('selected','selected');
                 break;
             }
         }
-        
-        return result;
     }
 
     /**********************************************************
-    Create a basic HTTP auth token from the email and password
-    saved in LocalStorage
-
-    See: https://stackoverflow.com/questions/10226333/ajax-authentication-with-jquery
+    Generate the html for the options within the select element
     **********************************************************/
-    static getBasicAuthToken() {
-        const tok = LocalStorage.getEmail() + ':' + LocalStorage.getPassword();
-        const hash = btoa(tok);
-        return 'Basic ' + hash;
+    getOptionsHtml() {
+        let html = '';
+
+        for (const option of Object.values(SortingElement.Options)) {
+            html += option.getHtml();
+        }
+
+        return html;
+    }
+
+    /**********************************************************
+    Get the currently selected value
+    **********************************************************/
+    getValue() {
+        const value = $(SortingElement.selectors.container).find('option:checked').val();
+        return parseInt(value);
+    }
+
+    /**********************************************************
+    Get a list of all the option elements in the DOM.
+    **********************************************************/
+    static getOptions() {
+        return $(SortingElement.selectors.container).find('option');
     }
 }
 
-/**********************************************************
-ApiWrapper static properties
-**********************************************************/
-ApiWrapper.URL_BASE = API_BASE_URL;
 
-ApiWrapper.URLS = {
-    USERS             : ApiWrapper.URL_BASE + '/users',
-    LOGIN             : ApiWrapper.URL_BASE + '/login',
-    PRODUCT_CATEGORIES: ApiWrapper.URL_BASE + '/product-categories',
+SortingElement.selectors = {
+    container: '.selectpickr-search-product:visible',
 };
 
-ApiWrapper.URLS.SEARCH = {
-    LOCATIONS: ApiWrapper.URL_BASE + '/search/locations',
-};
-
-ApiWrapper.REQUEST_TYPES = {
-    GET   : 'GET',
-    POST  : 'POST',
-    DELETE: 'DELETE',
-    PUT   : 'PUT',
-    PATCH : 'PATCH',
-};
-
-// required fields for each api request 
-ApiWrapper.REQ_FIELDS_USER_POST = ['email', 'password', 'name_first', 'name_last', 'birth_date'];
-ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];/************************************************
-Global Constants
-*************************************************/
-
-luxon.DateTime;const m_SidenavFilterCategories = new SidenavFilterCategories();
+SortingElement.Options = {
+    0: new SortingType(0, "Name", "name:asc", null),
+    1: new SortingType(1, "Price full day", "price_full:desc", "high to low"),
+    2: new SortingType(2, "Price full day", "price_full:asc", "low to high"),
+    3: new SortingType(3, "Price half day", "price_half:desc", "high to low"),
+    4: new SortingType(4, "Price half day", "price_half:asc", "low to high"),
+};const m_SidenavFilterCategories = new SidenavFilterCategories();
 const m_SortingElement = new SortingElement();
 const m_Pagination = new Pagination(Pagination.list);
 
