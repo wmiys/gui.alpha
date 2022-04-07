@@ -1,6 +1,5 @@
 
-
-
+import { ApiWrapper } from "./API-Wrapper";
 
 export class LocationsSelect 
 {

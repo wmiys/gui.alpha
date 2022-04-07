@@ -1,5 +1,5 @@
 import { API_BASE_URL } from "../pages/api-base-url";
-
+import { LocalStorage }    from "./LocalStorage";
 
 export class ApiWrapper 
 {    
