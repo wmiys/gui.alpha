@@ -2,7 +2,7 @@
 /************************************************
 Types of alerts
 *************************************************/
-const ALERT_TOP_TYPES = {
+export const ALERT_TOP_TYPES = {
     PRIMARY  : 'alert-primary',
     SECONDARY: 'alert-secondary',
     SUCCESS  : 'alert-success',
@@ -14,7 +14,7 @@ const ALERT_TOP_TYPES = {
 }
 
 
-class AlertTop
+export class AlertTop
 {
     constructor(alertType, message) {
         const self = this;

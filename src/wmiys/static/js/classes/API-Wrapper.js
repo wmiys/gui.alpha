@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../pages/api-base-url";
 
-class ApiWrapper 
+
+export class ApiWrapper 
 {    
     /**********************************************************
     Send a post Users request to the API

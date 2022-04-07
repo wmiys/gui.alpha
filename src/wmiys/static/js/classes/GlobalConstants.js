@@ -3,4 +3,4 @@
 Global Constants
 *************************************************/
 
-const DateTime = luxon.DateTime;
+export const DateTime = luxon.DateTime;

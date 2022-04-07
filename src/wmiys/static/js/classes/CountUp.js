@@ -1,7 +1,7 @@
 
 
 
-class CountUp
+export class CountUp
 {
     constructor(eElement) {
         this.element = eElement;

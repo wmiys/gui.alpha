@@ -2,7 +2,7 @@
 
 
 
-class LocationsSelect 
+export class LocationsSelect 
 {
     /**********************************************************
     Initialize a select2 location search plugin.
