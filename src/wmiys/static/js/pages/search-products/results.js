@@ -1,4 +1,9 @@
 
+import { Pagination } from "./Pagination";
+import { SidenavFilterCategories } from "./SidenavCategoryFilter";
+import { SortingElement } from "./SortingElement";
+
+
 const m_SidenavFilterCategories = new SidenavFilterCategories();
 const m_SortingElement = new SortingElement();
 const m_Pagination = new Pagination(Pagination.list);

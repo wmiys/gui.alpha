@@ -1,3 +1,8 @@
+import { AlertTop }        from "../../classes/AlertTop";
+import { ALERT_TOP_TYPES } from "../../classes/AlertTop";
+import { ApiWrapper }      from "../../classes/API-Wrapper";
+import { SpinnerButton }   from "../../classes/SpinnerButton";
+import { UrlParser }       from "../../classes/UrlParser";
 
 const ePasswordResetForm = {
     form: '.password-reset-form',
@@ -23,8 +28,6 @@ const mSpinnerButton = new SpinnerButton(ePasswordResetForm.submitButton, $(ePas
 
 // password reset id located in the URL
 const mPasswordResetID = UrlParser.getPathValue(1);
-
-
 
 
 /**********************************************************

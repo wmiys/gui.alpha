@@ -1,13 +1,11 @@
 /************************************************
-This class contains logic for disabling and then
-re-enabling html buttons.
-
-When the button is disabled, a spinner is shown
-and it is set to disabled.
+This class contains logic for disabling and then re-enabling html buttons.
+When the button is disabled, a spinner is shown and it is set to disabled.
 *************************************************/
 
+import { CommonHtml } from "./Common-Html";
 
-class SpinnerButton
+export class SpinnerButton
 {
     /************************************************
     Constructor

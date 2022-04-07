@@ -129,7 +129,7 @@ def productPageInsights(product_id):
 @security.login_required
 def productPageSettings(product_id):
     product_api_response = _getProductApiResponse(product_id)
-
+    
     return flask.render_template('pages/products/product/settings.html', product=product_api_response)
 
 

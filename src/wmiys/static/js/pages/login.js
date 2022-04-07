@@ -1,3 +1,7 @@
+import { ApiWrapper } from "../classes/API-Wrapper";
+import { CommonHtml } from "../classes/Common-Html";
+import { Utilities } from "../classes/Utilities";
+
 // Page elements
 const e_formLogin         = $('#form-login');
 const e_inputEmail        = $('#form-login-email');

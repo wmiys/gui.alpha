@@ -1,6 +1,6 @@
+import { UrlParser }       from "../../classes/UrlParser";
 
-
-class Pagination
+export class Pagination
 {
 
     /**********************************************************

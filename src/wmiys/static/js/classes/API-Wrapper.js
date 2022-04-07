@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../pages/api-base-url";
+import { LocalStorage }    from "./LocalStorage";
 
-class ApiWrapper 
+export class ApiWrapper 
 {    
     /**********************************************************
     Send a post Users request to the API

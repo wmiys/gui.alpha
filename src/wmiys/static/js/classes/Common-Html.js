@@ -1,6 +1,6 @@
 
 
-class CommonHtml {
+export class CommonHtml {
     
     constructor() {
         //

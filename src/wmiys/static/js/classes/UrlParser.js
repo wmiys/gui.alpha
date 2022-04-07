@@ -1,6 +1,6 @@
 
 
-class UrlParser
+export class UrlParser
 {   
     /**********************************************************
     Get the path value of the current url/

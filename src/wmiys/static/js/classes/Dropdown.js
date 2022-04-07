@@ -1,7 +1,7 @@
 // https://preview.webpixels.io/quick-website-ui-kit/docs/components/dropdowns.html
 
 
-class Dropdown {
+export class Dropdown {
 	constructor() {
 		this.$dropdown = $('.dropdown-animate'),
 			this.$dropdownSubmenu = $('.dropdown-submenu [data-toggle="dropdown"]');

@@ -1,4 +1,7 @@
-
+import { ApiWrapper }      from "../../../classes/API-Wrapper";
+import { FlatpickrRange }  from "../../../classes/FlatpickrRange";
+import { UrlParser }       from "../../../classes/UrlParser";
+import { Utilities }       from "../../../classes/Utilities";
 
 /************************************************
 edit product availability form element

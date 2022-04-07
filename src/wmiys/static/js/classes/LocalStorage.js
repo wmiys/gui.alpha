@@ -1,6 +1,6 @@
 
 
-class LocalStorage {
+export class LocalStorage {
 
     /**********************************************************
     Set the user id in local storage

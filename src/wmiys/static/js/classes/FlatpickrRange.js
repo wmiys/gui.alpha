@@ -1,5 +1,7 @@
+import { DateTime } from "./GlobalConstants";
 
-class FlatpickrRange
+
+export class FlatpickrRange
 {
     /**********************************************************
     Constructor

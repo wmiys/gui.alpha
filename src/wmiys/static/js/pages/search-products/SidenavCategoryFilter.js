@@ -1,4 +1,6 @@
-class SidenavFilterCategories
+import { UrlParser }       from "../../classes/UrlParser";
+
+export class SidenavFilterCategories
 {
     /**********************************************************
     Constructor
