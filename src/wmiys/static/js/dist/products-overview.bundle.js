@@ -738,15 +738,7 @@ ApiWrapper.REQUEST_TYPES = {
 
 // required fields for each api request 
 ApiWrapper.REQ_FIELDS_USER_POST = ['email', 'password', 'name_first', 'name_last', 'birth_date'];
-ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];class CommonHtml {
-    
-    constructor() {
-        //
-    }
-}
-
-CommonHtml.spinner = '<div class="spinner-border" role="status"></div>';
-CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';class CountUp
+ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];class CountUp
 {
     constructor(eElement) {
         this.element = eElement;
@@ -799,11 +791,15 @@ CountUp.Defaults = {
     duration:       2,
     decimalPlaces:  0,
     prefix:         '',
-};/************************************************
-Global Constants
-*************************************************/
+};class CommonHtml {
+    
+    constructor() {
+        //
+    }
+}
 
-luxon.DateTime;/************************************************
+CommonHtml.spinner = '<div class="spinner-border" role="status"></div>';
+CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';/************************************************
 This class contains logic for disabling and then re-enabling html buttons.
 When the button is disabled, a spinner is shown and it is set to disabled.
 *************************************************/
@@ -841,12 +837,11 @@ class SpinnerButton
     }
 
     
-}const eCardOverviewStat = '.card-products-overview-stat';
+}const eCardOverviewStat   = '.card-products-overview-stat';
 const eBtnTransferBalance = '#btn-transfer-balance';
-const eBalanceCard = '.card-products-overview-stat-balance';
+const eBalanceCard        = '.card-products-overview-stat-balance';
 
 let mBtnTransferSpinner = null;
-
 
 
 /************************************************
