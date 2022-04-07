@@ -1,4 +1,72 @@
-(function(){'use strict';const API_URL_PREFIX = {
+(function(){'use strict';class UrlParser
+{   
+    /**********************************************************
+    Get the path value of the current url/
+    **********************************************************/
+    static getPathValue(index) {
+        const urlPath = window.location.pathname;
+        const pathValues = urlPath.split("/");
+
+        const adjustedIndex = index + 1;    // empty string in the first index of pathValues
+
+        if (adjustedIndex < pathValues.length && adjustedIndex >= 1) {
+            return pathValues[adjustedIndex];
+        }
+
+        return null;
+    }
+
+    /**********************************************************
+    Returns the value of a URL query parm
+
+        example.com?name=shit
+    
+    getQueryParm('name') would return 'shit'
+    **********************************************************/
+    static getQueryParm(a_strParmName) {
+        const urlParams = UrlParser.getSearchParms();
+        const value = urlParams.get(a_strParmName);
+        return value;
+    }
+
+    /**********************************************************
+    Set's the query paramters of the url.
+    Then refreses the page.
+    **********************************************************/
+    static setQueryParm(a_strKey, a_strValue, a_bRefresh=true) {
+        const urlParams = UrlParser.getSearchParms();
+        urlParams.set(a_strKey, a_strValue);
+
+        if (a_bRefresh) {
+            window.location.search = urlParams;
+        } else {
+            return urlParams;
+        }
+
+    }
+
+    /**********************************************************
+    Returns the current URLSearchParams
+    **********************************************************/
+    static getSearchParms() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams;
+    }
+
+    /**********************************************************
+    Set's the url query parms of the current url to the key, values contained in the object.
+    AND DOES NOT REFRESH THE PAGE!!!!... MAGIC BITCH.
+    **********************************************************/
+    static setQueryParmsNoReload(newQueryParmsObject) {
+        const url = new URL(window.location);
+
+        for (const key in newQueryParmsObject) {
+            url.searchParams.set(key, newQueryParmsObject[key]);
+        }
+
+        window.history.pushState({}, '', url);
+    }
+}const API_URL_PREFIX = {
     Production: 'https://api.wmiys.com',
     Development: 'http://10.0.0.82:5000',
 };
@@ -692,79 +760,488 @@ ApiWrapper.REQUEST_TYPES = {
 
 // required fields for each api request 
 ApiWrapper.REQ_FIELDS_USER_POST = ['email', 'password', 'name_first', 'name_last', 'birth_date'];
-ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];/************************************************
+ApiWrapper.REQ_FIELDS_LOGIN     = ['email', 'password'];class CommonHtml {
+    
+    constructor() {
+        //
+    }
+}
+
+CommonHtml.spinner = '<div class="spinner-border" role="status"></div>';
+CommonHtml.spinnerSmall = '<div class="spinner-border spinner-border-sm" role="status"></div>';/************************************************
 Global Constants
 *************************************************/
 
-luxon.DateTime;class UrlParser
-{   
+const DateTime = luxon.DateTime;class FlatpickrRange
+{
     /**********************************************************
-    Get the path value of the current url/
+    Constructor
+
+    Parms:
+        a_eInputElement - the html input element that you want to transform into a flatpickr date instance
+        a_bMinDateToday - a boolean to indicate that you want the minimum date to be today.
     **********************************************************/
-    static getPathValue(index) {
-        const urlPath = window.location.pathname;
-        const pathValues = urlPath.split("/");
+    constructor(a_eInputElement, a_bMinDateToday = false) {
+        this.inputElement = a_eInputElement;
+        this.setMinDateToToday = a_bMinDateToday;
 
-        const adjustedIndex = index + 1;    // empty string in the first index of pathValues
+        let flatpickrConfig = {
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+            mode: "range",
+        };
 
-        if (adjustedIndex < pathValues.length && adjustedIndex >= 1) {
-            return pathValues[adjustedIndex];
+        if (a_bMinDateToday) {
+            flatpickrConfig.minDate = "today";
         }
 
-        return null;
+
+        this.flatpickrInstance = $(this.inputElement).flatpickr(flatpickrConfig);
     }
 
     /**********************************************************
-    Returns the value of a URL query parm
+    Returns the product search date range input values.
 
-        example.com?name=shit
+    Return value is an object containing the fields:
+        - startsOn
+        - endsOn
+    **********************************************************/
+    getDateValues() {
+        const selectedDates = this.flatpickrInstance.selectedDates;
+
+        if (selectedDates.length == 0) {
+            const nullReturn = {
+                startsOn: null,
+                endsOn: null,
+            };
+            
+            return nullReturn;    // no dates are set
+        }
+        
+        // transform the js dates into ISO format: YYYY-MM-DD
+        let startsOnVal = DateTime.fromJSDate(selectedDates[0]);
+        let endsOnVal = DateTime.fromJSDate(selectedDates[1]);
     
-    getQueryParm('name') would return 'shit'
+        const dateValues = {
+            startsOn: startsOnVal.toISODate(),
+            endsOn: endsOnVal.toISODate(),
+        };
+    
+        return dateValues;
+    }
+}class LocationsSelect 
+{
+    /**********************************************************
+    Initialize a select2 location search plugin.
     **********************************************************/
-    static getQueryParm(a_strParmName) {
-        const urlParams = UrlParser.getSearchParms();
-        const value = urlParams.get(a_strParmName);
-        return value;
+    static init(a_eInput, a_strPlaceholder = '', a_iMinimumInputLength = 3) {
+        return $(a_eInput).select2({
+            minimumInputLength: a_iMinimumInputLength,
+            theme: 'bootstrap4',
+            placeholder: a_strPlaceholder,
+            ajax: {
+                delay: 50,
+                url: ApiWrapper.URLS.SEARCH.LOCATIONS,
+                allowClear: true,
+                data: function (params) {
+                    const urlParms = {      // set the request url ?parms
+                        q: params.term,
+                    };                
+                    return urlParms;
+                },
+                processResults: function (apiResponse) {
+                    let processedData = [];
+                    for (let count = 0; count < apiResponse.length; count++) {
+                        const location = apiResponse[count];
+                        const text = `${location.city}, ${location.state_name}`;
+                        processedData.push({id: location.id, text: text});
+                    }
+                    
+                    return ({results: processedData});
+                }
+            },
+        });
+    }
+}class ProductListingForm
+{
+    /**********************************************************
+    Constructor
+    **********************************************************/
+    constructor(a_iProductID) {
+        // this.productID = a_iProductID;
+        LocationsSelect.init(ProductListingForm.inputs.location, 'Location', 3);
+        this.datesFlatpickr = new FlatpickrRange(ProductListingForm.inputs.dates, true);
+        this.setInputValuesFromUrl();
     }
 
     /**********************************************************
-    Set's the query paramters of the url.
-    Then refreses the page.
+    Setup the object.
     **********************************************************/
-    static setQueryParm(a_strKey, a_strValue, a_bRefresh=true) {
-        const urlParams = UrlParser.getSearchParms();
-        urlParams.set(a_strKey, a_strValue);
+    init() {
+        const self = this;
+        self.setInputValuesFromUrl();
+        self.addEventListeners();
+        self.showSpinnerForCheckButton();
+    }
+    
+    /**********************************************************
+    Register all the event listeners.
+    **********************************************************/
+    addEventListeners() {
+        const self = this;
+        
+        $(ProductListingForm.inputs.location).on('select2:select', function(e) {
+            self.setLocationUrlQueryParmToInputValue();
+        }).bind(this);
 
-        if (a_bRefresh) {
-            window.location.search = urlParams;
+        
+        $(ProductListingForm.inputs.dates).on('change', function() {
+            self.setDatesUrlQueryParmsToInputValues();
+        }).bind(this);
+
+
+        $(ProductListingForm.inputClass).on('change', function() {
+            self.checkAvailability();
+        }).bind(this);
+
+        $(ProductListingForm.buttons.check).on('click', function() {
+            self.checkAvailability();
+        }).bind(this);
+
+        $(ProductListingForm.buttons.book).on('click', function() {
+            self.sendProductRequest();
+        }).bind(this);
+    }
+
+    /**********************************************************
+    Send a new product request.
+    **********************************************************/
+    async sendProductRequest() {
+        // disable the button
+        this.showSpinnerForBookButton();
+
+        $(ProductListingForm.form).submit();
+
+
+        const formData = new FormData();
+
+        formData.append('product_id',  UrlParser.getPathValue(1));
+        formData.append('location_id', this.getLocationValue());
+        formData.append('starts_on', this.getStartsOnValue());
+        formData.append('ends_on', this.getEndsOnValue());
+    }
+
+    /**********************************************************
+    Checks the availability of the product listing based on the 
+    inputs in the form.
+    **********************************************************/
+    checkAvailability() {
+        const self = this;
+
+        this.toggleErrorMessage(false);
+
+        const productID = UrlParser.getPathValue(1);
+        const locationID = this.getLocationValue();
+        const startsOn = this.getStartsOnValue();
+        const endsOn = this.getEndsOnValue();
+
+        if (Array(productID, locationID, startsOn, endsOn).includes(null)) {
+            return;
+        }
+
+        this.showSpinnerForCheckButton();
+        this.toggleCheckButtons(false);
+
+        ApiWrapper.requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, function(response) {
+            const isAvailabile = response.available;
+
+            self.showNormalCheckButton();
+
+            if (isAvailabile) {
+                self.toggleCheckButtons(true);
+            } 
+            else {
+                self.toggleCheckButtons(false);
+                self.toggleErrorMessage(true);
+            }
+
+        }, function(response) {                 // error actions
+            self.toggleCheckButtons(false);
+            self.showNormalCheckButton();
+        });
+    }
+
+    /**********************************************************
+    Sets the location_id, starts_on, and ends_on url query parms 
+    to the values in their respective inputs.
+    **********************************************************/
+    setUrlQueryParmsToInputValues() {
+        this.setDatesUrlQueryParmsToInputValues();
+        this.setDatesUrlQueryParmsToInputValues();
+    }
+
+    /**********************************************************
+    Sets the location_id url query parm to the values in its 
+    respective input.
+    **********************************************************/
+    setLocationUrlQueryParmToInputValue() {
+
+        const newLocationID = this.getLocationValue();
+
+        if (newLocationID != null) {
+            UrlParser.setQueryParmsNoReload({location_id: newLocationID});
+        }
+    }
+
+    /**********************************************************
+    Sets the starts_on and ends_on url query parms to the values 
+    in their respective inputs.
+    **********************************************************/
+    setDatesUrlQueryParmsToInputValues() {
+        
+        // default the new values to their existing value
+        const newUrlParms = {
+            starts_on: UrlParser.getQueryParm(ProductListingForm.urlQueryParms.startsOn),
+            ends_on: UrlParser.getQueryParm(ProductListingForm.urlQueryParms.endsOn),
+        };
+
+
+        const dates = this.getDatesValues();
+
+        if (dates.endsOn != null) {
+            newUrlParms.ends_on = dates.endsOn;
+            $(ProductListingForm.inputs.hidden.endsOn).val(dates.endsOn);
+        }
+        if (dates.startsOn != null) {
+            newUrlParms.starts_on = dates.startsOn;
+            $(ProductListingForm.inputs.hidden.startsOn).val(dates.startsOn);
+        }
+
+        UrlParser.setQueryParmsNoReload(newUrlParms);
+    }
+
+    /**********************************************************
+    Retrieves the values of the current URL query parms, and 
+    sets the input element values to them.
+
+    The URL query parms are:
+        - starts_on
+        - ends_on
+        - location_id
+    **********************************************************/
+    setInputValuesFromUrl() {
+        const self = this;
+
+        const startsOn = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.startsOn);
+        const endsOn = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.endsOn);
+        const locationID = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.locationID);
+
+        this.setDatesValues(startsOn, endsOn);
+        ApiWrapper.requestGetLocation(locationID, self.setLocationValue.bind(self));
+    }
+
+    /**********************************************************
+    Sets the dates input element starts on and ends on values.
+    **********************************************************/
+    setDatesValues(startsOn, endsOn) {
+        this.datesFlatpickr.flatpickrInstance.setDate([startsOn, endsOn], true);
+
+        // set the hidden inputs
+        $(ProductListingForm.inputs.hidden.endsOn).val(endsOn);
+        $(ProductListingForm.inputs.hidden.startsOn).val(startsOn);
+    }
+
+    /**********************************************************
+    Takes in a location object and sets the location input value 
+    to City, State combo recieved.
+    **********************************************************/
+    setLocationValue(locationObject) {
+        const self = this;
+
+        const displayText = `${locationObject.city}, ${locationObject.state_name}`;
+        const html = `<option value="${locationObject.id}" selected>${displayText}</option>`;
+
+        $(ProductListingForm.inputs.location).html(html);
+
+        self.checkAvailability();
+    }
+
+    /**********************************************************
+    Returns the current value of the location input.
+    **********************************************************/
+    getLocationValue() {
+        return $(ProductListingForm.inputs.location).val();
+    }
+
+    /**********************************************************
+    Returns the current value of the startsOn input.
+    **********************************************************/
+    getStartsOnValue() {
+        const dates = this.getDatesValues();
+        return dates.startsOn;
+    }
+
+    /**********************************************************
+    Returns the current value of the endsOn input.
+    **********************************************************/
+    getEndsOnValue() {
+        const dates = this.getDatesValues();
+        return dates.endsOn;
+    }
+
+    /**********************************************************
+    Returns the current values of the dates input as an 
+    object: startsOn and endsOn.
+    **********************************************************/
+    getDatesValues() {
+        const dates = this.datesFlatpickr.getDateValues();
+        return dates;
+    }
+
+    /**********************************************************
+    Show the error message section:
+        True - show the section
+        False - hide the message
+    **********************************************************/
+    toggleErrorMessage(a_bShowMessage) {
+        if (a_bShowMessage) {
+            $(ProductListingForm.errorMessage).removeClass('d-none');
         } else {
-            return urlParams;
+            $(ProductListingForm.errorMessage).addClass('d-none');
         }
-
     }
 
     /**********************************************************
-    Returns the current URLSearchParams
+    Show/hide the book/check buttons:
+        true = show the book button, hide the check button
+        false = hide the book button, show the check button
     **********************************************************/
-    static getSearchParms() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams;
+    toggleCheckButtons(a_bShowBookButton) {
+        if (a_bShowBookButton) {
+            $(ProductListingForm.buttons.book).removeClass('d-none');
+            $(ProductListingForm.buttons.check).addClass('d-none');
+        } else {
+            $(ProductListingForm.buttons.book).addClass('d-none');
+            $(ProductListingForm.buttons.check).removeClass('d-none');
+        }
     }
 
     /**********************************************************
-    Set's the url query parms of the current url to the key, values contained in the object.
-    AND DOES NOT REFRESH THE PAGE!!!!... MAGIC BITCH.
+    Display the spinner element in the check availability button
     **********************************************************/
-    static setQueryParmsNoReload(newQueryParmsObject) {
-        const url = new URL(window.location);
+    showSpinnerForCheckButton() {
+        const checkBtn = ProductListingForm.buttons.check;
+        const width = $(checkBtn).width();
 
-        for (const key in newQueryParmsObject) {
-            url.searchParams.set(key, newQueryParmsObject[key]);
-        }
-
-        window.history.pushState({}, '', url);
+        $(checkBtn).html(CommonHtml.spinnerSmall).width(width).prop('disabled', true);
     }
-}const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
+    
+    /**********************************************************
+    Remove the spinner, and show the normal text for the check 
+    availability button.
+    **********************************************************/
+    showNormalCheckButton() {
+        const checkBtn = ProductListingForm.buttons.check;
+        const width = $(checkBtn).width();
+        const originalText = 'Check availability';
+
+        $(checkBtn).text(originalText).width(width).prop('disabled', false);
+    }
+
+    /**********************************************************
+    Display the spinner element in the book button
+    **********************************************************/
+    showSpinnerForBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+
+        $(checkBtn).html(CommonHtml.spinnerSmall).width(width).prop('disabled', true);
+    }
+    
+    /**********************************************************
+    Remove the spinner, and show the normal text for the book button.
+    **********************************************************/
+    showNormalBookButton() {
+        const checkBtn = ProductListingForm.buttons.book;
+        const width = $(checkBtn).width();
+        const originalText = 'Book your stay';
+
+        $(checkBtn).text(originalText).width(width).prop('disabled', false);
+    }
+
+}
+
+
+/**********************************************************
+Static constants for ProductListingForm
+**********************************************************/
+ProductListingForm.form = '#product-listing-form';
+ProductListingForm.inputClass = '.product-listing-form-input';
+ProductListingForm.errorMessage = '#product-listing-form-error-message';
+
+
+ProductListingForm.inputs = {
+    location: '#product-listing-form-input-location',
+    dates: '#product-listing-form-input-dates',
+    hidden: {
+        startsOn: 'input[name="hidden-starts-on"]',
+        endsOn: 'input[name="hidden-ends-on"]',
+    }
+};
+
+
+ProductListingForm.buttons = {
+    book: '#product-listing-form-button-book',
+    check: '#product-listing-form-button-check',
+};
+
+ProductListingForm.urlQueryParms = {
+    startsOn: 'starts_on',
+    endsOn: 'ends_on',
+    locationID: 'location_id',
+};new Swiper('.swiper-container', {
+    // Optional parameters
+    // direction: 'horizontal',
+    // // loop: true,
+    // centeredSlides: true,
+    slidesPerView: 1,
+    // slidesPerView: "auto",
+    cssMode: true,
+
+    breakpoints: {
+        // 320: {
+        //     slidesPerView: 2,
+        //     // spaceBetween: 20
+        // },
+        // // when window width is >= 480px
+        // 480: {
+        //     slidesPerView: 3,
+        //     // spaceBetween: 30
+        // },
+        // when window width is >= 640px
+        768: {
+            slidesPerView: 3,
+            // spaceBetween: 40
+        },
+
+        992: {
+            slidesPerView: 4,
+        },
+    },
+
+
+    // If we need pagination
+    pagination: {
+        el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+});const mProductID = UrlParser.getPathValue(1);   // the product id found in the url: /products/42
 const mProductListingForm = new ProductListingForm(mProductID);
 
 const eDescriptionShowMoreBtn = $('.product-listing-description-show-more-btn');

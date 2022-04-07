@@ -1,7 +1,11 @@
 
+import { ApiWrapper }      from "../../classes/API-Wrapper";
+import { CommonHtml }      from "../../classes/Common-Html";
+import { FlatpickrRange }  from "../../classes/FlatpickrRange";
+import { LocationsSelect } from "../../classes/LocationsSelect";
+import { UrlParser }       from "../../classes/UrlParser";
 
-
-class ProductListingForm
+export class ProductListingForm
 {
     /**********************************************************
     Constructor
