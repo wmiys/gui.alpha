@@ -34,4 +34,22 @@ export class Utilities {
     static getJqueryElementID(a_oJqueryElement) {
         return `#${$(a_oJqueryElement).attr('id')}`;
     }
+
+    /**
+     * Serialize an object into a URLSearchParams object
+     * 
+     * @param {object} nativeObject - the object to convert
+     * 
+     * @returns URLSearchParams
+     */
+    static GetUrlSearchParms(nativeObject) {
+        const parms = new URLSearchParams();
+
+        for (const key in nativeObject) {
+            const value = nativeObject[key];
+            parms.append(key, value);
+        }
+
+        return parms;
+    }
 }

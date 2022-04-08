@@ -4,5 +4,4 @@ db-info.php
 stripe_keys.py
 keys.py
 keys/
-
 src/wmiys/static/js/dist/

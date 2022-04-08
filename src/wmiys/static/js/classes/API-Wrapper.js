@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../pages/api-base-url";
 import { LocalStorage }    from "./LocalStorage";
+import { Utilities } from "./Utilities";
 
 export class ApiWrapper 
 {    
@@ -7,35 +8,19 @@ export class ApiWrapper
     Send a post Users request to the API
     
     Parms:
-        userInfoStruct - user object containing all the fields
+        - userInfoStruct - user object containing all the fields
     **********************************************************/
-    static requestPostUser(userInfoStruct, fnSuccess, fnError) {
-        // ensure the argument contains all the required fields
-        if (!ApiWrapper.objectContainsAllFields(userInfoStruct, ApiWrapper.REQ_FIELDS_USER_POST)) {
-            console.log('missing fields');
-            return;
-        }
-        
-        if (fnSuccess == undefined) {
-            fnSuccess = console.log;
-        }
-        
-        if (fnError == undefined) {
-            fnError = console.error;
-        }
-        
-        $.ajax({
-            // url: ApiWrapper.URLS.USERS,
-            url: '/api/create-account',
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            data: userInfoStruct,
-            success: function(result,status,xhr) {
-                fnSuccess(result, status, xhr);
-            },
-            error: function() {
-                fnError(xhr, status, error);
-            },
+    static async requestPostUser(newUser) {
+        const url = '/api/create-account';
+
+        const apiData = Utilities.GetUrlSearchParms(newUser);
+
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.POST,
+            body: apiData,
         });
+
+        return response;
     }
     
     /**********************************************************
