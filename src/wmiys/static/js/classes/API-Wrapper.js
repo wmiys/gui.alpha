@@ -92,55 +92,32 @@ export class ApiWrapper
     static async requestGetProductCategoriesMajor() {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major`;
         const response = await fetch(url);
-
         return response;
     }
-
-
+    
     /**********************************************************
-    Send a GET request to retrieve minor product categories
+    Send a GET request to retrieve minor product categories that belong to the specifed major category
     
     Parms:
-        majorCategoryID - major category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
+        - majorCategoryID: major category id
     **********************************************************/
-    static requestGetProductCategoriesMinor(majorCategoryID, fnSuccess, fnError) {
+    static async requestGetProductCategoriesMinor(majorCategoryID) {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor`;
-
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
 
     /**********************************************************
     Send a GET request to retrieve sub product categories
     
     Parms:
-        majorCategoryID - major category id
-        majorCategoryID - minor category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
+        - majorCategoryID: major category id
+        - majorCategoryID: minor category id
     **********************************************************/
-    static requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, fnSuccess, fnError) {
+    static async requestGetProductCategoriesSub(majorCategoryID, minorCategoryID) {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor/${minorCategoryID}/sub`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
 
 

@@ -89,16 +89,8 @@ $(document).ready(function() {
 Adds event listeners to the page elements
 **********************************************************/
 function addEventListeners() {
-    $(eInputs.categoryMajor).on('change', function() {
-        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
-        ApiWrapper.requestGetProductCategoriesMinor(majorCategoryID, loadMinorCategoriesSuccess, console.error);
-    });
-    
-    $(eInputs.categoryMinor).on('change', function() {
-        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
-        const minorCategoryID = $(eInputs.categoryMinor).find('option:selected').val();
-        ApiWrapper.requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, loadSubCategoriesSuccess, console.error);
-    });
+    $(eInputs.categoryMajor).on('change', renderMinorCategoriesForCurrentMajor);
+    $(eInputs.categoryMinor).on('change', renderSubCategoriesForCurrentMinor);
     
     $(cBtnStep).on('click', function() {
         stepToFormPage(this);
@@ -134,6 +126,7 @@ function addEventListeners() {
         handleCoverPhotoEdit();
     });
 }
+
 
 /**********************************************************
 Registers all of the FilePond extensions.
@@ -352,9 +345,9 @@ async function loadMajorCatetories() {
 /**********************************************************
 Load the major categories into the select element
 **********************************************************/
-function loadMajorCategoriesSuccess(result) {
+function loadMajorCategoriesSuccess(majorCategories) {
     let html = '';
-    for (majorCategory of result) {
+    for (const majorCategory of majorCategories) {
         const value = `value="${majorCategory.id}"`;
         html += `<option ${value}>${majorCategory.name}</option>`;
     }
@@ -372,19 +365,93 @@ function loadMajorCategoriesError(error) {
     enableSubmitButton();
 }
 
+/**********************************************************
+Fetch the minor categories of the currently selected major category
+**********************************************************/
+async function renderMinorCategoriesForCurrentMajor() {
+    // fetch the categories from the api
+    const majorCategoryID = getCurrentMajorCategoryValue();
+    const categories = await fetchMajorCategoryChildren(majorCategoryID);
+
+    // display them
+    loadMinorCategoriesSuccess(categories);
+}
 
 /**********************************************************
-Update the minor categories to show the ones that belong 
-to the selected major category.
+Fetch all the minor categories that belong to the speicifed major category
 **********************************************************/
-function loadMinorCategoriesSuccess(result,status,xhr) {
+async function fetchMajorCategoryChildren(majorCategoryID) {
+    let minorCategories = [];
+
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesMinor(majorCategoryID);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return minorCategories;
+    }
+
+    try {
+        minorCategories = await apiResponse.json();
+    }
+    catch (exception) {
+        console.error(exception);
+        minorCategories = [];
+    }
+
+    return minorCategories;
+}
+
+/**********************************************************
+Update the minor categories to show the ones that belong to the selected major category.
+**********************************************************/
+function loadMinorCategoriesSuccess(minorCategories) {
     let html = '';
-    for (minorCategory of result) {
-        html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
+    for (const minorCategory of minorCategories) {
+        const value = `value="${minorCategory.id}"`;
+        html += `<option ${value}>${minorCategory.name}</option>`;
     }
     
     $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
     $(eInputs.categoryMinor).selectpicker('refresh');
+}
+
+
+
+/**********************************************************
+Fetch the sub categories that belong to the currently selected minor category
+**********************************************************/
+async function renderSubCategoriesForCurrentMinor() {
+    // get the values of the currently selected major and minor category elements
+    const majorCategoryID = getCurrentMajorCategoryValue();
+    const minorCategoryID = getCurrentMinorCategoryValue();
+
+    // fetch the sub categories from the api
+    const subCategories = await fetchSubCategories(majorCategoryID, minorCategoryID);
+
+    // render them
+    loadSubCategoriesSuccess(subCategories);
+}
+
+/**********************************************************
+Fetch all the minor categories that belong to the speicifed major category
+**********************************************************/
+async function fetchSubCategories(parentMajorCategoryID, parentMinorCategoryID) {
+    let subCategories = [];
+
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesSub(parentMajorCategoryID, parentMinorCategoryID);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return subCategories;
+    }
+
+    try {
+        subCategories = await apiResponse.json();
+    }
+    catch (exception) {
+        console.error(exception);
+        subCategories = [];
+    }
+
+    return subCategories;
 }
 
 /**********************************************************
@@ -392,13 +459,30 @@ Load the sub categories based on the minor category
 **********************************************************/
 function loadSubCategoriesSuccess(result, status, xhr) {
     let html = '';
-    for (subCategory of result) {
+    for (const subCategory of result) {
         html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
     }
     
     $(eInputs.categorySub).prop('disabled', false).html(html).val('');
     $(eInputs.categorySub).selectpicker('refresh');
 }
+
+
+/**********************************************************
+Get the value of the currently selected major category element
+**********************************************************/
+function getCurrentMajorCategoryValue() {
+    return $(eInputs.categoryMajor).find('option:selected').val();
+}
+
+/**********************************************************
+Get the value of the currently selected minor category element
+**********************************************************/
+function getCurrentMinorCategoryValue() {
+    return $(eInputs.categoryMinor).find('option:selected').val();
+}
+
+
 
 /**********************************************************
 Actions to take to send the create prodcut request.
