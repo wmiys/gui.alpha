@@ -133,24 +133,6 @@ export class ApiWrapper
         return response;
     }
 
-
-    /**********************************************************
-    Send a GET request to fetch all of a user's products
-    **********************************************************/
-    static requestGetUserProducts(fnSuccess = console.log, fnError=console.error) {
-        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
-        
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
     /**********************************************************
     Send a GET request to fetch a single product availability record.
     **********************************************************/
