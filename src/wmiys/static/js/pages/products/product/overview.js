@@ -311,21 +311,52 @@ function processLocationSearchApiResponse(apiResponse) {
 Load the major category options if the category fields
 are not set.
 **********************************************************/
-function checkIfCategoriesAreSet() {
+async function checkIfCategoriesAreSet() {
     const subVal = $(eInputs.categorySub).val();
 
-    if (subVal.length == 0) {
-        ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
+    if (subVal.length != 0) {
+        return;
+    }
+
+    loadMajorCatetories();
+}
+
+/**********************************************************
+Clear the categories dropdowns and refresh
+**********************************************************/
+async function resetProductCategories() {
+    $(eInputs.categoryMajor).find('option').remove();
+    $(eInputs.categoryMinor).find('option').remove();
+    $(eInputs.categorySub).find('option').remove();
+
+    await loadMajorCatetories();
+
+    $('.selectpicker').selectpicker('refresh');
+}
+
+/**********************************************************
+Load the major category html option elements
+**********************************************************/
+async function loadMajorCatetories() {
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesMajor();
+
+    if (apiResponse.ok) {
+        const categories = await apiResponse.json();
+        loadMajorCategoriesSuccess(categories);
+    }
+    else {
+        loadMajorCategoriesError(await apiResponse.text());
     }
 }
 
 /**********************************************************
 Load the major categories into the select element
 **********************************************************/
-function loadMajorCategoriesSuccess(result,status,xhr) {
+function loadMajorCategoriesSuccess(result) {
     let html = '';
     for (majorCategory of result) {
-        html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
+        const value = `value="${majorCategory.id}"`;
+        html += `<option ${value}>${majorCategory.name}</option>`;
     }
     
     $(eInputs.categoryMajor).prop('disabled', false).html(html);
@@ -336,13 +367,9 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
 /**********************************************************
 Error fetching the major categories
 **********************************************************/
-function loadMajorCategoriesError(xhr, status, error) {
-    console.error(xhr);
-    console.error(status);
+function loadMajorCategoriesError(error) {
     console.error(error);
-    
     enableSubmitButton();
-    // Utilities.displayAlert('Error loading major categories');
 }
 
 
@@ -741,19 +768,6 @@ function stepToFormPage(a_eBtnStep) {
     $(eProgressBar).width(`${newProgressWidth}%`);
 }
 
-
-/**********************************************************
-Clear the categories dropdowns and refresh
-**********************************************************/
-function resetProductCategories() {
-    $(eInputs.categoryMajor).find('option').remove();
-    $(eInputs.categoryMinor).find('option').remove();
-    $(eInputs.categorySub).find('option').remove();
-
-    ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
-
-    $('.selectpicker').selectpicker('refresh');
-}
 
 /**********************************************************
 Remove the existing image display

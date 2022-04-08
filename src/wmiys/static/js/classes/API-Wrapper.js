@@ -73,25 +73,14 @@ export class ApiWrapper
 
     /**********************************************************
     Send a GET request to retrieve all of the product categories
-    
-    Parms:
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
     **********************************************************/
-    static requestGetProductCategories(fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductCategories() {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}`;
+        const response = await fetch(url);
 
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
+
 
     /**********************************************************
     Send a GET request to retrieve major product categories
@@ -100,20 +89,13 @@ export class ApiWrapper
         fnSuccess - successful request callback
         fnError - unsuccessful request callback
     **********************************************************/
-    static requestGetProductCategoriesMajor(fnSuccess, fnError) {
+    static async requestGetProductCategoriesMajor() {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major`;
+        const response = await fetch(url);
 
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
+
 
     /**********************************************************
     Send a GET request to retrieve minor product categories
