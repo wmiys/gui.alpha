@@ -4,3 +4,5 @@ db-info.php
 stripe_keys.py
 keys.py
 keys/
+
+js/dist/
