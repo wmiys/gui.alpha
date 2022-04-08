@@ -47,10 +47,11 @@ function loadFlatpickr() {
     });
 }
 
+
 /**********************************************************
 Create a new account actions
 **********************************************************/
-function createAccount() {
+async function createAccount() {
     disableSubmitButton();
 
     // ensure all the input fields are valid 
@@ -60,13 +61,16 @@ function createAccount() {
     }
 
     let inputValues = getInputValues();
-    ApiWrapper.requestPostUser(inputValues, createAccountSuccess, createAccountError);
+    const apiResponse = await ApiWrapper.requestPostUser(inputValues);
+
+    apiResponse.ok ? createAccountSuccess() : createAccountError(apiResponse.text);
 }
+
 
 /**********************************************************
 Actions to take when the user successfully created an account
 **********************************************************/
-function createAccountSuccess(result,status,xhr) {
+function createAccountSuccess() {
     enableSubmitButton();
     window.location.href = '/';
 }
@@ -74,10 +78,8 @@ function createAccountSuccess(result,status,xhr) {
 /**********************************************************
 Actions to take when the user unsuccessfully created an account
 **********************************************************/
-function createAccountError(xhr, status, error) {
+function createAccountError(error) {
     enableSubmitButton();
-    console.log(result);
-    console.log(status);
     console.log(error);
     Utilities.displayAlert('Error.');
 }
@@ -98,19 +100,19 @@ function enableSubmitButton() {
     $(e_btnSubmit).html('Create account').prop('disabled', false);
 }
 
-
 /**********************************************************
 Returns the form input values
 **********************************************************/
 function getInputValues() {
-    const values = {};
-    values.name_first = $(e_inputFirstName).val();
-    values.name_last  = $(e_inputLastName).val();
-    values.birth_date = $(e_inputDob).val();
-    values.email      = $(e_inputEmail).val();
-    values.password   = $(e_inputPassword).val();
+    const values2 = {
+        name_first: $(e_inputFirstName).val(),
+        name_last:  $(e_inputLastName).val(),
+        birth_date: $(e_inputDob).val(),
+        email:      $(e_inputEmail).val(),
+        password:   $(e_inputPassword).val(),
+    };
 
-    return values;
+    return values2
 }
 
 
