@@ -70,7 +70,6 @@ export class ApiWrapper
         return response;
     }
 
-
     /**********************************************************
     Send a GET request to retrieve all of the product categories
     **********************************************************/
@@ -80,7 +79,6 @@ export class ApiWrapper
 
         return response;
     }
-
 
     /**********************************************************
     Send a GET request to retrieve major product categories
@@ -118,24 +116,6 @@ export class ApiWrapper
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor/${minorCategoryID}/sub`;
         const response = await fetch(url);
         return response;
-    }
-
-
-    /**********************************************************
-    Send a POST request to create a new product
-    **********************************************************/
-    static requestPostProduct(data, fnSuccess, fnError) {
-        const url = `/api/products`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
-        });
     }
 
     /**********************************************************
