@@ -154,10 +154,7 @@ def apiProductAvailability(product_id):
     api = api_wrapper.ApiWrapperProductAvailability(flask.g)
     api_response = api.post(product_id, flask.request.form.to_dict())
 
-    if api_response.ok:
-        return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
-    else:
-        flask.abort(api_response.status_code)
+    return (api_response.text, api_response.status_code)
 
 #------------------------------------------------------
 # Update a user's info
@@ -165,13 +162,11 @@ def apiProductAvailability(product_id):
 @bpApi.put('users')
 @security.login_required
 def apiUserUpdate():
-    api = api_wrapper.ApiWrapperUsers(flask.g)
-    api_response = api.put(flask.request.form.to_dict())
+    form         = flask.request.form.to_dict()
+    api          = api_wrapper.ApiWrapperUsers(flask.g)
+    api_response = api.put(form)
 
-    if api_response.status_code != HTTPStatus.OK.value:          # error
-        flask.abort(api_response.status_code)
-
-    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
+    return (api_response.text, api_response.status_code)
 
 #------------------------------------------------------
 # Get a user's info
@@ -182,10 +177,7 @@ def getUser():
     api = api_wrapper.ApiWrapperUsers(flask.g)
     api_response = api.get()
 
-    if not api_response.ok:
-        flask.abort(api_response.status_code)
-
-    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
+    return (api_response.text, api_response.status_code)
 
 
 #------------------------------------------------------

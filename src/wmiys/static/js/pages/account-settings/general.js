@@ -92,25 +92,43 @@ function activateSidelink() {
 /************************************************
 Sends an update request to the api
 *************************************************/
-function updateUserInfo() {
+async function updateUserInfo() {
     disableSaveButton();
 
-    const values = eFormBasic.getValues();
+    const formattedData = getUserDataForApiRequest();
+    const apiResponse = await ApiWrapper.requestPutUser(formattedData);
 
-    const formattedData = {
-        email: values.email,
-        name_first: values.nameFirst,
-        name_last: values.nameLast,
-        birth_date: values.dob,
+    if (apiResponse.ok) {
+        updateUserInfoSuccess();
+    }
+    else {
+        updateUserInfoError(await apiResponse.text());
+    }
+}
+
+/************************************************
+Get a JS object containing all the update user form data with correct keys.
+*************************************************/
+function getUserDataForApiRequest() {
+    const formValues = eFormBasic.getValues();
+
+    const dataWithValidKeys = {
+        email: formValues.email,
+        name_first: formValues.nameFirst,
+        name_last: formValues.nameLast,
+        birth_date: formValues.dob,
     }
 
-    ApiWrapper.requestPutUser(formattedData, updateUserInfoSuccess, updateUserInfoError);
+    return dataWithValidKeys;
 }
+
+
+
 
 /************************************************
 Callback for a successful api request to update the user info
 *************************************************/
-function updateUserInfoSuccess(result,status,xhr) {
+function updateUserInfoSuccess() {
     enableSaveButton();
     displayAlert('Updated successfully.', 'success');
 }
@@ -119,12 +137,10 @@ function updateUserInfoSuccess(result,status,xhr) {
 /************************************************
 Callback for an unsuccessful api request to update the user info
 *************************************************/
-function updateUserInfoError(xhr, status, error) {
+function updateUserInfoError(responseText) {
     enableSaveButton();
     console.error('updateUserInfoError');
-    console.error(xhr);
-    console.error(status);
-    console.error(error);
+    console.error(responseText);
 }
 
 /************************************************

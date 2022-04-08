@@ -31,7 +31,7 @@ export class ApiWrapper
         const url = Utilities.createUrlWithParms(endpoint, loginStruct);
 
         const response = await fetch(url);
-        
+
         return response;
     }
 
@@ -40,7 +40,7 @@ export class ApiWrapper
     Send a GET request for a user from the API
     **********************************************************/
     static async requestGetUser() {
-        const url = `/api/users`;
+        const url = '/api/users';
         const response = await fetch(url);
         return response;
     }
@@ -57,19 +57,17 @@ export class ApiWrapper
             - name_first
             - name_last
             - birth_date
-        fnSuccess: successful request callback
-        fnError: unsuccessful request callback
     **********************************************************/
-    static requestPutUser(oUser, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/users`;
-        
-        $.ajax({
-            url: url,
-            data: oUser,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
+    static async requestPutUser(user) {
+        const url = '/api/users';
+        const data = Utilities.getUrlSearchParms(user);
+
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.PUT,
+            body: data,
         });
+
+        return response;
     }
 
 
