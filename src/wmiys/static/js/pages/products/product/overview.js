@@ -482,45 +482,39 @@ function getCurrentMinorCategoryValue() {
     return $(eInputs.categoryMinor).find('option:selected').val();
 }
 
-
-
 /**********************************************************
 Actions to take to send the create prodcut request.
 **********************************************************/
-function submitFormEvent() {    
-    // disableSubmitButton();
+async function submitFormEvent() {    
+    disableSubmitButton();
 
-    const values = getInputValues(); 
-       
-    let formData = new FormData();
-    
-    formData.append("name", values.name);
-    formData.append('description', values.description);
-    formData.append('product_categories_sub_id', values.categorySub);
-    formData.append('location_id', values.location);
-    formData.append('dropoff_distance', values.dropoffDistance);
-    formData.append('price_full', values.priceFull);
-    formData.append('minimum_age', values.minimumAge);
+    const values = getInputValuesWithApiKeys();
+    const apiResponse = await ApiWrapper.requestPutProduct(mProductID, values);
 
-    ApiWrapper.requestPutProduct(mProductID, formData, function() {
+    if (apiResponse.ok) {
         $(eButtons.saveImg.cover).prop('disabled', true);
-    }, submitFormEventError);
+    }
+    else {
+        submitFormEventError(await apiResponse.text());
+    }
 }
 
 /**********************************************************
 Update the cover image file in the database.
 **********************************************************/
-function saveCoverImage() {
-    let imageFile = filePondCover.getFile();
+async function saveCoverImage() {
+    const imageFile = filePondCover.getFile();
 
     if (imageFile == null) {
         return;
     }
 
-    let formData = new FormData();
-    formData.append('image', imageFile.file);
+    const productImageData = {image: imageFile.file};
+    const apiResponse = await ApiWrapper.requestPutProduct(mProductID, productImageData);
 
-    ApiWrapper.requestPutProduct(mProductID, formData);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+    }
 }
 
 
@@ -590,7 +584,27 @@ function handleCoverPhotoEdit() {
 
 
 /**********************************************************
-Returns an object containing all the new prodcut form input values.
+Returns an object containing all the new product form input values with the correct api keys
+**********************************************************/
+function getInputValuesWithApiKeys() {
+    const values = getInputValues(); 
+
+    const correctedApiKeys = {
+        name                     : values.name,
+        description              : values.description,
+        product_categories_sub_id: values.categorySub,
+        location_id              : values.location,
+        dropoff_distance         : values.dropoffDistance,
+        price_full               : values.priceFull,
+        minimum_age              : values.minimumAge,
+    }
+
+    return correctedApiKeys;
+}
+
+
+/**********************************************************
+Returns an object containing all the new product form input values.
 **********************************************************/
 function getInputValues() {
     const inputKeys = Object.keys(eInputs);
@@ -782,14 +796,10 @@ function submitFormEventSuccess(response, status, xhr) {
 /**********************************************************
 Actions to take if the create product request was not successful.
 **********************************************************/
-function submitFormEventError(xhr, status, error) {
-    // Utilities.displayAlert('There was an error. Please try again.');
-
+function submitFormEventError(error) {
     console.error('submitFormEventError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
-    
+
     enableSubmitButton();
 }
 

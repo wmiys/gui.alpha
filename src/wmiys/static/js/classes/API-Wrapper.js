@@ -119,21 +119,20 @@ export class ApiWrapper
     }
 
     /**********************************************************
-    Send a PUT request to create a new product
+    Send a PUT request to create a new product or update it
     **********************************************************/
-    static requestPutProduct(productID, data, fnSuccess, fnError) {
+    static async requestPutProduct(productID, productData) {
         const url = `/api/products/${productID}`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
+        const productFormData = Utilities.getFormData(productData);
+
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.PUT,
+            body: productFormData,
         });
+
+        return response;
     }
+
 
     /**********************************************************
     Send a GET request to fetch all of a user's products
