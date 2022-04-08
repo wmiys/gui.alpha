@@ -132,20 +132,19 @@ export class ApiWrapper
 
         return response;
     }
-
+    
     /**********************************************************
     Send a GET request to fetch a single product availability record.
     **********************************************************/
-    static requestGetProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductAvailability(productID, productAvailabilityID) {
         const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+
+        return response;
     }
+
+
+
 
     /**********************************************************
     Send a PUT request to update a single product availability record.

@@ -210,11 +210,11 @@ Returns an object containing a form's input values.
 Parms:
     a_formInputElementObject: an object with the form inputs.
 *************************************************/
-function getFormValues(a_formInputElementObject) {
+function getFormValues(formInputElement) {
     const values = {};
-
-    for (inputKey of Object.keys(a_formInputElementObject)) {
-        values[inputKey] = $(a_formInputElementObject[inputKey]).val();
+    
+    for (inputKey of Object.keys(formInputElement)) {
+        values[inputKey] = $(formInputElement[inputKey]).val();
     }
 
     return values;
@@ -224,20 +224,54 @@ function getFormValues(a_formInputElementObject) {
 Open the edit product availability modal
 
 Parms:
-    a_eTableRow: the table row clicked/selected that the user wishes to view
+    eSelectedTableRow: the table row clicked/selected that the user wishes to view
 *************************************************/
-function openEditModal(a_eTableRow) {
-    // eModalEdit.toggleLoadingDisplay(true);
-    const newProductAvailabilityID = $(a_eTableRow).attr(eModalEdit.productAvailabilityID);
-    ApiWrapper.requestGetProductAvailability(mProductID, newProductAvailabilityID, openEditModalSuccess, openEditModalError);
-    eModalEdit.open(newProductAvailabilityID);
+async function openEditModal(eSelectedTableRow) {
+    eModalEdit.open(productAvailabilityID);
+    
+    const productAvailabilityID = $(eSelectedTableRow).attr(eModalEdit.productAvailabilityID);
+    const record = await fetchProductAvailabilityRecord(productAvailabilityID);
+
+    if (record != null) {
+        openEditModalSuccess(record);
+    }
+}
+
+/**
+ * Fetch the specified product availability from the api
+ * Returns null if not found or there was an error
+ * 
+ * @param {number} productAvailabilityID - the product availability id
+ * 
+ * @returns {Object} the product availability record
+ */
+async function fetchProductAvailabilityRecord(productAvailabilityID) {
+    let record = null;
+
+    const apiResponse = await ApiWrapper.requestGetProductAvailability(mProductID, productAvailabilityID);
+
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return record;
+    }
+
+    try {
+        record = await apiResponse.json();
+        // console.table(record);
+    }
+    catch (exception) {
+        console.error(exception);
+        record = null;
+    }
+
+    return record;
 }
 
 /************************************************
 Callback for a successful product availability GET request to the API
 *************************************************/
-function openEditModalSuccess(response, status, xhr) {
-    setEditModalFormValues(response);
+function openEditModalSuccess(productAvailability) {
+    setEditModalFormValues(productAvailability);
     eModalEdit.toggleLoadingDisplay(false);
 }
 
@@ -257,14 +291,15 @@ function openEditModalError(xhr, status, error) {
 Sets the edit modal form inputs
 
 Parms:
-     oProductAvailability: an object containing the fields:
+     productAvailabilityRecord: an object containing the fields:
         - starts_on
         - ends_on
         - note
 *************************************************/
-function setEditModalFormValues(oProductAvailability) {
-    $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
-    dateRangeEdit.flatpickrInstance.setDate([oProductAvailability.starts_on, oProductAvailability.ends_on], true);
+function setEditModalFormValues(productAvailabilityRecord) {
+    $(eFormAvailabilityEdit.inputs.note).val(productAvailabilityRecord.note);
+
+    dateRangeEdit.flatpickrInstance.setDate([productAvailabilityRecord.starts_on, productAvailabilityRecord.ends_on], true);
 }
 
 /************************************************
