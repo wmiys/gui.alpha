@@ -131,7 +131,7 @@ def apiProductAvailabilityModify(product_id, product_availability_id):
         return (apiResponse.text, apiResponse.status_code)
 
     if flask.request.method == 'PUT':
-        apiResponse = api.put(product_availability_id, product_availability_id, flask.request.form.to_dict())
+        apiResponse = api.put(product_id, product_availability_id, flask.request.form.to_dict())
     elif flask.request.method == 'DELETE':
         apiResponse = api.delete(product_id, product_availability_id)
 

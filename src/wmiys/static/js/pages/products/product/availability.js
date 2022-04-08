@@ -227,9 +227,10 @@ Parms:
     eSelectedTableRow: the table row clicked/selected that the user wishes to view
 *************************************************/
 async function openEditModal(eSelectedTableRow) {
-    eModalEdit.open(productAvailabilityID);
-    
     const productAvailabilityID = $(eSelectedTableRow).attr(eModalEdit.productAvailabilityID);
+    
+    eModalEdit.open(productAvailabilityID);
+
     const record = await fetchProductAvailabilityRecord(productAvailabilityID);
 
     if (record != null) {
@@ -303,27 +304,44 @@ function setEditModalFormValues(productAvailabilityRecord) {
 }
 
 /************************************************
-Update the product availability. Send request.
+Update the product availability. 
+Send request.
 *************************************************/
-function updateProductAvailability() {    
+async function updateProductAvailability() {    
     disableFormEdit(eFormAvailabilityEdit.buttons.save);
+    
+    const data = getUpdateFormData();
+    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
+    const apiResponse = await ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, data);
+
+    if (apiResponse.ok) {
+        updateProductAvailabilitySuccess();
+    }
+    else {
+        updateProductAvailabilityError(await apiResponse.text());
+    }
+}
+
+/************************************************
+Get the current form input values
+*************************************************/
+function getUpdateFormData() {
     const dates = dateRangeEdit.getDateValues();
 
-    let requestBody = {
+    let data = {
         starts_on: dates.startsOn,
         ends_on: dates.endsOn,
         note: $(eFormAvailabilityEdit.inputs.note).val(),
     }
-    
-    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
-    ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, requestBody, updateProductAvailabilitySuccess, updateProductAvailabilityError);
+
+    return data;
 }
 
 /**********************************************************
 Successful product availability PUT request callback.
 Refreshes the page.
 **********************************************************/
-function updateProductAvailabilitySuccess(response, status, xhr) {
+function updateProductAvailabilitySuccess() {
     window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulPut);
     window.location.href = window.location.href;
 }
@@ -331,14 +349,9 @@ function updateProductAvailabilitySuccess(response, status, xhr) {
 /**********************************************************
 Unsuccessful product availability PUT request callback
 **********************************************************/
-function updateProductAvailabilityError(xhr, status, error) {
+function updateProductAvailabilityError(error) {
     enableFormEdit();
-
     Utilities.displayAlert('API error.');
-
-    console.error('updateProductAvailabilityError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 
