@@ -36,13 +36,31 @@ export class Utilities {
     }
 
     /**
+     * Create a URL with search params appended to
+     * 
+     * example.com?name=Ryan&age=26
+     * 
+     * @param {string} endpoint - the base url to use
+     * @param {Object} nativeObject - the JS object to turn into a URLSearchParams object
+     * 
+     * @returns string
+     */
+    static createUrlWithParms(endpoint, nativeObject) {
+        const data = Utilities.getUrlSearchParms(nativeObject);
+        
+        const url = `${endpoint}?${data.toString()}`;
+
+        return url;
+    }
+
+    /**
      * Serialize an object into a URLSearchParams object
      * 
      * @param {object} nativeObject - the object to convert
      * 
      * @returns URLSearchParams
      */
-    static GetUrlSearchParms(nativeObject) {
+    static getUrlSearchParms(nativeObject) {
         const parms = new URLSearchParams();
 
         for (const key in nativeObject) {
@@ -52,4 +70,6 @@ export class Utilities {
 
         return parms;
     }
+
+
 }

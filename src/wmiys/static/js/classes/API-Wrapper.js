@@ -13,7 +13,7 @@ export class ApiWrapper
     static async requestPostUser(newUser) {
         const url = '/api/create-account';
 
-        const apiData = Utilities.GetUrlSearchParms(newUser);
+        const apiData = Utilities.getUrlSearchParms(newUser);
 
         const response = await fetch(url, {
             method: ApiWrapper.REQUEST_TYPES.POST,
@@ -22,36 +22,19 @@ export class ApiWrapper
 
         return response;
     }
-    
+
     /**********************************************************
-    Send a post Users request to the API
-    
-    Parms:
-        userInfoStruct - user object containing all the fields
+    Send a login request
     **********************************************************/
-    static requestLogin(loginStruct, fnSuccess, fnError) {
-        // ensure the argument contains all the required fields
-        if (!ApiWrapper.objectContainsAllFields(loginStruct, ApiWrapper.REQ_FIELDS_LOGIN)) {
-            console.log('missing fields');
-            return;
-        }
+    static async requestLogin(loginStruct) {
+        const endpoint = '/api/login';
+        const url = Utilities.createUrlWithParms(endpoint, loginStruct);
+
+        const response = await fetch(url);
         
-        if (fnSuccess == undefined) {
-            fnSuccess = console.log;
-        }
-        
-        if (fnError == undefined) {
-            fnError = console.error;
-        }
-        
-        $.ajax({
-            url: '/api/login',
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            data: loginStruct,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
+
     
     /**********************************************************
     Send a GET request for a user from the API
