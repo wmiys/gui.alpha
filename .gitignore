@@ -5,4 +5,4 @@ stripe_keys.py
 keys.py
 keys/
 
-js/dist/
+src/wmiys/static/js/dist/
