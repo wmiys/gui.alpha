@@ -234,28 +234,17 @@ export class ApiWrapper
     }
 
 
-
-
     /**********************************************************
     Send a GET product availability request to the API
     **********************************************************/
-    static requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/listings/${productID}/availability`;
+    static async requestGetProductListingAvailability(productID, availabilityData) {
+        const urlPrefix = `/api/listings/${productID}/availability`;
+        const url = Utilities.createUrlWithParms(urlPrefix, availabilityData);
+        const response = await fetch(url);
 
-        const apiData = {
-            location_id: locationID,
-            starts_on: startsOn,
-            ends_on: endsOn,
-        }
-
-        $.ajax({
-            url: url,
-            data: apiData,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
+
 
     /**********************************************************
     Send a POST product request to the API

@@ -75,10 +75,9 @@ export class ProductListingForm
     }
 
     /**********************************************************
-    Checks the availability of the product listing based on the 
-    inputs in the form.
+    Checks the availability of the product listing based on the inputs in the form.
     **********************************************************/
-    checkAvailability() {
+    async checkAvailability() {
         const self = this;
 
         this.toggleErrorMessage(false);
@@ -95,7 +94,16 @@ export class ProductListingForm
         this.showSpinnerForCheckButton();
         this.toggleCheckButtons(false);
 
-        ApiWrapper.requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, function(response) {
+        const availabilityData = {
+            location_id: locationID,
+            starts_on  : startsOn,
+            ends_on    : endsOn,
+        }
+
+        const apiResponse = await ApiWrapper.requestGetProductListingAvailability(productID, availabilityData);
+
+        if (apiResponse.ok) {
+            const response = await apiResponse.json();
             const isAvailabile = response.available;
 
             self.showNormalCheckButton();
@@ -107,11 +115,11 @@ export class ProductListingForm
                 self.toggleCheckButtons(false);
                 self.toggleErrorMessage(true);
             }
-
-        }, function(response) {                 // error actions
+        }
+        else {
             self.toggleCheckButtons(false);
             self.showNormalCheckButton();
-        });
+        }
     }
 
     /**********************************************************
