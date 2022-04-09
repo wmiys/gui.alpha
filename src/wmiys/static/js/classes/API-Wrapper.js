@@ -185,21 +185,16 @@ export class ApiWrapper
         return response;
     }
 
-
     /**********************************************************
     Send a GET product images request.
     Retrieve all the product images for a single product.
     **********************************************************/
-    static requestGetProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductImages(productID) {
         const url = `/api/products/${productID}/images`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
+
 
     /**********************************************************
     Send a POST product images request.
@@ -218,6 +213,10 @@ export class ApiWrapper
         });
     }
 
+
+
+
+    
     /**********************************************************
     Send a DELETE product images request.
     Deletes all images of a product.

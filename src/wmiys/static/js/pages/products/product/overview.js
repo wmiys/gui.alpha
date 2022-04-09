@@ -2,7 +2,7 @@ import { ApiWrapper }      from "../../../classes/API-Wrapper";
 import { CommonHtml }      from "../../../classes/Common-Html";
 import { UrlParser }       from "../../../classes/UrlParser";
 import { Utilities }       from "../../../classes/Utilities";
-
+import { BaseReturn } from "../../../classes/return-structures";
 
 /**********************************************************
 Module variables
@@ -176,7 +176,7 @@ function displayInitialCoverPhoto() {
 Load the file selector plugin for the product images.
 Then, try to fetch the product images.
 **********************************************************/
-function loadProductImagesPlugin() {    
+async function loadProductImagesPlugin() {    
     const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
 
     filePondImages = FilePond.create(inputElement, {
@@ -190,19 +190,61 @@ function loadProductImagesPlugin() {
         credits: false,
     });
 
-    ApiWrapper.requestGetProductImages(mProductID, getProductImagesSuccess, getProductImagesError); 
+
+    const fetchResult = await fetchProductImages();
+    if (!fetchResult.successful) {
+        getProductImagesError(fetchResult.error);
+    }
+    else {
+        getProductImagesSuccess(fetchResult.data);
+    }
+
 }
+
+/**
+ * Fetch the product images from the api
+ * 
+ * @returns {BaseReturn} the base return
+ */
+async function fetchProductImages() {
+    const result = new BaseReturn(true);
+
+    // fetch the image urls from the api
+    const apiResponse = await ApiWrapper.requestGetProductImages(mProductID);
+
+    if (!apiResponse.ok) {
+        result.successful = false;
+        result.error = await apiResponse.text();
+        return result;
+    }
+
+    let images = null;
+    try {
+        images = await apiResponse.json();
+    }
+    catch (exception) {
+        result.successful = false;
+        result.error = exception;
+    }
+    finally {
+        result.data = images;
+    }
+
+
+    return result;
+}
+
+
 
 /**********************************************************
 Callback for a successful GET for loadProductImagesPlugin.
 Transforms the response data into FilePond 'readable' objects.
 Then insert them into the filepond input so the user can see them.
 **********************************************************/
-function getProductImagesSuccess(response, status, xhr) {
+function getProductImagesSuccess(images) {
     const files = [];
 
-
-    for (const img of response) {
+    for (const img of images) {
         files.push({
             source: img.file_name,
             options: {type: 'remote'},
@@ -215,10 +257,8 @@ function getProductImagesSuccess(response, status, xhr) {
 /**********************************************************
 Callback for an error encountered in the GET for loadProductImagesPlugin.
 **********************************************************/
-function getProductImagesError(xhr, status, error) {
+function getProductImagesError(error) {
     console.error('getProductImagesError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 
