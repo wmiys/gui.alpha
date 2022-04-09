@@ -175,7 +175,7 @@ export class ProductListingForm
         - ends_on
         - location_id
     **********************************************************/
-    setInputValuesFromUrl() {
+    async setInputValuesFromUrl() {
         const self = this;
 
         const startsOn = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.startsOn);
@@ -183,7 +183,12 @@ export class ProductListingForm
         const locationID = UrlParser.getQueryParm(ProductListingForm.urlQueryParms.locationID);
 
         this.setDatesValues(startsOn, endsOn);
-        ApiWrapper.requestGetLocation(locationID, self.setLocationValue.bind(self));
+
+        const apiResponse = await ApiWrapper.requestGetLocation(locationID);
+        if (apiResponse.ok) {
+            const location = await apiResponse.json();
+            this.setLocationValue(location);
+        }
     }
 
     /**********************************************************

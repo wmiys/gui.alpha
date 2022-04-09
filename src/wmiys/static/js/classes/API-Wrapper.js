@@ -224,20 +224,17 @@ export class ApiWrapper
         return response;
     }
 
-    
     /**********************************************************
     Send a GET location request to the API
     **********************************************************/
-    static requestGetLocation(locationID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetLocation(locationID) {
         const url = `/api/locations/${locationID}`;
-
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
+
+
+
 
     /**********************************************************
     Send a GET product availability request to the API
