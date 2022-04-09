@@ -573,17 +573,30 @@ function uploadNewProductImages() {
 /**********************************************************
 Send an API request to create the new product images.
 **********************************************************/
-function saveProductImages() {
-    const formData = new FormData();
+async function saveProductImages() {
+    const images = getProductImageFiles();
+    const apiResponse = await ApiWrapper.requestPostProductImages(mProductID, images);
 
-    let files = filePondImages.getFiles();
-
-    for (const f of files) {
-        formData.append(f.file.name, f.file);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
     }
 
-    ApiWrapper.requestPostProductImages(mProductID, formData, enableProductImagesSaveButton, enableProductImagesSaveButton);
+    enableProductImagesSaveButton();
 }
+
+/**
+ * Get the list of files in the additional product images
+ */
+function getProductImageFiles() {
+    // create a native object for all the images
+    const images = {};
+    for (const fileObject of filePondImages.getFiles()) {
+        images[fileObject.file.name] = fileObject.file;
+    }
+
+    return images;
+}
+
 
 /**********************************************************
 Disables the save button when loading the product images.

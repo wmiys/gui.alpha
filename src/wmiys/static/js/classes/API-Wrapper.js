@@ -195,28 +195,21 @@ export class ApiWrapper
         return response;
     }
 
-
     /**********************************************************
     Send a POST product images request.
     **********************************************************/
-    static requestPostProductImages(productID, filesList, fnSuccess=console.log, fnError=console.error) {
+    static async requestPostProductImages(productID, files) {
         const url = `/api/products/${productID}/images`;
-
-        $.ajax({
-            url: url,
-            data: filesList,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
+        const imagesFormData = Utilities.getFormData(files);
+        
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.POST,
+            body: imagesFormData,
         });
+
+        return response;
     }
 
-
-
-
-    
     /**********************************************************
     Send a DELETE product images request.
     Deletes all images of a product.
