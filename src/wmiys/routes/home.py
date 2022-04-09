@@ -6,7 +6,7 @@
 # Description:  Handles the routing for the home page, login, and create account
 #*******************************************************************************************
 import flask
-from ..common import security
+from wmiys.common import security
 
 # module blueprint
 bpHome = flask.Blueprint('home', __name__)

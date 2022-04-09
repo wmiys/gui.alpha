@@ -9,10 +9,16 @@ import flask
 import stripe
 import uuid
 from http import HTTPStatus
+
 from wmiys_common import keys
-from ..common import security
-from ..payments import payments
-from .. import api_wrapper
+
+from wmiys.common import security
+from wmiys.payments import payments
+from wmiys.api_wrapper import ApiWrapperRequests
+
+
+
+
 
 
 # module blueprint
@@ -60,7 +66,7 @@ def successfulRenterPayment(payment_id: uuid.UUID):
 
     
     # create a new product request for the lender
-    api = api_wrapper.ApiWrapperRequests(flask.g)
+    api = ApiWrapperRequests(flask.g)
     api_response = api.post(payment_id, session_id)
 
     # redirect the user to the success page

@@ -8,9 +8,10 @@
 from __future__ import annotations
 import flask
 from datetime import datetime
-from ..common import security, product_requests
-from ..payments import payout_accounts
-from .. import api_wrapper
+
+from wmiys.common import security, product_requests
+from wmiys.payments import payout_accounts
+from wmiys.api_wrapper import ApiWrapperUsers, ApiWrapperProducts, ApiWrapperProductAvailability
 
 # module blueprint
 bpProducts = flask.Blueprint('products', __name__)
@@ -25,7 +26,7 @@ bpProducts = flask.Blueprint('products', __name__)
 @security.login_required
 @payout_accounts.payout_account_required
 def overviewGet():
-    api = api_wrapper.ApiWrapperUsers(flask.g)
+    api = ApiWrapperUsers(flask.g)
     response = api.get()
 
     return flask.render_template('pages/products/overview.html', data=response.json())
@@ -37,7 +38,7 @@ def overviewGet():
 @security.login_required
 @payout_accounts.payout_account_required
 def productsGet():
-    api = api_wrapper.ApiWrapperProducts(flask.g)
+    api = ApiWrapperProducts(flask.g)
     api_response = api.get()
 
     if not api_response.ok:
@@ -71,7 +72,7 @@ def requestsGet():
 @security.login_required
 @payout_accounts.payout_account_required
 def productsNew():
-    api = api_wrapper.ApiWrapperProducts(flask.g)
+    api = ApiWrapperProducts(flask.g)
     
     # post an empty product
     api_response = api.post(None, None)
@@ -139,7 +140,7 @@ def productPageSettings(product_id):
 #------------------------------------------------------
 def _getProductApiResponse(product_id: int) -> dict:
     # get the product's info from the api
-    api = api_wrapper.ApiWrapperProducts(flask.g)
+    api = ApiWrapperProducts(flask.g)
     api_response = api.get(product_id)
 
     if not api_response.ok:
@@ -154,7 +155,7 @@ def _getProductApiResponse(product_id: int) -> dict:
 # Get the product's availability records from the api
 #------------------------------------------------------
 def _getProductAvailabilityApiResponse(product_id: int) -> list[dict]:
-    api = api_wrapper.ApiWrapperProductAvailability(flask.g)
+    api = ApiWrapperProductAvailability(flask.g)
     api_response = api.get(product_id)
     
     if not api_response.ok:
