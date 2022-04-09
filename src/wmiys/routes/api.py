@@ -262,10 +262,9 @@ def insertBalanceTransfer():
     api = api_wrapper.ApiWrapperBalanceTransfers(flask.g)
     api_response = api.post()
 
-    if not api_response.ok:
-        return (api_response.text, api_response.status_code)
-    
-    balance_transfer = api_response.json()
+    print(api_response.text)
+
+    return (api_response.text, api_response.status_code)
 
     return flask.jsonify(balance_transfer)
 

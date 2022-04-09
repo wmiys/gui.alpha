@@ -17,9 +17,6 @@ Main logic
 **********************************************************/
 $(document).ready(function() {
     mProductListingForm.init();
-
-    // mProductListingForm.showSpinnerForCheckButton();
-
     addListeners();
 });
 
