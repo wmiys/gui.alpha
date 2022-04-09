@@ -358,7 +358,7 @@ function updateProductAvailabilityError(error) {
 /**********************************************************
 Delete a product availabiulity record.
 **********************************************************/
-function deleteProductAvailability() {
+async function deleteProductAvailability() {
     // this can't be undone
     if (!confirm('Are you sure you want to delete this? It can\'t be undone.')) {
         return;
@@ -367,14 +367,23 @@ function deleteProductAvailability() {
     disableFormEdit(eFormAvailabilityEdit.buttons.delete);
 
     const availabilityID = eModalEdit.getActiveProductAvailabilityID();
-    ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, deleteProductAvailabilitySuccess, deleteProductAvailabilityError);
+    const apiResponse = await ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID);
+
+    if (apiResponse.ok) {
+        deleteProductAvailabilitySuccess();
+    } 
+    else {
+        deleteProductAvailabilityError(await apiResponse.text());
+    }
 }
+
+
 
 /**********************************************************
 Successful product availability DELETE request callback.
 Refreshes the page.
 **********************************************************/
-function deleteProductAvailabilitySuccess(response, status, xhr) {
+function deleteProductAvailabilitySuccess() {
     window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulDelete);
     window.location.href = window.location.href;
 }
@@ -382,15 +391,10 @@ function deleteProductAvailabilitySuccess(response, status, xhr) {
 /**********************************************************
 Unsuccessful product availability DELETE request callback
 **********************************************************/
-function deleteProductAvailabilityError(xhr, status, error) {
+function deleteProductAvailabilityError(errMessage) {
     enableFormEdit(eFormAvailabilityEdit.buttons.delete);
-    
     Utilities.displayAlert('API error.');
-
-    console.error('updateProductAvailabilityError');
-    console.error(xhr);
-    console.error(status);
-    console.error(error); 
+    console.error(errMessage); 
 }
 
 
