@@ -564,10 +564,13 @@ User want's to upload new product images.
 1. First, send a request to delete all of the existing product images.
 2. Then, upload the new ones.
 **********************************************************/
-function uploadNewProductImages() {
+async function uploadNewProductImages() {
     disableProductImagesSaveButton();
 
-    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages, enableProductImagesSaveButton);
+    // delete the existing ones
+    await ApiWrapper.requestDeleteProductImages(mProductID);
+
+    saveProductImages();
 }
 
 /**********************************************************

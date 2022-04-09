@@ -214,17 +214,17 @@ export class ApiWrapper
     Send a DELETE product images request.
     Deletes all images of a product.
     **********************************************************/
-    static requestDeleteProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+    static async requestDeleteProductImages(productID) {
         const url = `/api/products/${productID}/images`;
 
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.DELETE,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.DELETE,
         });
+
+        return response;
     }
 
+    
     /**********************************************************
     Send a GET location request to the API
     **********************************************************/
