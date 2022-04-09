@@ -11,10 +11,16 @@ def createPaymentApiRequest(product_id: int) -> requests.Response:
     api = api_wrapper.ApiWrapperPayments(flask.g)
 
     # get all the form data
-    request_form: dict = flask.request.form.to_dict()
-    request_form.setdefault('product_id', product_id)
+    request_form = flask.request.form.to_dict()
 
-    return api.post(request_form)
+    apiData = dict(
+        starts_on           = request_form.get('hidden-starts-on') or None,
+        ends_on             = request_form.get('hidden-ends-on') or None,
+        dropoff_location_id = request_form.get('location') or None,
+        product_id          = product_id
+    )
+
+    return api.post(apiData)
 
 #------------------------------------------------------
 # Create a new stripe checkout session

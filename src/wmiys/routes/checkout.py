@@ -30,7 +30,7 @@ def createCheckout(product_id: int):
     api_payment_response = payments.createPaymentApiRequest(product_id)
 
     if not api_payment_response.ok:
-        return ('', 400)
+        return (api_payment_response.text, 400)
 
     payment = api_payment_response.json() 
 
