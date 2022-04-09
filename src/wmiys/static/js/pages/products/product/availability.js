@@ -210,11 +210,11 @@ Returns an object containing a form's input values.
 Parms:
     a_formInputElementObject: an object with the form inputs.
 *************************************************/
-function getFormValues(a_formInputElementObject) {
+function getFormValues(formInputElement) {
     const values = {};
-
-    for (inputKey of Object.keys(a_formInputElementObject)) {
-        values[inputKey] = $(a_formInputElementObject[inputKey]).val();
+    
+    for (inputKey of Object.keys(formInputElement)) {
+        values[inputKey] = $(formInputElement[inputKey]).val();
     }
 
     return values;
@@ -224,20 +224,55 @@ function getFormValues(a_formInputElementObject) {
 Open the edit product availability modal
 
 Parms:
-    a_eTableRow: the table row clicked/selected that the user wishes to view
+    eSelectedTableRow: the table row clicked/selected that the user wishes to view
 *************************************************/
-function openEditModal(a_eTableRow) {
-    // eModalEdit.toggleLoadingDisplay(true);
-    const newProductAvailabilityID = $(a_eTableRow).attr(eModalEdit.productAvailabilityID);
-    ApiWrapper.requestGetProductAvailability(mProductID, newProductAvailabilityID, openEditModalSuccess, openEditModalError);
-    eModalEdit.open(newProductAvailabilityID);
+async function openEditModal(eSelectedTableRow) {
+    const productAvailabilityID = $(eSelectedTableRow).attr(eModalEdit.productAvailabilityID);
+    
+    eModalEdit.open(productAvailabilityID);
+
+    const record = await fetchProductAvailabilityRecord(productAvailabilityID);
+
+    if (record != null) {
+        openEditModalSuccess(record);
+    }
+}
+
+/**
+ * Fetch the specified product availability from the api
+ * Returns null if not found or there was an error
+ * 
+ * @param {number} productAvailabilityID - the product availability id
+ * 
+ * @returns {Object} the product availability record
+ */
+async function fetchProductAvailabilityRecord(productAvailabilityID) {
+    let record = null;
+
+    const apiResponse = await ApiWrapper.requestGetProductAvailability(mProductID, productAvailabilityID);
+
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return record;
+    }
+
+    try {
+        record = await apiResponse.json();
+        // console.table(record);
+    }
+    catch (exception) {
+        console.error(exception);
+        record = null;
+    }
+
+    return record;
 }
 
 /************************************************
 Callback for a successful product availability GET request to the API
 *************************************************/
-function openEditModalSuccess(response, status, xhr) {
-    setEditModalFormValues(response);
+function openEditModalSuccess(productAvailability) {
+    setEditModalFormValues(productAvailability);
     eModalEdit.toggleLoadingDisplay(false);
 }
 
@@ -257,38 +292,56 @@ function openEditModalError(xhr, status, error) {
 Sets the edit modal form inputs
 
 Parms:
-     oProductAvailability: an object containing the fields:
+     productAvailabilityRecord: an object containing the fields:
         - starts_on
         - ends_on
         - note
 *************************************************/
-function setEditModalFormValues(oProductAvailability) {
-    $(eFormAvailabilityEdit.inputs.note).val(oProductAvailability.note);
-    dateRangeEdit.flatpickrInstance.setDate([oProductAvailability.starts_on, oProductAvailability.ends_on], true);
+function setEditModalFormValues(productAvailabilityRecord) {
+    $(eFormAvailabilityEdit.inputs.note).val(productAvailabilityRecord.note);
+
+    dateRangeEdit.flatpickrInstance.setDate([productAvailabilityRecord.starts_on, productAvailabilityRecord.ends_on], true);
 }
 
 /************************************************
-Update the product availability. Send request.
+Update the product availability. 
+Send request.
 *************************************************/
-function updateProductAvailability() {    
+async function updateProductAvailability() {    
     disableFormEdit(eFormAvailabilityEdit.buttons.save);
+    
+    const data = getUpdateFormData();
+    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
+    const apiResponse = await ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, data);
+
+    if (apiResponse.ok) {
+        updateProductAvailabilitySuccess();
+    }
+    else {
+        updateProductAvailabilityError(await apiResponse.text());
+    }
+}
+
+/************************************************
+Get the current form input values
+*************************************************/
+function getUpdateFormData() {
     const dates = dateRangeEdit.getDateValues();
 
-    let requestBody = {
+    let data = {
         starts_on: dates.startsOn,
         ends_on: dates.endsOn,
         note: $(eFormAvailabilityEdit.inputs.note).val(),
     }
-    
-    const availabilityID = eModalEdit.getActiveProductAvailabilityID();
-    ApiWrapper.requestPutProductAvailability(mProductID, availabilityID, requestBody, updateProductAvailabilitySuccess, updateProductAvailabilityError);
+
+    return data;
 }
 
 /**********************************************************
 Successful product availability PUT request callback.
 Refreshes the page.
 **********************************************************/
-function updateProductAvailabilitySuccess(response, status, xhr) {
+function updateProductAvailabilitySuccess() {
     window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulPut);
     window.location.href = window.location.href;
 }
@@ -296,21 +349,16 @@ function updateProductAvailabilitySuccess(response, status, xhr) {
 /**********************************************************
 Unsuccessful product availability PUT request callback
 **********************************************************/
-function updateProductAvailabilityError(xhr, status, error) {
+function updateProductAvailabilityError(error) {
     enableFormEdit();
-
     Utilities.displayAlert('API error.');
-
-    console.error('updateProductAvailabilityError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 
 /**********************************************************
 Delete a product availabiulity record.
 **********************************************************/
-function deleteProductAvailability() {
+async function deleteProductAvailability() {
     // this can't be undone
     if (!confirm('Are you sure you want to delete this? It can\'t be undone.')) {
         return;
@@ -319,14 +367,23 @@ function deleteProductAvailability() {
     disableFormEdit(eFormAvailabilityEdit.buttons.delete);
 
     const availabilityID = eModalEdit.getActiveProductAvailabilityID();
-    ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID, deleteProductAvailabilitySuccess, deleteProductAvailabilityError);
+    const apiResponse = await ApiWrapper.requestDeleteProductAvailability(mProductID, availabilityID);
+
+    if (apiResponse.ok) {
+        deleteProductAvailabilitySuccess();
+    } 
+    else {
+        deleteProductAvailabilityError(await apiResponse.text());
+    }
 }
+
+
 
 /**********************************************************
 Successful product availability DELETE request callback.
 Refreshes the page.
 **********************************************************/
-function deleteProductAvailabilitySuccess(response, status, xhr) {
+function deleteProductAvailabilitySuccess() {
     window.sessionStorage.setItem(PageAlerts.key, PageAlerts.values.successfulDelete);
     window.location.href = window.location.href;
 }
@@ -334,15 +391,10 @@ function deleteProductAvailabilitySuccess(response, status, xhr) {
 /**********************************************************
 Unsuccessful product availability DELETE request callback
 **********************************************************/
-function deleteProductAvailabilityError(xhr, status, error) {
+function deleteProductAvailabilityError(errMessage) {
     enableFormEdit(eFormAvailabilityEdit.buttons.delete);
-    
     Utilities.displayAlert('API error.');
-
-    console.error('updateProductAvailabilityError');
-    console.error(xhr);
-    console.error(status);
-    console.error(error); 
+    console.error(errMessage); 
 }
 
 
@@ -350,19 +402,25 @@ function deleteProductAvailabilityError(xhr, status, error) {
 Update a new product availability. 
 Send request to the api
 *************************************************/
-function createProductAvailability() {
+async function createProductAvailability() {
     disableFormNew();
 
     const dates = dateRangeNew.getDateValues();
-
-    let requestBody = {
+    const requestBody = {
         starts_on: dates.startsOn,
         ends_on: dates.endsOn,
         note: $(eFormAvailabilityNew.inputs.note).val(),
     }
-    
-    ApiWrapper.requestPostProductAvailability(mProductID, requestBody, createProductAvailabilitySuccess, createProductAvailabilityError);
+
+    const apiResponse = await ApiWrapper.requestPostProductAvailability(mProductID, requestBody);
+    if (apiResponse.ok) {
+        createProductAvailabilitySuccess();
+    } 
+    else {
+        createProductAvailabilityError(await apiResponse.text());
+    }
 }
+
 
 /************************************************
 Callback for a successful product availability POST request to the API
@@ -376,13 +434,11 @@ function createProductAvailabilitySuccess(response, status, xhr) {
 /************************************************
 Callback for an unsuccessful product availability POST request to the API
 *************************************************/
-function createProductAvailabilityError(xhr, status, error) {
+function createProductAvailabilityError(error) {
     enableFormNew();
     
     Utilities.displayAlert('API error. Check log');
     console.error('submitFormEventError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 

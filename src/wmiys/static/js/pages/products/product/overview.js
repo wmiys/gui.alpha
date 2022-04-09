@@ -2,7 +2,7 @@ import { ApiWrapper }      from "../../../classes/API-Wrapper";
 import { CommonHtml }      from "../../../classes/Common-Html";
 import { UrlParser }       from "../../../classes/UrlParser";
 import { Utilities }       from "../../../classes/Utilities";
-
+import { BaseReturn } from "../../../classes/return-structures";
 
 /**********************************************************
 Module variables
@@ -89,16 +89,8 @@ $(document).ready(function() {
 Adds event listeners to the page elements
 **********************************************************/
 function addEventListeners() {
-    $(eInputs.categoryMajor).on('change', function() {
-        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
-        ApiWrapper.requestGetProductCategoriesMinor(majorCategoryID, loadMinorCategoriesSuccess, console.error);
-    });
-    
-    $(eInputs.categoryMinor).on('change', function() {
-        const majorCategoryID = $(eInputs.categoryMajor).find('option:selected').val();
-        const minorCategoryID = $(eInputs.categoryMinor).find('option:selected').val();
-        ApiWrapper.requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, loadSubCategoriesSuccess, console.error);
-    });
+    $(eInputs.categoryMajor).on('change', renderMinorCategoriesForCurrentMajor);
+    $(eInputs.categoryMinor).on('change', renderSubCategoriesForCurrentMinor);
     
     $(cBtnStep).on('click', function() {
         stepToFormPage(this);
@@ -134,6 +126,7 @@ function addEventListeners() {
         handleCoverPhotoEdit();
     });
 }
+
 
 /**********************************************************
 Registers all of the FilePond extensions.
@@ -183,7 +176,7 @@ function displayInitialCoverPhoto() {
 Load the file selector plugin for the product images.
 Then, try to fetch the product images.
 **********************************************************/
-function loadProductImagesPlugin() {    
+async function loadProductImagesPlugin() {    
     const inputElement = document.querySelector(Utilities.getJqueryElementID(eInputs.productImages));
 
     filePondImages = FilePond.create(inputElement, {
@@ -197,19 +190,61 @@ function loadProductImagesPlugin() {
         credits: false,
     });
 
-    ApiWrapper.requestGetProductImages(mProductID, getProductImagesSuccess, getProductImagesError); 
+
+    const fetchResult = await fetchProductImages();
+    if (!fetchResult.successful) {
+        getProductImagesError(fetchResult.error);
+    }
+    else {
+        getProductImagesSuccess(fetchResult.data);
+    }
+
 }
+
+/**
+ * Fetch the product images from the api
+ * 
+ * @returns {BaseReturn} the base return
+ */
+async function fetchProductImages() {
+    const result = new BaseReturn(true);
+
+    // fetch the image urls from the api
+    const apiResponse = await ApiWrapper.requestGetProductImages(mProductID);
+
+    if (!apiResponse.ok) {
+        result.successful = false;
+        result.error = await apiResponse.text();
+        return result;
+    }
+
+    let images = null;
+    try {
+        images = await apiResponse.json();
+    }
+    catch (exception) {
+        result.successful = false;
+        result.error = exception;
+    }
+    finally {
+        result.data = images;
+    }
+
+
+    return result;
+}
+
+
 
 /**********************************************************
 Callback for a successful GET for loadProductImagesPlugin.
 Transforms the response data into FilePond 'readable' objects.
 Then insert them into the filepond input so the user can see them.
 **********************************************************/
-function getProductImagesSuccess(response, status, xhr) {
+function getProductImagesSuccess(images) {
     const files = [];
 
-
-    for (const img of response) {
+    for (const img of images) {
         files.push({
             source: img.file_name,
             options: {type: 'remote'},
@@ -222,10 +257,8 @@ function getProductImagesSuccess(response, status, xhr) {
 /**********************************************************
 Callback for an error encountered in the GET for loadProductImagesPlugin.
 **********************************************************/
-function getProductImagesError(xhr, status, error) {
+function getProductImagesError(error) {
     console.error('getProductImagesError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 
@@ -311,21 +344,52 @@ function processLocationSearchApiResponse(apiResponse) {
 Load the major category options if the category fields
 are not set.
 **********************************************************/
-function checkIfCategoriesAreSet() {
+async function checkIfCategoriesAreSet() {
     const subVal = $(eInputs.categorySub).val();
 
-    if (subVal.length == 0) {
-        ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
+    if (subVal.length != 0) {
+        return;
+    }
+
+    loadMajorCatetories();
+}
+
+/**********************************************************
+Clear the categories dropdowns and refresh
+**********************************************************/
+async function resetProductCategories() {
+    $(eInputs.categoryMajor).find('option').remove();
+    $(eInputs.categoryMinor).find('option').remove();
+    $(eInputs.categorySub).find('option').remove();
+
+    await loadMajorCatetories();
+
+    $('.selectpicker').selectpicker('refresh');
+}
+
+/**********************************************************
+Load the major category html option elements
+**********************************************************/
+async function loadMajorCatetories() {
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesMajor();
+
+    if (apiResponse.ok) {
+        const categories = await apiResponse.json();
+        loadMajorCategoriesSuccess(categories);
+    }
+    else {
+        loadMajorCategoriesError(await apiResponse.text());
     }
 }
 
 /**********************************************************
 Load the major categories into the select element
 **********************************************************/
-function loadMajorCategoriesSuccess(result,status,xhr) {
+function loadMajorCategoriesSuccess(majorCategories) {
     let html = '';
-    for (majorCategory of result) {
-        html += `<option value="${majorCategory.id}">${majorCategory.name}</option>`;
+    for (const majorCategory of majorCategories) {
+        const value = `value="${majorCategory.id}"`;
+        html += `<option ${value}>${majorCategory.name}</option>`;
     }
     
     $(eInputs.categoryMajor).prop('disabled', false).html(html);
@@ -336,28 +400,98 @@ function loadMajorCategoriesSuccess(result,status,xhr) {
 /**********************************************************
 Error fetching the major categories
 **********************************************************/
-function loadMajorCategoriesError(xhr, status, error) {
-    console.error(xhr);
-    console.error(status);
+function loadMajorCategoriesError(error) {
     console.error(error);
-    
     enableSubmitButton();
-    // Utilities.displayAlert('Error loading major categories');
 }
 
+/**********************************************************
+Fetch the minor categories of the currently selected major category
+**********************************************************/
+async function renderMinorCategoriesForCurrentMajor() {
+    // fetch the categories from the api
+    const majorCategoryID = getCurrentMajorCategoryValue();
+    const categories = await fetchMajorCategoryChildren(majorCategoryID);
+
+    // display them
+    loadMinorCategoriesSuccess(categories);
+}
 
 /**********************************************************
-Update the minor categories to show the ones that belong 
-to the selected major category.
+Fetch all the minor categories that belong to the speicifed major category
 **********************************************************/
-function loadMinorCategoriesSuccess(result,status,xhr) {
+async function fetchMajorCategoryChildren(majorCategoryID) {
+    let minorCategories = [];
+
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesMinor(majorCategoryID);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return minorCategories;
+    }
+
+    try {
+        minorCategories = await apiResponse.json();
+    }
+    catch (exception) {
+        console.error(exception);
+        minorCategories = [];
+    }
+
+    return minorCategories;
+}
+
+/**********************************************************
+Update the minor categories to show the ones that belong to the selected major category.
+**********************************************************/
+function loadMinorCategoriesSuccess(minorCategories) {
     let html = '';
-    for (minorCategory of result) {
-        html += `<option value="${minorCategory.id}">${minorCategory.name}</option>`;
+    for (const minorCategory of minorCategories) {
+        const value = `value="${minorCategory.id}"`;
+        html += `<option ${value}>${minorCategory.name}</option>`;
     }
     
     $(eInputs.categoryMinor).prop('disabled', false).html(html).val('');
     $(eInputs.categoryMinor).selectpicker('refresh');
+}
+
+
+
+/**********************************************************
+Fetch the sub categories that belong to the currently selected minor category
+**********************************************************/
+async function renderSubCategoriesForCurrentMinor() {
+    // get the values of the currently selected major and minor category elements
+    const majorCategoryID = getCurrentMajorCategoryValue();
+    const minorCategoryID = getCurrentMinorCategoryValue();
+
+    // fetch the sub categories from the api
+    const subCategories = await fetchSubCategories(majorCategoryID, minorCategoryID);
+
+    // render them
+    loadSubCategoriesSuccess(subCategories);
+}
+
+/**********************************************************
+Fetch all the minor categories that belong to the speicifed major category
+**********************************************************/
+async function fetchSubCategories(parentMajorCategoryID, parentMinorCategoryID) {
+    let subCategories = [];
+
+    const apiResponse = await ApiWrapper.requestGetProductCategoriesSub(parentMajorCategoryID, parentMinorCategoryID);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+        return subCategories;
+    }
+
+    try {
+        subCategories = await apiResponse.json();
+    }
+    catch (exception) {
+        console.error(exception);
+        subCategories = [];
+    }
+
+    return subCategories;
 }
 
 /**********************************************************
@@ -365,7 +499,7 @@ Load the sub categories based on the minor category
 **********************************************************/
 function loadSubCategoriesSuccess(result, status, xhr) {
     let html = '';
-    for (subCategory of result) {
+    for (const subCategory of result) {
         html += `<option value="${subCategory.id}">${subCategory.name}</option>`;
     }
     
@@ -373,43 +507,54 @@ function loadSubCategoriesSuccess(result, status, xhr) {
     $(eInputs.categorySub).selectpicker('refresh');
 }
 
+
+/**********************************************************
+Get the value of the currently selected major category element
+**********************************************************/
+function getCurrentMajorCategoryValue() {
+    return $(eInputs.categoryMajor).find('option:selected').val();
+}
+
+/**********************************************************
+Get the value of the currently selected minor category element
+**********************************************************/
+function getCurrentMinorCategoryValue() {
+    return $(eInputs.categoryMinor).find('option:selected').val();
+}
+
 /**********************************************************
 Actions to take to send the create prodcut request.
 **********************************************************/
-function submitFormEvent() {    
-    // disableSubmitButton();
+async function submitFormEvent() {    
+    disableSubmitButton();
 
-    const values = getInputValues(); 
-       
-    let formData = new FormData();
-    
-    formData.append("name", values.name);
-    formData.append('description', values.description);
-    formData.append('product_categories_sub_id', values.categorySub);
-    formData.append('location_id', values.location);
-    formData.append('dropoff_distance', values.dropoffDistance);
-    formData.append('price_full', values.priceFull);
-    formData.append('minimum_age', values.minimumAge);
+    const values = getInputValuesWithApiKeys();
+    const apiResponse = await ApiWrapper.requestPutProduct(mProductID, values);
 
-    ApiWrapper.requestPutProduct(mProductID, formData, function() {
+    if (apiResponse.ok) {
         $(eButtons.saveImg.cover).prop('disabled', true);
-    }, submitFormEventError);
+    }
+    else {
+        submitFormEventError(await apiResponse.text());
+    }
 }
 
 /**********************************************************
 Update the cover image file in the database.
 **********************************************************/
-function saveCoverImage() {
-    let imageFile = filePondCover.getFile();
+async function saveCoverImage() {
+    const imageFile = filePondCover.getFile();
 
     if (imageFile == null) {
         return;
     }
 
-    let formData = new FormData();
-    formData.append('image', imageFile.file);
+    const productImageData = {image: imageFile.file};
+    const apiResponse = await ApiWrapper.requestPutProduct(mProductID, productImageData);
 
-    ApiWrapper.requestPutProduct(mProductID, formData);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
+    }
 }
 
 
@@ -419,26 +564,42 @@ User want's to upload new product images.
 1. First, send a request to delete all of the existing product images.
 2. Then, upload the new ones.
 **********************************************************/
-function uploadNewProductImages() {
+async function uploadNewProductImages() {
     disableProductImagesSaveButton();
 
-    ApiWrapper.requestDeleteProductImages(mProductID, saveProductImages, enableProductImagesSaveButton);
+    // delete the existing ones
+    await ApiWrapper.requestDeleteProductImages(mProductID);
+
+    saveProductImages();
 }
 
 /**********************************************************
 Send an API request to create the new product images.
 **********************************************************/
-function saveProductImages() {
-    const formData = new FormData();
+async function saveProductImages() {
+    const images = getProductImageFiles();
+    const apiResponse = await ApiWrapper.requestPostProductImages(mProductID, images);
 
-    let files = filePondImages.getFiles();
-
-    for (const f of files) {
-        formData.append(f.file.name, f.file);
+    if (!apiResponse.ok) {
+        console.error(await apiResponse.text());
     }
 
-    ApiWrapper.requestPostProductImages(mProductID, formData, enableProductImagesSaveButton, enableProductImagesSaveButton);
+    enableProductImagesSaveButton();
 }
+
+/**
+ * Get the list of files in the additional product images
+ */
+function getProductImageFiles() {
+    // create a native object for all the images
+    const images = {};
+    for (const fileObject of filePondImages.getFiles()) {
+        images[fileObject.file.name] = fileObject.file;
+    }
+
+    return images;
+}
+
 
 /**********************************************************
 Disables the save button when loading the product images.
@@ -479,7 +640,27 @@ function handleCoverPhotoEdit() {
 
 
 /**********************************************************
-Returns an object containing all the new prodcut form input values.
+Returns an object containing all the new product form input values with the correct api keys
+**********************************************************/
+function getInputValuesWithApiKeys() {
+    const values = getInputValues(); 
+
+    const correctedApiKeys = {
+        name                     : values.name,
+        description              : values.description,
+        product_categories_sub_id: values.categorySub,
+        location_id              : values.location,
+        dropoff_distance         : values.dropoffDistance,
+        price_full               : values.priceFull,
+        minimum_age              : values.minimumAge,
+    }
+
+    return correctedApiKeys;
+}
+
+
+/**********************************************************
+Returns an object containing all the new product form input values.
 **********************************************************/
 function getInputValues() {
     const inputKeys = Object.keys(eInputs);
@@ -671,14 +852,10 @@ function submitFormEventSuccess(response, status, xhr) {
 /**********************************************************
 Actions to take if the create product request was not successful.
 **********************************************************/
-function submitFormEventError(xhr, status, error) {
-    // Utilities.displayAlert('There was an error. Please try again.');
-
+function submitFormEventError(error) {
     console.error('submitFormEventError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
-    
+
     enableSubmitButton();
 }
 
@@ -741,19 +918,6 @@ function stepToFormPage(a_eBtnStep) {
     $(eProgressBar).width(`${newProgressWidth}%`);
 }
 
-
-/**********************************************************
-Clear the categories dropdowns and refresh
-**********************************************************/
-function resetProductCategories() {
-    $(eInputs.categoryMajor).find('option').remove();
-    $(eInputs.categoryMinor).find('option').remove();
-    $(eInputs.categorySub).find('option').remove();
-
-    ApiWrapper.requestGetProductCategoriesMajor(loadMajorCategoriesSuccess, loadMajorCategoriesError);
-
-    $('.selectpicker').selectpicker('refresh');
-}
 
 /**********************************************************
 Remove the existing image display

@@ -13,7 +13,7 @@ export class ApiWrapper
     static async requestPostUser(newUser) {
         const url = '/api/create-account';
 
-        const apiData = Utilities.GetUrlSearchParms(newUser);
+        const apiData = Utilities.getUrlSearchParms(newUser);
 
         const response = await fetch(url, {
             method: ApiWrapper.REQUEST_TYPES.POST,
@@ -22,42 +22,25 @@ export class ApiWrapper
 
         return response;
     }
-    
+
     /**********************************************************
-    Send a post Users request to the API
-    
-    Parms:
-        userInfoStruct - user object containing all the fields
+    Send a login request
     **********************************************************/
-    static requestLogin(loginStruct, fnSuccess, fnError) {
-        // ensure the argument contains all the required fields
-        if (!ApiWrapper.objectContainsAllFields(loginStruct, ApiWrapper.REQ_FIELDS_LOGIN)) {
-            console.log('missing fields');
-            return;
-        }
-        
-        if (fnSuccess == undefined) {
-            fnSuccess = console.log;
-        }
-        
-        if (fnError == undefined) {
-            fnError = console.error;
-        }
-        
-        $.ajax({
-            url: '/api/login',
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            data: loginStruct,
-            success: fnSuccess,
-            error: fnError,
-        });
+    static async requestLogin(loginStruct) {
+        const endpoint = '/api/login';
+        const url = Utilities.createUrlWithParms(endpoint, loginStruct);
+
+        const response = await fetch(url);
+
+        return response;
     }
+
     
     /**********************************************************
     Send a GET request for a user from the API
     **********************************************************/
     static async requestGetUser() {
-        const url = `/api/users`;
+        const url = '/api/users';
         const response = await fetch(url);
         return response;
     }
@@ -74,42 +57,27 @@ export class ApiWrapper
             - name_first
             - name_last
             - birth_date
-        fnSuccess: successful request callback
-        fnError: unsuccessful request callback
     **********************************************************/
-    static requestPutUser(oUser, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/users`;
-        
-        $.ajax({
-            url: url,
-            data: oUser,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
+    static async requestPutUser(user) {
+        const url = '/api/users';
+        const data = Utilities.getUrlSearchParms(user);
 
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.PUT,
+            body: data,
+        });
+
+        return response;
+    }
 
     /**********************************************************
     Send a GET request to retrieve all of the product categories
-    
-    Parms:
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
     **********************************************************/
-    static requestGetProductCategories(fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductCategories() {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}`;
+        const response = await fetch(url);
 
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
 
     /**********************************************************
@@ -119,258 +87,164 @@ export class ApiWrapper
         fnSuccess - successful request callback
         fnError - unsuccessful request callback
     **********************************************************/
-    static requestGetProductCategoriesMajor(fnSuccess, fnError) {
+    static async requestGetProductCategoriesMajor() {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
-
+    
     /**********************************************************
-    Send a GET request to retrieve minor product categories
+    Send a GET request to retrieve minor product categories that belong to the specifed major category
     
     Parms:
-        majorCategoryID - major category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
+        - majorCategoryID: major category id
     **********************************************************/
-    static requestGetProductCategoriesMinor(majorCategoryID, fnSuccess, fnError) {
+    static async requestGetProductCategoriesMinor(majorCategoryID) {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor`;
-
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
 
     /**********************************************************
     Send a GET request to retrieve sub product categories
     
     Parms:
-        majorCategoryID - major category id
-        majorCategoryID - minor category id
-        fnSuccess - successful request callback
-        fnError - unsuccessful request callback
+        - majorCategoryID: major category id
+        - majorCategoryID: minor category id
     **********************************************************/
-    static requestGetProductCategoriesSub(majorCategoryID, minorCategoryID, fnSuccess, fnError) {
+    static async requestGetProductCategoriesSub(majorCategoryID, minorCategoryID) {
         const url = `${ApiWrapper.URLS.PRODUCT_CATEGORIES}/major/${majorCategoryID}/minor/${minorCategoryID}/sub`;
-
-        $.ajax({
-            // username: userEmail,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
-
-
-    /**********************************************************
-    Send a POST request to create a new product
-    **********************************************************/
-    static requestPostProduct(data, fnSuccess, fnError) {
-        const url = `/api/products`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
 
     /**********************************************************
-    Send a PUT request to create a new product
+    Send a PUT request to create a new product or update it
     **********************************************************/
-    static requestPutProduct(productID, data, fnSuccess, fnError) {
+    static async requestPutProduct(productID, productData) {
         const url = `/api/products/${productID}`;
-        
-        $.ajax({
-            url: url,
-            data: data,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
-        });
-    }
+        const productFormData = Utilities.getFormData(productData);
 
-    /**********************************************************
-    Send a GET request to fetch all of a user's products
-    **********************************************************/
-    static requestGetUserProducts(fnSuccess = console.log, fnError=console.error) {
-        const url = `${ApiWrapper.URLS.USERS}/${LocalStorage.getUserID()}/products`;
-        
-        $.ajax({
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', ApiWrapper.getBasicAuthToken());
-            },
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.PUT,
+            body: productFormData,
         });
-    }
 
+        return response;
+    }
+    
     /**********************************************************
     Send a GET request to fetch a single product availability record.
     **********************************************************/
-    static requestGetProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductAvailability(productID, productAvailabilityID) {
         const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+
+        return response;
     }
 
     /**********************************************************
     Send a PUT request to update a single product availability record.
     **********************************************************/
-    static requestPutProductAvailability(productID, productAvailabilityID, productData, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
-        
-        $.ajax({
-            url: url,
-            data: productData,
-            type: ApiWrapper.REQUEST_TYPES.PUT,
-            success: fnSuccess,
-            error: fnError,
+    static async requestPutProductAvailability(productID, availabilityID, data) {
+        const url = `/api/products/${productID}/availability/${availabilityID}`;
+
+        const response = await fetch(url, {
+            body: Utilities.getUrlSearchParms(data),
+            method: ApiWrapper.REQUEST_TYPES.PUT,
         });
+
+        return response;
     }
 
     /**********************************************************
     Send a DELETE product availability request
     **********************************************************/
-    static requestDeleteProductAvailability(productID, productAvailabilityID, fnSuccess=console.log, fnError=console.error) {
+    static async requestDeleteProductAvailability(productID, productAvailabilityID) {
         const url = `/api/products/${productID}/availability/${productAvailabilityID}`;
         
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.DELETE,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.DELETE,
         });
+
+        return response;
     }
 
     /**********************************************************
     Send a POST product availability request
     **********************************************************/
-    static requestPostProductAvailability(productID, productAvailabilityData, fnSuccess=console.log, fnError=console.error) {
+    static async requestPostProductAvailability(productID, productAvailabilityData) {
         const url = `/api/products/${productID}/availability`;
+        const formattedData = Utilities.getUrlSearchParms(productAvailabilityData);
         
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            data: productAvailabilityData,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.POST,
+            body: formattedData,
         });
+
+        return response;
     }
 
     /**********************************************************
     Send a GET product images request.
     Retrieve all the product images for a single product.
     **********************************************************/
-    static requestGetProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetProductImages(productID) {
         const url = `/api/products/${productID}/images`;
-        
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
 
     /**********************************************************
     Send a POST product images request.
     **********************************************************/
-    static requestPostProductImages(productID, filesList, fnSuccess=console.log, fnError=console.error) {
+    static async requestPostProductImages(productID, files) {
         const url = `/api/products/${productID}/images`;
-
-        $.ajax({
-            url: url,
-            data: filesList,
-            processData: false,
-            contentType: false,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            success: fnSuccess,
-            error: fnError,
+        const imagesFormData = Utilities.getFormData(files);
+        
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.POST,
+            body: imagesFormData,
         });
+
+        return response;
     }
 
     /**********************************************************
     Send a DELETE product images request.
     Deletes all images of a product.
     **********************************************************/
-    static requestDeleteProductImages(productID, fnSuccess=console.log, fnError=console.error) {
+    static async requestDeleteProductImages(productID) {
         const url = `/api/products/${productID}/images`;
 
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.DELETE,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.DELETE,
         });
+
+        return response;
     }
 
     /**********************************************************
     Send a GET location request to the API
     **********************************************************/
-    static requestGetLocation(locationID, fnSuccess=console.log, fnError=console.error) {
+    static async requestGetLocation(locationID) {
         const url = `/api/locations/${locationID}`;
-
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        const response = await fetch(url);
+        return response;
     }
+
 
     /**********************************************************
     Send a GET product availability request to the API
     **********************************************************/
-    static requestGetProductListingAvailability(productID, locationID, startsOn, endsOn, fnSuccess=console.log, fnError=console.error) {
-        const url = `/api/listings/${productID}/availability`;
+    static async requestGetProductListingAvailability(productID, availabilityData) {
+        const urlPrefix = `/api/listings/${productID}/availability`;
+        const url = Utilities.createUrlWithParms(urlPrefix, availabilityData);
+        const response = await fetch(url);
 
-        const apiData = {
-            location_id: locationID,
-            starts_on: startsOn,
-            ends_on: endsOn,
-        }
-
-        $.ajax({
-            url: url,
-            data: apiData,
-            type: ApiWrapper.REQUEST_TYPES.GET,
-            success: fnSuccess,
-            error: fnError,
-        });
+        return response;
     }
+
 
     /**********************************************************
     Send a POST product request to the API

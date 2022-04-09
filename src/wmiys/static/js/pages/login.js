@@ -36,7 +36,7 @@ function addListeners() {
 /**********************************************************
 Attempt to login 
 **********************************************************/
-function attemptLogin() {
+async function attemptLogin() {
     disableSubmitButton();
 
     // ensure all the input fields are valid 
@@ -45,9 +45,16 @@ function attemptLogin() {
         return;
     }
 
-    let inputValues = getInputValues();
-    // ApiWrapper.requestLogin(inputValues, loginSuccess, loginError);
-    ApiWrapper.requestLogin(inputValues, loginSuccess, loginError);
+    const inputValues = getInputValues();
+    const apiResponse = await ApiWrapper.requestLogin(inputValues);
+
+    if (apiResponse.ok) {
+        loginSuccess();
+    } 
+    else {
+        loginError();
+    }
+
 }
 
 /**********************************************************

@@ -111,27 +111,34 @@ function handleProductSearchCategoryChange(eDropdownItem) {
     $(eFormProductSearch.dropdownText).text(subCategoryName);
 }
 
+
 /**********************************************************
 Fetch the product category data from the API.
 **********************************************************/
-function loadCategories() {
-    ApiWrapper.requestGetProductCategories(loadCategoriesSuccess, loadCategoriesError);
+async function loadCategories() {
+    const apiResponse = await ApiWrapper.requestGetProductCategories();
+
+    if (apiResponse.ok) {
+        const categories = await apiResponse.json();
+        loadCategoriesSuccess(categories);
+    } 
+    else {
+        loadCategoriesError(await apiResponse.text());
+    }
 }
 
 /**********************************************************
 Callback for an unsuccessful fetch of the product categories (loadCategories)
 **********************************************************/
-function loadCategoriesError(xhr, status, error) {
+function loadCategoriesError(error) {
     console.error('Error: loadCategoriesError')
-    console.error(xhr);
-    console.error(status);
     console.error(error);
 }
 
 /**********************************************************
 Callback for a successful fetch of the product categories (loadCategories)
 **********************************************************/
-function loadCategoriesSuccess(result,status,xhr) {
+function loadCategoriesSuccess(result) {
     const categories = genertateMinorCategoryMap(result);
     let minors = sortCategories(categories);
     let html = generateCategorieshDropdownHtml(minors);

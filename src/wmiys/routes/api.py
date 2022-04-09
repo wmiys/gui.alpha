@@ -121,23 +121,17 @@ def apiProductPut(product_id):
 #  - PUT:    Update a single product availability record
 #  - DELETE: Delete a single product availability record
 #------------------------------------------------------
-@bpApi.route('products/<int:product_id>/availability/<int:product_availability_id>', methods=['GET', 'PUT','DELETE'])
+@bpApi.route('products/<int:product_id>/availability/<uuid:product_availability_id>', methods=['GET', 'PUT','DELETE'])
 @security.login_required
 def apiProductAvailabilityModify(product_id, product_availability_id):
     api = api_wrapper.ApiWrapperProductAvailability(flask.g)
     
     if flask.request.method == 'GET':
         apiResponse = api.get(product_id, product_availability_id)
-
-        if not apiResponse.ok:
-            return (apiResponse.text, apiResponse.status_code)
-        else:
-            return (flask.jsonify(apiResponse.json()), HTTPStatus.OK.value)
-
-    apiResponse = None
+        return (apiResponse.text, apiResponse.status_code)
 
     if flask.request.method == 'PUT':
-        apiResponse = api.put(product_availability_id, product_availability_id, flask.request.form.to_dict())
+        apiResponse = api.put(product_id, product_availability_id, flask.request.form.to_dict())
     elif flask.request.method == 'DELETE':
         apiResponse = api.delete(product_id, product_availability_id)
 
@@ -154,10 +148,7 @@ def apiProductAvailability(product_id):
     api = api_wrapper.ApiWrapperProductAvailability(flask.g)
     api_response = api.post(product_id, flask.request.form.to_dict())
 
-    if api_response.ok:
-        return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
-    else:
-        flask.abort(api_response.status_code)
+    return (api_response.text, api_response.status_code)
 
 #------------------------------------------------------
 # Update a user's info
@@ -165,13 +156,11 @@ def apiProductAvailability(product_id):
 @bpApi.put('users')
 @security.login_required
 def apiUserUpdate():
-    api = api_wrapper.ApiWrapperUsers(flask.g)
-    api_response = api.put(flask.request.form.to_dict())
+    form         = flask.request.form.to_dict()
+    api          = api_wrapper.ApiWrapperUsers(flask.g)
+    api_response = api.put(form)
 
-    if api_response.status_code != HTTPStatus.OK.value:          # error
-        flask.abort(api_response.status_code)
-
-    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
+    return (api_response.text, api_response.status_code)
 
 #------------------------------------------------------
 # Get a user's info
@@ -182,10 +171,7 @@ def getUser():
     api = api_wrapper.ApiWrapperUsers(flask.g)
     api_response = api.get()
 
-    if not api_response.ok:
-        flask.abort(api_response.status_code)
-
-    return (flask.jsonify(api_response.json()), HTTPStatus.OK.value)
+    return (api_response.text, api_response.status_code)
 
 
 #------------------------------------------------------
