@@ -402,19 +402,25 @@ function deleteProductAvailabilityError(errMessage) {
 Update a new product availability. 
 Send request to the api
 *************************************************/
-function createProductAvailability() {
+async function createProductAvailability() {
     disableFormNew();
 
     const dates = dateRangeNew.getDateValues();
-
-    let requestBody = {
+    const requestBody = {
         starts_on: dates.startsOn,
         ends_on: dates.endsOn,
         note: $(eFormAvailabilityNew.inputs.note).val(),
     }
-    
-    ApiWrapper.requestPostProductAvailability(mProductID, requestBody, createProductAvailabilitySuccess, createProductAvailabilityError);
+
+    const apiResponse = await ApiWrapper.requestPostProductAvailability(mProductID, requestBody);
+    if (apiResponse.ok) {
+        createProductAvailabilitySuccess();
+    } 
+    else {
+        createProductAvailabilityError(await apiResponse.text());
+    }
 }
+
 
 /************************************************
 Callback for a successful product availability POST request to the API
@@ -428,13 +434,11 @@ function createProductAvailabilitySuccess(response, status, xhr) {
 /************************************************
 Callback for an unsuccessful product availability POST request to the API
 *************************************************/
-function createProductAvailabilityError(xhr, status, error) {
+function createProductAvailabilityError(error) {
     enableFormNew();
     
     Utilities.displayAlert('API error. Check log');
     console.error('submitFormEventError');
-    console.error(xhr);
-    console.error(status);
     console.error(error); 
 }
 

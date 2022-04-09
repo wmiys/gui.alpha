@@ -170,22 +170,21 @@ export class ApiWrapper
         return response;
     }
 
-
-
     /**********************************************************
     Send a POST product availability request
     **********************************************************/
-    static requestPostProductAvailability(productID, productAvailabilityData, fnSuccess=console.log, fnError=console.error) {
+    static async requestPostProductAvailability(productID, productAvailabilityData) {
         const url = `/api/products/${productID}/availability`;
+        const formattedData = Utilities.getUrlSearchParms(productAvailabilityData);
         
-        $.ajax({
-            url: url,
-            type: ApiWrapper.REQUEST_TYPES.POST,
-            data: productAvailabilityData,
-            success: fnSuccess,
-            error: fnError,
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.POST,
+            body: formattedData,
         });
+
+        return response;
     }
+
 
     /**********************************************************
     Send a GET product images request.
