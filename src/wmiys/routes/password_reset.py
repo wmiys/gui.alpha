@@ -7,7 +7,7 @@
 #*******************************************************************************************
 from uuid import UUID
 import flask
-from ..common import security
+from wmiys.common import security
 
 # module blueprint
 bpPasswordReset = flask.Blueprint('bpPasswordReset', __name__)

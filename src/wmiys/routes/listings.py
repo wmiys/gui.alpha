@@ -7,8 +7,8 @@
 #*******************************************************************************************
 
 import flask
-from ..common import security
-from .. import api_wrapper
+from wmiys.common import security
+from wmiys.api_wrapper import ApiWrapperProductImages, ApiWrapperListing
 
 # module blueprint
 bpProductListings = flask.Blueprint('bpProductListings', __name__)
@@ -20,12 +20,12 @@ bpProductListings = flask.Blueprint('bpProductListings', __name__)
 @security.login_required
 def productListingRoute(product_id: int):    
     # get the listing data
-    api = api_wrapper.ApiWrapperListing(flask.g)
+    api = ApiWrapperListing(flask.g)
     listing = api.get(product_id)
     outDataDict: dict = listing.json()
     
     # get the product images
-    api = api_wrapper.ApiWrapperProductImages(flask.g)
+    api = ApiWrapperProductImages(flask.g)
     images = api.get(product_id)    
 
     outDataDict.setdefault('images', images.json())

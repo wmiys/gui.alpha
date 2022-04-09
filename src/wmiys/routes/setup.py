@@ -8,8 +8,10 @@
 import uuid
 from http import HTTPStatus
 import flask
-from ..common import security
-from ..payments import payout_accounts
+from wmiys.payments import payout_accounts
+from wmiys.common import security
+
+
 
 # module blueprint
 bpSetup = flask.Blueprint('bpSetup', __name__)
