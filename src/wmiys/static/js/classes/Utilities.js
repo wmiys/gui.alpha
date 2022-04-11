@@ -31,8 +31,8 @@ export class Utilities {
         return result;
     }
 
-    static getJqueryElementID(a_oJqueryElement) {
-        return `#${$(a_oJqueryElement).attr('id')}`;
+    static getJqueryElementID(eJqueryElement) {
+        return `#${$(eJqueryElement).attr('id')}`;
     }
 
     /**************************************************

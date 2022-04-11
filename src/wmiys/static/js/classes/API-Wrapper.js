@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "../pages/api-base-url";
-import { LocalStorage }    from "./LocalStorage";
 import { Utilities } from "./Utilities";
 
 export class ApiWrapper 
@@ -347,18 +346,6 @@ export class ApiWrapper
         }
         
         return result;
-    }
-
-    /**********************************************************
-    Create a basic HTTP auth token from the email and password
-    saved in LocalStorage
-
-    See: https://stackoverflow.com/questions/10226333/ajax-authentication-with-jquery
-    **********************************************************/
-    static getBasicAuthToken() {
-        const tok = LocalStorage.getEmail() + ':' + LocalStorage.getPassword();
-        const hash = btoa(tok);
-        return 'Basic ' + hash;
     }
 }
 

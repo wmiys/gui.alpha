@@ -1,6 +1,6 @@
 import { ApiWrapper }      from "../classes/API-Wrapper";
 import { CommonHtml }      from "../classes/Common-Html";
-import { LocalStorage }    from "../classes/LocalStorage";
+// import { LocalStorage }    from "../classes/LocalStorage";/
 import { Utilities }       from "../classes/Utilities";
 
 // Page elements
@@ -16,7 +16,7 @@ const e_btnSubmit         = $('#form-create-account-submit');
 Main logic
 **********************************************************/
 $(document).ready(function() {
-    LocalStorage.clear();
+    // LocalStorage.clear();
     addListeners();
 });
 
