@@ -33,7 +33,7 @@ const configs = [
     new RollupConfig('pages/products/requests.js', 'dist/products-requests.bundle.js'),
     new RollupConfig('pages/products/product/availability.js', 'dist/products-product-availability.bundle.js'),
     new RollupConfig('pages/products/product/insights.js', 'dist/products-product-insights.bundle.js'),
-    new RollupConfig('pages/products/product/overview.js', 'dist/products-product-overview.bundle.js'),
+    new RollupConfig('pages/products/product/overview/main.js', 'dist/products-product-overview.bundle.js'),
     new RollupConfig('pages/products/product/settings.js', 'dist/products-product-settings.bundle.js'),
     new RollupConfig('pages/search-products/results.js', 'dist/search-products-results.bundle.js'),
 ];
