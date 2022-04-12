@@ -1,0 +1,73 @@
+{#
+***************************************************************************************************
+
+* Template: requests.html
+* URL: /products/requests
+* Purpose: To display all the product requests a lender has received
+
+***************************************************************************************************
+
+Input parms -> data (list):
+    - created_on
+    - ends_on
+    - expires_on
+    - id
+    - location_city
+    - location_id
+    - location_state_id
+    - location_state_name
+    - payout
+    - product_id
+    - product_name
+    - starts_on
+    - status
+    - status_badge_class
+
+***************************************************************************************************
+#}
+{% extends "pages/products/requests/base.html" %}
+
+{% block content %}
+
+{{ super() }}
+
+<!-- <h2 class="my-5">Resolved requests</h2> -->
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Starts</th>
+            <th>Ends</th>
+            <th>Dropoff Location</th>
+            <th>Payout</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for request in data %}
+            <tr data-request-id="{{request.id}}" class="product-request">
+                <td><a href="/products/{{request.product_id}}">{{ request.product_name }}</a></td>
+                <td>{{ request.starts_on }}</td>
+                <td>{{ request.ends_on }}</td>
+                <td>{{ request.location_city }}, {{ request.location_state_id }}</td>
+                <td>{{ "${:,.2f}".format(request.payout) }}</td>
+                <td><span class="badge badge-{{ request.status_badge_class }}">{{ request.status }}</span></td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+
+
+</table>
+
+{% endblock %}
+
+
+
+
