@@ -253,6 +253,17 @@ def insertProductRequestResponse(request_id: UUID, status: str):
         return (apiResponse.text, HTTPStatus.BAD_REQUEST)
 
 
+#------------------------------------------------------
+# Lender responds to a product request
+#------------------------------------------------------
+@bpApi.get('requests/submitted/<uuid:request_id>')
+@security.login_required
+def getSubmittedProductRequest(request_id: UUID):
+    api = api_wrapper.ApiWrapperRequestSubmitted(flask.g)
+    response = api.get(request_id)
+    return (response.text, response.status_code)
+
+
 
 #------------------------------------------------------
 # Create a new balance transfer request

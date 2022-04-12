@@ -271,7 +271,6 @@ export class ApiWrapper
     **********************************************************/
     static async requestPostProductRequestResponse(responseID, status) {
         const url = `/api/requests/received/${responseID}/${status}`;
-
         const response = await fetch(url, {
             method: 'POST',
         });
@@ -324,6 +323,13 @@ export class ApiWrapper
             body: formData,
         });
 
+        return response;
+    }
+
+
+    static async requestGetProductRequestSubmitted(requestID) {
+        const url = `/api/requests/submitted/${requestID}`;
+        const response = await fetch(url);
         return response;
     }
 

@@ -33,7 +33,7 @@
     <div class="container container-requests-submitted">
 
         {% for request in requests %}
-        <div class="card card-user-product mb-5" data-product-id="{{ request.id }}">
+        <div class="card card-user-product card-product-request-submitted mb-5" data-request-id="{{ request.id }}">
             <div class="row no-gutters">
 
                 <!-- cover photo -->
@@ -106,6 +106,8 @@
     {% endfor %}
 
     </div>
+
+    {% include 'pages/account-settings/requests-submitted/request-modal.html' %}
 
 {% endblock %}
 

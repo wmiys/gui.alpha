@@ -618,4 +618,22 @@ textarea {
   font-size: x-large;
 }
 
+.card-product-request-submitted {
+  transition: all 0.1s ease-in-out;
+}
+.card-product-request-submitted:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+#modal-requests-submitted .modal-body-loading {
+  display: none;
+}
+#modal-requests-submitted.loading .modal-body-display {
+  display: none;
+}
+#modal-requests-submitted.loading .modal-body-loading {
+  display: block;
+}
+
 /*# sourceMappingURL=style.css.map */

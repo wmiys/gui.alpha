@@ -1,3 +1,4 @@
+from uuid import UUID
 import requests
 from . import ApiWrapperBase, RequestParms, ApiUrls
 
@@ -50,6 +51,19 @@ class ApiWrapperRequestsSubmitted(ApiWrapperBase):
         parms = RequestParms(
             url = self.URL,
             parms = dict(status=status)
+        )
+
+        return self._get(parms)
+
+
+class ApiWrapperRequestSubmitted(ApiWrapperBase):
+    """Get a single submitted product request"""
+    
+    URL = f'{ApiUrls.REQUESTS_SUBMITTED}/{{}}'
+
+    def get(self, request_id: UUID) -> requests.Response:
+        parms = RequestParms(
+            url = self.URL.format(str(request_id)),
         )
 
         return self._get(parms)
