@@ -1,4 +1,6 @@
 
+import { DateTime } from "./GlobalConstants";
+
 export class Utilities {    
     
     /************************************************
@@ -90,6 +92,38 @@ export class Utilities {
             const value = nativeObject[key];
             requestObject.append(key, value);
         }
+    }
+
+    /**
+     * Tries to parse the given ISO datetime string into a luxon DateTime object
+     * @param {string} datetimeString - the raw iso datetime string
+     * @returns {DateTime | string | null}
+     */
+    static parseDatetimeStringISO(datetimeString) {
+        let luxonDate = datetimeString;
+
+        try {
+            luxonDate = DateTime.fromISO(datetimeString);
+        } 
+        catch(exception) {
+            luxonDate = datetimeString;
+        }
+        
+        return luxonDate;
+    }
+
+
+    /**
+     * Format the given datetime object into a string
+     * 
+     * @see https://moment.github.io/luxon/#/formatting?id=presets
+     * 
+     * @param {DateTime} datetime - the luxon datetime object
+     * @param formatToken - the luxon datetime format token 
+     * @returns {string} the formatted datetime string
+     */
+    static formatDatetime(datetime, formatToken) {
+        return datetime.toLocaleString(formatToken);
     }
 
 
