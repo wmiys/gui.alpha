@@ -58,8 +58,9 @@ def getSubmitted() -> list[dict]:
     
     for request in requests:
         _formatRequestDates(request)
-        request['status_badge_class'] = _getStatusBadgeValue(request.get('status')).value
-        request['total_charge'] = _calculateTotalCharge(request.get('price_total'), request.get('fee_renter'))
+        
+        request['status_badge_class']    = _getStatusBadgeValue(request.get('status')).value
+        request['total_charge']          = _calculateTotalCharge(request.get('price_total'), request.get('fee_renter'))
         request['hours_till_expiration'] = _calculateNumHoursTillExpires(request.get('created_on'))
         
     return requests

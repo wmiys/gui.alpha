@@ -1,0 +1,51 @@
+{#
+***************************************************************************************************
+
+* Template: requests.html
+* URL: /products/requests
+* Purpose: To display all the product requests a lender has received
+
+***************************************************************************************************
+
+Input parms -> data (list):
+    - created_on
+    - ends_on
+    - expires_on
+    - id
+    - location_city
+    - location_id
+    - location_state_id
+    - location_state_name
+    - payout
+    - product_id
+    - product_name
+    - starts_on
+    - status
+    - status_badge_class
+
+***************************************************************************************************
+#}
+
+{% extends "pages/products/base.html" %}
+
+{% block title %}Product Requests{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+        <a class="nav-link nav-link-request" id="nav-link-request-pending" href="/products/requests/pending">Pending</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link nav-link-request" id="nav-link-request-resolved" href="/products/requests/resolved">Resolved</a>
+    </li>
+</ul>
+
+{% endblock %}
+
+
+{% block footer %}
+<script src="/static/js/dist/products-requests.bundle.js"></script>
+{% endblock %}
+
+

@@ -57,12 +57,27 @@ def productsGet():
 # All received product requests (as a lender)
 #------------------------------------------------------
 @bpProducts.get('requests')
+@bpProducts.get('requests/pending')
 @security.login_required
 @payout_accounts.payout_account_required
 def requestsGet():
-    status_filter = flask.request.args.get('status', 'pending')
+    # status_filter = flask.request.args.get('status', 'pending')
+    status_filter = 'pending'
     requests = product_requests.getRequests(status_filter)
-    return flask.render_template('pages/products/requests.html', data=requests)
+    return flask.render_template('pages/products/requests/pending.html', data=requests)
+
+
+#------------------------------------------------------
+# All received product requests (as a lender)
+#------------------------------------------------------
+@bpProducts.get('requests/resolved')
+@security.login_required
+@payout_accounts.payout_account_required
+def requestsGetResolved():
+    # status_filter = flask.request.args.get('status', 'all')
+    status_filter = 'all'
+    requests = product_requests.getRequests(status_filter)
+    return flask.render_template('pages/products/requests/resolved.html', data=requests)
 
 
 #------------------------------------------------------
@@ -95,7 +110,6 @@ def productsNew():
 @payout_accounts.payout_account_required
 def productPageEdit(product_id):
     product_api_response = _getProductApiResponse(product_id)
-
     return flask.render_template('pages/products/product/overview.html', product=product_api_response)
 
 
