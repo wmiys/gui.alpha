@@ -92,6 +92,8 @@ export class RequestRenderer
 
         // review - score
         RequestsSubmittedModal.initReviewScore(this.data.review_score);
+
+        RequestsSubmittedModal.setReviewComment(this.data.review_comment);
     }
 }
 

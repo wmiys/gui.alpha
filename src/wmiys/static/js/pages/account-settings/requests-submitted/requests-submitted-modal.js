@@ -24,24 +24,28 @@ export class RequestsSubmittedModal
         $(RequestsSubmittedModal.Elements.MODAL).removeClass(RequestsSubmittedModal.Classes.DISPLAY_STATE_LOADING);
     }
 
-    /** Set the meta item text */
+    /** 
+     * Set the meta item text 
+     */
     static setMetaItemValue(metaItem, value) {
         $(metaItem).find('dd').text(value);
     }
 
     /** Set the review score value */
     static initReviewScore(reviewScore) {
-        $(RequestsSubmittedModal.Elements.REVIEW_SCORE_INPUT).html('');
+        $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.SCORE).html('');
 
         const validScore = RequestsSubmittedModal._getValidReviewScore(reviewScore);
-        
-        $(RequestsSubmittedModal.Elements.REVIEW_SCORE_INPUT).raty({
+
+        $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.SCORE).raty({
             path: RequestsSubmittedModal.REVIEW_SCORE_IMAGES_PATH,
             score: validScore,
         });
     }
 
-    /** Validate the review score */
+    /** 
+     * Validate the review score 
+     */
     static _getValidReviewScore(reviewScore) {
         let validScore = 0;
 
@@ -56,13 +60,29 @@ export class RequestsSubmittedModal
 
         return validScore;
     }
+
+    /** 
+     * Set the review comment input value 
+     */
+    static setReviewComment(text) {
+        if (text == null) {
+            text = '';
+        }
+
+        $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.COMMENT).val(text);
+    }
 }
 
 
 RequestsSubmittedModal.Elements = {
     MODAL             : '#modal-requests-submitted',
-    REVIEW_SCORE_INPUT: '#modal-body-display-review-score-input',
-    
+
+    REVIEW_INPUTS: {
+        SCORE  : '#modal-body-display-review-score-input',
+        COMMENT: '#modal-body-display-review-comment-input',
+        SUBMIT: '#modal-body-display-review-comment-save',
+    },
+
     META_ITEMS: {
         PRODUCT : '#meta-item-product',
         PRICE   : '#meta-item-price',
