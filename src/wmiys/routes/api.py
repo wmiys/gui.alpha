@@ -254,7 +254,7 @@ def insertProductRequestResponse(request_id: UUID, status: str):
 
 
 #------------------------------------------------------
-# Lender responds to a product request
+# Get a single submitted product request
 #------------------------------------------------------
 @bpApi.get('requests/submitted/<uuid:request_id>')
 @security.login_required
@@ -264,6 +264,18 @@ def getSubmittedProductRequest(request_id: UUID):
     return (response.text, response.status_code)
 
 
+#------------------------------------------------------
+# Update a single submitted product request
+#------------------------------------------------------
+@bpApi.patch('requests/submitted/<uuid:request_id>')
+@security.login_required
+def patchSubmittedProductRequest(request_id: UUID):
+    request_body_data = flask.request.form.to_dict()
+    
+    api = api_wrapper.ApiWrapperRequestSubmitted(flask.g)
+    response = api.patch(request_id, request_body_data)
+    
+    return (response.text, response.status_code)
 
 #------------------------------------------------------
 # Create a new balance transfer request
@@ -271,15 +283,10 @@ def getSubmittedProductRequest(request_id: UUID):
 @bpApi.post('/balance-transfers')
 @security.login_required
 def insertBalanceTransfer():
-    
     api = api_wrapper.ApiWrapperBalanceTransfers(flask.g)
     api_response = api.post()
 
-    print(api_response.text)
-
     return (api_response.text, api_response.status_code)
-
-    return flask.jsonify(balance_transfer)
 
 
 

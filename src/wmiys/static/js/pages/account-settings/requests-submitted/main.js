@@ -1,5 +1,6 @@
 
 import { RequestsSubmittedModal } from "./requests-submitted-modal";
+import { RequestRatingInterface } from "./rating-request";
 import { m_ePillsTab } from "./page-elements";
 import { m_eClasses } from "./page-elements";
 import { RequestRenderer } from "./request-renderer";
@@ -28,6 +29,9 @@ function addEventListeners() {
     $(`.${m_eClasses.CARD}`).on('click', function() {
         openRequest(this);
     });
+    
+
+    $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.SUBMIT).on('click', saveRating);
 }
 
 /**
@@ -36,6 +40,9 @@ function addEventListeners() {
  */
 function openRequest(eRequest) {
     const requestID = getRequestContainerElementID(eRequest);
+    
+    RequestsSubmittedModal.setCurrentRequestID(requestID);
+
     const renderer = new RequestRenderer(requestID);
     renderer.render();
 }
@@ -48,4 +55,15 @@ function openRequest(eRequest) {
 function getRequestContainerElementID(eRequest) {
     return $(eRequest).attr('data-request-id');
 }
+
+async function saveRating() {
+    const ratingInterface = new RequestRatingInterface();
+
+    console.log(ratingInterface);
+
+    ratingInterface.save();
+
+}
+
+
 

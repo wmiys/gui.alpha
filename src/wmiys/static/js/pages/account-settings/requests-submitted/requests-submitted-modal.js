@@ -71,6 +71,25 @@ export class RequestsSubmittedModal
 
         $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.COMMENT).val(text);
     }
+
+    /** Get the current rating value */
+    static getReviewScoreValue() {
+        return $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.SCORE).data('raty').score();
+    }
+
+    static getReviewCommentValue() {
+        return $(RequestsSubmittedModal.Elements.REVIEW_INPUTS.COMMENT).val();
+    }
+
+    /** Set the modal's request ID data attribute value */
+    static setCurrentRequestID(requestID) {
+        $(RequestsSubmittedModal.Elements.MODAL).attr('data-request-id', requestID);
+    }
+
+    /** Get the modal's request ID data attribute value */
+    static getCurrentRequestID() {
+        return $(RequestsSubmittedModal.Elements.MODAL).attr('data-request-id');
+    }
 }
 
 
