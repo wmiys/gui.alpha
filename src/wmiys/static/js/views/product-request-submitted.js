@@ -1,6 +1,5 @@
 
 import { BaseView } from "./base";
-import { DateTime } from "../classes/GlobalConstants";
 import { Utilities } from "../classes/Utilities";
 
 
@@ -8,7 +7,7 @@ export class ProductRequestSubmittedView extends BaseView
 {
     constructor(apiData) {
         super();
-
+        
         this.created_on          = null;
         this.ends_on             = null;
         this.fee_renter          = null;
@@ -26,9 +25,11 @@ export class ProductRequestSubmittedView extends BaseView
         this.renter_id           = null;
         this.starts_on           = null;
         this.status              = null;
+        this.review_comment      = null;
+        this.review_score        = null;
+
 
         this._initProperties(apiData);
-        
         this._initDates();
     }
 

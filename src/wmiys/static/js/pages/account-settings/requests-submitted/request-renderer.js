@@ -69,6 +69,9 @@ export class RequestRenderer
      * Display all the metadata items
      */
     displayDataItems = () => {
+
+        console.log(this.data);
+
         RequestsSubmittedModal.setMetaItemValue(RequestsSubmittedModal.Elements.META_ITEMS.PRODUCT, this.data.product_name);
         RequestsSubmittedModal.setMetaItemValue(RequestsSubmittedModal.Elements.META_ITEMS.STATUS, this.data.status);
 
@@ -86,6 +89,9 @@ export class RequestRenderer
 
         const endsOnText = Utilities.formatDatetime(this.data.ends_on, DateTime.DATE_SHORT);
         RequestsSubmittedModal.setMetaItemValue(RequestsSubmittedModal.Elements.META_ITEMS.ENDS, endsOnText);
+
+        // review - score
+        RequestsSubmittedModal.initReviewScore(this.data.review_score);
     }
 }
 

@@ -28,11 +28,41 @@ export class RequestsSubmittedModal
     static setMetaItemValue(metaItem, value) {
         $(metaItem).find('dd').text(value);
     }
+
+    /** Set the review score value */
+    static initReviewScore(reviewScore) {
+        $(RequestsSubmittedModal.Elements.REVIEW_SCORE_INPUT).html('');
+
+        const validScore = RequestsSubmittedModal._getValidReviewScore(reviewScore);
+        
+        $(RequestsSubmittedModal.Elements.REVIEW_SCORE_INPUT).raty({
+            path: RequestsSubmittedModal.REVIEW_SCORE_IMAGES_PATH,
+            score: validScore,
+        });
+    }
+
+    /** Validate the review score */
+    static _getValidReviewScore(reviewScore) {
+        let validScore = 0;
+
+        try {
+            if (reviewScore >= 0 && reviewScore <=5 ) {
+                validScore = reviewScore;
+            }
+        }
+        catch (exception) {
+            validScore = 0;
+        }
+
+        return validScore;
+    }
 }
 
 
 RequestsSubmittedModal.Elements = {
-    MODAL: '#modal-requests-submitted',
+    MODAL             : '#modal-requests-submitted',
+    REVIEW_SCORE_INPUT: '#modal-body-display-review-score-input',
+    
     META_ITEMS: {
         PRODUCT : '#meta-item-product',
         PRICE   : '#meta-item-price',
@@ -45,10 +75,13 @@ RequestsSubmittedModal.Elements = {
 
 RequestsSubmittedModal.Classes = {
     DISPLAY_STATE_LOADING: 'loading',
-    META_CONTAINER: 'modal-body-display-meta',
-    META_ITEM: 'meta-item',
-
+    META_CONTAINER       : 'modal-body-display-meta',
+    META_ITEM            : 'meta-item',
 }
+
+RequestsSubmittedModal.REVIEW_SCORE_IMAGES_PATH = '/static/js/external/raty/images';
+
+
 
 
 
