@@ -19,7 +19,7 @@ export class RequestRatingInterface
         // console.log(model);
         
         const apiResponse = await ApiWrapper.requestPatchProductRequestSubmitted(model);
-        // console.log(await apiResponse.text());
+        console.log(await apiResponse.text());
     }
 
     /**

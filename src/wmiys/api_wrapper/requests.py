@@ -69,10 +69,10 @@ class ApiWrapperRequestSubmitted(ApiWrapperBase):
         return self._get(parms)
 
 
-    def patch(self, request_id: UUID, query_parms) -> requests.Response:
+    def patch(self, request_id: UUID, data) -> requests.Response:
         parms = RequestParms(
             url = self.URL.format(str(request_id)),
-            parms = query_parms,
+            data = data,
         )
 
         return self._patch(parms)
