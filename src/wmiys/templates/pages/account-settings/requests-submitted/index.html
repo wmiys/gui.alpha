@@ -33,7 +33,7 @@
     <div class="container container-requests-submitted">
 
         {% for request in requests %}
-        <div class="card card-user-product mb-5" data-product-id="{{ request.id }}">
+        <div class="card card-user-product card-product-request-submitted mb-5" data-request-id="{{ request.id }}">
             <div class="row no-gutters">
 
                 <!-- cover photo -->
@@ -107,11 +107,13 @@
 
     </div>
 
+    {% include 'pages/account-settings/requests-submitted/request-modal.html' %}
+
 {% endblock %}
 
 
 
 {% block footer %}
-<!-- <script src="/static/js/pages/account-settings/requests-submitted.js"></script> -->
+<script src="/static/js/external/raty/jquery.raty.js"></script>
 <script src="/static/js/dist/account-settings-requests-submitted.bundle.js"></script>
 {% endblock %}

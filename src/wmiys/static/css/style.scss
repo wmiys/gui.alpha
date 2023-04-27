@@ -677,4 +677,40 @@ textarea {
 }
 
 
+.card-product-request-submitted {
+    & {
+        transition: all .1s ease-in-out; 
+    }
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+}
+
+//-------------------------------------
+// received requests modal
+//-------------------------------------
+
+
+// loading screen
+#modal-requests-submitted {
+    .modal-body-loading { display: none; }
+
+    &.loading {
+        .modal-body-display { display: none; }
+        .modal-body-loading { display: block; }
+    }
+}
+
+// .modal-body-display-meta-items {
+//     display: flex;
+    
+//     .meta-item {
+//         margin: 10px;
+//     }
+// }
+
+
+
 

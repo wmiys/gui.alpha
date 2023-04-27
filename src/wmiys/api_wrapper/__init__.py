@@ -17,6 +17,7 @@ from .listings import ApiWrapperListingAvailability as ApiWrapperListingAvailabi
 from .payments import ApiWrapperPayments as ApiWrapperPayments
 from .requests import ApiWrapperRequests as ApiWrapperRequests
 from .requests import ApiWrapperRequestsSubmitted as ApiWrapperRequestsSubmitted
+from .requests import ApiWrapperRequestSubmitted as ApiWrapperRequestSubmitted
 from .locations import ApiWrapperLocations as ApiWrapperLocations
 from .payout_accounts import ApiWrapperPayoutAccounts as ApiWrapperPayoutAccounts
 from .balance_transfers import ApiWrapperBalanceTransfers as ApiWrapperBalanceTransfers

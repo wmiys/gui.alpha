@@ -54,4 +54,4 @@ def submittedRequests():
     
     requests = product_requests.getSubmitted()
 
-    return flask.render_template('pages/account-settings/requests-submitted.html', userInfo = user_api_response.json(), requests=requests)
+    return flask.render_template('pages/account-settings/requests-submitted/index.html', userInfo = user_api_response.json(), requests=requests)

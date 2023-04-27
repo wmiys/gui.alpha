@@ -1,0 +1,81 @@
+
+<!-- Submitted requests modal -->
+
+<div class="modal loading" id="modal-requests-submitted" tabindex="-1" data-request-id="-1111">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- loading spinner section -->
+                <div class="modal-body-loading">
+                    <div class="d-flex justify-content-center my-5">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>    
+                    </div>
+                </div>
+
+                <!-- Normal display section -->
+                <div class="modal-body-display">
+                    
+                    <!-- request meta data -->
+                    <div class="modal-body-display-meta">
+                        <dl class="modal-body-display-meta-items">
+                            <div class="meta-item" id="meta-item-product">
+                                <dt class="text-muted font-weight-light text-uppercase">Product</dt>
+                                <dd>-</dd>
+                            </div>
+
+                            <div class="meta-item" id="meta-item-price">
+                                <dt class="text-muted font-weight-light text-uppercase">Price</dt>
+                                <dd>-</dd>
+                            </div>
+
+                            <div class="meta-item" id="meta-item-location">
+                                <dt class="text-muted font-weight-light text-uppercase">Location</dt>
+                                <dd>-</dd>
+                            </div>
+
+                            <div class="meta-item" id="meta-item-starts-on">
+                                <dt class="text-muted font-weight-light text-uppercase">Starts on</dt>
+                                <dd>-</dd>
+                            </div>
+
+                            <div class="meta-item" id="meta-item-ends-on">
+                                <dt class="text-muted font-weight-light text-uppercase">Ends on</dt>
+                                <dd>-</dd>
+                            </div>
+
+                            <div class="meta-item" id="meta-item-status">
+                                <dt class="text-muted font-weight-light text-uppercase">Status</dt>
+                                <dd>-</dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <hr class="my-5">
+
+                    <div class="modal-body-display-review">
+                        <h5>Leave a review</h5>
+
+                        <!-- rating -->
+                        <div id="modal-body-display-review-score-input" class="mb-3"></div>
+                        
+                        <!-- comment -->
+                        <textarea id="modal-body-display-review-comment-input" rows="3" class="form-control mb-3"></textarea>
+                        
+                        <!-- save comment button -->
+                        <button type="button" class="btn btn-sm btn-outline-success mb-3" id="modal-body-display-review-comment-save">Save</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

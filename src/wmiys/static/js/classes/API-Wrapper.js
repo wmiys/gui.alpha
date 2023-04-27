@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "../pages/api-base-url";
 import { Utilities } from "./Utilities";
+import { ProductRequestSubmittedModel } from "../models/product-request-submitted";
 
 export class ApiWrapper 
 {    
@@ -271,7 +272,6 @@ export class ApiWrapper
     **********************************************************/
     static async requestPostProductRequestResponse(responseID, status) {
         const url = `/api/requests/received/${responseID}/${status}`;
-
         const response = await fetch(url, {
             method: 'POST',
         });
@@ -324,6 +324,40 @@ export class ApiWrapper
             body: formData,
         });
 
+        return response;
+    }
+
+    /**********************************************************
+    Get a single submitted product request
+    **********************************************************/
+    static async requestGetProductRequestSubmitted(requestID) {
+        const url = `/api/requests/submitted/${requestID}`;
+        const response = await fetch(url);
+        return response;
+    }
+
+    /**********************************************************
+    Get a single submitted product request
+    **********************************************************/
+
+    /**
+     * Send a PATCH request to update the specified submitted product request
+     * @param {ProductRequestSubmittedModel} productRequest the model to send to the api
+     * @returns {Promise<Response>} the api response
+     */
+    static async requestPatchProductRequestSubmitted(productRequest) {
+        const url = `/api/requests/submitted/${productRequest.id}`;
+
+        const data = Utilities.getUrlSearchParms({
+            review_score: productRequest.review_score,
+            review_comment: productRequest.review_comment,
+        });
+        
+        const response = await fetch(url, {
+            method: ApiWrapper.REQUEST_TYPES.PATCH,
+            body: data,
+        });
+        
         return response;
     }
 

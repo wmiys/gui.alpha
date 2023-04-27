@@ -25,7 +25,7 @@ const configs = [
     new RollupConfig('pages/home.js', 'dist/home.bundle.js'),
     new RollupConfig('pages/login.js', 'dist/login.bundle.js'),
     new RollupConfig('pages/account-settings/general.js', 'dist/account-settings-general.bundle.js'),
-    new RollupConfig('pages/account-settings/requests-submitted.js', 'dist/account-settings-requests-submitted.bundle.js'),
+    new RollupConfig('pages/account-settings/requests-submitted/main.js', 'dist/account-settings-requests-submitted.bundle.js'),
     new RollupConfig('pages/password-reset/index.js', 'dist/password-reset-index.bundle.js'),
     new RollupConfig('pages/product-listings/product-listing.js', 'dist/product-listings-product-listing.bundle.js'),
     new RollupConfig('pages/products/inventory.js', 'dist/products-inventory.bundle.js'),
